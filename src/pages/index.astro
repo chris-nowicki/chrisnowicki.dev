@@ -1,17 +1,11 @@
 ---
-import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
 import Contact from '@/components/Contact.astro'
 import ContentSection from '@/components/ContentSection.astro'
-import CustomLink from '@/components/CustomLink.astro'
-import Link from '@/components/Link.astro'
 import { HOME, NUMBER_OF_ENTRIES } from '@/lib/site'
 import { getCollection } from 'astro:content'
 import Container from '../components/Container.astro'
 import PageLayout from '../layouts/PageLayout.astro'
-
-const projects = (await getCollection('projects'))
-  .sort((a, b) => b.data.id.valueOf() - a.data.id.valueOf())
-  .slice(0, NUMBER_OF_ENTRIES)
+import Hero from '../components/Hero.astro'
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -24,73 +18,9 @@ const speaking = (await getCollection('speaking'))
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-    <section
-      class="relative mb-26 pt-40 text-base sm:mb-40 sm:pt-54 sm:text-lg">
-      <header class="mb-4">
-        <h1 class="text-2xl font-bold sm:text-4xl">
-          <span class="text-blue-600">Hello</span>, I'm Chris Nowicki
-        </h1>
-        <p>
-          Developer Experience Engineer at
-          <Link
-            to="https://www.commerce.com"
-            ariaLabel="Visit the Commerce website"
-            >Commerce
-          </Link>.
-        </p>
-      </header>
-
-      <div class="space-y-8">
-        <p>
-          When I'm not making developers' lives easier with docs and dev tools,
-          you'll find me tinkering with new tech, optimizing my productivity
-          setup (<em>while keeping it minimal</em>), or hunting for the perfect
-          cheeseburger.
-        </p>
-
-        <blockquote class="font-cursive relative text-2xl">
-          <span class="relative inline-flex items-center">
-            Oh, and coffee. Lots of coffee.
-            <ArrowSquiggle
-              width={45}
-              height={45}
-              class="arrow-sm-only absolute top-4 -right-12 hidden rotate-90 transform md:hidden"
-            />
-
-            <ArrowSquiggle
-              width={45}
-              height={45}
-              class="absolute top-4 -right-12 bottom-0 hidden rotate-90 transform md:block"
-            />
-          </span>
-        </blockquote>
-      </div>
-
-      <div class="mt-8 flex flex-wrap gap-2 sm:gap-4">
-        <CustomLink href="/contact" size="lg" class="bg-blue-600 uppercase"
-          >Contact Me</CustomLink
-        >
-        <CustomLink
-          href="https://buymeacoffee.com/chrisnowicki"
-          variant="outline"
-          target="_blank"
-          size="lg"
-          class="uppercase">Buy Me A Coffee</CustomLink
-        >
-      </div>
-    </section>
+    <Hero />
 
     <div>
-      <ContentSection
-        title="Projects"
-        items={projects.map((project) => ({
-          href: project.data.gitHubUrl,
-          name: project.data.name,
-          description: project.data.description,
-          external: true,
-        }))}
-      />
-
       <ContentSection
         title="Latest Posts"
         viewAllLink={{ href: '/blog', text: 'View all posts' }}

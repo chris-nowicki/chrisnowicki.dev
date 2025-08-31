@@ -27,24 +27,24 @@
 </script>
 
 <div
-  class="fixed top-6 left-0 right-0 w-full flex justify-center items-center z-50 px-4"
+  class="top-6 left-0 right-0 w-full flex justify-center items-center px-4 mt-8"
 >
   <nav
     class={cn(
-      'text-muted-foreground flex items-center justify-between border rounded-lg w-full max-w-2xl px-4 py-3 bg-white',
-      isOpen ? 'rounded-b-none border-b-0 shadow-none' : 'shadow-sm'
+      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-6xl bg-white',
+      isOpen ? 'rounded-b-none border-b-0 shadow-none' : 'shadow-none'
     )}
     style="transition: background-color 0.3s, box-shadow 0.3s, border-radius 0.3s;"
   >
     <a
       href="/"
-      class="font-cursive rounded-full border px-2 py-1 transition-all duration-100 sm:text-2xl text-blue-600 border-blue-600 hover:shadow-lg hover:-rotate-10 ease-in-out hover:scale-105"
+      class="font-cursive rounded-full border px-2 py-1.5 transition-all duration-100 sm:text-4xl text-blue-600 border-blue-600 hover:shadow-lg hover:-rotate-10 ease-in-out hover:scale-105"
     >
       CN
     </a>
 
     <ul
-      class="font-cursive hidden list-none gap-4 text-3xl md:flex"
+      class="hidden list-none gap-4 text-lg md:flex border rounded-full px-4 py-2"
       aria-label="Desktop navigation"
     >
       {#each navLinks as { href, text }}
@@ -54,7 +54,7 @@
             {href}
             class={cn(
               'group hover:text-blue-600 transition-colors duration-200 ease-in-out',
-              isActive ? 'text-blue-600' : 'text-muted-foreground'
+              isActive ? 'text-blue-600' : 'text-black'
             )}
             aria-current={isActive ? 'page' : undefined}
           >

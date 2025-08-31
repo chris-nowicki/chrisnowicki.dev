@@ -1,0 +1,73 @@
+---
+import Link from './Link.astro'
+import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
+import CustomLink from './CustomLink.astro'
+import Image from 'astro/components/Image.astro'
+import Me from '@/assets/images/me.webp'
+---
+
+<section
+  class="relative mt-40 mb-26 flex rounded-xl border-t-2 border-r-8 border-b-8 border-l-2 border-black text-base sm:text-lg md:mt-30 md:mb-40">
+  <div class="w-2/3 p-8">
+    <h1 class="text-2xl font-bold sm:text-6xl">
+      <span class="text-blue-600">Hello</span>, I'm Chris Nowicki
+    </h1>
+    <p class="mt-2 text-xl">
+      Developer Experience Engineer at
+      <Link to="https://www.commerce.com" ariaLabel="Visit the Commerce website"
+        >Commerce
+      </Link>.
+    </p>
+
+    <div class="mt-4 space-y-8">
+      <p class="text-xl">
+        When I'm not making developers' lives easier with docs and dev tools,
+        you'll find me tinkering with new tech, optimizing my productivity setup
+        (<em>while keeping it minimal</em>), or hunting for the perfect
+        cheeseburger.
+      </p>
+
+      <blockquote class="font-cursive relative text-3xl">
+        <span class="relative inline-flex items-center">
+          Oh, and coffee. Lots of coffee.
+          <ArrowSquiggle
+            width={45}
+            height={45}
+            class="arrow-sm-only absolute top-4 -right-12 hidden rotate-90 transform md:hidden"
+          />
+
+          <ArrowSquiggle
+            width={45}
+            height={45}
+            class="absolute top-4 -right-12 bottom-0 hidden rotate-90 transform md:block"
+          />
+        </span>
+      </blockquote>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-2 sm:gap-4">
+      <CustomLink href="/contact" size="lg" class="bg-blue-600 uppercase"
+        >Contact Me</CustomLink
+      >
+      <CustomLink
+        href="https://buymeacoffee.com/chrisnowicki"
+        variant="outline"
+        target="_blank"
+        size="lg"
+        class="uppercase">Buy Me A Coffee</CustomLink
+      >
+    </div>
+  </div>
+  <div class="flex w-1/3 items-center justify-center">
+    <!-- hero photo -->
+    <Image
+      src={Me}
+      alt="Photo of me"
+      loading="eager"
+      quality={100}
+      width={250}
+      height={250}
+      class="rotate-2 rounded-lg object-cover shadow-xl"
+    />
+  </div>
+</section>
