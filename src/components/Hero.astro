@@ -7,12 +7,12 @@ import Me from '@/assets/images/me.webp'
 ---
 
 <section
-  class="relative mt-40 mb-26 flex rounded-xl border-t-2 border-r-8 border-b-8 border-l-2 border-black text-base sm:text-lg md:mt-30 md:mb-40">
+  class="relative mt-40 mb-26 flex rounded-xl border border-black text-base sm:text-lg md:mt-30 md:mb-40">
   <div class="w-2/3 p-8">
-    <h1 class="text-2xl font-bold sm:text-6xl">
+    <h1 class="text-2xl font-bold sm:text-4xl">
       <span class="text-blue-600">Hello</span>, I'm Chris Nowicki
     </h1>
-    <p class="mt-2 text-xl">
+    <p class="mt-2">
       Developer Experience Engineer at
       <Link to="https://www.commerce.com" ariaLabel="Visit the Commerce website"
         >Commerce
@@ -20,14 +20,14 @@ import Me from '@/assets/images/me.webp'
     </p>
 
     <div class="mt-4 space-y-8">
-      <p class="text-xl">
+      <p>
         When I'm not making developers' lives easier with docs and dev tools,
         you'll find me tinkering with new tech, optimizing my productivity setup
         (<em>while keeping it minimal</em>), or hunting for the perfect
         cheeseburger.
       </p>
 
-      <blockquote class="font-cursive relative text-3xl">
+      <blockquote class="font-cursive relative text-2xl">
         <span class="relative inline-flex items-center">
           Oh, and coffee. Lots of coffee.
           <ArrowSquiggle
@@ -58,16 +58,15 @@ import Me from '@/assets/images/me.webp'
       >
     </div>
   </div>
-  <div class="flex w-1/3 items-center justify-center">
+  <div class="flex w-1/3 items-start justify-center pt-6">
     <!-- hero photo -->
     <Image
       src={Me}
       alt="Photo of me"
       loading="eager"
-      quality={100}
       width={250}
       height={250}
-      class="rotate-2 rounded-lg object-cover shadow-xl"
+      class="mb-6 aspect-square rounded-full border-8 border-white object-cover shadow-xl"
     />
   </div>
 </section>

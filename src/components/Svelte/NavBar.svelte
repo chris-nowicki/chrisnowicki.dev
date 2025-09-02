@@ -31,14 +31,14 @@
 >
   <nav
     class={cn(
-      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-6xl bg-white',
+      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-white',
       isOpen ? 'rounded-b-none border-b-0 shadow-none' : 'shadow-none'
     )}
     style="transition: background-color 0.3s, box-shadow 0.3s, border-radius 0.3s;"
   >
     <a
       href="/"
-      class="font-cursive rounded-full border px-2 py-1.5 transition-all duration-100 sm:text-4xl text-blue-600 border-blue-600 hover:shadow-lg hover:-rotate-10 ease-in-out hover:scale-105"
+      class="font-cursive rounded-full border px-2 py-1 transition-all duration-100 sm:text-2xl text-blue-600 border-blue-600 hover:shadow-lg hover:-rotate-10 ease-in-out hover:scale-105"
     >
       CN
     </a>
