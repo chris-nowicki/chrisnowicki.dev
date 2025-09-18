@@ -1,48 +1,96 @@
 ---
 import { cn } from '@/utils/utils'
 import ContentItem from './ContentItem.astro'
+import { Image } from 'astro:assets'
 
-interface Props {
+export interface ContentSectionItem {
+  href: string
+  name: string
+  description?: string
+  external?: boolean
+  image?: string
+}
+
+export interface Props {
   title: string
   viewAllLink?: {
     href: string
     text: string
   }
-  items: {
-    href: string
-    name: string
-    description?: string
-    external?: boolean
-  }[]
+  items: ContentSectionItem[]
   class?: string
+  card?: boolean
 }
 
-const { title, viewAllLink, items, class: classProps = '' } = Astro.props
+const {
+  title,
+  viewAllLink,
+  items,
+  class: classProps = '',
+  card = false,
+} = Astro.props
 ---
 
 <section class={cn('mt-8 sm:mt-20', classProps)}>
   <header class="mb-6 flex items-center justify-between sm:mb-8">
-    <h2 class="text-xl font-bold sm:text-2xl uppercase">{title}</h2>
+    <h2 class="text-xl font-bold uppercase sm:text-2xl">{title}</h2>
     {
       viewAllLink && (
         <a
           href={viewAllLink.href}
-          class="text-sm text-primary hover:text-blue-600 hover:underline sm:text-base">
+          class="text-primary text-sm hover:text-blue-600 hover:underline sm:text-base">
           {viewAllLink.text}
         </a>
       )
     }
   </header>
-  <div class="flex flex-col gap-4">
+  <div
+    class={cn(
+      'flex gap-4',
+      card ?
+        'grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'
+      : 'flex flex-col'
+    )}>
     {
-      items.map((item) => (
-        <ContentItem
-          href={item.href}
-          name={item.name}
-          description={item.description || ''}
-          external={item.external}
-        />
-      ))
+      card ?
+        items.map((item) => (
+          <a
+            href={item.href}
+            class="group block h-full min-h-[350px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
+            aria-label={`Read more about ${item.name}`}>
+            {/* Card Image Section - Full width at top */}
+            <div class="h-40 w-full overflow-hidden bg-gray-100">
+              {item.image ?
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  height={160}
+                  width={256}
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              : <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50"></div>
+              }
+            </div>
+
+            {/* Card Content Section */}
+            <div class="flex h-full flex-col p-3 sm:p-4">
+              <h2 class="mb-2 min-h-[2.5em] text-lg font-bold break-words transition-colors group-hover:text-blue-600">
+                {item.name}
+              </h2>
+              <p class="mb-4 flex-1 text-sm text-gray-600">
+                {item.description}
+              </p>
+            </div>
+          </a>
+        ))
+      : items.map((item) => (
+          <ContentItem
+            href={item.href}
+            name={item.name}
+            description={item.description || ''}
+            external={item.external}
+          />
+        ))
     }
   </div>
 </section>

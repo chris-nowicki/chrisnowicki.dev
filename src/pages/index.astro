@@ -28,7 +28,9 @@ const speaking = (await getCollection('speaking'))
           href: `/blog/${post.id}`,
           name: post.data.title,
           description: post.data.description,
+          image: post.data.image,
         }))}
+        card={true}
       />
 
       <ContentSection
