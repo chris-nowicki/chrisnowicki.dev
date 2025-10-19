@@ -1,14 +1,17 @@
 ---
-import BlogSearch from '@/components/Svelte/BlogSearch.svelte'
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { BLOG } from '@/lib/site'
-import { getCollection } from 'astro:content'
 import generateOgImageUrl from '@/utils/og-image'
+import { getPostsByCategory, getAllCategories } from '@/utils/content-mappers'
+import UnifiedLink from '@/components/UnifiedLink.astro'
+import ArrowRight from '@/assets/icons/arrow-right.svg'
 
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-)
+export const prerender = false
+const category = Astro.url.searchParams.get('category')
+
+const posts = await getPostsByCategory(category)
+const categories = await getAllCategories()
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -21,15 +24,71 @@ const ogImageUrl = generateOgImageUrl({
   description={BLOG.DESCRIPTION}
   image={ogImageUrl}>
   <Container>
-    <section class="relative pt-28 text-sm sm:pt-40 sm:text-base">
-      <header class="mb-10 md:mb-16">
-        <h1 class="mb-1 text-2xl font-bold sm:text-4xl">Blog</h1>
-        <p>
+    <section class="relative pt-20 text-sm">
+      <header
+        class="mb-10 flex w-full items-center justify-center text-center text-4xl font-semibold md:mb-16">
+        <div class="w-3/5">
           My ramblings on the web about all things tech, life, and productivity!
-        </p>
+        </div>
       </header>
 
-      <BlogSearch posts={posts} client:load />
+      <h2 class="mb-2 text-lg font-semibold">Categories</h2>
+      <div
+        class="relative mb-12 flex flex-wrap gap-4 py-2 font-mono text-sm uppercase">
+        <div
+          class="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
+        </div>
+        <div
+          class="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
+        </div>
+        <UnifiedLink
+          href="/blog"
+          class={`font-normal hover:text-blue-600 ${!category ? 'text-blue-600' : ''}`}>
+          ALL
+        </UnifiedLink>
+        {
+          categories.map((cat) => (
+            <UnifiedLink
+              href={`/blog?category=${encodeURIComponent(cat)}`}
+              class={`font-normal hover:text-blue-600 ${category?.toLowerCase() === cat.toLowerCase() ? ' text-blue-600' : ''}`}>
+              {cat}
+            </UnifiedLink>
+          ))
+        }
+      </div>
+
+      {
+        posts.length > 0 ?
+          <div class="space-y-4">
+            {posts.map((post) => (
+              <div class="group flex gap-4 border-transparent pb-4 text-sm">
+                <div class="text-md w-48 flex-shrink-0 pt-1 font-mono text-gray-600 group-hover:text-blue-600">
+                  {post.data.date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </div>
+                <div class="flex-1">
+                  <h2 class="text-lg font-bold">{post.data.title}</h2>
+                  <p class="mb-3 leading-relaxed text-gray-700">
+                    {post.data.description}
+                  </p>
+                  <UnifiedLink
+                    href={`/blog/${post.id}`}
+                    class="text-blue-600 hover:underline flex items-center font-normal gap-2">
+                    Read More
+                    <ArrowRight
+                      fill="currentColor"
+                      class="mr-0 h-5 w-5 shrink-0 text-blue-600 transition-all duration-200 ease-in-out group-hover:translate-x-2 sm:mr-2"
+                    />
+                  </UnifiedLink>
+                </div>
+              </div>
+            ))}
+          </div>
+        : <p class="text-gray-600">No blog posts found.</p>
+      }
     </section>
   </Container>
 </PageLayout>

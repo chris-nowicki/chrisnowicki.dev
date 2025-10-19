@@ -8,7 +8,7 @@ import Me from '@/assets/images/me.webp'
 import { cn } from '@/utils/utils'
 import { Image } from 'astro:assets'
 import Container from './Container.astro'
-import Link from './Link.astro'
+import UnifiedLink from './UnifiedLink.astro'
 
 interface Props {
   page?: boolean
@@ -88,13 +88,14 @@ const { page = false } = Astro.props
       <div class={cn('flex flex-wrap gap-4', page ? 'my-4 md:my-8' : 'mt-8')}>
         {
           socialLinks.map(({ icon: Icon, url, label }) => (
-            <Link
-              to={url}
+            <UnifiedLink
+              href={url}
               class={socialIconClass}
               icon={true}
+              target="_blank"
               ariaLabel={label}>
               <Icon width={24} aria-hidden="true" />
-            </Link>
+            </UnifiedLink>
           ))
         }
       </div>

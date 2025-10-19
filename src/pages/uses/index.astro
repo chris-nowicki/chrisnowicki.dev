@@ -1,7 +1,7 @@
 ---
 import DeskSetup from '@/assets/images/desk-setup.webp'
 import Container from '@/components/Container.astro'
-import Link from '@/components/Link.astro'
+import UnifiedLink from '@/components/UnifiedLink.astro'
 import UsesFilter from '@/components/Svelte/UsesFilter.svelte'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { USES } from '@/lib/site'
@@ -22,7 +22,7 @@ const ogImageUrl = generateOgImageUrl({
   description={USES.DESCRIPTION}
   image={ogImageUrl}>
   <Container>
-    <section class="relative pt-28 text-md sm:pt-40 sm:text-base">
+    <section class="text-md relative pt-28 sm:pt-40 sm:text-base">
       <header class="mb-8">
         <h1 class="mb-4 text-2xl font-bold sm:text-4xl">Uses</h1>
         <p class="mb-4">
@@ -32,18 +32,20 @@ const ogImageUrl = generateOgImageUrl({
         </p>
         <p class="mb-4">
           I also have my{' '}
-          <Link
-            to="https://github.com/chris-nowicki/dotfiles"
+          <UnifiedLink
+            href="https://github.com/chris-nowicki/dotfiles"
+            target="_blank"
             ariaLabel="Visit my dotfiles repository on github"
             >dotfiles
-          </Link>
+          </UnifiedLink>
 
           {' and '}
-          <Link
-            to="https://github.com/chris-nowicki/mac-setup"
+          <UnifiedLink
+            href="https://github.com/chris-nowicki/mac-setup"
+            target="_blank"
             ariaLabel="Visit my mac setup repository on github"
             >mac-setup
-          </Link>
+          </UnifiedLink>
           repositories that go into more depth on the tools I use.
         </p>
       </header>

@@ -6,6 +6,7 @@ import { SPEAKING } from '@/lib/site'
 import { getSortedYears, groupEntriesByYear } from '@/utils/collection-dates'
 import generateOgImageUrl from '@/utils/og-image'
 import { getCollection, type CollectionEntry } from 'astro:content'
+import { mapSpeakingToContentItems } from '@/utils/content-mappers'
 
 const data = (await getCollection('speaking')).sort(
   (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
@@ -37,12 +38,8 @@ const ogImageUrl = generateOgImageUrl({
           years.map((year) => (
             <ContentSection
               title={year}
-              items={speaking[year].map((engagement) => ({
-                href: engagement.data.videoUrl,
-                name: engagement.data.title,
-                description: engagement.data.description,
-                external: true,
-              }))}
+              items={mapSpeakingToContentItems(speaking[year])}
+              variant="list"
             />
           ))
         }

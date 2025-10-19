@@ -1,7 +1,6 @@
 ---
 import { cn } from '@/utils/utils'
-import ContentItem from './ContentItem.astro'
-import { Image } from 'astro:assets'
+import ContentDisplay from './ContentDisplay.astro'
 
 export interface ContentSectionItem {
   href: string
@@ -12,22 +11,22 @@ export interface ContentSectionItem {
 }
 
 export interface Props {
-  title: string
+  title?: string
   viewAllLink?: {
     href: string
     text: string
   }
   items: ContentSectionItem[]
   class?: string
-  card?: boolean
+  variant?: 'list' | 'card'
 }
 
 const {
-  title,
+  title = '',
   viewAllLink,
   items,
   class: classProps = '',
-  card = false,
+  variant = 'list',
 } = Astro.props
 ---
 
@@ -47,50 +46,21 @@ const {
   <div
     class={cn(
       'flex gap-4',
-      card ?
+      variant === 'card' ?
         'grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'
       : 'flex flex-col'
     )}>
     {
-      card ?
-        items.map((item) => (
-          <a
-            href={item.href}
-            class="group block h-full min-h-[350px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
-            aria-label={`Read more about ${item.name}`}>
-            {/* Card Image Section - Full width at top */}
-            <div class="h-40 w-full overflow-hidden bg-gray-100">
-              {item.image ?
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  height={160}
-                  width={256}
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              : <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50"></div>
-              }
-            </div>
-
-            {/* Card Content Section */}
-            <div class="flex h-full flex-col p-3 sm:p-4">
-              <h2 class="mb-2 min-h-[2.5em] text-lg font-bold break-words transition-colors group-hover:text-blue-600">
-                {item.name}
-              </h2>
-              <p class="mb-4 flex-1 text-sm text-gray-600">
-                {item.description}
-              </p>
-            </div>
-          </a>
-        ))
-      : items.map((item) => (
-          <ContentItem
-            href={item.href}
-            name={item.name}
-            description={item.description || ''}
-            external={item.external}
-          />
-        ))
+      items.map((item) => (
+        <ContentDisplay
+          href={item.href}
+          name={item.name}
+          description={item.description || ''}
+          image={item.image}
+          external={item.external}
+          variant={variant}
+        />
+      ))
     }
   </div>
 </section>

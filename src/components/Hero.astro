@@ -1,22 +1,24 @@
 ---
-import Link from './Link.astro'
+import UnifiedLink from './UnifiedLink.astro'
 import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
-import CustomLink from './CustomLink.astro'
 import Image from 'astro/components/Image.astro'
 import Me from '@/assets/images/me.webp'
 ---
 
 <section
-  class="relative mt-40 mb-26 flex rounded-xl border border-black text-base sm:text-lg md:mt-30 md:mb-40">
+  class="relative mt-40 mb-26 flex rounded-xl border text-base sm:text-lg md:mt-30 md:mb-40">
   <div class="w-2/3 p-8">
     <h1 class="text-2xl font-bold sm:text-4xl">
       <span class="text-blue-600">Hello</span>, I'm Chris Nowicki
     </h1>
     <p class="mt-2">
       Developer Experience Engineer at
-      <Link to="https://www.commerce.com" ariaLabel="Visit the Commerce website"
+      <UnifiedLink
+        href="https://www.commerce.com"
+        ariaLabel="Visit the Commerce website"
+        target="_blank"
         >Commerce
-      </Link>.
+      </UnifiedLink>.
     </p>
 
     <div class="mt-4 space-y-8">
@@ -46,15 +48,18 @@ import Me from '@/assets/images/me.webp'
     </div>
 
     <div class="mt-8 flex flex-wrap gap-2 sm:gap-4">
-      <CustomLink href="/contact" size="lg" class="bg-blue-600 uppercase"
-        >Contact Me</CustomLink
+      <UnifiedLink
+        href="/contact"
+        size="lg"
+        variant="default"
+        class="bg-blue-600 uppercase">Contact Me</UnifiedLink
       >
-      <CustomLink
+      <UnifiedLink
         href="https://buymeacoffee.com/chrisnowicki"
         variant="outline"
         target="_blank"
         size="lg"
-        class="uppercase">Buy Me A Coffee</CustomLink
+        class="uppercase">Buy Me A Coffee</UnifiedLink
       >
     </div>
   </div>

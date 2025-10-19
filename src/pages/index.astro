@@ -2,50 +2,48 @@
 import Contact from '@/components/Contact.astro'
 import ContentSection from '@/components/ContentSection.astro'
 import { HOME, NUMBER_OF_ENTRIES } from '@/lib/site'
-import { getCollection } from 'astro:content'
 import Container from '../components/Container.astro'
 import PageLayout from '../layouts/PageLayout.astro'
 import Hero from '../components/Hero.astro'
+import {
+  mapPostsToContentItems,
+  mapSpeakingToContentItems,
+  getLatestPosts,
+  getLatestSpeaking,
+} from '@/utils/content-mappers'
 
-const posts = (await getCollection('blog'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, NUMBER_OF_ENTRIES)
-
-const speaking = (await getCollection('speaking'))
-  .sort((a, b) => b.data.id.valueOf() - a.data.id.valueOf())
-  .slice(0, NUMBER_OF_ENTRIES)
+const posts = await getLatestPosts(NUMBER_OF_ENTRIES)
+const speaking = await getLatestSpeaking(NUMBER_OF_ENTRIES)
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
     <Hero />
 
-    <div>
-      <ContentSection
-        title="Latest Posts"
-        viewAllLink={{ href: '/blog', text: 'View all posts' }}
-        items={posts.map((post) => ({
-          href: `/blog/${post.id}`,
-          name: post.data.title,
-          description: post.data.description,
-          image: post.data.image,
-        }))}
-        card={true}
-      />
+    {
+      posts.length > 0 && (
+        <ContentSection
+          title="Latest Posts"
+          viewAllLink={{ href: '/blog', text: 'View all posts' }}
+          items={mapPostsToContentItems(posts)}
+          variant="card"
+        />
+      )
+    }
 
-      <ContentSection
-        title="Speaking"
-        viewAllLink={{ href: '/speaking', text: 'View all engagements' }}
-        items={speaking.map((engagement) => ({
-          href: engagement.data.videoUrl,
-          name: engagement.data.title,
-          description: engagement.data.description,
-          external: true,
-        }))}
-        class="mb-0 sm:mb-0"
-      />
-    </div>
+    {
+      speaking.length > 0 && (
+        <ContentSection
+          title="Speaking"
+          viewAllLink={{ href: '/speaking', text: 'View all engagements' }}
+          items={mapSpeakingToContentItems(speaking)}
+          variant="list"
+          class="mb-0 sm:mb-0"
+        />
+      )
+    }
   </Container>
+
   <Contact />
 </PageLayout>
 
