@@ -1,10 +1,10 @@
 ---
+slug: how-to-create-a-vercel-cron-job
 date: 2023-04-18
 title: 'How to create a Vercel Cron Job using NextJS 13'
 description: 'Learn to create Vercel cron jobs in Next.js.'
 image: 'https://res.cloudinary.com/ddetibihn/image/upload/v1710262757/portfolio/blog/vercel-cron-job-cover.webp'
 category: 'tech'
-tags: ['web development', 'vercel', 'next.js', 'cron job']
 draft: false
 ---
 
