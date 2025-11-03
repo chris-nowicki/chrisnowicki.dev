@@ -6,6 +6,7 @@ import generateOgImageUrl from '@/utils/og-image'
 import { getPostsByCategory, getAllCategories } from '@/utils/content-mappers'
 import UnifiedLink from '@/components/UnifiedLink.astro'
 import ArrowRight from '@/assets/icons/arrow-right.svg'
+import HorizonWrapper from '@/components/HorizonWrapper.astro'
 
 export const prerender = false
 const category = Astro.url.searchParams.get('category')
@@ -33,14 +34,7 @@ const ogImageUrl = generateOgImageUrl({
       </header>
 
       <h2 class="mb-2 text-lg font-semibold">Categories</h2>
-      <div
-        class="text-md relative mb-12 flex flex-wrap gap-4 py-2 font-mono uppercase">
-        <div
-          class="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
-        </div>
-        <div
-          class="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
-        </div>
+      <HorizonWrapper>
         <UnifiedLink
           href="/blog"
           class={`font-normal hover:text-blue-600 ${!category ? 'text-blue-600' : ''}`}>
@@ -55,7 +49,7 @@ const ogImageUrl = generateOgImageUrl({
             </UnifiedLink>
           ))
         }
-      </div>
+      </HorizonWrapper>
 
       {
         posts.length > 0 ?

@@ -1,14 +1,13 @@
 ---
 import Container from '@/components/Container.astro'
-import ContentSection from '@/components/ContentSection.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
 import { getSortedYears, groupEntriesByYear } from '@/utils/collection-dates'
 import generateOgImageUrl from '@/utils/og-image'
 import { getCollection, type CollectionEntry } from 'astro:content'
-import { mapSpeakingToContentItems } from '@/utils/content-mappers'
 import UnifiedLink from '@/components/UnifiedLink.astro'
 import ArrowRight from '@/assets/icons/arrow-right.svg'
+import HorizonWrapper from '@/components/HorizonWrapper.astro'
 
 export const prerender = false
 const category = Astro.url.searchParams.get('category')
@@ -51,29 +50,24 @@ const ogImageUrl = generateOgImageUrl({
       </header>
 
       <h2 class="mb-2 text-lg font-semibold">Categories</h2>
-      <div
-        class="text-md relative mb-12 flex flex-wrap gap-4 py-2 font-mono uppercase">
-        <div
-          class="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
-        </div>
-        <div
-          class="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
-        </div>
+      <HorizonWrapper>
+
         <UnifiedLink
-          href="/speaking"
-          class={`font-normal hover:text-blue-600 ${!category ? 'text-blue-600' : ''}`}>
-          ALL
-        </UnifiedLink>
-        {
-          allCategories.map((cat) => (
-            <UnifiedLink
-              href={`/speaking?category=${encodeURIComponent(cat)}`}
-              class={`font-normal hover:text-blue-600 ${category?.toLowerCase() === cat.toLowerCase() ? ' text-blue-600' : ''}`}>
+        href="/speaking"
+        class={`font-normal hover:text-blue-600 ${!category ? 'text-blue-600' : ''}`}>
+        ALL
+      </UnifiedLink>
+      {
+        allCategories.map((cat) => (
+          <UnifiedLink
+          href={`/speaking?category=${encodeURIComponent(cat)}`}
+          class={`font-normal hover:text-blue-600 ${category?.toLowerCase() === cat.toLowerCase() ? ' text-blue-600' : ''}`}>
               {cat}
             </UnifiedLink>
           ))
         }
-      </div>
+        </HorizonWrapper>
+
 
       <div class="relative space-y-0">
         <div

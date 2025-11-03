@@ -7,6 +7,7 @@ import { USES } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
 import { Picture } from 'astro:assets'
 import { softwareData } from '@/data/uses'
+import HorizonWrapper from '@/components/HorizonWrapper.astro'
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${USES.TITLE.toUpperCase()}`,
@@ -51,20 +52,11 @@ const ogImageUrl = generateOgImageUrl({
         src={DeskSetup}
         width={768}
         height={700 * 0.75}
-        class="aspect-video w-full rounded-lg"
+        class="aspect-video w-full rounded-lg mb-10"
         alt="Desk Setup"
       />
 
-      <div
-        class="text-md relative mt-10 mb-12 flex flex-wrap justify-center gap-4 py-2 font-mono uppercase">
-        <div
-          class="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
-        </div>
-        <div
-          class="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
-        </div>
-        SOFTWARE
-      </div>
+      <HorizonWrapper class="justify-center"> SOFTWARE </HorizonWrapper>
 
       <div class="grid grid-cols-3 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10">
         {
@@ -83,7 +75,7 @@ const ogImageUrl = generateOgImageUrl({
                   alt={software.title}
                   width={32}
                   height={32}
-                  class="object-cover grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-150"
+                  class="object-cover grayscale transition-all duration-300 group-hover:scale-150 group-hover:grayscale-0"
                 />
               </div>
             </a>
