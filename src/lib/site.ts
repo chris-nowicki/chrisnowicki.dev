@@ -44,7 +44,3 @@ export const CONTACT: Metadata = {
   TITLE: 'Contact',
   DESCRIPTION: 'Get in touch with me.',
 }
-
-export const CONFERENCE = {
-  render: "🍑 RenderATL"
-}
