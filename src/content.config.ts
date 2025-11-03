@@ -25,18 +25,4 @@ const speaking = defineCollection({
   }),
 })
 
-const uses = defineCollection({
-  loader: file('src/content/uses.json'),
-  schema: z.object({
-    id: z.number(),
-    name: z.string(),
-    items: z.array(
-      z.object({
-        name: z.string(),
-        url: z.string(),
-      })
-    ),
-  }),
-})
-
-export const collections = { blog, speaking, uses }
+export const collections = { blog, speaking }

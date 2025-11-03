@@ -2,14 +2,11 @@
 import DeskSetup from '@/assets/images/desk-setup.webp'
 import Container from '@/components/Container.astro'
 import UnifiedLink from '@/components/UnifiedLink.astro'
-import UsesFilter from '@/components/Svelte/UsesFilter.svelte'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { USES } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
 import { Picture } from 'astro:assets'
-import { getCollection } from 'astro:content'
-
-const uses = await getCollection('uses')
+import { softwareData } from '@/data/uses'
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${USES.TITLE.toUpperCase()}`,
@@ -22,7 +19,7 @@ const ogImageUrl = generateOgImageUrl({
   description={USES.DESCRIPTION}
   image={ogImageUrl}>
   <Container>
-    <section class="text-md relative pt-28 sm:pt-40 sm:text-base">
+    <section class="text-md relative pt-20 sm:text-base">
       <header class="mb-8">
         <h1 class="mb-4 text-2xl font-bold sm:text-4xl">Uses</h1>
         <p class="mb-4">
@@ -58,7 +55,58 @@ const ogImageUrl = generateOgImageUrl({
         alt="Desk Setup"
       />
 
-      <UsesFilter uses={uses} client:load />
+      <div
+        class="text-md relative mt-10 mb-12 flex flex-wrap justify-center gap-4 py-2 font-mono uppercase">
+        <div
+          class="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
+        </div>
+        <div
+          class="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
+        </div>
+        SOFTWARE
+      </div>
+
+      <div class="grid grid-cols-3 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10">
+        {
+          softwareData.map((software) => (
+            <a
+              class="group flex flex-col items-center justify-center gap-2"
+              href={software.link}
+              target="_blank"
+              rel="noopener noreferrer">
+              <h2 class="text-md group-hover:text-blue-600">
+                {software.title}
+              </h2>
+              <div class="software-icon flex aspect-square w-full items-center justify-center border">
+                <img
+                  src={software.imageSrc}
+                  alt={software.title}
+                  width={32}
+                  height={32}
+                  class="object-cover grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-150"
+                />
+              </div>
+            </a>
+          ))
+        }
+      </div>
     </section>
   </Container>
 </PageLayout>
+
+<style>
+  .software-icon {
+    border-radius: 0.5rem;
+    transition:
+      border-radius 0.3s ease-in-out,
+      transform 0.3s ease-in-out,
+      box-shadow 0.3s ease-in-out;
+  }
+
+  .group:hover .software-icon {
+    border-radius: 50%;
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+</style>
