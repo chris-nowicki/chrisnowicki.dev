@@ -2,7 +2,7 @@
 import UnifiedLink from './UnifiedLink.astro'
 import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
 import Image from 'astro/components/Image.astro'
-import Me from '@/assets/images/me.webp'
+import Me from '@/assets/images/me.jpg'
 ---
 
 <section
@@ -71,7 +71,7 @@ import Me from '@/assets/images/me.webp'
       loading="eager"
       width={250}
       height={250}
-      class="mb-6 aspect-square rounded-full border-8 border-white object-cover shadow-xl"
+      class="mb-6 aspect-square rounded-full border-8 border-white object-cover shadow-xl grayscale transition-all duration-200 hover:grayscale-0"
     />
   </div>
 </section>

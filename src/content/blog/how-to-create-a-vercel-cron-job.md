@@ -3,7 +3,7 @@ slug: how-to-create-a-vercel-cron-job
 date: 2023-04-18
 title: 'How to create a Vercel Cron Job using NextJS 13'
 description: 'Learn to create Vercel cron jobs in Next.js.'
-image: 'https://res.cloudinary.com/ddetibihn/image/upload/v1710262757/portfolio/blog/vercel-cron-job-cover.webp'
+image: '/blog/vercel-cron-job-cover.webp'
 category: 'tech'
 draft: false
 ---
@@ -23,7 +23,7 @@ I wanted to be able to show total **ALL TIME** GitHub commits across my reposito
 
 Vercel has the following [limitations](https://vercel.com/docs/cron-jobs/usage-and-pricing#) based on your plan:
 
-![Screenshot of Vercel cron job limits](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710367875/portfolio/blog/nrlunhl603b8l4zthrt9.png)
+![Screenshot of Vercel cron job limits](/blog/vercel-cron-job-limits.png)
 
 ## Let's Create a Cron Job!
 
@@ -125,7 +125,7 @@ Add a `vercel.json` file in the root of your project folder:
 
 Once that is complete deploy your project to vercel and you can check the status of your cron job by going to the **settings > crons** menu for your project. You should see something like this:
 
-![Screen shot of Vervel Dashboard with Cron Job Menu](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710275272/portfolio/blog/dx0de3rtmpboxgy8zvpa.png)
+![Screen shot of Vercel Dashboard with Cron Job Menu](/blog/vercel-cron-job-menu.png)
 
 ## CONCLUSION
 

@@ -4,7 +4,7 @@ import LinkedIn from '@/assets/icons/linkedin.svg'
 import SquiggleLine from '@/assets/icons/needle-underline.svg'
 import Twitch from '@/assets/icons/twitch.svg'
 import X from '@/assets/icons/x.svg'
-import Me from '@/assets/images/me.webp'
+import Me from '@/assets/images/me.jpg'
 import { cn } from '@/utils/utils'
 import { Image } from 'astro:assets'
 import Container from './Container.astro'
@@ -70,7 +70,7 @@ const { page = false } = Astro.props
           loading="eager"
           width={200}
           height={200}
-          class="rounded-lg shadow-xl"
+          class="rounded-lg shadow-xl grayscale transition-all duration-200 hover:grayscale-0"
         />
       )
     }
