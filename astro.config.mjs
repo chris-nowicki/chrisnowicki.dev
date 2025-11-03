@@ -13,21 +13,11 @@ export default defineConfig({
   site: 'https://www.chrisnowicki.dev',
 
   vite: {
+    // @ts-ignore - Tailwind Vite plugin type compatibility
     plugins: [tailwindcss()],
   },
 
   integrations: [sitemap(), svelte()],
-
-  image: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        port: '',
-        pathname: '/**',
-      },
-    ],
-  },
 
   markdown: {
     shikiConfig: {
