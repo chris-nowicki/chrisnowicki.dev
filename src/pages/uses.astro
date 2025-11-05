@@ -50,7 +50,7 @@ const ogImageUrl = generateOgImageUrl({
               class="group flex items-start gap-4 rounded-xl border p-4 transition-shadow duration-200 hover:shadow-lg">
               <GitHubIcon width={32} height={32} class="mt-0.5 shrink-0" />
               <div class="flex min-w-0 flex-1 flex-col gap-1">
-                <h2 class="font-mono text-lg font-semibold group-hover:text-blue-600">
+                <h2 class="semi-bold font-mono text-lg group-hover:text-blue-600">
                   {gitHub.title}
                 </h2>
                 <p class="text-sm leading-relaxed text-gray-500">
@@ -62,7 +62,7 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <HorizonWrapper class="justify-center">COFFEE </HorizonWrapper>
+      <HorizonWrapper class="justify-center font-bold">COFFEE </HorizonWrapper>
 
       <div class="grid grid-cols-1 gap-2 font-mono md:grid-cols-3">
         {
@@ -72,7 +72,7 @@ const ogImageUrl = generateOgImageUrl({
               href={coffee.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="font semi-bold text-lg group-hover:text-blue-600">
+              <h2 class="semi-bold font-mono text-lg group-hover:text-blue-600">
                 {coffee.title}
               </h2>
               <img
@@ -87,9 +87,11 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <HorizonWrapper class="mt-10 justify-center"> SOFTWARE </HorizonWrapper>
+      <HorizonWrapper class="mt-10 justify-center font-bold">
+        SOFTWARE
+      </HorizonWrapper>
 
-      <div class="grid grid-cols-3 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10">
+      <div class="grid grid-cols-2 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10">
         {
           softwareData.map((software) => (
             <a
@@ -114,7 +116,9 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <HorizonWrapper class="mt-10 justify-center"> HARDWARE </HorizonWrapper>
+      <HorizonWrapper class="mt-10 justify-center font-bold">
+        HARDWARE
+      </HorizonWrapper>
 
       <div class="grid grid-cols-1 gap-5 font-mono sm:grid-cols-2 sm:gap-x-4">
         {
