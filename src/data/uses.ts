@@ -18,6 +18,12 @@ type HardwareDataItem = {
   link: string
 }
 
+type GitHubDataItem = {
+  title: string
+  description: string
+  link: string
+}
+
 export const coffeeData: CoffeeDataItem[] = [
   {
     title: 'Fellow Ode Brew Grinder',
@@ -36,7 +42,7 @@ export const coffeeData: CoffeeDataItem[] = [
     description: 'Classic pour-over coffee maker',
     imageSrc: '/uses/chemex.webp',
     link: 'https://chemexcoffeemaker.com/products/six-cup-classic-chemex',
-  }
+  },
 ]
 export const softwareData: SoftwareDataItem[] = [
   {
@@ -186,5 +192,18 @@ export const hardwareData: HardwareDataItem[] = [
     title: 'Sony A6600 Mirrorless Camera',
     description: 'APS-C mirrorless camera for streaming',
     link: 'https://amzn.to/4aN3xda',
+  },
+]
+
+export const gitHubData: GitHubDataItem[] = [
+  {
+    title: 'mac-setup',
+    description: 'scripts to automate my Mac configuration',
+    link: 'https://github.com/chris-nowicki/mac-setup',
+  },
+  {
+    title: 'dotfiles',
+    description: 'configuration files for terminal, editors, and dev tools',
+    link: 'https://github.com/chris-nowicki/dotfiles',
   },
 ]
