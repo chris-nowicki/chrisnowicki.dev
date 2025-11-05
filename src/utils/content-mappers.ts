@@ -1,44 +1,24 @@
 import type { CollectionEntry } from 'astro:content'
-import type { ContentSectionItem } from '@/components/ContentSection.astro'
 
 /**
- * Sorts blog posts by date in descending order (newest first)
- * Filters out posts with invalid dates
+ * Gets all posts, sorted by date
+ * Returns empty array if collection fails to load
  */
-export const sortPostsByDate = (
-  posts: CollectionEntry<'blog'>[]
-): CollectionEntry<'blog'>[] => {
-  return posts
-    .filter((post) => {
-      if (!post.data.date) {
-        console.warn(
-          `Blog post "${post.id}" is missing a date and will be excluded`
-        )
-        return false
-      }
-      return true
-    })
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-}
+export const getAllPosts = async (): Promise<CollectionEntry<'blog'>[]> => {
+  try {
+    const { getCollection } = await import('astro:content')
+    const posts = await getCollection('blog')
 
-/**
- * Sorts speaking engagements by id in descending order (newest first)
- * Filters out engagements with invalid ids
- */
-export const sortSpeakingById = (
-  speaking: CollectionEntry<'speaking'>[]
-): CollectionEntry<'speaking'>[] => {
-  return speaking
-    .filter((engagement) => {
-      if (!engagement.data.id) {
-        console.warn(
-          `Speaking engagement "${engagement.id}" is missing an id and will be excluded`
-        )
-        return false
-      }
-      return true
-    })
-    .sort((a, b) => b.data.id.valueOf() - a.data.id.valueOf())
+    if (!posts || posts.length === 0) {
+      console.warn('No blog posts found in collection')
+      return []
+    }
+
+    return sortPostsByDate(posts)
+  } catch (error) {
+    console.error('Failed to load blog posts:', error)
+    return []
+  }
 }
 
 /**
@@ -65,31 +45,10 @@ export const getLatestPosts = async (
 }
 
 /**
- * Gets all posts, sorted by date
- * Returns empty array if collection fails to load
- */
-export const getAllPosts = async (): Promise<CollectionEntry<'blog'>[]> => {
-  try {
-    const { getCollection } = await import('astro:content')
-    const posts = await getCollection('blog')
-
-    if (!posts || posts.length === 0) {
-      console.warn('No blog posts found in collection')
-      return []
-    }
-
-    return sortPostsByDate(posts)
-  } catch (error) {
-    console.error('Failed to load blog posts:', error)
-    return []
-  }
-}
-
-/**
  * Gets all unique categories from blog posts
  * Returns empty array if no categories found
  */
-export const getAllCategories = async (): Promise<string[]> => {
+export const getAllPostCategories = async (): Promise<string[]> => {
   try {
     const posts = await getAllPosts()
 
@@ -132,6 +91,26 @@ export const getPostsByCategory = async (
 }
 
 /**
+ * Sorts blog posts by date in descending order (newest first)
+ * Filters out posts with invalid dates
+ */
+export const sortPostsByDate = (
+  posts: CollectionEntry<'blog'>[]
+): CollectionEntry<'blog'>[] => {
+  return posts
+    .filter((post) => {
+      if (!post.data.date) {
+        console.warn(
+          `Blog post "${post.id}" is missing a date and will be excluded`
+        )
+        return false
+      }
+      return true
+    })
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+}
+
+/**
  * Gets the latest speaking engagements, sorted by id and limited to specified count
  * Returns empty array if collection fails to load
  */
@@ -155,51 +134,23 @@ export const getLatestSpeaking = async (
 }
 
 /**
- * Maps blog posts to ContentSectionItem format for display
- * Provides fallbacks for missing data
+ * Sorts speaking engagements by id in descending order (newest first)
+ * Filters out engagements with invalid ids
  */
-export const mapPostsToContentItems = (
-  posts: CollectionEntry<'blog'>[]
-): ContentSectionItem[] => {
-  return posts
-    .filter((post) => {
-      if (!post.data.title) {
-        console.warn(
-          `Blog post "${post.id}" is missing a title and will be excluded`
-        )
-        return false
-      }
-      return true
-    })
-    .map((post) => ({
-      href: `/blog/${post.id}`,
-      name: post.data.title,
-      description: post.data.description || 'No description available',
-      image: post.data.image,
-    }))
-}
-
-/**
- * Maps speaking engagements to ContentSectionItem format for display
- * Provides fallbacks for missing data
- */
-export const mapSpeakingToContentItems = (
+export const sortSpeakingById = (
   speaking: CollectionEntry<'speaking'>[]
-): ContentSectionItem[] => {
+): CollectionEntry<'speaking'>[] => {
   return speaking
     .filter((engagement) => {
-      if (!engagement.data.title || !engagement.data.videoUrl) {
+      if (!engagement.data.id) {
         console.warn(
-          `Speaking engagement "${engagement.id}" is missing required data and will be excluded`
+          `Speaking engagement "${engagement.id}" is missing an id and will be excluded`
         )
         return false
       }
       return true
     })
-    .map((engagement) => ({
-      href: engagement.data.videoUrl,
-      name: engagement.data.title,
-      description: engagement.data.description || 'No description available',
-      external: true,
-    }))
+    .sort((a, b) => b.data.id.valueOf() - a.data.id.valueOf())
 }
+
+

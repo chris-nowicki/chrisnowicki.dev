@@ -30,14 +30,14 @@ const {
 } = Astro.props
 ---
 
-<section class={cn('mt-8 sm:mt-20', classProps)}>
+<section class={cn('mt-12 sm:mt-20', classProps)}>
   <header class="mb-6 flex items-center justify-between sm:mb-8">
-    <h2 class="text-xl font-bold uppercase sm:text-2xl">{title}</h2>
+    <h2 class="text-2xl font-bold uppercase sm:text-2xl">{title}</h2>
     {
       viewAllLink && (
         <a
           href={viewAllLink.href}
-          class="text-primary text-sm hover:text-blue-600 hover:underline sm:text-base">
+          class="text-primary text-base hover:text-blue-600 hover:underline sm:text-base">
           {viewAllLink.text}
         </a>
       )

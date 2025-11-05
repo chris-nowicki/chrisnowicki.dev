@@ -3,7 +3,10 @@ import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { BLOG } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
-import { getPostsByCategory, getAllCategories } from '@/utils/content-mappers'
+import {
+  getPostsByCategory,
+  getAllPostCategories,
+} from '@/utils/content-mappers'
 import UnifiedLink from '@/components/UnifiedLink.astro'
 import ArrowRight from '@/assets/icons/arrow-right.svg'
 import HorizonWrapper from '@/components/HorizonWrapper.astro'
@@ -12,7 +15,7 @@ export const prerender = false
 const category = Astro.url.searchParams.get('category')
 
 const posts = await getPostsByCategory(category)
-const categories = await getAllCategories()
+const categories = await getAllPostCategories()
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -25,31 +28,35 @@ const ogImageUrl = generateOgImageUrl({
   description={BLOG.DESCRIPTION}
   image={ogImageUrl}>
   <Container>
-    <section class="relative pt-20 text-sm">
+    <section class="relative pt-12 text-sm sm:pt-20">
       <header
-        class="mb-10 flex w-full items-center justify-center text-center text-4xl font-semibold md:mb-16">
-        <div class="w-3/5">
-          My ramblings on the web about all things tech, life, and productivity!
+        class="mb-8 flex w-full items-center justify-center text-center md:mb-16">
+        <div class="w-full sm:w-4/5 md:w-3/5">
+          <h1 class="text-2xl font-semibold sm:text-3xl md:text-4xl">
+            My ramblings on the web about all things tech, life, and
+            productivity!
+          </h1>
         </div>
       </header>
 
-      <h2 class="mb-2 text-lg font-semibold">Categories</h2>
-      <HorizonWrapper>
-        <UnifiedLink
-          href="/blog"
-          class={`font-normal hover:text-blue-600 ${!category ? 'text-blue-600' : ''}`}>
-          ALL
-        </UnifiedLink>
-        {
-          categories.map((cat) => (
-            <UnifiedLink
-              href={`/blog?category=${encodeURIComponent(cat)}`}
-              class={`font-normal hover:text-blue-600 ${category?.toLowerCase() === cat.toLowerCase() ? ' text-blue-600' : ''}`}>
-              {cat}
-            </UnifiedLink>
-          ))
-        }
-      </HorizonWrapper>
+      <div class="mb-6 flex justify-center">
+        <HorizonWrapper>
+          <UnifiedLink
+            href="/blog"
+            class={`font-normal hover:text-blue-600 ${!category ? 'text-blue-600' : ''}`}>
+            ALL
+          </UnifiedLink>
+          {
+            categories.map((cat) => (
+              <UnifiedLink
+                href={`/blog?category=${encodeURIComponent(cat)}`}
+                class={`font-normal hover:text-blue-600 ${category?.toLowerCase() === cat.toLowerCase() ? ' text-blue-600' : ''}`}>
+                {cat}
+              </UnifiedLink>
+            ))
+          }
+        </HorizonWrapper>
+      </div>
 
       {
         posts.length > 0 ?

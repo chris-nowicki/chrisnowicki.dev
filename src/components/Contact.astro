@@ -1,41 +1,17 @@
 ---
-import GitHub from '@/assets/icons/github.svg'
-import LinkedIn from '@/assets/icons/linkedin.svg'
+
 import SquiggleLine from '@/assets/icons/needle-underline.svg'
-import Twitch from '@/assets/icons/twitch.svg'
-import X from '@/assets/icons/x.svg'
+
 import Me from '@/assets/images/me.jpg'
 import { cn } from '@/utils/utils'
 import { Image } from 'astro:assets'
 import Container from './Container.astro'
 import UnifiedLink from './UnifiedLink.astro'
+import { socialLinks } from '@/lib/site'
 
 interface Props {
   page?: boolean
 }
-
-const socialLinks = [
-  {
-    icon: X,
-    url: 'https://twitter.com/iamwix',
-    label: 'Visit my X Profile @iamwix',
-  },
-  {
-    icon: LinkedIn,
-    url: 'https://www.linkedin.com/in/chris-nowicki/',
-    label: 'Visit my LinkedIn Profile',
-  },
-  {
-    icon: GitHub,
-    url: 'https://github.com/chris-nowicki',
-    label: 'Visit my GitHub Profile',
-  },
-  {
-    icon: Twitch,
-    url: 'https://www.twitch.tv/chriswix',
-    label: 'Visit my Twitch Profile',
-  },
-] as const
 
 const socialIconClass =
   'hover:scale-110 transition-all duration-200 ease-in-out hover:text-blue-600'

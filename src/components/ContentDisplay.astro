@@ -35,14 +35,14 @@ const isList = variant === 'list'
   aria-label={isCard ? `Read more about ${name}` : undefined}
   class={cn(
     'group transition-all duration-200 ease-in-out',
-    isCard && 'block h-full min-h-[350px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm hover:-translate-y-2 hover:shadow-lg',
+    isCard && 'block h-full sm:min-h-[350px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm hover:-translate-y-2 hover:shadow-lg',
     isList && 'flex items-center justify-between border-b pb-2 hover:border-blue-600',
     className
   )}>
 
   {isCard && (
     <!-- Card Image Section -->
-    <div class="h-40 w-full overflow-hidden bg-gray-100">
+    <div class="h-40 w-full overflow-hidden bg-gray-100 hidden sm:block">
       {image ? (
         <Image
           src={image}
@@ -64,8 +64,8 @@ const isList = variant === 'list'
   )}>
     <h3 class={cn(
       'transition-colors group-hover:text-blue-600',
-      isCard && 'mb-2 min-h-[2.5em] text-lg font-bold break-words',
-      isList && 'text-sm font-semibold sm:text-base'
+      isCard && 'mb-0 sm:mb-2 sm:min-h-[2.5em] text-base sm:text-lg font-bold wrap-break-words',
+      isList && 'text-base font-semibold sm:text-lg'
     )}>
       {name}
     </h3>
