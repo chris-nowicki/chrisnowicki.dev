@@ -27,7 +27,7 @@ const { title, description, image } = Astro.props
   </head>
   <body>
     <NavBar client:load transition:persist />
-    <main>
+    <main transition:animate="none">
       <slot />
     </main>
     <Footer />
