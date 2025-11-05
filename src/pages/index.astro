@@ -5,10 +5,13 @@ import { HOME, NUMBER_OF_ENTRIES } from '@/lib/site'
 import Container from '../components/Container.astro'
 import PageLayout from '../layouts/PageLayout.astro'
 import Hero from '../components/Hero.astro'
-import { getLatestPosts, getLatestSpeaking } from '@/utils/content-mappers'
+import { getBlogPosts } from '@/utils/blog-helpers'
+import { getLatestSpeakingData } from '@/utils/speaking-helpers'
 
-const posts = await getLatestPosts(NUMBER_OF_ENTRIES)
-const speaking = await getLatestSpeaking(NUMBER_OF_ENTRIES)
+export const prerender = true
+
+const posts = await getBlogPosts(NUMBER_OF_ENTRIES)
+const speaking = await getLatestSpeakingData(NUMBER_OF_ENTRIES)
 
 const postItems = posts.map((post) => ({
   href: `/blog/${post.id}`,
@@ -18,9 +21,9 @@ const postItems = posts.map((post) => ({
 }))
 
 const speakingItems = speaking.map((engagement) => ({
-  href: engagement.data.videoUrl,
-  name: engagement.data.title,
-  description: engagement.data.description,
+  href: engagement.link,
+  name: engagement.title,
+  description: engagement.description,
   external: true,
 }))
 ---

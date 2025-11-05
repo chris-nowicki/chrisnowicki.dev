@@ -2,33 +2,34 @@
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
-import { getSortedYears, groupEntriesByYear } from '@/utils/collection-dates'
+import { groupSpeakingByYear, getSortedYears } from '@/utils/speaking-helpers'
 import generateOgImageUrl from '@/utils/og-image'
-import { getCollection, type CollectionEntry } from 'astro:content'
 import UnifiedLink from '@/components/UnifiedLink.astro'
 import ArrowRight from '@/assets/icons/arrow-right.svg'
 import HorizonWrapper from '@/components/HorizonWrapper.astro'
+import { speakingData, type speakingDataItem } from '@/data/speaking'
 
 export const prerender = false
 const category = Astro.url.searchParams.get('category')
 
-const data = (await getCollection('speaking')).sort(
-  (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
-)
-
 // Get all unique categories from speaking data
 const allCategories = Array.from(
-  new Set(data.flatMap((item) => item.data.category || []))
+  new Set(speakingData.flatMap((item) => item.category || []))
 )
 
 // Filter data by category if specified
 const filteredData =
   category ?
-    data.filter((item) => item.data.category?.includes(category))
-  : data
+    speakingData.filter((item) => item.category?.includes(category))
+  : speakingData
 
-type Speaking = Record<string, CollectionEntry<'speaking'>[]>
-const speaking: Speaking = groupEntriesByYear<'speaking'>(filteredData)
+// Sort by date (newest first)
+const sortedData = filteredData.sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+)
+
+type Speaking = Record<string, speakingDataItem[]>
+const speaking: Speaking = groupSpeakingByYear(sortedData)
 
 const years = getSortedYears(speaking)
 
@@ -74,7 +75,7 @@ const ogImageUrl = generateOgImageUrl({
 
       <div class="relative space-y-0">
         <div
-          class="absolute top-0 bottom-0 left-0 hidden w-px bg-gradient-to-b from-transparent via-gray-300 to-transparent sm:block"
+          class="absolute top-0 bottom-0 left-0 hidden w-px bg-linear-to-b from-transparent via-gray-300 to-transparent sm:block"
           style="left: calc(3rem + 0.75rem);">
         </div>
         {
@@ -82,7 +83,7 @@ const ogImageUrl = generateOgImageUrl({
             <div class="group text-md">
               {yearIndex > 0 && (
                 <div class="relative mb-8">
-                  <div class="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+                  <div class="absolute top-0 right-0 left-0 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent" />
                 </div>
               )}
               <div
@@ -94,13 +95,11 @@ const ogImageUrl = generateOgImageUrl({
                   <div class="space-y-4">
                     {speaking[year].map((talk) => (
                       <div class="group/talk border-b border-gray-100 pb-4 last:border-b-0">
-                        <h3 class="text-lg font-bold">{talk.data.title}</h3>
-                        <p class="mb-2 text-gray-700">
-                          {talk.data.description}
-                        </p>
-                        {talk.data.videoUrl && (
+                        <h3 class="text-lg font-bold">{talk.title}</h3>
+                        <p class="mb-2 text-gray-700">{talk.description}</p>
+                        {talk.link && (
                           <a
-                            href={talk.data.videoUrl}
+                            href={talk.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             class="flex items-center gap-2 text-sm text-blue-600 hover:underline">

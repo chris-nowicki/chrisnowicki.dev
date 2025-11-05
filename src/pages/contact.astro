@@ -5,6 +5,8 @@ import { CONTACT } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
 import ContactWrapper from '@/components/Contact.astro'
 
+export const prerender = true
+
 const ogImageUrl = generateOgImageUrl({
   header: `/${CONTACT.TITLE.toUpperCase()}`,
   description: CONTACT.DESCRIPTION,

@@ -9,6 +9,8 @@ import { Picture } from 'astro:assets'
 import { softwareData } from '@/data/uses'
 import HorizonWrapper from '@/components/HorizonWrapper.astro'
 
+export const prerender = true
+
 const ogImageUrl = generateOgImageUrl({
   header: `/${USES.TITLE.toUpperCase()}`,
   description: USES.DESCRIPTION,

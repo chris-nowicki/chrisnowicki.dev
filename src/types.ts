@@ -10,6 +10,4 @@ export type Metadata = {
   DESCRIPTION: string
 }
 
-export type Project = CollectionEntry<'projects'>
 export type Blog = CollectionEntry<'blog'>
-export type Speaking = CollectionEntry<'speaking'>

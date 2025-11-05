@@ -3,10 +3,7 @@ import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { BLOG } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
-import {
-  getPostsByCategory,
-  getAllPostCategories,
-} from '@/utils/content-mappers'
+import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import UnifiedLink from '@/components/UnifiedLink.astro'
 import ArrowRight from '@/assets/icons/arrow-right.svg'
 import HorizonWrapper from '@/components/HorizonWrapper.astro'
@@ -62,14 +59,14 @@ const ogImageUrl = generateOgImageUrl({
         posts.length > 0 ?
           <div class="relative space-y-0">
             <div
-              class="absolute top-0 bottom-0 left-0 hidden w-px bg-gradient-to-b from-transparent via-gray-300 to-transparent sm:block"
+              class="absolute top-0 bottom-0 left-0 hidden w-px bg-linear-to-b from-transparent via-gray-300 to-transparent sm:block"
               style="left: calc(7rem + 0.75rem);"
             />
             {posts.map((post, index) => (
               <div class="group text-md">
                 {index > 0 && (
                   <div class="relative mb-8">
-                    <div class="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+                    <div class="absolute top-0 right-0 left-0 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent" />
                   </div>
                 )}
                 <div

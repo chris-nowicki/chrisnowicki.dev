@@ -1,32 +1,12 @@
 import type { CollectionEntry } from 'astro:content'
 
 /**
- * Gets all posts, sorted by date
- * Returns empty array if collection fails to load
+ * Gets blog posts, sorted by date (newest first)
+ * @param limit - Optional limit to return only the latest posts
+ * @returns Array of blog posts or empty array if collection fails to load
  */
-export const getAllPosts = async (): Promise<CollectionEntry<'blog'>[]> => {
-  try {
-    const { getCollection } = await import('astro:content')
-    const posts = await getCollection('blog')
-
-    if (!posts || posts.length === 0) {
-      console.warn('No blog posts found in collection')
-      return []
-    }
-
-    return sortPostsByDate(posts)
-  } catch (error) {
-    console.error('Failed to load blog posts:', error)
-    return []
-  }
-}
-
-/**
- * Gets the latest posts, sorted by date and limited to specified count
- * Returns empty array if collection fails to load
- */
-export const getLatestPosts = async (
-  limit: number
+export const getBlogPosts = async (
+  limit?: number
 ): Promise<CollectionEntry<'blog'>[]> => {
   try {
     const { getCollection } = await import('astro:content')
@@ -37,7 +17,8 @@ export const getLatestPosts = async (
       return []
     }
 
-    return sortPostsByDate(posts).slice(0, limit)
+    const sortedPosts = sortPostsByDate(posts)
+    return limit ? sortedPosts.slice(0, limit) : sortedPosts
   } catch (error) {
     console.error('Failed to load blog posts:', error)
     return []
@@ -50,7 +31,7 @@ export const getLatestPosts = async (
  */
 export const getAllPostCategories = async (): Promise<string[]> => {
   try {
-    const posts = await getAllPosts()
+    const posts = await getBlogPosts()
 
     // Extract categories and filter out undefined/empty values
     const categories = posts
@@ -73,7 +54,7 @@ export const getPostsByCategory = async (
   category?: string | null
 ): Promise<CollectionEntry<'blog'>[]> => {
   try {
-    const allPosts = await getAllPosts()
+    const allPosts = await getBlogPosts()
 
     // If no category specified, return all posts
     if (!category) {
@@ -109,48 +90,3 @@ export const sortPostsByDate = (
     })
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
-
-/**
- * Gets the latest speaking engagements, sorted by id and limited to specified count
- * Returns empty array if collection fails to load
- */
-export const getLatestSpeaking = async (
-  limit: number
-): Promise<CollectionEntry<'speaking'>[]> => {
-  try {
-    const { getCollection } = await import('astro:content')
-    const speaking = await getCollection('speaking')
-
-    if (!speaking || speaking.length === 0) {
-      console.warn('No speaking engagements found in collection')
-      return []
-    }
-
-    return sortSpeakingById(speaking).slice(0, limit)
-  } catch (error) {
-    console.error('Failed to load speaking engagements:', error)
-    return []
-  }
-}
-
-/**
- * Sorts speaking engagements by id in descending order (newest first)
- * Filters out engagements with invalid ids
- */
-export const sortSpeakingById = (
-  speaking: CollectionEntry<'speaking'>[]
-): CollectionEntry<'speaking'>[] => {
-  return speaking
-    .filter((engagement) => {
-      if (!engagement.data.id) {
-        console.warn(
-          `Speaking engagement "${engagement.id}" is missing an id and will be excluded`
-        )
-        return false
-      }
-      return true
-    })
-    .sort((a, b) => b.data.id.valueOf() - a.data.id.valueOf())
-}
-
-
