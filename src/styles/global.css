@@ -164,3 +164,6 @@
   }
 }
 
+::view-transition-group(root) {
+  animation: none;
+}
