@@ -3,7 +3,7 @@ import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { CONTACT } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
-import ContactWrapper from '@/components/Contact.astro'
+import ContactDetails from '@/components/ContactDetails.astro'
 
 export const prerender = true
 
@@ -19,10 +19,12 @@ const ogImageUrl = generateOgImageUrl({
   image={ogImageUrl}>
   <Container>
     <section class="pt-12 text-sm sm:pt-20 sm:text-base">
-      <header class="mb-9">
-        <h1 class="text-2xl font-bold sm:text-4xl">{CONTACT.TITLE}</h1>
+      <header class="mb-8 flex w-full md:mb-16 md:justify-center">
+        <h1 class="text-2xl font-semibold sm:text-3xl md:text-4xl">
+          Let's Connect!
+        </h1>
       </header>
-      <ContactWrapper page={true} />
+      <ContactDetails />
     </section>
   </Container>
 </PageLayout>

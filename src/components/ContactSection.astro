@@ -1,0 +1,45 @@
+---
+import Container from './Container.astro'
+import UnifiedLink from './UnifiedLink.astro'
+import SquiggleLine from '@/assets/icons/needle-underline.svg'
+import { socialLinks } from '@/lib/site'
+
+const socialIconClass =
+  'hover:scale-110 transition-all duration-200 ease-in-out hover:text-blue-600'
+---
+
+<section
+  class="bg-primary-foreground mt-12 w-full rounded-lg p-4 text-base md:mt-20"
+  id="contact">
+  <header class="relative mb-8 flex justify-between">
+    <SquiggleLine class="absolute -bottom-2 left-1 w-28 sm:-bottom-3 sm:w-32" />
+    <h2 class="text-lg font-bold sm:text-xl">Let's Connect</h2>
+  </header>
+
+  <div>
+    <p>
+      If you want to get in touch with me about something or just to say hi 👋,
+      reach out on social media or send me an email at{' '}
+      <a
+        href="mailto:hello@chrisnowicki.dev"
+        class="font-bold hover:text-blue-600 hover:underline">
+        hello@chrisnowicki.dev
+      </a>.
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-4">
+      {
+        socialLinks.map(({ icon: Icon, url, label }) => (
+          <UnifiedLink
+            href={url}
+            class={socialIconClass}
+            icon={true}
+            target="_blank"
+            ariaLabel={label}>
+            <Icon width={24} aria-hidden="true" />
+          </UnifiedLink>
+        ))
+      }
+    </div>
+  </div>
+</section>

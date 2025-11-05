@@ -1,5 +1,5 @@
 ---
-import Contact from '@/components/Contact.astro'
+import ContactSection from '@/components/ContactSection.astro'
 import ContentSection from '@/components/ContentSection.astro'
 import { HOME, NUMBER_OF_ENTRIES } from '@/lib/site'
 import Container from '../components/Container.astro'
@@ -54,9 +54,9 @@ const speakingItems = speaking.map((engagement) => ({
         />
       )
     }
-  </Container>
 
-  <Contact />
+    <ContactSection />
+  </Container>
 </PageLayout>
 
 <style>
