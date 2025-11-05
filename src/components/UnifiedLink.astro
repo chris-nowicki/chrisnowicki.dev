@@ -1,0 +1,70 @@
+---
+import { cn } from '../utils/utils'
+import {
+  buttonVariants,
+  type ButtonVariant,
+  type ButtonSize,
+} from '../lib/buttonVariants'
+
+type Variant = NonNullable<ButtonVariant>
+type Size = NonNullable<ButtonSize>
+
+export interface Props {
+  href: string
+  ariaLabel?: string
+  class?: string
+  target?: '_blank' | '_self'
+  rel?: string
+  disabled?: boolean
+  // Button-style props
+  variant?: Variant | 'link'
+  size?: Size
+  // Simple link props
+  icon?: boolean
+}
+
+const {
+  href,
+  ariaLabel,
+  class: className = '',
+  target = '_self',
+  rel,
+  disabled = false,
+  variant = 'link',
+  size = 'default',
+  icon = false,
+  ...rest
+} = Astro.props
+
+// Determine if this should be a button-styled link or simple link
+const isButtonStyle = variant !== 'link'
+const isExternal = target === '_blank'
+
+// Auto-set rel for external links if not provided
+const linkRel = isExternal ? rel || 'noopener noreferrer' : rel
+
+// Generate classes based on variant
+const classes =
+  isButtonStyle ?
+    cn(buttonVariants({ variant, size, className }))
+  : cn(
+      // Simple link styles
+      !icon && 'font-bold hover:text-blue-600 hover:underline',
+      className
+    )
+---
+
+<a
+  href={href}
+  target={target}
+  rel={linkRel}
+  aria-label={ariaLabel}
+  class={classes}
+  {...rest}>
+  <slot />
+  {
+    isExternal && !isButtonStyle && (
+      <span class="sr-only"> (opens in new tab)</span>
+    )
+  }
+</a>

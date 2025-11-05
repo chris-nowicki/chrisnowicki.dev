@@ -1,5 +1,10 @@
 import type { Site, Metadata } from '@/types'
 
+import GitHub from '@/assets/icons/github.svg'
+import LinkedIn from '@/assets/icons/linkedin.svg'
+import Twitch from '@/assets/icons/twitch.svg'
+import X from '@/assets/icons/x.svg'
+
 export const NUMBER_OF_ENTRIES = 3
 
 export const navLinks = [
@@ -8,6 +13,33 @@ export const navLinks = [
   { href: '/uses', text: 'uses' },
   { href: '/contact', text: 'contact' },
 ]
+
+export const socialLinks = [
+  {
+    name: 'X',
+    icon: X,
+    url: 'https://twitter.com/iamwix',
+    label: 'Visit my X Profile @iamwix',
+  },
+  {
+    name: 'LinkedIn',
+    icon: LinkedIn,
+    url: 'https://www.linkedin.com/in/chris-nowicki/',
+    label: 'Visit my LinkedIn Profile',
+  },
+  {
+    name: 'GitHub',
+    icon: GitHub,
+    url: 'https://github.com/chris-nowicki',
+    label: 'Visit my GitHub Profile',
+  },
+  {
+    name: 'Twitch',
+    icon: Twitch,
+    url: 'https://www.twitch.tv/chriswix',
+    label: 'Visit my Twitch Profile',
+  },
+] as const
 
 export const SITE: Site = {
   NAME: 'Chris Nowicki',
@@ -43,8 +75,4 @@ export const USES: Metadata = {
 export const CONTACT: Metadata = {
   TITLE: 'Contact',
   DESCRIPTION: 'Get in touch with me.',
-}
-
-export const CONFERENCE = {
-  render: "🍑 RenderATL"
 }

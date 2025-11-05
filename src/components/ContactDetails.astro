@@ -1,0 +1,57 @@
+---
+import Me from '@/assets/images/me.jpg'
+import { Image } from 'astro:assets'
+import UnifiedLink from './UnifiedLink.astro'
+import { socialLinks } from '@/lib/site'
+
+const socialIconClass =
+  'hover:scale-110 transition-all duration-200 ease-in-out hover:text-blue-600'
+---
+
+<section class="flex w-full flex-col gap-6 text-base md:flex-row">
+  <Image
+    src={Me}
+    alt="Photo of me"
+    loading="eager"
+    width={200}
+    height={200}
+    class="h-[200px] w-[200px] shrink-0 rounded-lg object-cover shadow-xl grayscale transition-all duration-200 hover:grayscale-0"
+  />
+
+  <div>
+    <p class="mb-6">
+      If you want to get in touch with me about something or just to say hi 👋,
+      reach out on social media, schedule a virtual coffee chat or send me an email at{' '}
+      <a
+        href="mailto:hello@chrisnowicki.dev"
+        class="font-bold hover:text-blue-600 hover:underline">
+        hello@chrisnowicki.dev.
+      </a>
+    </p>
+
+    <div class="mb-8 flex flex-wrap gap-4">
+      {
+        socialLinks.map(({ icon: Icon, url, label }) => (
+          <UnifiedLink
+            href={url}
+            class={socialIconClass}
+            icon={true}
+            target="_blank"
+            ariaLabel={label}>
+            <Icon width={24} aria-hidden="true" />
+          </UnifiedLink>
+        ))
+      }
+    </div>
+
+    <UnifiedLink
+        href="#"
+        variant="outline"
+        target="_blank"
+        size="default"
+        class="text-center uppercase hidden">Sechedule a Coffee Chat</UnifiedLink
+      >
+
+    <span class="font-cursive mt-8 block text-4xl text-blue-600">- Chris</span>
+  </div>
+</section>

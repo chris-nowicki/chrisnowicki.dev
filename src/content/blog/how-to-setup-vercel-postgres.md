@@ -1,9 +1,9 @@
 ---
+slug: how-to-setup-vercel-postgres
 title: How to setup Vercel Postgres Serverless SQL Storage using NextJS
 description: 'Setup Vercel Postgres database with Next.js and Kysely.'
 date: 2023-05-22
 category: 'tech'
-tags: ['web development', 'vercel', 'next.js', 'sql']
 draft: true
 ---
 
@@ -40,29 +40,29 @@ npm i -g vercel
 ## 1 - Create a Database
 
 - Log into your vercel dashboard and select `Settings` from the navigation menu:
-  ![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276356/portfolio/blog/qto3ccksisndgowt1ilz.png)
+  ![](/blog/create-db-1.png)
 
 - Select `Create Database`
-  ![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276389/portfolio/blog/frbw6eudyevwoiobmdln.png)
+  ![](/blog/create-db-2.png)
 
 - Ensure `Postgres Serverless SQL` is selected and click `Continue`
-  ![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276429/portfolio/blog/aqhbixx91xi1jqewfj69.png)
+  ![](/blog/create-db-3.png)
 
 - Accept the Vercel Postgres Beta terms and conditions
-  ![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276488/portfolio/blog/f6g5vocrl0cdliaiemep.png)
+  ![](/blog/create-db-4.png)
 
 - In the Database Name field type in the desired name of your new database. In the Region field select the region where your database reads and writes will take place. Select `Create`
-  ![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276515/portfolio/blog/sb9q8bhsgmk1dc1wzr8h.png)
+  ![](/blog/create-db-5.png)
 
 ## 2 - Connect your database to a project
 
 - Select `Connect Project`
-  ![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276556/portfolio/blog/bmcwqs2mijp3p4asiq8x.png)
+  ![](/blog/connect-db-1.png)
 
 - In the `Select Project` drop down choose an existing project and select `Connect`. This will create all the ENV variables for you in the vercel project you chose.
 
 **NOTE:** If you don't have a project then you'll need to select `cancel` and create a new vercel project and come back to this step.
-![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276595/portfolio/blog/u5vwrnxsmkymovhbpnmv.png)
+![](/blog/connect-db-2.png)
 
 When you select connect vercel will automatically add the env variables to your project in Vercel.
 
@@ -70,7 +70,7 @@ When you select connect vercel will automatically add the env variables to your 
 
 I have two tables setup in my database. One to store my tweet counts and the other to store my github metrics:
 
-![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276624/portfolio/blog/m7dmh2cahegy5op7wvbd.png)
+![](/blog/create-db-tables.png)
 
 1. In the Vercel Database Menu select Data
 2. Select Query
@@ -108,7 +108,7 @@ There are two ways to get your env variables: 1) From the Vercel Database Dashbo
 
 ### Vercel Dashboard
 
-![](https://res.cloudinary.com/ddetibihn/image/upload/f_auto/v1710276668/portfolio/blog/oq1vntcsgvlzjjw4cnvc.png)
+![](/blog/vercel-dashboard.png)
 
 - From the Vercel Storage Dashboard, in your Database, Select _.env.local_
 - Select _Copy Snippet_ and paste the env variables to your local .env file

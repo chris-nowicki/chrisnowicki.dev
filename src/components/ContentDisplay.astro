@@ -1,0 +1,98 @@
+---
+import ArrowRightUp from '@/assets/icons/arrow-right-up.svg'
+import ArrowRight from '@/assets/icons/arrow-right.svg'
+import { Image } from 'astro:assets'
+import { cn } from '@/utils/utils'
+
+export interface Props {
+  href: string
+  name: string
+  description?: string
+  image?: string
+  external?: boolean
+  variant?: 'list' | 'card'
+  class?: string
+}
+
+const {
+  href,
+  name,
+  description = '',
+  image,
+  external = false,
+  variant = 'list',
+  class: className = ''
+} = Astro.props
+
+const isCard = variant === 'card'
+const isList = variant === 'list'
+---
+
+<a
+  href={href}
+  target={external ? '_blank' : '_self'}
+  rel={external ? 'noopener noreferrer' : ''}
+  aria-label={isCard ? `Read more about ${name}` : undefined}
+  class={cn(
+    'group transition-all duration-200 ease-in-out',
+    isCard && 'block h-full sm:min-h-[350px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm hover:-translate-y-2 hover:shadow-lg',
+    isList && 'flex items-center justify-between border-b pb-2 hover:border-blue-600',
+    className
+  )}>
+
+  {isCard && (
+    <!-- Card Image Section -->
+    <div class="h-40 w-full overflow-hidden bg-gray-100 hidden sm:block">
+      {image ? (
+        <Image
+          src={image}
+          alt={name}
+          height={160}
+          width={256}
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      ) : (
+        <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-gray-200 to-white" />
+      )}
+    </div>
+  )}
+
+  <!-- Content Section -->
+  <div class={cn(
+    isCard && 'flex h-full flex-col p-3 sm:p-4',
+    isList && 'mr-4'
+  )}>
+    <h3 class={cn(
+      'transition-colors group-hover:text-blue-600',
+      isCard && 'mb-0 sm:mb-2 sm:min-h-[2.5em] text-base sm:text-lg font-bold wrap-break-words',
+      isList && 'text-base font-semibold sm:text-lg'
+    )}>
+      {name}
+    </h3>
+
+    {description && (
+      <p class={cn(
+        'transition-colors group-hover:text-blue-600',
+        isCard && 'mb-4 flex-1 text-sm text-gray-600',
+        isList && 'text-foreground-muted text-sm sm:text-base'
+      )}>
+        {description}
+      </p>
+    )}
+  </div>
+
+  {isList && (
+    <!-- Arrow Icon for List Variant -->
+    {external ? (
+      <ArrowRightUp
+        fill="currentColor"
+        class="mr-0 h-5 w-5 shrink-0 text-blue-600 transition-all duration-200 ease-in-out group-hover:translate-x-1 group-hover:-translate-y-1 sm:mr-2"
+      />
+    ) : (
+      <ArrowRight
+        fill="currentColor"
+        class="mr-0 h-5 w-5 shrink-0 text-blue-600 transition-all duration-200 ease-in-out group-hover:translate-x-2 sm:mr-2"
+      />
+    )}
+  )}
+</a>

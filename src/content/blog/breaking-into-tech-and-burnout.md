@@ -1,10 +1,10 @@
 ---
+slug: 'breaking-into-tech-and-burnout'
 date: 2024-05-01
 title: 'The Reality of Burnout and Breaking Into Tech'
 description: 'Overcoming burnout through digital detox and self-care.'
-image: 'https://res.cloudinary.com/ddetibihn/image/upload/f_auto,q_auto,w_768,c_limit/v1714500633/portfolio/blog/kezyy9ztddthfyyp1h6n.webp'
+image: '/blog/burnout-cover.webp'
 category: 'life'
-tags: ['well being', 'mental health']
 draft: false
 ---
 
@@ -44,13 +44,11 @@ I'm still in the process of recovering from burnout but I wanted to share some o
    I am not saying that everyone should go and take a 10 day vacation! **BUT** I am saying that you should take a break when you need it. Take a weekend to disconnect and recharge because I think you will find yourself even more productive when you come back.
 
 2. **Taking care of the basics**:
-
    - **Sleep**: I made sure to get at least 8 hours of sleep every night. Sleep is so important for your physical and mental health and can have a huge impact on your mood and energy levels.
    - **Exercise**: I started going for walks every day and it has made a huge difference in my mood and energy levels. Exercise is a great way to reduce stress and improve your overall well-being.
    - **Eating & Staying Hydrated**: I made sure to eat healthy, balanced meals and drink plenty of water. Eating well can have a huge impact on your mood and energy levels.
 
 3. **Setting boundaries**: I was putting too much pressure on myself to be active on social media and in the tech community.
-
    - When i engage with social media I want it to be intentional and not just to be active
    - Only choose projects that I truly have time for and don't over commit
    - Make sure to prioritize self care so I can have the energy and focus to be productive when working on side projects.

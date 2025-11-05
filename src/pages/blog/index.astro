@@ -1,14 +1,18 @@
 ---
-import BlogSearch from '@/components/Svelte/BlogSearch.svelte'
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { BLOG } from '@/lib/site'
-import { getCollection } from 'astro:content'
 import generateOgImageUrl from '@/utils/og-image'
+import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
+import UnifiedLink from '@/components/UnifiedLink.astro'
+import ArrowRight from '@/assets/icons/arrow-right.svg'
+import HorizonWrapper from '@/components/HorizonWrapper.astro'
 
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-)
+export const prerender = false
+const category = Astro.url.searchParams.get('category')
+
+const posts = await getPostsByCategory(category)
+const categories = await getAllPostCategories()
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -21,15 +25,82 @@ const ogImageUrl = generateOgImageUrl({
   description={BLOG.DESCRIPTION}
   image={ogImageUrl}>
   <Container>
-    <section class="relative pt-28 text-sm sm:pt-40 sm:text-base">
-      <header class="mb-10 md:mb-16">
-        <h1 class="mb-1 text-2xl font-bold sm:text-4xl">Blog</h1>
-        <p>
-          My ramblings on the web about all things tech, life, and productivity!
-        </p>
+    <section class="relative pt-12 text-sm sm:pt-20">
+      <header
+        class="mb-8 flex w-full items-center justify-center text-center md:mb-16">
+        <div class="w-full sm:w-4/5 md:w-3/5">
+          <h1 class="text-2xl font-semibold sm:text-3xl md:text-4xl">
+            My ramblings on the web about all things tech, life, and
+            productivity!
+          </h1>
+        </div>
       </header>
 
-      <BlogSearch posts={posts} client:load />
+      <div class="mb-6 flex justify-center">
+        <HorizonWrapper>
+          <UnifiedLink
+            href="/blog"
+            class={`font-normal hover:text-blue-600 ${!category ? 'text-blue-600' : ''}`}>
+            ALL
+          </UnifiedLink>
+          {
+            categories.map((cat) => (
+              <UnifiedLink
+                href={`/blog?category=${encodeURIComponent(cat)}`}
+                class={`font-normal hover:text-blue-600 ${category?.toLowerCase() === cat.toLowerCase() ? ' text-blue-600' : ''}`}>
+                {cat}
+              </UnifiedLink>
+            ))
+          }
+        </HorizonWrapper>
+      </div>
+
+      {
+        posts.length > 0 ?
+          <div class="relative space-y-0">
+            <div
+              class="absolute top-0 bottom-0 left-0 hidden w-px bg-linear-to-b from-transparent via-gray-300 to-transparent sm:block"
+              style="left: calc(7rem + 0.75rem);"
+            />
+            {posts.map((post, index) => (
+              <div class="group text-md">
+                {index > 0 && (
+                  <div class="relative mb-8">
+                    <div class="absolute top-0 right-0 left-0 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent" />
+                  </div>
+                )}
+                <div
+                  class={`grid grid-cols-1 gap-4 sm:grid-cols-[auto_1fr] sm:gap-6 ${index > 0 ? 'pt-2' : ''}`}>
+                  <div class="text-md pt-1 font-mono whitespace-nowrap text-gray-600 group-hover:text-blue-600">
+                    <div>
+                      {post.data.date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: '2-digit',
+                      })}
+                    </div>
+                  </div>
+                  <div class="sm:pl-6">
+                    <h2 class="text-lg font-bold">{post.data.title}</h2>
+                    <p class="mb-3 text-lg leading-relaxed text-gray-700">
+                      {post.data.description}
+                    </p>
+                    <UnifiedLink
+                      href={`/blog/${post.id}`}
+                      class="flex items-center gap-2 font-normal text-blue-600 hover:underline">
+                      Read More
+                      <ArrowRight
+                        fill="currentColor"
+                        class="mr-0 h-5 w-5 shrink-0 text-blue-600 transition-all duration-200 ease-in-out group-hover:translate-x-2 sm:mr-2"
+                      />
+                    </UnifiedLink>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        : <p class="text-gray-600">No blog posts found.</p>
+      }
     </section>
   </Container>
 </PageLayout>

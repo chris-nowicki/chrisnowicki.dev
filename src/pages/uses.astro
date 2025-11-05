@@ -1,0 +1,161 @@
+---
+import DeskSetup from '@/assets/images/desk-setup.webp'
+import Container from '@/components/Container.astro'
+import UnifiedLink from '@/components/UnifiedLink.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
+import { USES } from '@/lib/site'
+import generateOgImageUrl from '@/utils/og-image'
+import { Picture } from 'astro:assets'
+import { softwareData, hardwareData, coffeeData } from '@/data/uses'
+import HorizonWrapper from '@/components/HorizonWrapper.astro'
+
+export const prerender = true
+
+const ogImageUrl = generateOgImageUrl({
+  header: `/${USES.TITLE.toUpperCase()}`,
+  description: USES.DESCRIPTION,
+})
+---
+
+<PageLayout
+  title={USES.TITLE}
+  description={USES.DESCRIPTION}
+  image={ogImageUrl}>
+  <Container>
+    <section class="text-md relative pt-20 sm:text-base">
+      <header
+        class="mb-8 flex w-full flex-col items-center justify-center text-center md:mb-16">
+        <div class="w-full sm:w-4/5 md:w-3/5">
+          <h1 class="text-2xl font-semibold sm:text-3xl md:text-4xl">
+            The Gear That Keeps Me Caffeinated & Coding
+          </h1>
+        </div>
+      </header>
+
+      <p class="mb-4">
+        Being a total tech nerd 🤓, I'm always trying new technologies &
+        products! Below is everything that keeps me caffeinated and coding -
+        from the coffee gear that fuels my mornings to the software and hardware
+        that powers my workday.
+      </p>
+      <p class="mb-4 italic">
+        Please note that some of the links are affiliate links.
+      </p>
+      <p class="mb-4">
+        I also maintain my{' '}
+        <UnifiedLink
+          href="https://github.com/chris-nowicki/dotfiles"
+          target="_blank"
+          ariaLabel="Visit my dotfiles repository on github"
+          >dotfiles
+        </UnifiedLink>
+        {' '}(configuration files for terminal, editors, and dev tools) and{' '}
+        <UnifiedLink
+          href="https://github.com/chris-nowicki/mac-setup"
+          target="_blank"
+          ariaLabel="Visit my mac setup repository on github"
+          >mac-setup
+        </UnifiedLink>
+        {' '}(scripts to automate my entire Mac configuration) on GitHub if you
+        want to see exactly how I have everything configured.
+      </p>
+
+      <Picture
+        src={DeskSetup}
+        width={768}
+        height={700 * 0.75}
+        class="mb-10 aspect-video w-full rounded-lg"
+        alt="Desk Setup"
+      />
+
+      <HorizonWrapper class="justify-center">COFFEE </HorizonWrapper>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        {
+          coffeeData.map((coffee) => (
+            <a
+              class="group flex flex-col items-center gap-2 rounded-xl border p-2 transition-shadow duration-200 hover:shadow-lg"
+              href={coffee.link}
+              target="_blank"
+              rel="noopener noreferrer">
+              <h2 class="font semi-bold text-lg group-hover:text-blue-600">
+                {coffee.title}
+              </h2>
+              <img
+                src={coffee.imageSrc}
+                alt={coffee.title}
+                width={500}
+                height={500}
+                class="mb-2 w-32 h-36 md:h-64 md:w-56 object-cover"
+              />
+              <div class="flex flex-col" />
+            </a>
+          ))
+        }
+      </div>
+
+      <HorizonWrapper class="mt-10 justify-center"> SOFTWARE </HorizonWrapper>
+
+      <div class="grid grid-cols-3 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10">
+        {
+          softwareData.map((software) => (
+            <a
+              class="group flex flex-col items-center justify-center gap-2"
+              href={software.link}
+              target="_blank"
+              rel="noopener noreferrer">
+              <h2 class="text-md group-hover:text-blue-600">
+                {software.title}
+              </h2>
+              <div class="software-icon flex aspect-square w-full items-center justify-center border">
+                <img
+                  src={software.imageSrc}
+                  alt={software.title}
+                  width={32}
+                  height={32}
+                  class="object-cover grayscale transition-all duration-300 group-hover:scale-150 group-hover:grayscale-0"
+                />
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <HorizonWrapper class="mt-10 justify-center"> HARDWARE </HorizonWrapper>
+
+      <div class="grid grid-cols-1 gap-5 font-mono sm:grid-cols-2 sm:gap-x-4">
+        {
+          hardwareData.map((hardware) => (
+            <a
+              class="group flex flex-col justify-center gap-2 rounded-xl border p-2 transition-shadow duration-200 hover:shadow-lg"
+              href={hardware.link}
+              target="_blank"
+              rel="noopener noreferrer">
+              <h2 class="text-md font semi-bold group-hover:text-blue-600">
+                {hardware.title}
+              </h2>
+              <p class="text-sm text-gray-500">{hardware.description}</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </Container>
+</PageLayout>
+
+<style>
+  .software-icon {
+    border-radius: 0.5rem;
+    transition:
+      border-radius 0.3s ease-in-out,
+      transform 0.3s ease-in-out,
+      box-shadow 0.3s ease-in-out;
+  }
+
+  .group:hover .software-icon {
+    border-radius: 50%;
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+</style>

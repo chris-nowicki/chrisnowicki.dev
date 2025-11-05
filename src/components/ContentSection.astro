@@ -1,46 +1,64 @@
 ---
 import { cn } from '@/utils/utils'
-import ContentItem from './ContentItem.astro'
+import ContentDisplay from './ContentDisplay.astro'
 
-interface Props {
-  title: string
+export interface ContentSectionItem {
+  href: string
+  name: string
+  description?: string
+  external?: boolean
+  image?: string
+}
+
+export interface Props {
+  title?: string
   viewAllLink?: {
     href: string
     text: string
   }
-  items: {
-    href: string
-    name: string
-    description?: string
-    external?: boolean
-  }[]
+  items: ContentSectionItem[]
   class?: string
+  variant?: 'list' | 'card'
 }
 
-const { title, viewAllLink, items, class: classProps = '' } = Astro.props
+const {
+  title = '',
+  viewAllLink,
+  items,
+  class: classProps = '',
+  variant = 'list',
+} = Astro.props
 ---
 
-<section class={cn('mt-8 sm:mt-20', classProps)}>
+<section class={cn('mt-12 sm:mt-20', classProps)}>
   <header class="mb-6 flex items-center justify-between sm:mb-8">
-    <h2 class="text-xl font-bold sm:text-2xl uppercase">{title}</h2>
+    <h2 class="text-xl font-bold uppercase sm:text-2xl">{title}</h2>
     {
       viewAllLink && (
         <a
           href={viewAllLink.href}
-          class="text-sm text-primary hover:text-blue-600 hover:underline sm:text-base">
+          class="text-primary text-base hover:text-blue-600 hover:underline sm:text-base">
           {viewAllLink.text}
         </a>
       )
     }
   </header>
-  <div class="flex flex-col gap-4">
+  <div
+    class={cn(
+      'flex gap-4',
+      variant === 'card' ?
+        'grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'
+      : 'flex flex-col'
+    )}>
     {
       items.map((item) => (
-        <ContentItem
+        <ContentDisplay
           href={item.href}
           name={item.name}
           description={item.description || ''}
+          image={item.image}
           external={item.external}
+          variant={variant}
         />
       ))
     }

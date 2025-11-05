@@ -1,120 +1,62 @@
 ---
-import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
-import Contact from '@/components/Contact.astro'
+import ContactSection from '@/components/ContactSection.astro'
 import ContentSection from '@/components/ContentSection.astro'
-import CustomLink from '@/components/CustomLink.astro'
-import Link from '@/components/Link.astro'
 import { HOME, NUMBER_OF_ENTRIES } from '@/lib/site'
-import { getCollection } from 'astro:content'
 import Container from '../components/Container.astro'
 import PageLayout from '../layouts/PageLayout.astro'
+import Hero from '../components/Hero.astro'
+import { getBlogPosts } from '@/utils/blog-helpers'
+import { getLatestSpeakingData } from '@/utils/speaking-helpers'
 
-const projects = (await getCollection('projects'))
-  .sort((a, b) => b.data.id.valueOf() - a.data.id.valueOf())
-  .slice(0, NUMBER_OF_ENTRIES)
+export const prerender = true
 
-const posts = (await getCollection('blog'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, NUMBER_OF_ENTRIES)
+const posts = await getBlogPosts(NUMBER_OF_ENTRIES)
+const speaking = await getLatestSpeakingData(NUMBER_OF_ENTRIES)
 
-const speaking = (await getCollection('speaking'))
-  .sort((a, b) => b.data.id.valueOf() - a.data.id.valueOf())
-  .slice(0, NUMBER_OF_ENTRIES)
+const postItems = posts.map((post) => ({
+  href: `/blog/${post.id}`,
+  name: post.data.title,
+  description: post.data.description,
+  image: post.data.image,
+}))
+
+const speakingItems = speaking.map((engagement) => ({
+  href: engagement.link,
+  name: engagement.title,
+  description: engagement.description,
+  external: true,
+}))
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-    <section
-      class="relative mb-26 pt-40 text-base sm:mb-40 sm:pt-54 sm:text-lg">
-      <header class="mb-4">
-        <h1 class="text-2xl font-bold sm:text-4xl">
-          <span class="text-blue-600">Hello</span>, I'm Chris Nowicki
-        </h1>
-        <p>
-          Developer Experience Engineer at
-          <Link
-            to="https://www.commerce.com"
-            ariaLabel="Visit the Commerce website"
-            >Commerce
-          </Link>.
-        </p>
-      </header>
+    <Hero />
 
-      <div class="space-y-8">
-        <p>
-          When I'm not making developers' lives easier with docs and dev tools,
-          you'll find me tinkering with new tech, optimizing my productivity
-          setup (<em>while keeping it minimal</em>), or hunting for the perfect
-          cheeseburger.
-        </p>
+    {
+      postItems.length > 0 && (
+        <ContentSection
+          title="Latest Posts"
+          viewAllLink={{ href: '/blog', text: 'View all posts' }}
+          items={postItems}
+          variant="card"
+        />
+      )
+    }
 
-        <blockquote class="font-cursive relative text-2xl">
-          <span class="relative inline-flex items-center">
-            Oh, and coffee. Lots of coffee.
-            <ArrowSquiggle
-              width={45}
-              height={45}
-              class="arrow-sm-only absolute top-4 -right-12 hidden rotate-90 transform md:hidden"
-            />
+    {
+      speakingItems.length > 0 && (
+        <ContentSection
+          title="Speaking"
+          viewAllLink={{ href: '/speaking', text: 'View all engagements' }}
+          items={speakingItems}
+          variant="list"
+          class="mb-0 sm:mb-0"
+        />
+      )
+    }
 
-            <ArrowSquiggle
-              width={45}
-              height={45}
-              class="absolute top-4 -right-12 bottom-0 hidden rotate-90 transform md:block"
-            />
-          </span>
-        </blockquote>
-      </div>
-
-      <div class="mt-8 flex flex-wrap gap-2 sm:gap-4">
-        <CustomLink href="/contact" size="lg" class="bg-blue-600 uppercase"
-          >Contact Me</CustomLink
-        >
-        <CustomLink
-          href="https://buymeacoffee.com/chrisnowicki"
-          variant="outline"
-          target="_blank"
-          size="lg"
-          class="uppercase">Buy Me A Coffee</CustomLink
-        >
-      </div>
-    </section>
-
-    <div>
-      <ContentSection
-        title="Projects"
-        items={projects.map((project) => ({
-          href: project.data.gitHubUrl,
-          name: project.data.name,
-          description: project.data.description,
-          external: true,
-        }))}
-      />
-
-      <ContentSection
-        title="Latest Posts"
-        viewAllLink={{ href: '/blog', text: 'View all posts' }}
-        items={posts.map((post) => ({
-          href: `/blog/${post.id}`,
-          name: post.data.title,
-          description: post.data.description,
-        }))}
-      />
-
-      <ContentSection
-        title="Speaking"
-        viewAllLink={{ href: '/speaking', text: 'View all engagements' }}
-        items={speaking.map((engagement) => ({
-          href: engagement.data.videoUrl,
-          name: engagement.data.title,
-          description: engagement.data.description,
-          external: true,
-        }))}
-        class="mb-0 sm:mb-0"
-      />
-    </div>
+    <ContactSection />
   </Container>
-  <Contact />
 </PageLayout>
 
 <style>
