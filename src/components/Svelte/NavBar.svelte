@@ -57,6 +57,7 @@
               isActive ? 'text-blue-600' : 'text-black'
             )}
             aria-current={isActive ? 'page' : undefined}
+            on:click={() => pathname = text}
           >
             {text}
           </a>

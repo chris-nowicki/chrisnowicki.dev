@@ -26,7 +26,7 @@ const { title, description, image } = Astro.props
     <Analytics />
   </head>
   <body>
-    <NavBar client:load/>
+    <NavBar client:load transition:persist />
     <main>
       <slot />
     </main>
