@@ -1,50 +1,41 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { navLinks } from '@/lib/site'
 import { cn } from '@/utils/utils'
 import MobileMenu from './MobileMenu'
 
 export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  // Initialize pathname from window.location synchronously on mount
-  // This ensures it's correct even on remount after Astro page navigation
-  const [pathname, setPathname] = useState(() => {
+  const [pathname, setPathname] = useState('')
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      return window.location.pathname.split('/')[1] || ''
+      setPathname(window.location.pathname.split('/')[1] || '')
     }
-    return ''
-  })
+  }, [])
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
     document.body.style.overflow = !isOpen ? 'hidden' : ''
   }
 
-  const closeMenu = () => {
-    setIsOpen(false)
-    document.body.style.overflow = ''
-  }
-
   return (
-    <div className="top-6 right-0 left-0 mt-8 flex w-full items-center justify-center pr-6 pl-4">
+    <div className="mt-8 flex w-full items-center justify-center px-4 pr-6">
       <nav
         className={cn(
-          'text-muted-foreground flex w-full max-w-4xl items-center justify-between rounded-full bg-white',
-          isOpen ? 'rounded-b-none border-b-0 shadow-none' : 'shadow-none'
+          'text-muted-foreground flex w-full max-w-4xl items-center justify-between rounded-full bg-white shadow-none',
+          isOpen && 'rounded-b-none border-b-0'
         )}
-        style={{
-          transition:
-            'background-color 0.3s, box-shadow 0.3s, border-radius 0.3s',
-        }}
       >
         <a
           href="/"
-          className="font-cursive rounded-full border border-blue-600 px-2 py-1 text-2xl text-blue-600 transition-all duration-100 ease-in-out hover:scale-105 hover:-rotate-10 hover:shadow-lg"
+          className="font-cursive rounded-full border border-black/90 px-2 py-1 text-2xl text-black/90 transition-all duration-100 ease-in-out hover:scale-105 hover:-rotate-10 hover:shadow-lg"
+          onClick={() => setPathname('')}
         >
           CN
         </a>
 
         <ul
-          className="hidden list-none gap-4 rounded-full border px-4 py-2 text-lg md:flex"
+          className="hidden gap-4 rounded-full border px-4 py-2 text-lg md:flex"
           aria-label="Desktop navigation"
         >
           {navLinks.map(({ href, text }) => {
@@ -94,7 +85,7 @@ export const NavBar = () => {
           </div>
         </button>
       </nav>
-      <MobileMenu isOpen={isOpen} onClose={closeMenu} />
+      <MobileMenu isOpen={isOpen} onClose={toggleMenu} />
     </div>
   )
 }

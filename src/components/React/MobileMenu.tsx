@@ -1,6 +1,6 @@
+import { useState, useEffect } from 'react'
 import { navLinks, socialLinks } from '@/lib/site'
 import { cn } from '@/utils/utils'
-import { usePathname } from '@/hooks/usePathname'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -8,21 +8,29 @@ interface MobileMenuProps {
 }
 
 const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
-  const pathname = usePathname()
+  const [pathname, setPathname] = useState('')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPathname(window.location.pathname.split('/')[1] || '')
+    }
+  }, [])
 
   const mobileNavLinks = [{ href: '/', text: 'home' }, ...navLinks]
 
   return (
     <div
       className={cn(
-        'fixed inset-0 top-20 z-40 bg-white transition-transform duration-300 ease-out',
+        'fixed inset-x-0 top-20 bottom-0 z-40 bg-white transition-transform duration-300 ease-out',
         isOpen ? 'translate-x-0' : '-translate-x-full'
       )}
     >
       <nav className="h-full px-4 pt-8">
         <ul className="flex flex-col items-start gap-2 text-2xl">
-          {mobileNavLinks.map(({ href, text }, index) => {
-            const isActive = text === pathname
+          {mobileNavLinks.map(({ href, text }) => {
+            // Handle home page: when pathname is empty, it means we're on '/'
+            const isActive =
+              text === 'home' ? pathname === '' : text === pathname
             return (
               <li key={href} className="w-full">
                 <a
@@ -31,7 +39,14 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                     'flex w-full rounded-xl border p-2 text-center transition-colors duration-300 ease-in-out hover:text-blue-600',
                     isActive ? 'font-medium text-blue-600' : 'text-black'
                   )}
-                  onClick={onClose}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    onClose()
+                    // Navigate after animation completes (300ms matches transition duration)
+                    setTimeout(() => {
+                      window.location.href = href
+                    }, 300)
+                  }}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {text}

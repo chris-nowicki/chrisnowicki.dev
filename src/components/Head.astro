@@ -14,6 +14,7 @@ import '@fontsource/inter/latin-700-italic.css'
 import '@fontsource/inter/latin-700.css'
 import reenieBeanie from '@fontsource/reenie-beanie/files/reenie-beanie-latin-400-normal.woff2'
 import '@fontsource/reenie-beanie/latin-400.css'
+import ClientRouter from 'astro/components/ClientRouter.astro'
 
 interface Props {
   title: string
@@ -106,3 +107,5 @@ const imageUrl = getImageUrl(image)
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={imageUrl} />
+
+<ClientRouter />
