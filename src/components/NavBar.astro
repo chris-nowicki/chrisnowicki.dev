@@ -4,11 +4,7 @@ import { navLinks } from '@/lib/site'
 import MobileNav from './Svelte/MobileNav.svelte'
 
 export const prerender = false
-
-const isOpen = false // Mobile menu state (to be implemented)
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
-
-console.log(pathname)
 ---
 
 <div
