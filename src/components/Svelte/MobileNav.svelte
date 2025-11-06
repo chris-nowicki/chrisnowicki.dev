@@ -99,7 +99,7 @@
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            class="hover:scale-110 transition-all duration-200 ease-in-out hover:text-blue-600"
+            class="text-black"
           >
             {#if name === 'X'}
               <svg
