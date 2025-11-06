@@ -1,23 +1,59 @@
 <script lang="ts">
-  import { navLinks } from '@/lib/site'
   import { cn } from '@/utils/utils'
+  import { navLinks, socialLinks } from '@/lib/site'
   import { fly } from 'svelte/transition'
   import { quartOut } from 'svelte/easing'
-  import { socialLinks } from '@/lib/site'
+  import { onMount } from 'svelte'
 
-  export let isOpen: boolean
-  export let onClose: () => void
-
+  let isOpen = false
   let pathname = ''
 
-  import { onMount } from 'svelte'
   onMount(() => {
     pathname = window.location.pathname.split('/')[1]
+
+    return () => {
+      document.body.style.overflow = ''
+    }
   })
+
+  function toggleMenu(forceClose = false) {
+    isOpen = forceClose ? false : !isOpen
+    document.body.style.overflow = isOpen ? 'hidden' : ''
+  }
 
   const mobileNavLinks = [{ href: '/', text: 'home' }, ...navLinks]
 </script>
 
+<!-- Hamburger Button -->
+<button
+  class="hamburger flex justify-center md:hidden"
+  aria-label="Toggle mobile menu"
+  aria-expanded={isOpen}
+  on:click={() => toggleMenu()}
+>
+  <div class="relative flex h-6 w-8 flex-col justify-between">
+    <span
+      class={cn(
+        'h-0.5 w-full bg-black absolute transition-all duration-300',
+        isOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0'
+      )}
+    ></span>
+    <span
+      class={cn(
+        'h-0.5 w-full bg-black absolute top-1/2 -translate-y-1/2 transition-all duration-300',
+        isOpen ? 'opacity-0' : 'opacity-100'
+      )}
+    ></span>
+    <span
+      class={cn(
+        'h-0.5 w-full bg-black absolute transition-all duration-300',
+        isOpen ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'bottom-0'
+      )}
+    ></span>
+  </div>
+</button>
+
+<!-- Mobile Menu -->
 {#if isOpen}
   <div
     class="fixed inset-0 top-20 z-40 bg-white"
@@ -25,8 +61,9 @@
   >
     <nav class="h-full px-4 pt-8">
       <ul class="flex flex-col items-start gap-2 text-2xl">
-        {#each mobileNavLinks as { href, text }, index}
-          {@const isActive = text === pathname}
+        {#each mobileNavLinks as { href, text }}
+          {@const isActive =
+            (text === 'home' && pathname === '') || text === pathname}
           <li class="w-full">
             <a
               {href}
@@ -34,7 +71,7 @@
                 'flex transition-colors duration-300 ease-in-out hover:text-blue-600 border w-full p-2 text-center rounded-xl',
                 isActive ? 'text-blue-600 font-medium' : 'text-black'
               )}
-              on:click={onClose}
+              on:click={() => toggleMenu(true)}
               aria-current={isActive ? 'page' : undefined}
             >
               {text}
