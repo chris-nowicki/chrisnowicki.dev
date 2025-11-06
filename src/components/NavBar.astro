@@ -11,15 +11,14 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
   class="top-6 right-0 left-0 mt-8 flex w-full items-center justify-center pr-6 pl-4">
   <nav
     class={cn(
-      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-white',
-      isOpen ? 'rounded-b-none border-b-0 shadow-none' : 'shadow-none'
+      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-white'
     )}
     style="transition: background-color 0.3s, box-shadow 0.3s, border-radius 0.3s;">
     <a
       href="/"
       class={cn(
         'font-cursive rounded-full border px-2 py-1 text-2xl transition-all duration-100 ease-in-out hover:scale-105 hover:-rotate-10 hover:shadow-lg',
-       pathname === '' ?
+        pathname === '' ?
           'border-blue-600 text-blue-600'
         : 'border-black/90 text-black/90'
       )}>
