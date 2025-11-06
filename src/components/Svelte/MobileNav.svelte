@@ -80,7 +80,7 @@
         {/each}
       </ul>
       <div
-        class="mt-8 flex flex-col justify-center items-center text-xl border rounded-xl p-3 text-center"
+        class="mt-8 flex flex-col justify-center items-center text-xl border rounded-xl p-3 text-center text-black"
       >
         Hi. 👋🏻 so, I realllllly love coffee!
         <a
