@@ -60,7 +60,9 @@ const classes =
   rel={linkRel}
   aria-label={ariaLabel}
   class={classes}
-  {...rest}>
+  {...rest}
+  data-astro-prefetch
+>
   <slot />
   {
     isExternal && !isButtonStyle && (
