@@ -14,7 +14,7 @@ const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
         {
           footerLinks.map((link, index, array) => (
             <span>
-              <a href={link.href} class="hover:text-blue-600">
+              <a href={link.href} class="hover:text-blue-600" data-astro-prefetch>
                 {link.text}
               </a>
               {index < array.length - 1 && ' / '}

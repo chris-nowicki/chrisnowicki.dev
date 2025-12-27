@@ -37,7 +37,9 @@ const {
       viewAllLink && (
         <a
           href={viewAllLink.href}
-          class="text-primary text-base hover:text-blue-600 hover:underline sm:text-base">
+          class="text-primary text-base hover:text-blue-600 hover:underline sm:text-base"
+          data-astro-prefetch
+        >
           {viewAllLink.text}
         </a>
       )

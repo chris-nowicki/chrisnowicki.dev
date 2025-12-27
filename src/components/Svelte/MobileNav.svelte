@@ -73,6 +73,7 @@
               )}
               on:click={() => toggleMenu(true)}
               aria-current={isActive ? 'page' : undefined}
+              data-astro-prefetch
             >
               {text}
             </a>
