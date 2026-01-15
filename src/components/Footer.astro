@@ -6,7 +6,7 @@ const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
 ---
 
 <Container>
-  <footer class="mb-4 mt-12 sm:flex-row sm:gap-0">
+  <footer class="mt-12 mb-4 sm:flex-row sm:gap-0">
     <div class="flex w-full flex-col items-start text-sm sm:w-2/3">
       <p>
         <strong>Sitemap:</strong>
@@ -14,7 +14,10 @@ const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
         {
           footerLinks.map((link, index, array) => (
             <span>
-              <a href={link.href} class="hover:text-blue-600" data-astro-prefetch>
+              <a
+                href={link.href}
+                class="text-muted-foreground hover:text-black"
+                data-astro-prefetch>
                 {link.text}
               </a>
               {index < array.length - 1 && ' / '}
@@ -23,9 +26,39 @@ const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
         }
       </p>
       <p>
-        <strong>Built With:</strong> Astro, Svelte, TypeScript, Tailwind, and lots of <span
-          class="hover:animate-pulse">❤</span
-        >
+        <strong>Built With:</strong>{' '}
+        <a
+          href="https://astro.build"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted-foreground -mr-1 hover:text-black">
+          Astro
+        </a>
+        ,{' '}
+        <a
+          href="https://svelte.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted-foreground -mr-1 hover:text-black">
+          Svelte
+        </a>
+        ,{' '}
+        <a
+          href="https://www.typescriptlang.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted-foreground -mr-1 hover:text-black">
+          TypeScript
+        </a>
+        ,{' '}
+        <a
+          href="https://tailwindcss.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted-foreground -mr-1 hover:text-black">
+          Tailwind
+        </a>
+        , and lots of <span class="hover:animate-pulse">❤</span>
       </p>
     </div>
   </footer>

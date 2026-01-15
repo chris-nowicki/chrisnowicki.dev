@@ -1,10 +1,10 @@
 ---
+import Container from '@/components/Container.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
 import ContactSection from '@/components/ContactSection.astro'
 import ContentSection from '@/components/ContentSection.astro'
+import Hero from '@/components/Hero.astro'
 import { HOME, NUMBER_OF_ENTRIES } from '@/lib/site'
-import Container from '../components/Container.astro'
-import PageLayout from '../layouts/PageLayout.astro'
-import Hero from '../components/Hero.astro'
 import { getBlogPosts } from '@/utils/blog-helpers'
 import { getSpeakingData } from '@/utils/speaking-helpers'
 
@@ -50,7 +50,7 @@ const speakingItems = speaking.map((engagement) => ({
           viewAllLink={{ href: '/speaking', text: 'View all engagements' }}
           items={speakingItems}
           variant="list"
-          class="mb-0 sm:mb-0"
+          class="mb-0"
         />
       )
     }

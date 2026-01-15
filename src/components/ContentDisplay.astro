@@ -36,7 +36,7 @@ const isList = variant === 'list'
   class={cn(
     'group transition-all duration-200 ease-in-out',
     isCard && 'block h-full sm:min-h-[350px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm hover:-translate-y-2 hover:shadow-lg',
-    isList && 'flex items-center justify-between border-b pb-2 hover:border-blue-600',
+    isList && 'flex items-center justify-between hover:bg-gray-100 rounded-lg px-2 py-2 border',
     className
   )}
   data-astro-prefetch >
@@ -64,7 +64,6 @@ const isList = variant === 'list'
     isList && 'mr-4'
   )}>
     <h3 class={cn(
-      'transition-colors group-hover:text-blue-600',
       isCard && 'mb-0 sm:mb-2 sm:min-h-[2.5em] text-base sm:text-lg font-bold wrap-break-words',
       isList && 'text-base font-semibold sm:text-lg'
     )}>
@@ -73,7 +72,6 @@ const isList = variant === 'list'
 
     {description && (
       <p class={cn(
-        'transition-colors group-hover:text-blue-600',
         isCard && 'mb-4 flex-1 text-sm text-gray-600',
         isList && 'text-foreground-muted text-sm sm:text-base'
       )}>
@@ -87,12 +85,12 @@ const isList = variant === 'list'
     {external ? (
       <ArrowRightUp
         fill="currentColor"
-        class="mr-0 h-5 w-5 shrink-0 group-hover:text-blue-600 transition-all duration-200 ease-in-out group-hover:translate-x-1 group-hover:-translate-y-1 sm:mr-2"
+        class="mr-0 h-5 w-5 shrink-0 text-muted-foreground group-hover:text-black transition-all duration-200 ease-in-out group-hover:translate-x-1 group-hover:-translate-y-1 sm:mr-2"
       />
     ) : (
       <ArrowRight
         fill="currentColor"
-        class="mr-0 h-5 w-5 shrink-0 group-hover:text-blue-600 transition-all duration-200 ease-in-out group-hover:translate-x-2 sm:mr-2"
+        class="mr-0 h-5 w-5 shrink-0 text-muted-foreground group-hover:text-black transition-all duration-200 ease-in-out group-hover:translate-x-2 sm:mr-2"
       />
     )}
   )}
