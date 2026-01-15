@@ -8,6 +8,7 @@ import { Picture } from 'astro:assets'
 import { softwareData, hardwareData, coffeeData, gitHubData } from '@/data/uses'
 import HorizonWrapper from '@/components/HorizonWrapper.astro'
 import GitHubIcon from '@/assets/icons/github.svg'
+import { cn } from '@/utils/utils'
 
 export const prerender = true
 
@@ -48,11 +49,13 @@ const ogImageUrl = generateOgImageUrl({
               target="_blank"
               rel="noopener noreferrer"
               class="group flex items-start gap-4 rounded-xl border p-4 transition-shadow duration-200 hover:shadow-lg">
-              <GitHubIcon width={32} height={32} class="mt-0.5 shrink-0" />
+              <GitHubIcon
+                width={32}
+                height={32}
+                class="mt-0.5 shrink-0 transition-transform duration-500 ease-in-out group-hover:rotate-360"
+              />
               <div class="flex min-w-0 flex-1 flex-col gap-1">
-                <h2 class="semi-bold font-mono text-lg group-hover:text-blue-600">
-                  {gitHub.title}
-                </h2>
+                <h2 class="semi-bold font-mono text-md group-hover:font-semibold">{gitHub.title}</h2>
                 <p class="text-sm leading-relaxed text-gray-500">
                   {gitHub.description}
                 </p>
@@ -66,15 +69,16 @@ const ogImageUrl = generateOgImageUrl({
 
       <div class="grid grid-cols-1 gap-2 font-mono md:grid-cols-3">
         {
-          coffeeData.map((coffee) => (
+          coffeeData.map((coffee, index) => (
             <a
-              class="group flex flex-col items-center gap-2 rounded-xl border p-2 transition-shadow duration-200 hover:shadow-lg"
+              class={cn(
+                'group flex flex-col items-center gap-2 rounded-xl border p-2 transition-shadow duration-200 hover:shadow-lg hover:font-semibold',
+                index === 0 && 'md:col-span-3'
+              )}
               href={coffee.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="semi-bold font-mono text-lg group-hover:text-blue-600">
-                {coffee.title}
-              </h2>
+              <h2 class="semi-bold font-mono text-md">{coffee.title}</h2>
               <img
                 src={coffee.imageSrc}
                 alt={coffee.title}
@@ -99,15 +103,13 @@ const ogImageUrl = generateOgImageUrl({
               href={software.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="text-md group-hover:text-blue-600">
-                {software.title}
-              </h2>
+              <h2 class="text-md group-hover:font-semibold">{software.title}</h2>
               <div class="software-icon flex aspect-square w-full items-center justify-center border">
                 <img
                   src={software.imageSrc}
                   alt={software.title}
-                  width={32}
-                  height={32}
+                  width={42}
+                  height={42}
                   class="object-cover grayscale transition-all duration-300 group-hover:scale-150 group-hover:grayscale-0"
                 />
               </div>
@@ -128,9 +130,7 @@ const ogImageUrl = generateOgImageUrl({
               href={hardware.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="text-md font semi-bold group-hover:text-blue-600">
-                {hardware.title}
-              </h2>
+              <h2 class="text-md group-hover:font-semibold">{hardware.title}</h2>
               <p class="text-sm text-gray-500">{hardware.description}</p>
             </a>
           ))

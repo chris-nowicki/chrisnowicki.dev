@@ -26,6 +26,12 @@ type GitHubDataItem = {
 
 export const coffeeData: CoffeeDataItem[] = [
   {
+    title: 'Aiden Brewer',
+    description: 'Brew the best coffee at home with ease and precision—no barista skills needed.',
+    imageSrc: '/uses/aiden-brewer.webp',
+    link: 'https://fellowproducts.com/products/aiden-precision-coffee-maker',
+  },
+  {
     title: 'Fellow Ode Brew Grinder',
     description: 'Burr coffee grinder for precise grind size',
     imageSrc: '/uses/ode-brew-grinder.webp',
@@ -58,12 +64,6 @@ export const softwareData: SoftwareDataItem[] = [
     link: 'https://alt-tab-macos.netlify.app/',
   },
   {
-    title: 'Bear Notes',
-    description: 'Beautiful, flexible writing app for notes and prose',
-    imageSrc: '/icons/bear.png',
-    link: 'https://bear.app/',
-  },
-  {
     title: 'CleanShot X',
     description: 'Advanced screenshot and screen recording tool',
     imageSrc: '/icons/cleanshotx.png',
@@ -76,10 +76,22 @@ export const softwareData: SoftwareDataItem[] = [
     link: 'https://cursor.com',
   },
   {
+    title: 'Goose',
+    description: 'your local AI agent, automating engineering tasks seamlessly',
+    imageSrc: '/icons/goose.png',
+    link: 'https://block.github.io/goose/',
+  },
+  {
     title: 'Obsidian',
     description: 'Knowledge base and note-taking app with markdown',
     imageSrc: '/icons/obsidian.png',
     link: 'https://obsidian.md/',
+  },
+  {
+    title: 'Open Code',
+    description: 'Open source agent that helps you write code in your terminal, IDE, or desktop',
+    imageSrc: '/icons/opencode-logo-light.png',
+    link: 'https://opencode.ai/',
   },
   {
     title: 'Postman',
@@ -205,5 +217,15 @@ export const gitHubData: GitHubDataItem[] = [
     title: 'dotfiles',
     description: 'configuration files for terminal, editors, and dev tools',
     link: 'https://github.com/chris-nowicki/dotfiles',
+  },
+  {
+    title: 'ai-tooling',
+    description: 'agents, commands, and tools for AI-powered development',
+    link: 'https://github.com/chris-nowicki/ai-tooling',
+  },
+  {
+    title: 'chrisnowicki.dev',
+    description: 'My personal website and blog',
+    link: 'https://github.com/chris-nowicki/chrisnowicki.dev',
   },
 ]
