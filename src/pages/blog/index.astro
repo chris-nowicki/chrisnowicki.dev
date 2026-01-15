@@ -4,16 +4,17 @@ import PageLayout from '@/layouts/PageLayout.astro'
 import { BLOG } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
 import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
-import UnifiedLink from '@/components/UnifiedLink.astro'
-import HorizonWrapper from '@/components/HorizonWrapper.astro'
 import { readingTime } from '@/utils/reading-time'
 import { formatDate } from '@/utils/utils'
+import CategoryMenu from '@/components/CategoryMenu.astro'
 
 export const prerender = false
 const category = Astro.url.searchParams.get('category')
 
 const posts = await getPostsByCategory(category)
 const categories = await getAllPostCategories()
+
+const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -37,24 +38,7 @@ const ogImageUrl = generateOgImageUrl({
         </div>
       </header>
 
-      <div class="mb-6 flex justify-center text-muted-foreground ">
-        <HorizonWrapper>
-          <UnifiedLink
-            href="/blog"
-            class={`transition-colors duration-200 ease-in-out ${!category ? 'text-black' : 'hover:text-black'}`}>
-            ALL
-          </UnifiedLink>
-          {
-            categories.map((cat) => (
-              <UnifiedLink
-                href={`/blog?category=${encodeURIComponent(cat)}`}
-                class={`transition-colors duration-200 ease-in-out ${category?.toLowerCase() === cat.toLowerCase() ? ' text-black' : 'hover:text-black'}`}>
-                {cat}
-              </UnifiedLink>
-            ))
-          }
-        </HorizonWrapper>
-      </div>
+      <CategoryMenu categories={categories} currentCategory={category} pathname={pathname} />
 
       {
         posts.length > 0 ?
@@ -63,15 +47,17 @@ const ogImageUrl = generateOgImageUrl({
               <a
                 href={`/blog/${post.id}`}
                 class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-gray-100">
-                <div class="text-md flex items-center gap-2">
-                  <h2 class="text-lg font-semibold">{post.data.title}</h2>
-                  <span
-                    class="flex-1 bg-gray-600/20 px-2"
-                    style="height: 1px; align-self: center;"
-                  />
-                  <span class="text-gray-600">
+                <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
+                  <span class="order-1 text-gray-600 sm:order-3">
                     {formatDate(post.data.date.toDateString())}
                   </span>
+                  <span
+                    class="order-3 hidden flex-1 bg-gray-600/20 px-2 sm:order-2 sm:block"
+                    style="height: 1px; align-self: center;"
+                  />
+                  <h2 class="order-2 text-lg font-semibold sm:order-1">
+                    {post.data.title}
+                  </h2>
                 </div>
                 <p class="text-gray-600">{post.data.description}</p>
                 <div class="mt-1 font-mono text-sm">
