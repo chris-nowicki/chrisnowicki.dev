@@ -6,12 +6,12 @@ import Container from '../components/Container.astro'
 import PageLayout from '../layouts/PageLayout.astro'
 import Hero from '../components/Hero.astro'
 import { getBlogPosts } from '@/utils/blog-helpers'
-import { getLatestSpeakingData } from '@/utils/speaking-helpers'
+import { getSpeakingData } from '@/utils/speaking-helpers'
 
 export const prerender = true
 
 const posts = await getBlogPosts(NUMBER_OF_ENTRIES)
-const speaking = await getLatestSpeakingData(NUMBER_OF_ENTRIES)
+const speaking = await getSpeakingData({ limit: NUMBER_OF_ENTRIES })
 
 const postItems = posts.map((post) => ({
   href: `/blog/${post.id}`,

@@ -2,36 +2,21 @@
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
-import { groupSpeakingByYear, getSortedYears } from '@/utils/speaking-helpers'
+import {
+  getSpeakingData,
+  getAllSpeakingCategories,
+} from '@/utils/speaking-helpers'
 import generateOgImageUrl from '@/utils/og-image'
-import UnifiedLink from '@/components/UnifiedLink.astro'
-import ArrowRight from '@/assets/icons/arrow-right.svg'
-import HorizonWrapper from '@/components/HorizonWrapper.astro'
-import { speakingData, type speakingDataItem } from '@/data/speaking'
+import { formatDate } from '@/utils/utils'
+import CategoryMenu from '@/components/CategoryMenu.astro'
 
 export const prerender = false
 const category = Astro.url.searchParams.get('category')
 
-// Get all unique categories from speaking data
-const allCategories = Array.from(
-  new Set(speakingData.flatMap((item) => item.category || []))
-)
+const speaking = await getSpeakingData({ category })
+const categories = await getAllSpeakingCategories()
 
-// Filter data by category if specified
-const filteredData =
-  category ?
-    speakingData.filter((item) => item.category?.includes(category))
-  : speakingData
-
-// Sort by date (newest first)
-const sortedData = filteredData.sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-)
-
-type Speaking = Record<string, speakingDataItem[]>
-const speaking: Speaking = groupSpeakingByYear(sortedData)
-
-const years = getSortedYears(speaking)
+const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${SPEAKING.TITLE.toUpperCase()}`,
@@ -54,68 +39,33 @@ const ogImageUrl = generateOgImageUrl({
         </div>
       </header>
 
-      <div class="mb-6 flex justify-center">
-        <HorizonWrapper>
-          <UnifiedLink
-            href="/speaking"
-            class={`font-normal hover:text-blue-600 ${!category ? 'text-blue-600' : ''}`}>
-            ALL
-          </UnifiedLink>
-          {
-            allCategories.map((cat) => (
-              <UnifiedLink
-                href={`/speaking?category=${encodeURIComponent(cat)}`}
-                class={`font-normal hover:text-blue-600 ${category?.toLowerCase() === cat.toLowerCase() ? ' text-blue-600' : ''}`}>
-                {cat}
-              </UnifiedLink>
-            ))
-          }
-        </HorizonWrapper>
-      </div>
-
-      <div class="relative space-y-0">
-        <div
-          class="absolute top-0 bottom-0 left-0 hidden w-px bg-linear-to-b from-transparent via-gray-300 to-transparent sm:block"
-          style="left: calc(3rem + 0.75rem);">
-        </div>
+      <CategoryMenu
+        categories={categories}
+        currentCategory={category}
+        pathname={pathname}
+      />
+      <div class="space-y-0">
         {
-          years.map((year, yearIndex) => (
-            <div class="group text-md">
-              {yearIndex > 0 && (
-                <div class="relative mb-8">
-                  <div class="absolute top-0 right-0 left-0 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent" />
-                </div>
-              )}
-              <div
-                class={`grid grid-cols-1 gap-4 sm:grid-cols-[auto_1fr] sm:gap-6 ${yearIndex > 0 ? 'pt-2' : ''}`}>
-                <div class="text-md pt-1 font-mono whitespace-nowrap text-gray-600 group-hover:text-blue-600">
-                  {year}
-                </div>
-                <div class="sm:pl-6">
-                  <div class="space-y-4">
-                    {speaking[year].map((talk) => (
-                      <div class="group/talk border-b border-gray-100 pb-4 last:border-b-0">
-                        <h3 class="text-lg font-bold">{talk.title}</h3>
-                        <p class="mb-2 text-gray-700">{talk.description}</p>
-                        {talk.link && (
-                          <a
-                            href={talk.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="flex items-center gap-2 text-sm group-hover:text-blue-600 hover:underline">
-                            Watch Video
-                            <ArrowRight
-                              fill="currentColor"
-                              class="h-4 w-4 shrink-0 group-hover:text-blue-600 transition-all duration-200 ease-in-out group-hover/talk:translate-x-1"
-                            />
-                          </a>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+          speaking.map((talk) => (
+            <a
+              href={talk.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-gray-100">
+              <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
+                <span class="order-1 text-gray-600 sm:order-3">
+                  {formatDate(talk.date)}
+                </span>
+                <span
+                  class="order-3 hidden flex-1 bg-gray-600/20 px-2 sm:order-2 sm:block"
+                  style="height: 1px; align-self: center;"
+                />
+                <h3 class="order-2 text-lg font-bold sm:order-1">
+                  {talk.title}
+                </h3>
               </div>
-            </div>
+              <p class="text-gray-600">{talk.description}</p>
+            </a>
           ))
         }
       </div>
