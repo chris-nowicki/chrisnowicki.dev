@@ -1,0 +1,40 @@
+---
+import { cn } from '../utils/utils'
+
+export interface Props {
+  href: string
+  ariaLabel?: string
+  class?: string
+  target?: '_blank' | '_self'
+  rel?: string
+}
+
+const {
+  href,
+  ariaLabel,
+  class: className = '',
+  target = '_self',
+  rel,
+  ...rest
+} = Astro.props
+
+const isExternal = target === '_blank'
+const linkRel = isExternal ? rel || 'noopener noreferrer' : rel
+const classes = cn(className)
+---
+
+<a
+  href={href}
+  target={target}
+  rel={linkRel}
+  aria-label={ariaLabel}
+  class={classes}
+  {...rest}
+  data-astro-prefetch>
+  <slot />
+  {
+    isExternal && (
+      <span class="sr-only"> (opens in new tab)</span>
+    )
+  }
+</a>

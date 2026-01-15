@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets'
+import { NUMBER_OF_ENTRIES } from '@/lib/site'
+import { getBlogPosts } from '@/utils/blog-helpers'
+import { cn } from '@/utils/utils'
+
+interface Props {
+  limit?: number
+}
+
+const { limit = NUMBER_OF_ENTRIES } = Astro.props
+
+const posts = await getBlogPosts(limit)
+
+const postItems = posts.map((post) => ({
+  href: `/blog/${post.id}`,
+  name: post.data.title,
+  description: post.data.description,
+  image: post.data.image,
+}))
+---
+
+{
+  postItems.length > 0 && (
+    <section class="mt-12 sm:mt-20">
+      <header class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between sm:mb-8">
+        <h2 class="text-lg font-bold uppercase sm:text-2xl">Read my Latest Posts</h2>
+        <a
+          href="/blog"
+          class="text-muted-foreground text-sm md:text-base hover:text-black hidden md:block"
+          data-astro-prefetch>
+          View all posts
+        </a>
+      </header>
+      <div class="grid grid-cols-1 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          postItems.map((item) => (
+            <a
+              href={item.href}
+              aria-label={`Read more about ${item.name}`}
+              class={cn(
+                'group block h-full overflow-hidden transition-all duration-200 ease-in-out',
+                'hover:-translate-y-2 hover:shadow-lg',
+                'md:rounded-lg md:border md:border-gray-200',
+                'sm:min-h-[350px]'
+              )}
+              data-astro-prefetch>
+              <!-- Card Image Section -->
+              <div class="hidden h-40 w-full overflow-hidden bg-gray-100 sm:block">
+                {item.image ? (
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    height={160}
+                    width={256}
+                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 grayscale group-hover:grayscale-0"
+                  />
+                ) : (
+                  <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-gray-200 to-white" />
+                )}
+              </div>
+
+              <!-- Content Section -->
+              <div class="flex h-full flex-col p-0 sm:p-4">
+                <h3 class="mb-0 text-base font-bold wrap-break-words sm:mb-2 sm:min-h-[2.5em] sm:text-lg">
+                  {item.name}
+                </h3>
+
+                {item.description && (
+                  <p class="mb-4 flex-1 text-sm text-gray-600">{item.description}</p>
+                )}
+              </div>
+            </a>
+          ))
+        }
+      </div>
+      <div class="mt-4 sm:hidden">
+        <a
+          href="/blog"
+          class="text-muted-foreground text-base hover:text-black"
+          data-astro-prefetch>
+          View all posts →
+        </a>
+      </div>
+    </section>
+  )
+}
