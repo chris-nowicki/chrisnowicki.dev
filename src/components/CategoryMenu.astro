@@ -1,6 +1,6 @@
 ---
 import HorizonWrapper from './HorizonWrapper.astro'
-import UnifiedLink from './UnifiedLink.astro'
+import Link from './Link.astro'
 
 interface Props {
   categories: string[]
@@ -13,18 +13,18 @@ const { categories, currentCategory, pathname } = Astro.props
 
 <div class="text-muted-foreground mb-6 flex justify-center">
   <HorizonWrapper>
-    <UnifiedLink
+    <Link
       href={`/${pathname}`}
       class={`transition-colors duration-200 ease-in-out ${!currentCategory ? 'text-black' : 'hover:text-black'}`}>
       ALL
-    </UnifiedLink>
+    </Link>
     {
       categories.map((cat) => (
-        <UnifiedLink
+        <Link
           href={`/${pathname}?category=${encodeURIComponent(cat)}`}
           class={`transition-colors duration-200 ease-in-out ${currentCategory?.toLowerCase() === cat.toLowerCase() ? ' text-black' : 'hover:text-black'}`}>
           {cat}
-        </UnifiedLink>
+        </Link>
       ))
     }
   </HorizonWrapper>

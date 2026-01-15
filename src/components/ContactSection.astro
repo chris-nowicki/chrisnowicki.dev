@@ -1,6 +1,6 @@
 ---
 import Container from './Container.astro'
-import UnifiedLink from './UnifiedLink.astro'
+import Link from './Link.astro'
 import SquiggleLine from '@/assets/icons/needle-underline.svg'
 import { socialLinks } from '@/lib/site'
 
@@ -9,7 +9,7 @@ const socialIconClass =
 ---
 
 <section
-  class="bg-primary-foreground mt-12 w-full rounded-lg p-4 text-base md:mt-20"
+  class="bg-primary-foreground mt-12 w-full rounded-lg p-4 text-base "
   id="contact">
   <header class="relative mb-8 flex justify-between">
     <SquiggleLine class="absolute -bottom-2 left-1 w-28 sm:-bottom-3 sm:w-32" />
@@ -30,14 +30,13 @@ const socialIconClass =
     <div class="mt-8 flex flex-wrap gap-4">
       {
         socialLinks.map(({ icon: Icon, url, label }) => (
-          <UnifiedLink
+          <Link
             href={url}
             class={socialIconClass}
-            icon={true}
             target="_blank"
             ariaLabel={label}>
             <Icon width={24} aria-hidden="true" />
-          </UnifiedLink>
+          </Link>
         ))
       }
     </div>

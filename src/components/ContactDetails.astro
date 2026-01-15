@@ -1,7 +1,7 @@
 ---
 import Me from '@/assets/images/me.jpg'
 import { Image } from 'astro:assets'
-import UnifiedLink from './UnifiedLink.astro'
+import Link from './Link.astro'
 import { socialLinks } from '@/lib/site'
 
 const socialIconClass =
@@ -32,24 +32,21 @@ const socialIconClass =
     <div class="mb-8 flex flex-wrap gap-4">
       {
         socialLinks.map(({ icon: Icon, url, label }) => (
-          <UnifiedLink
+          <Link
             href={url}
             class={socialIconClass}
-            icon={true}
             target="_blank"
             ariaLabel={label}>
             <Icon width={24} aria-hidden="true" />
-          </UnifiedLink>
+          </Link>
         ))
       }
     </div>
 
-    <UnifiedLink
+    <Link
         href="#"
-        variant="outline"
         target="_blank"
-        size="default"
-        class="text-center uppercase hidden">Sechedule a Coffee Chat</UnifiedLink
+        class="text-center uppercase hidden">Sechedule a Coffee Chat</Link
       >
 
     <span class="font-cursive mt-8 block text-4xl text-blue-600">- Chris</span>

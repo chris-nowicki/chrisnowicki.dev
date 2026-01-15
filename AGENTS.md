@@ -61,7 +61,8 @@ src/
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import type { Site, Metadata } from '@/types'
-import UnifiedLink from './UnifiedLink.astro'
+import Link from './Link.astro'
+import Button from './Button.astro'
 import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
 ```
 
