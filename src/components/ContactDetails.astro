@@ -5,7 +5,7 @@ import Link from './Link.astro'
 import { socialLinks } from '@/lib/site'
 
 const socialIconClass =
-  'hover:scale-110 transition-all duration-200 ease-in-out hover:text-blue-600'
+  'hover:scale-110 transition-all duration-200 ease-in-out hover:text-foreground'
 ---
 
 <section class="flex w-full flex-col gap-6 text-base md:flex-row">
@@ -24,7 +24,7 @@ const socialIconClass =
       reach out on social media, schedule a virtual coffee chat or send me an email at{' '}
       <a
         href="mailto:hello@chrisnowicki.dev"
-        class="font-bold hover:text-blue-600 hover:underline">
+        class="font-bold hover:text-foreground hover:underline">
         hello@chrisnowicki.dev.
       </a>
     </p>
@@ -49,6 +49,6 @@ const socialIconClass =
         class="text-center uppercase hidden">Sechedule a Coffee Chat</Link
       >
 
-    <span class="font-cursive mt-8 block text-4xl text-blue-600">- Chris</span>
+    <span class="font-cursive mt-8 block text-4xl text-foreground">- Chris</span>
   </div>
 </section>

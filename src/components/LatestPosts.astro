@@ -41,12 +41,12 @@ const postItems = posts.map((post) => ({
               class={cn(
                 'group block h-full overflow-hidden transition-all duration-200 ease-in-out',
                 'hover:-translate-y-2 hover:shadow-lg',
-                'md:rounded-lg md:border md:border-gray-200',
+                'md:rounded-lg md:border',
                 'sm:min-h-[350px]'
               )}
               data-astro-prefetch>
               <!-- Card Image Section -->
-              <div class="hidden h-40 w-full overflow-hidden bg-gray-100 sm:block">
+              <div class="hidden h-40 w-full overflow-hidden bg-muted sm:block">
                 {item.image ? (
                   <Image
                     src={item.image}
@@ -67,7 +67,7 @@ const postItems = posts.map((post) => ({
                 </h3>
 
                 {item.description && (
-                  <p class="mb-4 flex-1 text-sm text-gray-600">{item.description}</p>
+                  <p class="mb-4 flex-1 text-sm text-muted-foreground">{item.description}</p>
                 )}
               </div>
             </a>

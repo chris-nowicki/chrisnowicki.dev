@@ -13,10 +13,10 @@ const { href, name, description = '', image = '' } = Astro.props
 
 <a
   href={href}
-  class="group block h-full min-h-[350px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
+  class="group block h-full min-h-[350px] overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
   aria-label={`Read more about ${name}`}>
   {/* Card Image Section - Full width at top */}
-  <div class="h-40 w-full overflow-hidden bg-gray-100">
+  <div class="h-40 w-full overflow-hidden bg-muted">
     {
       image ?
         <Image
@@ -26,17 +26,17 @@ const { href, name, description = '', image = '' } = Astro.props
           width={256}
           class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-      : <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50" />
+      : <div class="flex h-full w-full items-center justify-center bg-muted" />
     }
   </div>
 
   {/* Card Content Section */}
   <div class="flex h-full flex-col p-3 sm:p-4">
     <h2
-      class="mb-2 min-h-[2.5em] text-lg font-bold break-words transition-colors group-hover:text-blue-600">
+      class="mb-2 min-h-[2.5em] text-lg font-bold break-words transition-colors group-hover:text-foreground">
       {name}
     </h2>
-    <p class="mb-4 flex-1 text-sm text-gray-600">
+    <p class="mb-4 flex-1 text-sm text-muted-foreground">
       {description}
     </p>
   </div>

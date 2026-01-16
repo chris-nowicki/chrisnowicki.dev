@@ -46,22 +46,22 @@ const ogImageUrl = generateOgImageUrl({
             {posts.map((post) => (
               <a
                 href={`/blog/${post.id}`}
-                class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-gray-100">
+                class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-muted">
                 <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <span class="order-1 text-gray-600 sm:order-3">
+                  <span class="order-1 text-muted-foreground sm:order-3">
                     {formatDate(post.data.date.toDateString())}
                   </span>
                   <span
-                    class="order-3 hidden flex-1 bg-gray-600/20 px-2 sm:order-2 sm:block"
+                    class="order-3 hidden flex-1 bg-muted-foreground/20 px-2 sm:order-2 sm:block"
                     style="height: 1px; align-self: center;"
                   />
                   <h2 class="order-2 text-lg font-semibold sm:order-1">
                     {post.data.title}
                   </h2>
                 </div>
-                <p class="text-gray-600">{post.data.description}</p>
+                <p class="text-muted-foreground">{post.data.description}</p>
                 <div class="mt-1 font-mono text-sm">
-                  <span class="text-sm tracking-tight text-gray-600">
+                  <span class="text-sm tracking-tight text-muted-foreground">
                     {readingTime(post.rendered?.html ?? '')} ·
                   </span>
                   {post.data.category && <span>{post.data.category}</span>}
@@ -69,7 +69,7 @@ const ogImageUrl = generateOgImageUrl({
               </a>
             ))}
           </div>
-        : <p class="text-gray-600">No blog posts found.</p>
+        : <p class="text-muted-foreground">No blog posts found.</p>
       }
     </section>
   </Container>
