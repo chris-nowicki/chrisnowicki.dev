@@ -9,14 +9,14 @@ const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
   <footer class="mt-12 mb-4 sm:flex-row sm:gap-0">
     <div class="flex w-full flex-col items-start text-sm sm:w-2/3">
       <p>
-        <strong>Sitemap:</strong>
+        <strong>SITEMAP:</strong>
 
         {
           footerLinks.map((link, index, array) => (
             <span>
               <a
                 href={link.href}
-                class="text-muted-foreground hover:text-black"
+                class="text-muted-foreground hover:text-black uppercase"
                 data-astro-prefetch>
                 {link.text}
               </a>
@@ -26,7 +26,7 @@ const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
         }
       </p>
       <p>
-        <strong>Built With:</strong>{' '}
+        <strong>BUILT WITH:</strong>{' '}
         <a
           href="https://astro.build"
           target="_blank"
