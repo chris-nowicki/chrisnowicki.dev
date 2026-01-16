@@ -68,8 +68,8 @@
             <a
               {href}
               class={cn(
-                'flex transition-colors duration-300 ease-in-out hover:text-blue-600 border w-full p-2 text-center rounded-xl',
-                isActive ? 'text-blue-600 font-medium' : 'text-black'
+                'flex transition-colors duration-300 ease-in-out hover:text-foreground border w-full p-2 text-center rounded-xl',
+                isActive ? 'text-foreground font-medium' : 'text-black'
               )}
               on:click={() => toggleMenu(true)}
               aria-current={isActive ? 'page' : undefined}

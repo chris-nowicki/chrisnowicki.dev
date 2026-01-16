@@ -51,20 +51,20 @@ const ogImageUrl = generateOgImageUrl({
               href={talk.link}
               target="_blank"
               rel="noopener noreferrer"
-              class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-gray-100">
+              class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-muted">
               <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
-                <span class="order-1 text-gray-600 sm:order-3">
+                <span class="order-1 text-muted-foreground sm:order-3">
                   {formatDate(talk.date)}
                 </span>
                 <span
-                  class="order-3 hidden flex-1 bg-gray-600/20 px-2 sm:order-2 sm:block"
+                  class="order-3 hidden flex-1 bg-muted-foreground/20 px-2 sm:order-2 sm:block"
                   style="height: 1px; align-self: center;"
                 />
                 <h3 class="order-2 text-lg font-bold sm:order-1">
                   {talk.title}
                 </h3>
               </div>
-              <p class="text-gray-600">{talk.description}</p>
+              <p class="text-muted-foreground">{talk.description}</p>
             </a>
           ))
         }

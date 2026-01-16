@@ -10,25 +10,15 @@
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
 
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
 
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
 
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
 }
 
 @layer base {
@@ -37,36 +27,14 @@
     --foreground: 240 10% 3.9%; /* slate-950 */
     --primary: 240 5.9% 10%; /* slate-900 */
     --primary-foreground: 0 0% 98%; /* slate-50 */
-    --secondary: 240 4.8% 95.9%; /* slate-100 */
-    --secondary-foreground: 240 5.9% 10%; /* slate-900 */
     --muted: 240 4.8% 95.9%; /* slate-100 */
     --muted-foreground: 240 3.8% 46.1%; /* slate-500 */
     --accent: 240 4.8% 95.9%; /* slate-100 */
     --accent-foreground: 240 5.9% 10%; /* slate-900 */
-    --destructive: 0 84.2% 60.2%; /* red-500 */
-    --destructive-foreground: 0 0% 98%; /* slate-50 */
     --border: 240 5.9% 90%; /* slate-200 */
     --input: 240 5.9% 90%; /* slate-200 */
     --ring: 240 10% 3.9%; /* slate-900 */
     --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%; /* slate-950 */
-    --foreground: 0 0% 98%; /* slate-50 */
-    --primary: 0 0% 98%; /* slate-50 */
-    --primary-foreground: 240 5.9% 10%; /* slate-900 */
-    --secondary: 240 3.7% 15.9%; /* slate-800 */
-    --secondary-foreground: 0 0% 98%; /* slate-50 */
-    --muted: 240 3.7% 15.9%; /* slate-800 */
-    --muted-foreground: 240 5% 64.9%; /* slate-400 */
-    --accent: 240 3.7% 15.9%; /* slate-800 */
-    --accent-foreground: 0 0% 98%; /* slate-50 */
-    --destructive: 0 62.8% 30.6%; /* red-800 */
-    --destructive-foreground: 0 0% 98%; /* slate-50 */
-    --border: 240 3.7% 15.9%; /* slate-800 */
-    --input: 240 3.7% 15.9%; /* slate-800 */
-    --ring: 240 4.9% 83.9%; /* slate-300 */
   }
 
   /* Base styles for HTML and Body */
@@ -96,9 +64,6 @@
 
 @utility prose {
   /* Headings */
-  h1 {
-    @apply scroll-m-28 text-4xl font-extrabold tracking-tight md:text-5xl;
-  }
 
   h2 {
     @apply scroll-m-28 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0;

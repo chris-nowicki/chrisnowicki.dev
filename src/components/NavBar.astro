@@ -33,7 +33,7 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
               <a
                 {href}
                 class={cn(
-                  'group transition-colors duration-200 ease-in-out',
+                  'group transition-colors duration-200 ease-in-out uppercase',
                   isActive ? 'text-black' : 'hover:text-black'
                 )}
                 aria-current={isActive ? 'page' : undefined}
