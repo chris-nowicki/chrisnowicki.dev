@@ -35,7 +35,7 @@ try {
       slugs.forEach((slug) => {
         viewCounts[slug] = 0
       })
-      data.forEach((row) => {
+      data.forEach((row: { slug: string; view_count: number }) => {
         viewCounts[row.slug] = row.view_count
       })
     }
