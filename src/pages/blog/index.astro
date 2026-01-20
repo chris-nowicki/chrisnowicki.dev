@@ -7,6 +7,7 @@ import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
 import { formatDate, formatViewCount } from '@/utils/utils'
 import CategoryMenu from '@/components/CategoryMenu.astro'
+import { supabaseServer } from '@/lib/supabase'
 
 export const prerender = false
 const category = Astro.url.searchParams.get('category')
@@ -16,15 +17,27 @@ const categories = await getAllPostCategories()
 
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 
-// Fetch view counts for all posts
+// Fetch view counts for all posts directly from Supabase
 let viewCounts: Record<string, number> = {}
 try {
-  if (posts.length > 0) {
-    const slugs = posts.map((post) => post.id).join(',')
-    const baseUrl = new URL(Astro.request.url).origin
-    const response = await fetch(`${baseUrl}/api/views?slugs=${slugs}`)
-    if (response.ok) {
-      viewCounts = await response.json()
+  if (posts.length > 0 && supabaseServer) {
+    const slugs = posts.map((post) => post.id)
+    
+    const { data, error } = await supabaseServer
+      .from('blog_views')
+      .select('slug, view_count')
+      .in('slug', slugs)
+
+    if (error) {
+      console.error('Error fetching view counts:', error)
+    } else if (data) {
+      // Create a map of slug -> view_count, defaulting to 0 for missing slugs
+      slugs.forEach((slug) => {
+        viewCounts[slug] = 0
+      })
+      data.forEach((row) => {
+        viewCounts[row.slug] = row.view_count
+      })
     }
   }
 } catch (error) {
