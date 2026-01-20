@@ -5,7 +5,7 @@ import { BLOG } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
 import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
-import { formatDate } from '@/utils/utils'
+import { formatDate, formatViewCount } from '@/utils/utils'
 import CategoryMenu from '@/components/CategoryMenu.astro'
 
 export const prerender = false
@@ -15,6 +15,22 @@ const posts = await getPostsByCategory(category)
 const categories = await getAllPostCategories()
 
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
+
+// Fetch view counts for all posts
+let viewCounts: Record<string, number> = {}
+try {
+  if (posts.length > 0) {
+    const slugs = posts.map((post) => post.id).join(',')
+    const baseUrl = new URL(Astro.request.url).origin
+    const response = await fetch(`${baseUrl}/api/views?slugs=${slugs}`)
+    if (response.ok) {
+      viewCounts = await response.json()
+    }
+  }
+} catch (error) {
+  console.error('Failed to fetch view counts:', error)
+  // Continue with empty viewCounts object
+}
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -65,6 +81,9 @@ const ogImageUrl = generateOgImageUrl({
                     {readingTime(post.rendered?.html ?? '')} ·
                   </span>
                   {post.data.category && <span>{post.data.category}</span>}
+                  <span class="text-sm tracking-tight text-muted-foreground">
+                    {' '}· {formatViewCount(viewCounts[post.id] ?? 0)} views
+                  </span>
                 </div>
               </a>
             ))}

@@ -1,7 +1,7 @@
 ---
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
-import { formatDate } from '@/utils/utils'
+import { formatDate, formatViewCount } from '@/utils/utils'
 import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
 import { Image } from 'astro:assets'
@@ -25,6 +25,8 @@ const ogImageUrl = generateOgImageUrl({
   description: post.data.title,
   readTime: postReadTime,
 })
+
+const postSlug = post.id
 ---
 
 <PageLayout
@@ -36,7 +38,7 @@ const ogImageUrl = generateOgImageUrl({
       <header class="mb-8 flex flex-col gap-2">
         <h1 class="mt-8 text-xl font-bold sm:text-4xl">{post.data.title}</h1>
         <span class="text-muted-foreground flex items-center gap-2 text-sm"
-          >{postDate} | {postReadTime}</span
+          >{postDate} | {postReadTime} | <span id="view-count" data-slug={postSlug}>-</span> views</span
         >
         {
           post.data.image && (
@@ -59,10 +61,63 @@ const ogImageUrl = generateOgImageUrl({
 
 <script>
   import { copyCodeButton } from '@/utils/copy-code-button'
+  import { formatViewCount } from '@/utils/utils'
+
+  // Track view and fetch view count
+  async function trackView() {
+    const viewCountElement = document.getElementById('view-count')
+    if (!viewCountElement) {
+      setTimeout(trackView, 100)
+      return
+    }
+
+    const postSlug = viewCountElement.getAttribute('data-slug')
+    if (!postSlug) {
+      return
+    }
+
+    try {
+      // Increment view count
+      const postResponse = await fetch(`/api/views/${postSlug}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (!postResponse.ok) {
+        viewCountElement.textContent = '0'
+        return
+      }
+
+      // Fetch updated view count
+      const getResponse = await fetch(`/api/views/${postSlug}`)
+      if (getResponse.ok) {
+        const data = await getResponse.json()
+        viewCountElement.textContent = formatViewCount(data.view_count ?? 0)
+      } else {
+        viewCountElement.textContent = '0'
+      }
+    } catch (error) {
+      // Silently fail - don't break the page if view tracking fails
+      if (viewCountElement) {
+        viewCountElement.textContent = '0'
+      }
+    }
+  }
+
+  // Wait for DOM to be ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', trackView)
+  } else {
+    trackView()
+  }
 
   let cleanup = copyCodeButton()
   document.addEventListener('astro:after-swap', () => {
     cleanup()
     cleanup = copyCodeButton()
+    // Re-track view on client-side navigation
+    trackView()
   })
 </script>
