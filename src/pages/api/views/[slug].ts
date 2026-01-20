@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro'
-import { supabaseServer } from '@/lib/supabase'
+import { supabaseServer, getViewCount } from '@/lib/supabase'
 
 export const GET: APIRoute = async ({ params }) => {
   const slug = params.slug
@@ -22,25 +22,7 @@ export const GET: APIRoute = async ({ params }) => {
   }
 
   try {
-    const { data, error } = await supabaseServer
-      .from('blog_views')
-      .select('view_count')
-      .eq('slug', slug)
-      .single()
-
-    if (error && error.code !== 'PGRST116') {
-      // PGRST116 is "not found" which is expected for new posts
-      console.error('Error fetching view count:', error)
-      return new Response(
-        JSON.stringify({ error: 'Failed to fetch view count' }),
-        {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      )
-    }
-
-    const viewCount = data?.view_count ?? 0
+    const viewCount = await getViewCount(slug)
 
     return new Response(JSON.stringify({ slug, view_count: viewCount }), {
       status: 200,
