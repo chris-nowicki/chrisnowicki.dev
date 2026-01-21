@@ -1,42 +1,67 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte'
+  import { convexClient } from '@/lib/convex'
+  import { api } from '../../../convex/_generated/api'
+
   export let slug: string
-  export let trackingEnabled: boolean = false
 
-  async function fetchAndTrackViews() {
-    // GET fresh count
-    const getResponse = await fetch(`/api/views/${slug}`)
-    let viewCount = 0
-    if (getResponse.ok) {
-      const getData = await getResponse.json()
-      viewCount = getData.view_count ?? 0
+  let viewCount: number | null = null
+  let unsubscribe: (() => void) | null = null
+  let hasIncremented = false
+  let error: string | null = null
+
+  onMount(async () => {
+    console.log('ViewCounter mounted for slug:', slug)
+    console.log('Convex client:', convexClient)
+
+    if (!convexClient) {
+      error = 'Convex client not configured'
+      console.warn(error)
+      return
     }
 
-    // POST to increment if tracking enabled
-    if (trackingEnabled) {
-      const postResponse = await fetch(`/api/views/${slug}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      })
-      if (postResponse.ok) {
-        const postData = await postResponse.json()
-        viewCount = postData.view_count ?? viewCount
-      }
+    // Store client reference for use in callback
+    const client = convexClient
+
+    try {
+      // Subscribe to real-time view count updates
+      unsubscribe = client.onUpdate(
+        api.blogViews.getViewCount,
+        { slug },
+        (result) => {
+          console.log('Received view count result:', result)
+          viewCount = result.viewCount
+
+          // Increment view count once after initial load
+          if (!hasIncremented) {
+            hasIncremented = true
+            client.mutation(api.blogViews.incrementViewCount, { slug })
+              .then(() => console.log('Incremented view count'))
+              .catch((err) => console.error('Failed to increment:', err))
+          }
+        }
+      )
+    } catch (err) {
+      console.error('Error setting up subscription:', err)
+      error = String(err)
     }
+  })
 
-    return viewCount
-  }
-
-  let viewsPromise = fetchAndTrackViews()
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe()
+    }
+  })
 </script>
 
-{#await viewsPromise}
-  <!-- Show nothing while loading -->
-{:then viewCount}
-  {#if viewCount > 0}
-    <span class="inline-flex items-center">
-      | {viewCount.toLocaleString('en-US')} views
-    </span>
-  {/if}
-{:catch}
-  <!-- Show nothing on error -->
-{/await}
+{#if error}
+  <span class="text-red-500">Error: {error}</span>
+{:else if viewCount !== null}
+  <span class="inline-flex items-center">
+    | {viewCount.toLocaleString('en-US')} views
+  </span>
+{:else}
+  <span class="inline-flex items-center text-muted-foreground">
+    | loading...
+  </span>
+{/if}

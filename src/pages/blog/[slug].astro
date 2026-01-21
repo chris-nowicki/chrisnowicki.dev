@@ -28,11 +28,6 @@ const ogImageUrl = generateOgImageUrl({
 })
 
 const postSlug = post.id
-// Check if view tracking is enabled (only true in production)
-// Use import.meta.env for local dev, process.env for Vercel runtime
-const trackingEnabled = 
-  import.meta.env.ENABLE_VIEW_TRACKING === 'true' || 
-  process.env.ENABLE_VIEW_TRACKING === 'true'
 ---
 
 <PageLayout
@@ -47,7 +42,6 @@ const trackingEnabled =
           >{postDate} | {postReadTime} <ViewCounter
             client:load
             slug={postSlug}
-            trackingEnabled={trackingEnabled}
           /></span
         >
         {

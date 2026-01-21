@@ -7,15 +7,10 @@ import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
 import { formatDate, formatViewCount } from '@/utils/utils'
 import CategoryMenu from '@/components/CategoryMenu.astro'
-import { getViewCounts } from '@/lib/supabase'
+import { convexHttpClient } from '@/lib/convex'
+import { api } from '../../../convex/_generated/api'
 
 export const prerender = false
-
-// Set CDN cache headers for this SSR page
-Astro.response.headers.set(
-  'Cache-Control',
-  'public, s-maxage=60, stale-while-revalidate=30'
-)
 
 const category = Astro.url.searchParams.get('category')
 
@@ -24,9 +19,17 @@ const categories = await getAllPostCategories()
 
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 
-// Fetch view counts for all posts
+// Fetch view counts for all posts from Convex
 const slugs = posts.map((post) => post.id)
-const viewCounts = await getViewCounts(slugs)
+let viewCounts: Record<string, number> = {}
+
+if (convexHttpClient) {
+  try {
+    viewCounts = await convexHttpClient.query(api.blogViews.getViewCounts, { slugs })
+  } catch (error) {
+    console.error('Failed to fetch view counts from Convex:', error)
+  }
+}
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
