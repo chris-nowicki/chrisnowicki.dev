@@ -1,64 +1,83 @@
 ---
 import Container from './Container.astro'
-import { navLinks } from '@/lib/site'
+import Link from './Link.astro'
+import { navLinks, socialLinks } from '@/lib/site'
 
 const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
+const currentYear = new Date().getFullYear()
+
+const builtWith = [
+  { name: 'Astro', href: 'https://astro.build' },
+  { name: 'Svelte', href: 'https://svelte.dev' },
+  { name: 'Convex', href: 'https://convex.dev' },
+  { name: 'TypeScript', href: 'https://www.typescriptlang.org' },
+  { name: 'Tailwind', href: 'https://tailwindcss.com' },
+]
 ---
 
 <Container>
-  <footer class="mt-12 mb-4 sm:flex-row sm:gap-0">
-    <div class="flex w-full flex-col items-start text-sm sm:w-2/3">
-      <p>
-        <strong>SITEMAP:</strong>
+  <footer class="mt-16 mb-8 border-t border-border pt-8">
+    <div class="flex flex-col items-center gap-6 text-center">
+      {/* Social Icons */}
+      <div class="flex items-center gap-4">
+        {
+          socialLinks.map(({ icon: Icon, url, label }) => (
+            <Link
+              href={url}
+              target="_blank"
+              ariaLabel={label}
+              class="text-muted-foreground transition-all duration-200 ease-in-out hover:scale-110 hover:text-foreground">
+              <Icon width={20} height={20} aria-hidden="true" />
+            </Link>
+          ))
+        }
+      </div>
 
+      {/* Sitemap Links */}
+      <nav class="text-xs sm:text-sm" aria-label="Footer navigation">
         {
           footerLinks.map((link, index, array) => (
             <span>
               <a
                 href={link.href}
-                class="text-muted-foreground hover:text-black uppercase"
+                class="link-underline text-muted-foreground uppercase transition-colors duration-200 hover:text-foreground"
                 data-astro-prefetch>
                 {link.text}
               </a>
-              {index < array.length - 1 && ' / '}
+              {index < array.length - 1 && (
+                <span class="text-muted-foreground/50 mx-1 sm:mx-2">/</span>
+              )}
             </span>
           ))
         }
+      </nav>
+
+      {/* Built With */}
+      <p class="text-muted-foreground text-xs sm:text-sm">
+        <span>Built with </span>
+        {
+          builtWith.map((tech, index, array) => (
+            <span>
+              <a
+                href={tech.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-underline transition-colors duration-200 hover:text-foreground">
+                {tech.name}
+              </a>
+              {index < array.length - 1 && ', '}
+            </span>
+          ))
+        }
+        <span> & </span>
+        <span class="cursor-default transition-transform hover:scale-125 inline-block">
+          ❤️
+        </span>
       </p>
-      <p>
-        <strong>BUILT WITH:</strong>{' '}
-        <a
-          href="https://astro.build"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-muted-foreground -mr-1 hover:text-black">
-          Astro
-        </a>
-        ,{' '}
-        <a
-          href="https://svelte.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-muted-foreground -mr-1 hover:text-black">
-          Svelte
-        </a>
-        ,{' '}
-        <a
-          href="https://www.typescriptlang.org"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-muted-foreground -mr-1 hover:text-black">
-          TypeScript
-        </a>
-        ,{' '}
-        <a
-          href="https://tailwindcss.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-muted-foreground -mr-1 hover:text-black">
-          Tailwind
-        </a>
-        , and lots of <span class="hover:animate-pulse">❤</span>
+
+      {/* Copyright */}
+      <p class="text-muted-foreground/70 text-xs">
+        © {currentYear} Chris Nowicki
       </p>
     </div>
   </footer>
