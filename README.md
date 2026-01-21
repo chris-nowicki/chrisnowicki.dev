@@ -13,6 +13,7 @@ My little slice of the internet, built with modern tech and way too much coffee.
 - **Framework**: Astro 5.x (SSR) - because sometimes you just want things to be fast without the client-side drama
 - **UI Components**: Svelte 5.x - for when things need to get interactive
 - **Styling**: Tailwind CSS v4 - because writing actual CSS in 2026 is for masochists
+- **Database**: Convex - real-time view tracking with WebSocket subscriptions
 - **Content**: Markdown with auto-linking headings - keeping it simple and semantic
 - **Deployment**: Vercel - where websites go to live their best lives
 
@@ -53,6 +54,10 @@ src/
 ├── pages/         # Astro page routes
 ├── styles/        # Global styles
 └── utils/         # Utility functions
+
+convex/            # Convex backend
+├── schema.ts      # Database schema
+└── blogViews.ts   # Query and mutation functions
 ```
 
 ## Key Features
@@ -60,6 +65,7 @@ src/
 - ⚡ **Blazing fast** - because nobody likes waiting
 - 🧠 **Minimal design** - focused on content without distractions
 - ✍️ **Blog with Markdown** - because writing HTML by hand is cruel
+- 📊 **Real-time view tracking** - powered by Convex with live updates
 - 🖼️ **Cloudinary integration** - for optimized OG images
 - 🚀 **SSR on Vercel** - for that sweet SEO juice
 - ☕ **Coffee-powered development** - "Oh, and coffee. Lots of coffee."
