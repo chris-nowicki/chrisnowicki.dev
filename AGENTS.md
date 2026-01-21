@@ -10,7 +10,7 @@ This document provides essential information for AI coding agents working on the
 - **TypeScript**: Strict mode enabled
 - **Package Manager**: pnpm (v10.26.2)
 - **Deployment**: Vercel
-- **Database**: Supabase (PostgreSQL) for view tracking and analytics
+- **Database**: Convex for view tracking with real-time subscriptions
 - **Content**: Markdown with rehype plugins for auto-linking headings
 
 ## Build and Development Commands
@@ -43,12 +43,16 @@ src/
 ├── data/            # Static data files
 ├── layouts/         # Layout templates
 ├── lib/             # Core library files and constants
-│   └── supabase.ts  # Supabase client configuration and helpers
+│   └── convex.ts    # Convex client configuration
 ├── pages/           # Astro page routes
-│   └── api/         # API endpoints (SSR routes)
 ├── styles/          # Global styles
 ├── types.ts         # TypeScript type definitions
 └── utils/           # Utility functions
+
+convex/               # Convex backend (at project root)
+├── schema.ts        # Database schema definition
+├── blogViews.ts     # Query and mutation functions
+└── _generated/      # Auto-generated types and API (do not edit)
 ```
 
 ## Code Style Guidelines
@@ -207,29 +211,44 @@ const { title, description = 'Default description' } = Astro.props
 
 The following environment variables are required for full functionality:
 
-- `PUBLIC_SUPABASE_URL`: Your Supabase project URL
-- `PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous/public key (for client-side operations)
-- `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key (for server-side admin operations)
+- `PUBLIC_CONVEX_URL`: Your Convex deployment URL (e.g., `https://your-project.convex.cloud`)
 - `ENABLE_VIEW_TRACKING`: Set to `true` to enable view count incrementing (should only be `true` in production)
 
-**Note**: View tracking will gracefully degrade if Supabase environment variables are not set (view counts will default to 0). The `ENABLE_VIEW_TRACKING` flag protects production data from being skewed during local development or preview deployments.
+**Note**: View tracking will gracefully degrade if Convex environment variables are not set (view counts will default to 0). The `ENABLE_VIEW_TRACKING` flag protects production data from being skewed during local development or preview deployments.
 
-## API Routes
+## Database (Convex)
 
-API routes are defined in `src/pages/api/` and run as server-side endpoints:
+Convex is used for blog post view tracking with real-time subscriptions.
 
-- `/api/views/[slug]` - GET: Fetch view count for a blog post, POST: Increment view count
-- `/api/views/index` - GET: Fetch view counts for multiple blog posts (query param: `?slugs=slug1,slug2`)
+### Schema
 
-API routes use the Supabase service role client for database operations and return JSON responses.
+- **Table**: `blogViews`
+- **Columns**:
+  - `slug` (string) - Blog post identifier
+  - `viewCount` (number) - Total view count
+  - `lastReadAt` (number) - Unix timestamp of last view
+  - `updatedAt` (number) - Unix timestamp of last update
+- **Index**: `by_slug` for efficient slug lookups
 
-## Database
+### Functions
 
-- **Supabase**: Used for blog post view tracking
-- **Table**: `blog_views` with columns: `slug` (string), `view_count` (number), `updated_at` (timestamp)
-- **Client Setup**: See `src/lib/supabase.ts` for client configuration
-  - `supabaseClient`: Client-side client (uses anonymous key)
-  - `supabaseServer`: Server-side client (uses service role key)
+Located in `convex/blogViews.ts`:
+
+- `getViewCount(slug)` - Query: Get view count for a single post
+- `getViewCounts(slugs)` - Query: Get view counts for multiple posts
+- `incrementViewCount(slug)` - Mutation: Increment view count (upserts if not exists)
+- `seedViewCount(slug, viewCount, lastReadAt)` - Mutation: Seed data (for migrations)
+
+### Client Setup
+
+See `src/lib/convex.ts` for client configuration:
+
+- `convexClient` - Browser client with WebSocket for real-time subscriptions (used in Svelte components)
+- `convexHttpClient` - HTTP client for server-side queries (used in Astro SSR pages)
+
+### Real-time Updates
+
+The `ViewCounter.svelte` component uses Convex's real-time subscriptions via `convexClient.onUpdate()`. When any user increments a view count, all connected clients see the update instantly.
 
 ## Important Notes
 
@@ -238,4 +257,5 @@ API routes use the Supabase service role client for database operations and retu
 - Images optimized via Cloudinary integration
 - Site uses SSR mode on Vercel deployment
 - Blog index page uses SSR (`prerender = false`) to fetch view counts dynamically
-- Individual blog posts use static generation (`prerender = true`) with client-side view tracking
+- Individual blog posts use static generation (`prerender = true`) with client-side real-time view tracking via Convex
+- Convex provides automatic caching and real-time sync - no custom caching layer needed
