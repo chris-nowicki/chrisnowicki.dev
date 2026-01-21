@@ -7,7 +7,6 @@ import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
 import { Image } from 'astro:assets'
 import { getCollection, render } from 'astro:content'
-import { getViewCount } from '@/lib/supabase'
 
 export const prerender = true
 
@@ -29,8 +28,6 @@ const ogImageUrl = generateOgImageUrl({
 })
 
 const postSlug = post.id
-// Fetch initial view count server-side for immediate display
-const initialViewCount = await getViewCount(postSlug)
 // Check if view tracking is enabled (only true in production)
 // Use import.meta.env for local dev, process.env for Vercel runtime
 const trackingEnabled = 
@@ -47,12 +44,11 @@ const trackingEnabled =
       <header class="mb-8 flex flex-col gap-2">
         <h1 class="mt-8 text-xl font-bold sm:text-4xl">{post.data.title}</h1>
         <span class="text-muted-foreground flex items-center gap-2 text-sm"
-          >{postDate} | {postReadTime} | <ViewCounter
+          >{postDate} | {postReadTime} <ViewCounter
             client:load
             slug={postSlug}
-            initialCount={initialViewCount}
             trackingEnabled={trackingEnabled}
-          /> views</span
+          /></span
         >
         {
           post.data.image && (
