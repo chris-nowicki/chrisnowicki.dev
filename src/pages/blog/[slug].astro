@@ -1,7 +1,8 @@
 ---
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
-import { formatDate, formatViewCount } from '@/utils/utils'
+import ViewCounter from '@/components/Svelte/ViewCounter.svelte'
+import { formatDate } from '@/utils/utils'
 import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
 import { Image } from 'astro:assets'
@@ -31,8 +32,10 @@ const postSlug = post.id
 // Fetch initial view count server-side for immediate display
 const initialViewCount = await getViewCount(postSlug)
 // Check if view tracking is enabled (only true in production)
-// Use process.env for runtime env vars in Vercel serverless/SSR context
-const trackingEnabled = process.env.ENABLE_VIEW_TRACKING === 'true'
+// Use import.meta.env for local dev, process.env for Vercel runtime
+const trackingEnabled = 
+  import.meta.env.ENABLE_VIEW_TRACKING === 'true' || 
+  process.env.ENABLE_VIEW_TRACKING === 'true'
 ---
 
 <PageLayout
@@ -44,7 +47,12 @@ const trackingEnabled = process.env.ENABLE_VIEW_TRACKING === 'true'
       <header class="mb-8 flex flex-col gap-2">
         <h1 class="mt-8 text-xl font-bold sm:text-4xl">{post.data.title}</h1>
         <span class="text-muted-foreground flex items-center gap-2 text-sm"
-          >{postDate} | {postReadTime} | <span id="view-count" data-slug={postSlug} data-initial-count={initialViewCount} data-tracking-enabled={trackingEnabled.toString()} class="inline-flex items-center">{formatViewCount(initialViewCount)}</span> views</span
+          >{postDate} | {postReadTime} | <ViewCounter
+            client:load
+            slug={postSlug}
+            initialCount={initialViewCount}
+            trackingEnabled={trackingEnabled}
+          /> views</span
         >
         {
           post.data.image && (
@@ -67,60 +75,10 @@ const trackingEnabled = process.env.ENABLE_VIEW_TRACKING === 'true'
 
 <script>
   import { copyCodeButton } from '@/utils/copy-code-button'
-  import { formatViewCount } from '@/utils/utils'
-
-  // Track view and update count
-  async function trackView() {
-    const viewCountElement = document.getElementById('view-count')
-    if (!viewCountElement) {
-      setTimeout(trackView, 100)
-      return
-    }
-
-    const postSlug = viewCountElement.getAttribute('data-slug')
-    if (!postSlug) return
-
-    const trackingEnabled =
-      viewCountElement.getAttribute('data-tracking-enabled') === 'true'
-
-    try {
-      // Step 1: GET fresh count to fix stale static value
-      const getResponse = await fetch(`/api/views/${postSlug}`)
-      if (getResponse.ok) {
-        const getData = await getResponse.json()
-        viewCountElement.textContent = formatViewCount(getData.view_count ?? 0)
-      }
-
-      // Step 2: POST to increment (only if tracking enabled)
-      if (trackingEnabled) {
-        const postResponse = await fetch(`/api/views/${postSlug}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-        })
-        if (postResponse.ok) {
-          const postData = await postResponse.json()
-          viewCountElement.textContent = formatViewCount(
-            postData.view_count ?? 0
-          )
-        }
-      }
-    } catch (error) {
-      // Silently fail - keep existing count if view tracking fails
-    }
-  }
-
-  // Wait for DOM to be ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', trackView)
-  } else {
-    trackView()
-  }
 
   let cleanup = copyCodeButton()
   document.addEventListener('astro:after-swap', () => {
     cleanup()
     cleanup = copyCodeButton()
-    // Re-track view on client-side navigation
-    trackView()
   })
 </script>

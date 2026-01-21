@@ -64,9 +64,14 @@ export const POST: APIRoute = async ({ params }) => {
 
   // Skip view tracking if not enabled (protects production data during dev/preview)
   // Use process.env for runtime environment variables in Vercel serverless functions
-  if (process.env.ENABLE_VIEW_TRACKING !== 'true') {
+  const trackingEnabled = process.env.ENABLE_VIEW_TRACKING === 'true' ||
+    import.meta.env.ENABLE_VIEW_TRACKING === 'true'
+
+  if (!trackingEnabled) {
+    // Return current count without incrementing (safe for dev/preview)
+    const currentCount = await getViewCount(slug)
     return new Response(
-      JSON.stringify({ slug, view_count: 0, tracking_disabled: true }),
+      JSON.stringify({ slug, view_count: currentCount, tracking_disabled: true }),
       {
         status: 200,
         headers: NO_CACHE_HEADERS,
@@ -85,78 +90,35 @@ export const POST: APIRoute = async ({ params }) => {
   }
 
   try {
-    // Check if record exists
-    const { data: existingData, error: selectError } = await supabaseServer
-      .from('blog_views')
-      .select('view_count')
-      .eq('slug', slug)
-      .single()
+    // Use RPC for atomic increment (single database operation)
+    const { data, error } = await supabaseServer.rpc('increment_page_view', {
+      page_slug: slug,
+    })
 
-    let newViewCount: number
-
-    if (selectError && selectError.code === 'PGRST116') {
-      // Record doesn't exist, create it with count 1
-      const { data: insertData, error: insertError } = await supabaseServer
-        .from('blog_views')
-        .insert({
-          slug,
-          view_count: 1,
-          updated_at: new Date().toISOString(),
-        })
-        .select()
-        .single()
-
-      if (insertError) {
-        console.error('Error creating view count:', insertError)
-        return new Response(
-          JSON.stringify({
-            error: 'Failed to create view count',
-            details: insertError.message,
-            code: insertError.code,
-          }),
-          {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-          }
-        )
-      }
-
-      newViewCount = insertData?.view_count ?? 1
-    } else if (selectError) {
-      // Unexpected error
-      console.error('Error fetching view count:', selectError)
+    if (error) {
+      console.error('Error incrementing view count:', error)
       return new Response(
-        JSON.stringify({ error: 'Failed to fetch view count' }),
+        JSON.stringify({
+          error: 'Failed to increment view count',
+          details: error.message,
+          code: error.code,
+        }),
         {
           status: 500,
           headers: { 'Content-Type': 'application/json' },
         }
       )
-    } else {
-      // Record exists, increment it
-      newViewCount = (existingData?.view_count ?? 0) + 1
-      const { error: updateError } = await supabaseServer
-        .from('blog_views')
-        .update({
-          view_count: newViewCount,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('slug', slug)
+    }
 
-      if (updateError) {
-        console.error('Error updating view count:', updateError)
-        return new Response(
-          JSON.stringify({
-            error: 'Failed to update view count',
-            details: updateError.message,
-            code: updateError.code,
-          }),
-          {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-          }
-        )
-      }
+    // RPC returns array with single row containing view_count
+    // Handle both array format and direct value format
+    let newViewCount: number
+    if (Array.isArray(data) && data.length > 0) {
+      newViewCount = data[0]?.view_count ?? 1
+    } else if (typeof data === 'number') {
+      newViewCount = data
+    } else {
+      newViewCount = await getViewCount(slug)
     }
 
     // Invalidate in-memory cache after successful update
