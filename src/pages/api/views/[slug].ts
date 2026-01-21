@@ -1,10 +1,10 @@
 import type { APIRoute } from 'astro'
 import { supabaseServer, getViewCount, invalidateCache } from '@/lib/supabase'
 
-// Cache headers for CDN caching (shared across all serverless instances)
+// No CDN caching for individual slug lookups - we want fresh counts
 const CACHE_HEADERS = {
   'Content-Type': 'application/json',
-  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+  'Cache-Control': 'no-store',
 }
 
 // No-cache headers for write operations
