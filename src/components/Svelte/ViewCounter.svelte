@@ -20,9 +20,12 @@
       return
     }
 
+    // Store client reference for use in callback
+    const client = convexClient
+
     try {
       // Subscribe to real-time view count updates
-      unsubscribe = convexClient.onUpdate(
+      unsubscribe = client.onUpdate(
         api.blogViews.getViewCount,
         { slug },
         (result) => {
@@ -32,7 +35,7 @@
           // Increment view count once after initial load
           if (!hasIncremented) {
             hasIncremented = true
-            convexClient.mutation(api.blogViews.incrementViewCount, { slug })
+            client.mutation(api.blogViews.incrementViewCount, { slug })
               .then(() => console.log('Incremented view count'))
               .catch((err) => console.error('Failed to increment:', err))
           }
