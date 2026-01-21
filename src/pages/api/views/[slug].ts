@@ -1,5 +1,17 @@
 import type { APIRoute } from 'astro'
-import { supabaseServer, getViewCount } from '@/lib/supabase'
+import { supabaseServer, getViewCount, invalidateCache } from '@/lib/supabase'
+
+// Cache headers for CDN caching (shared across all serverless instances)
+const CACHE_HEADERS = {
+  'Content-Type': 'application/json',
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+}
+
+// No-cache headers for write operations
+const NO_CACHE_HEADERS = {
+  'Content-Type': 'application/json',
+  'Cache-Control': 'no-store',
+}
 
 export const GET: APIRoute = async ({ params }) => {
   const slug = params.slug
@@ -26,7 +38,7 @@ export const GET: APIRoute = async ({ params }) => {
 
     return new Response(JSON.stringify({ slug, view_count: viewCount }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CACHE_HEADERS,
     })
   } catch (error) {
     console.error('Unexpected error:', error)
@@ -34,7 +46,7 @@ export const GET: APIRoute = async ({ params }) => {
       JSON.stringify({ error: 'Internal server error' }),
       {
         status: 500,
-        headers: { 'Content-Type': 'application/json' },
+        headers: NO_CACHE_HEADERS,
       }
     )
   }
@@ -48,6 +60,17 @@ export const POST: APIRoute = async ({ params }) => {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
+  }
+
+  // Skip view tracking if not enabled (protects production data during dev/preview)
+  if (import.meta.env.ENABLE_VIEW_TRACKING !== 'true') {
+    return new Response(
+      JSON.stringify({ slug, view_count: 0, tracking_disabled: true }),
+      {
+        status: 200,
+        headers: NO_CACHE_HEADERS,
+      }
+    )
   }
 
   if (!supabaseServer) {
@@ -135,6 +158,9 @@ export const POST: APIRoute = async ({ params }) => {
       }
     }
 
+    // Invalidate in-memory cache after successful update
+    invalidateCache(slug)
+
     return new Response(
       JSON.stringify({
         slug,
@@ -142,7 +168,7 @@ export const POST: APIRoute = async ({ params }) => {
       }),
       {
         status: 200,
-        headers: { 'Content-Type': 'application/json' },
+        headers: NO_CACHE_HEADERS,
       }
     )
   } catch (error) {
@@ -151,7 +177,7 @@ export const POST: APIRoute = async ({ params }) => {
       JSON.stringify({ error: 'Internal server error' }),
       {
         status: 500,
-        headers: { 'Content-Type': 'application/json' },
+        headers: NO_CACHE_HEADERS,
       }
     )
   }

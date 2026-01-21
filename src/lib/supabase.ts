@@ -1,4 +1,15 @@
 import { createClient } from '@supabase/supabase-js'
+import {
+  getCachedViewCount,
+  setCachedViewCount,
+  getCachedViewCounts,
+  setCachedViewCounts,
+  invalidateCache,
+  invalidateAllCache,
+} from './view-cache'
+
+// Re-export cache invalidation functions for use in API routes
+export { invalidateCache, invalidateAllCache }
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
@@ -42,49 +53,99 @@ export interface BlogView {
 
 /**
  * Fetches view counts for multiple blog post slugs
+ * Uses in-memory cache first, then queries database for missing slugs
  * Returns a map of slug -> view_count, defaulting to 0 for missing slugs
  */
 export async function getViewCounts(
   slugs: string[]
 ): Promise<Record<string, number>> {
-  if (!supabaseServer || slugs.length === 0) {
-    return slugs.reduce((acc, slug) => ({ ...acc, [slug]: 0 }), {})
+  if (slugs.length === 0) {
+    return {}
+  }
+
+  // Check cache first
+  const { cached, missing } = getCachedViewCounts(slugs)
+
+  // If all slugs are cached, return immediately
+  if (missing.length === 0) {
+    return cached
+  }
+
+  // If no Supabase client, return cached values + 0 for missing
+  if (!supabaseServer) {
+    const result = { ...cached }
+    missing.forEach((slug) => {
+      result[slug] = 0
+    })
+    return result
   }
 
   try {
+    // Only query database for missing slugs
     const { data, error } = await supabaseServer
       .from('blog_views')
       .select('slug, view_count')
-      .in('slug', slugs)
+      .in('slug', missing)
 
     if (error) {
       console.error('Error fetching view counts:', error)
-      return slugs.reduce((acc, slug) => ({ ...acc, [slug]: 0 }), {})
+      // Return cached values + 0 for missing on error
+      const result = { ...cached }
+      missing.forEach((slug) => {
+        result[slug] = 0
+      })
+      return result
     }
 
-    // Create a map of slug -> view_count, defaulting to 0 for missing slugs
-    const viewCounts: Record<string, number> = {}
-    slugs.forEach((slug) => {
+    // Build result with cached values
+    const viewCounts: Record<string, number> = { ...cached }
+
+    // Default missing slugs to 0
+    missing.forEach((slug) => {
       viewCounts[slug] = 0
     })
 
+    // Update with database values and cache them
+    const toCache: Record<string, number> = {}
     if (data) {
       data.forEach((row: { slug: string; view_count: number }) => {
         viewCounts[row.slug] = row.view_count
+        toCache[row.slug] = row.view_count
       })
     }
+
+    // Cache the fetched values (including 0 for missing slugs)
+    missing.forEach((slug) => {
+      if (!(slug in toCache)) {
+        toCache[slug] = 0
+      }
+    })
+    setCachedViewCounts(toCache)
 
     return viewCounts
   } catch (error) {
     console.error('Failed to fetch view counts:', error)
-    return slugs.reduce((acc, slug) => ({ ...acc, [slug]: 0 }), {})
+    // Return cached values + 0 for missing on error
+    const result = { ...cached }
+    missing.forEach((slug) => {
+      result[slug] = 0
+    })
+    return result
   }
 }
 
 /**
  * Fetches view count for a single blog post slug
+ * Uses in-memory cache first, then queries database on cache miss
  */
 export async function getViewCount(slug: string): Promise<number> {
+  // Check cache first
+  const cachedCount = getCachedViewCount(slug)
+  if (cachedCount !== null) {
+    return cachedCount
+  }
+
+  // Cache miss - query database
   if (!supabaseServer) {
     return 0
   }
@@ -102,7 +163,12 @@ export async function getViewCount(slug: string): Promise<number> {
       return 0
     }
 
-    return data?.view_count ?? 0
+    const count = data?.view_count ?? 0
+
+    // Cache the result
+    setCachedViewCount(slug, count)
+
+    return count
   } catch (error) {
     console.error('Failed to fetch view count:', error)
     return 0

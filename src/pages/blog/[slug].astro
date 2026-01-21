@@ -30,6 +30,8 @@ const ogImageUrl = generateOgImageUrl({
 const postSlug = post.id
 // Fetch initial view count server-side for immediate display
 const initialViewCount = await getViewCount(postSlug)
+// Check if view tracking is enabled (only true in production)
+const trackingEnabled = import.meta.env.ENABLE_VIEW_TRACKING === 'true'
 ---
 
 <PageLayout
@@ -41,7 +43,7 @@ const initialViewCount = await getViewCount(postSlug)
       <header class="mb-8 flex flex-col gap-2">
         <h1 class="mt-8 text-xl font-bold sm:text-4xl">{post.data.title}</h1>
         <span class="text-muted-foreground flex items-center gap-2 text-sm"
-          >{postDate} | {postReadTime} | <span id="view-count" data-slug={postSlug} data-initial-count={initialViewCount} class="inline-flex items-center">{formatViewCount(initialViewCount)}</span> views</span
+          >{postDate} | {postReadTime} | <span id="view-count" data-slug={postSlug} data-initial-count={initialViewCount} data-tracking-enabled={trackingEnabled.toString()} class="inline-flex items-center">{formatViewCount(initialViewCount)}</span> views</span
         >
         {
           post.data.image && (
@@ -75,14 +77,18 @@ const initialViewCount = await getViewCount(postSlug)
     }
 
     const postSlug = viewCountElement.getAttribute('data-slug')
+    const trackingEnabled =
+      viewCountElement.getAttribute('data-tracking-enabled') === 'true'
+
+    // Skip tracking if not enabled - keep showing the initial count from server
+    if (!postSlug || !trackingEnabled) {
+      return
+    }
+
     const initialCount = Number.parseInt(
       viewCountElement.getAttribute('data-initial-count') ?? '0',
       10
     )
-
-    if (!postSlug) {
-      return
-    }
 
     try {
       // Increment view count - POST already returns the updated count

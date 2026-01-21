@@ -210,8 +210,9 @@ The following environment variables are required for full functionality:
 - `PUBLIC_SUPABASE_URL`: Your Supabase project URL
 - `PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous/public key (for client-side operations)
 - `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key (for server-side admin operations)
+- `ENABLE_VIEW_TRACKING`: Set to `true` to enable view count incrementing (should only be `true` in production)
 
-**Note**: View tracking will gracefully degrade if Supabase environment variables are not set (view counts will default to 0).
+**Note**: View tracking will gracefully degrade if Supabase environment variables are not set (view counts will default to 0). The `ENABLE_VIEW_TRACKING` flag protects production data from being skewed during local development or preview deployments.
 
 ## API Routes
 
