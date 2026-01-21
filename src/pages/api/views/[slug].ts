@@ -63,7 +63,8 @@ export const POST: APIRoute = async ({ params }) => {
   }
 
   // Skip view tracking if not enabled (protects production data during dev/preview)
-  if (import.meta.env.ENABLE_VIEW_TRACKING !== 'true') {
+  // Use process.env for runtime environment variables in Vercel serverless functions
+  if (process.env.ENABLE_VIEW_TRACKING !== 'true') {
     return new Response(
       JSON.stringify({ slug, view_count: 0, tracking_disabled: true }),
       {
