@@ -234,10 +234,9 @@ Convex is used for blog post view tracking with real-time subscriptions.
 
 Located in `convex/blogViews.ts`:
 
-- `getViewCount(slug)` - Query: Get view count for a single post
-- `getViewCounts(slugs)` - Query: Get view counts for multiple posts
-- `incrementViewCount(slug)` - Mutation: Increment view count (upserts if not exists)
-- `seedViewCount(slug, viewCount, lastReadAt)` - Mutation: Seed data (for migrations)
+- `getViewCount(slug)` - Query: Get view count and lastReadAt for a single post
+- `getViewCounts(slugs)` - Query: Get view counts for multiple posts (returns `Record<string, number>`)
+- `incrementViewCount(slug)` - Mutation: Increment view count (upserts if not exists), updates lastReadAt and updatedAt timestamps
 
 ### Client Setup
 
@@ -245,10 +244,47 @@ See `src/lib/convex.ts` for client configuration:
 
 - `convexClient` - Browser client with WebSocket for real-time subscriptions (used in Svelte components)
 - `convexHttpClient` - HTTP client for server-side queries (used in Astro SSR pages)
+- `isConvexConfigured()` - Helper function to check if Convex URL is set
+
+Both clients return `null` if `PUBLIC_CONVEX_URL` is not configured, allowing graceful degradation.
 
 ### Real-time Updates
 
 The `ViewCounter.svelte` component uses Convex's real-time subscriptions via `convexClient.onUpdate()`. When any user increments a view count, all connected clients see the update instantly.
+
+**ViewCounter behavior:**
+1. Subscribes to real-time updates for a specific slug on mount
+2. Displays the current view count (or "loading..." while fetching)
+3. Increments the view count once after the initial subscription callback fires
+4. Automatically cleans up the subscription on destroy
+
+### Usage Patterns
+
+**Server-side (Astro SSR pages):**
+
+```typescript
+import { convexHttpClient } from '@/lib/convex'
+import { api } from '../../../convex/_generated/api'
+
+if (convexHttpClient) {
+  const viewCounts = await convexHttpClient.query(api.blogViews.getViewCounts, { slugs })
+}
+```
+
+**Client-side (Svelte components):**
+
+```typescript
+import { convexClient } from '@/lib/convex'
+import { api } from '../../../convex/_generated/api'
+
+// Subscribe to real-time updates
+const unsubscribe = client.onUpdate(api.blogViews.getViewCount, { slug }, (result) => {
+  viewCount = result.viewCount
+})
+
+// Mutate data
+await client.mutation(api.blogViews.incrementViewCount, { slug })
+```
 
 ## Important Notes
 
