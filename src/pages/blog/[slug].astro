@@ -78,37 +78,34 @@ const trackingEnabled = process.env.ENABLE_VIEW_TRACKING === 'true'
     }
 
     const postSlug = viewCountElement.getAttribute('data-slug')
+    if (!postSlug) return
+
     const trackingEnabled =
       viewCountElement.getAttribute('data-tracking-enabled') === 'true'
 
-    // Skip tracking if not enabled - keep showing the initial count from server
-    if (!postSlug || !trackingEnabled) {
-      return
-    }
-
-    const initialCount = Number.parseInt(
-      viewCountElement.getAttribute('data-initial-count') ?? '0',
-      10
-    )
-
     try {
-      // Increment view count - POST already returns the updated count
-      const response = await fetch(`/api/views/${postSlug}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        viewCountElement.textContent = formatViewCount(
-          data.view_count ?? initialCount
-        )
+      // Step 1: GET fresh count to fix stale static value
+      const getResponse = await fetch(`/api/views/${postSlug}`)
+      if (getResponse.ok) {
+        const getData = await getResponse.json()
+        viewCountElement.textContent = formatViewCount(getData.view_count ?? 0)
       }
-      // Silently fail - keep existing count if tracking fails
+
+      // Step 2: POST to increment (only if tracking enabled)
+      if (trackingEnabled) {
+        const postResponse = await fetch(`/api/views/${postSlug}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        })
+        if (postResponse.ok) {
+          const postData = await postResponse.json()
+          viewCountElement.textContent = formatViewCount(
+            postData.view_count ?? 0
+          )
+        }
+      }
     } catch (error) {
-      // Silently fail - don't break the page if view tracking fails
+      // Silently fail - keep existing count if view tracking fails
     }
   }
 
