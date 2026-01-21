@@ -31,7 +31,8 @@ const postSlug = post.id
 // Fetch initial view count server-side for immediate display
 const initialViewCount = await getViewCount(postSlug)
 // Check if view tracking is enabled (only true in production)
-const trackingEnabled = import.meta.env.ENABLE_VIEW_TRACKING === 'true'
+// Use process.env for runtime env vars in Vercel serverless/SSR context
+const trackingEnabled = process.env.ENABLE_VIEW_TRACKING === 'true'
 ---
 
 <PageLayout

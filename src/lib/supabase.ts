@@ -13,7 +13,9 @@ export { invalidateCache, invalidateAllCache }
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-const supabaseServiceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY
+// Use process.env for non-PUBLIC env vars in Vercel serverless functions
+// import.meta.env only works at build time for non-PUBLIC vars
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn(
