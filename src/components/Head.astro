@@ -1,17 +1,8 @@
 ---
 import '@/styles/global.css'
-import inter400Italic from '@fontsource/inter/files/inter-latin-400-italic.woff2'
-import inter400 from '@fontsource/inter/files/inter-latin-400-normal.woff2'
-import inter600Italic from '@fontsource/inter/files/inter-latin-600-italic.woff2'
-import inter600 from '@fontsource/inter/files/inter-latin-600-normal.woff2'
-import inter700Italic from '@fontsource/inter/files/inter-latin-700-italic.woff2'
-import inter700 from '@fontsource/inter/files/inter-latin-700-normal.woff2'
-import '@fontsource/inter/latin-400-italic.css'
-import '@fontsource/inter/latin-400.css'
-import '@fontsource/inter/latin-600-italic.css'
-import '@fontsource/inter/latin-600.css'
-import '@fontsource/inter/latin-700-italic.css'
-import '@fontsource/inter/latin-700.css'
+import geistSans from '@/assets/fonts/Geist[wght].woff2'
+import geistSansItalic from '@/assets/fonts/Geist-Italic[wght].woff2'
+import geistMono from '@/assets/fonts/GeistMono[wght].woff2'
 import reenieBeanie from '@fontsource/reenie-beanie/files/reenie-beanie-latin-400-normal.woff2'
 import '@fontsource/reenie-beanie/latin-400.css'
 
@@ -48,30 +39,15 @@ const imageUrl = getImageUrl(image)
 <meta name="generator" content={Astro.generator} />
 
 <!-- Font preloads -->
-<link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={geistSans} as="font" type="font/woff2" crossorigin />
 <link
   rel="preload"
-  href={inter400Italic}
+  href={geistSansItalic}
   as="font"
   type="font/woff2"
   crossorigin
 />
-<link rel="preload" href={inter600} as="font" type="font/woff2" crossorigin />
-<link
-  rel="preload"
-  href={inter600Italic}
-  as="font"
-  type="font/woff2"
-  crossorigin
-/>
-<link rel="preload" href={inter700} as="font" type="font/woff2" crossorigin />
-<link
-  rel="preload"
-  href={inter700Italic}
-  as="font"
-  type="font/woff2"
-  crossorigin
-/>
+<link rel="preload" href={geistMono} as="font" type="font/woff2" crossorigin />
 <link
   rel="preload"
   href={reenieBeanie}
