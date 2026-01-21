@@ -15,14 +15,14 @@ const { categories, currentCategory, pathname } = Astro.props
   <HorizonWrapper>
     <Link
       href={`/${pathname}`}
-      class={`transition-colors duration-200 ease-in-out ${!currentCategory ? 'text-black' : 'hover:text-black'}`}>
+      class={`link-underline transition-colors duration-200 ease-in-out ${!currentCategory ? 'text-black link-underline-active' : 'hover:text-black'}`}>
       ALL
     </Link>
     {
       categories.map((cat) => (
         <Link
           href={`/${pathname}?category=${encodeURIComponent(cat)}`}
-          class={`transition-colors duration-200 ease-in-out ${currentCategory?.toLowerCase() === cat.toLowerCase() ? ' text-black' : 'hover:text-black'}`}>
+          class={`link-underline transition-colors duration-200 ease-in-out ${currentCategory?.toLowerCase() === cat.toLowerCase() ? 'text-black link-underline-active' : 'hover:text-black'}`}>
           {cat}
         </Link>
       ))

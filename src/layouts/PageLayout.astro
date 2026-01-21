@@ -32,3 +32,15 @@ const { title, description, image } = Astro.props
     <ScrollToTop />
   </body>
 </html>
+
+<script>
+  import { initLinkUnderline } from '@/utils/link-underline'
+
+  // Initialize on page load
+  initLinkUnderline()
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:after-swap', () => {
+    initLinkUnderline()
+  })
+</script>
