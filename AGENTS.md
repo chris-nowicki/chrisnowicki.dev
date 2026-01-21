@@ -10,6 +10,7 @@ This document provides essential information for AI coding agents working on the
 - **TypeScript**: Strict mode enabled
 - **Package Manager**: pnpm (v10.26.2)
 - **Deployment**: Vercel
+- **Database**: Supabase (PostgreSQL) for view tracking and analytics
 - **Content**: Markdown with rehype plugins for auto-linking headings
 
 ## Build and Development Commands
@@ -42,7 +43,9 @@ src/
 ├── data/            # Static data files
 ├── layouts/         # Layout templates
 ├── lib/             # Core library files and constants
+│   └── supabase.ts  # Supabase client configuration and helpers
 ├── pages/           # Astro page routes
+│   └── api/         # API endpoints (SSR routes)
 ├── styles/          # Global styles
 ├── types.ts         # TypeScript type definitions
 └── utils/           # Utility functions
@@ -200,9 +203,39 @@ const { title, description = 'Default description' } = Astro.props
 3. Always define Props interface
 4. Use semantic HTML and accessibility attributes
 
+## Environment Variables
+
+The following environment variables are required for full functionality:
+
+- `PUBLIC_SUPABASE_URL`: Your Supabase project URL
+- `PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous/public key (for client-side operations)
+- `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key (for server-side admin operations)
+- `ENABLE_VIEW_TRACKING`: Set to `true` to enable view count incrementing (should only be `true` in production)
+
+**Note**: View tracking will gracefully degrade if Supabase environment variables are not set (view counts will default to 0). The `ENABLE_VIEW_TRACKING` flag protects production data from being skewed during local development or preview deployments.
+
+## API Routes
+
+API routes are defined in `src/pages/api/` and run as server-side endpoints:
+
+- `/api/views/[slug]` - GET: Fetch view count for a blog post, POST: Increment view count
+- `/api/views/index` - GET: Fetch view counts for multiple blog posts (query param: `?slugs=slug1,slug2`)
+
+API routes use the Supabase service role client for database operations and return JSON responses.
+
+## Database
+
+- **Supabase**: Used for blog post view tracking
+- **Table**: `blog_views` with columns: `slug` (string), `view_count` (number), `updated_at` (timestamp)
+- **Client Setup**: See `src/lib/supabase.ts` for client configuration
+  - `supabaseClient`: Client-side client (uses anonymous key)
+  - `supabaseServer`: Server-side client (uses service role key)
+
 ## Important Notes
 
 - No ESLint configuration present - rely on TypeScript and Prettier
 - No automated tests exist yet - verify changes manually
 - Images optimized via Cloudinary integration
 - Site uses SSR mode on Vercel deployment
+- Blog index page uses SSR (`prerender = false`) to fetch view counts dynamically
+- Individual blog posts use static generation (`prerender = true`) with client-side view tracking

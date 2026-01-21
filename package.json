@@ -19,6 +19,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.11",
     "astro-cloudinary": "^1.3.5",
+    "@supabase/supabase-js": "^2.47.10",
     "clsx": "^2.1.1",
     "rehype-autolink-headings": "^7.1.0",
     "sharp": "^0.34.5",

@@ -5,16 +5,28 @@ import { BLOG } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
 import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
-import { formatDate } from '@/utils/utils'
+import { formatDate, formatViewCount } from '@/utils/utils'
 import CategoryMenu from '@/components/CategoryMenu.astro'
+import { getViewCounts } from '@/lib/supabase'
 
 export const prerender = false
+
+// Set CDN cache headers for this SSR page
+Astro.response.headers.set(
+  'Cache-Control',
+  'public, s-maxage=60, stale-while-revalidate=30'
+)
+
 const category = Astro.url.searchParams.get('category')
 
 const posts = await getPostsByCategory(category)
 const categories = await getAllPostCategories()
 
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
+
+// Fetch view counts for all posts
+const slugs = posts.map((post) => post.id)
+const viewCounts = await getViewCounts(slugs)
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -65,6 +77,9 @@ const ogImageUrl = generateOgImageUrl({
                     {readingTime(post.rendered?.html ?? '')} ·
                   </span>
                   {post.data.category && <span>{post.data.category}</span>}
+                  <span class="text-sm tracking-tight text-muted-foreground">
+                    {' '}· {formatViewCount(viewCounts[post.id] ?? 0)} views
+                  </span>
                 </div>
               </a>
             ))}

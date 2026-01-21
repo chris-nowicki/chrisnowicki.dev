@@ -1,11 +1,12 @@
 ---
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
-import { formatDate } from '@/utils/utils'
+import { formatDate, formatViewCount } from '@/utils/utils'
 import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
 import { Image } from 'astro:assets'
 import { getCollection, render } from 'astro:content'
+import { getViewCount } from '@/lib/supabase'
 
 export const prerender = true
 
@@ -25,6 +26,12 @@ const ogImageUrl = generateOgImageUrl({
   description: post.data.title,
   readTime: postReadTime,
 })
+
+const postSlug = post.id
+// Fetch initial view count server-side for immediate display
+const initialViewCount = await getViewCount(postSlug)
+// Check if view tracking is enabled (only true in production)
+const trackingEnabled = import.meta.env.ENABLE_VIEW_TRACKING === 'true'
 ---
 
 <PageLayout
@@ -36,7 +43,7 @@ const ogImageUrl = generateOgImageUrl({
       <header class="mb-8 flex flex-col gap-2">
         <h1 class="mt-8 text-xl font-bold sm:text-4xl">{post.data.title}</h1>
         <span class="text-muted-foreground flex items-center gap-2 text-sm"
-          >{postDate} | {postReadTime}</span
+          >{postDate} | {postReadTime} | <span id="view-count" data-slug={postSlug} data-initial-count={initialViewCount} data-tracking-enabled={trackingEnabled.toString()} class="inline-flex items-center">{formatViewCount(initialViewCount)}</span> views</span
         >
         {
           post.data.image && (
@@ -59,10 +66,63 @@ const ogImageUrl = generateOgImageUrl({
 
 <script>
   import { copyCodeButton } from '@/utils/copy-code-button'
+  import { formatViewCount } from '@/utils/utils'
+
+  // Track view and update count
+  async function trackView() {
+    const viewCountElement = document.getElementById('view-count')
+    if (!viewCountElement) {
+      setTimeout(trackView, 100)
+      return
+    }
+
+    const postSlug = viewCountElement.getAttribute('data-slug')
+    const trackingEnabled =
+      viewCountElement.getAttribute('data-tracking-enabled') === 'true'
+
+    // Skip tracking if not enabled - keep showing the initial count from server
+    if (!postSlug || !trackingEnabled) {
+      return
+    }
+
+    const initialCount = Number.parseInt(
+      viewCountElement.getAttribute('data-initial-count') ?? '0',
+      10
+    )
+
+    try {
+      // Increment view count - POST already returns the updated count
+      const response = await fetch(`/api/views/${postSlug}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        viewCountElement.textContent = formatViewCount(
+          data.view_count ?? initialCount
+        )
+      }
+      // Silently fail - keep existing count if tracking fails
+    } catch (error) {
+      // Silently fail - don't break the page if view tracking fails
+    }
+  }
+
+  // Wait for DOM to be ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', trackView)
+  } else {
+    trackView()
+  }
 
   let cleanup = copyCodeButton()
   document.addEventListener('astro:after-swap', () => {
     cleanup()
     cleanup = copyCodeButton()
+    // Re-track view on client-side navigation
+    trackView()
   })
 </script>
