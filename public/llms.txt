@@ -1,0 +1,30 @@
+# Chris Nowicki
+
+> Full-Stack Developer & Technology Nerd. Personal portfolio and blog covering tech tutorials, career insights, and productivity tips.
+
+## About
+
+Chris Nowicki is a Developer Experience Engineer who writes about web development, developer tools, and career growth in tech.
+
+## Pages
+
+- [Home](https://www.chrisnowicki.dev/): Portfolio homepage with latest posts, speaking engagements, and contact info
+- [Blog](https://www.chrisnowicki.dev/blog): Articles on life, tech, and productivity
+- [Speaking](https://www.chrisnowicki.dev/speaking): Upcoming and past speaking engagements
+- [Uses](https://www.chrisnowicki.dev/uses): Software, hardware, and peripherals I use daily
+- [Contact](https://www.chrisnowicki.dev/contact): Get in touch
+
+## Blog Posts
+
+- [The Reality of Burnout and Breaking Into Tech](https://www.chrisnowicki.dev/blog/breaking-into-tech-and-burnout): Overcoming burnout through digital detox and self-care
+- [How to Secure Vercel Cron Job routes in NextJS 13](https://www.chrisnowicki.dev/blog/how-to-secure-a-vercel-cron-job): Secure Vercel cron routes with bearer token authentication
+- [How to setup Vercel Postgres Serverless SQL Storage using NextJS](https://www.chrisnowicki.dev/blog/how-to-setup-vercel-postgres): Setup Vercel Postgres database with Next.js and Kysely
+- [How to create a Vercel Cron Job using NextJS 13](https://www.chrisnowicki.dev/blog/how-to-create-a-vercel-cron-job): Learn to create Vercel cron jobs in Next.js
+
+## Contact
+
+- Email: chris@chrisnowicki.dev
+- X/Twitter: [@iamwix](https://twitter.com/iamwix)
+- GitHub: [chris-nowicki](https://github.com/chris-nowicki)
+- LinkedIn: [chris-nowicki](https://www.linkedin.com/in/chris-nowicki/)
+- Twitch: [chriswix](https://www.twitch.tv/chriswix)
