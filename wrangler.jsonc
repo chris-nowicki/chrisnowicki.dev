@@ -1,16 +1,40 @@
 {
-	"main": "dist/_worker.js/index.js",
-	"name": "portfolio",
+  "main": "dist/_worker.js/index.js",
+  "name": "portfolio",
   "compatibility_date": "2026-01-24",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  "vars": {
+    "CLOUDINARY_CLOUD_NAME": "ddetibihn",
+    "PUBLIC_CONVEX_URL": "https://handsome-kangaroo-644.convex.cloud",
+  },
+  "d1_databases": [
+    {
+      "binding": "portfolio_prod_db",
+      "database_name": "portfolio-prod-db",
+      "database_id": "73214876-dbc5-423d-a1da-b19bd03f4962",
+    },
   ],
-	"assets": {
-		"binding": "ASSETS",
-		"directory": "./dist"
-	},
-	"observability": {
-    "enabled": true
-  }
+  "env": {
+    "preview": {
+      "vars": {
+        "CLOUDINARY_CLOUD_NAME": "ddetibihn",
+        "PUBLIC_CONVEX_URL": "https://sensible-opossum-629.convex.cloud",
+      },
+      "d1_databases": [
+        {
+          "binding": "portfolio_preview_db",
+          "database_name": "portfolio-preview-db",
+          "database_id": "bce86fef-f62e-4385-b2cb-ab6f077ee7f2",
+          "remote": true,
+        },
+      ],
+    },
+  },
 }
