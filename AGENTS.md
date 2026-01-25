@@ -9,7 +9,7 @@ This document provides essential information for AI coding agents working on the
 - **Styling**: Tailwind CSS v4 with Vite plugin
 - **TypeScript**: Strict mode enabled
 - **Package Manager**: pnpm (v10.26.2)
-- **Deployment**: Vercel
+- **Deployment**: Cloudflare Workers
 - **Database**: Convex for view tracking with real-time subscriptions
 - **Content**: Markdown with rehype plugins for auto-linking headings
 
@@ -291,7 +291,7 @@ await client.mutation(api.blogViews.incrementViewCount, { slug })
 - No ESLint configuration present - rely on TypeScript and Prettier
 - No automated tests exist yet - verify changes manually
 - Images optimized via Cloudinary integration
-- Site uses SSR mode on Vercel deployment
+- Site uses SSR mode on Cloudflare Workers deployment
 - Blog index page uses SSR (`prerender = false`) to fetch view counts dynamically
 - Individual blog posts use static generation (`prerender = true`) with client-side real-time view tracking via Convex
 - Convex provides automatic caching and real-time sync - no custom caching layer needed

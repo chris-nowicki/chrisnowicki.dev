@@ -15,7 +15,7 @@ My little slice of the internet, built with modern tech and way too much coffee.
 - **Styling**: Tailwind CSS v4 - because writing actual CSS in 2026 is for masochists
 - **Database**: Convex - real-time view tracking with WebSocket subscriptions
 - **Content**: Markdown with auto-linking headings - keeping it simple and semantic
-- **Deployment**: Vercel - where websites go to live their best lives
+- **Deployment**: Cloudflare Workers - where websites go to live their best lives
 
 ## Running Locally
 
@@ -67,7 +67,7 @@ convex/            # Convex backend
 - ✍️ **Blog with Markdown** - because writing HTML by hand is cruel
 - 📊 **Real-time view tracking** - powered by Convex with live updates
 - 🖼️ **Cloudinary integration** - for optimized OG images
-- 🚀 **SSR on Vercel** - for that sweet SEO juice
+- 🚀 **SSR on Cloudflare Workers** - for that sweet SEO juice
 - ☕ **Coffee-powered development** - "Oh, and coffee. Lots of coffee."
 
 ## Contact & Socials
