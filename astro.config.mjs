@@ -6,8 +6,6 @@ import { defineConfig } from 'astro/config'
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 import svelte from '@astrojs/svelte'
 
-import vercel from '@astrojs/vercel'
-
 import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
