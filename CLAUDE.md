@@ -94,6 +94,7 @@ Client setup in `src/lib/convex.ts`:
 
 - `PUBLIC_CONVEX_URL` - Convex deployment URL
 - `ENABLE_VIEW_TRACKING` - Set to `true` only in production to increment views
+- `PUBLIC_DISABLE_VIEW_COUNT_PROTECTION` - Set to `true` to disable view count protection for testing (local development only)
 
 ## Git Workflow
 

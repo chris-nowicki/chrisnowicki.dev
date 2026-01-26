@@ -213,8 +213,9 @@ The following environment variables are required for full functionality:
 
 - `PUBLIC_CONVEX_URL`: Your Convex deployment URL (e.g., `https://your-project.convex.cloud`)
 - `ENABLE_VIEW_TRACKING`: Set to `true` to enable view count incrementing (should only be `true` in production)
+- `PUBLIC_DISABLE_VIEW_COUNT_PROTECTION`: Set to `true` to disable view count protection for testing (local development only). When enabled, view counts will increment on every page load regardless of cooldown period.
 
-**Note**: View tracking will gracefully degrade if Convex environment variables are not set (view counts will default to 0). The `ENABLE_VIEW_TRACKING` flag protects production data from being skewed during local development or preview deployments.
+**Note**: View tracking will gracefully degrade if Convex environment variables are not set (view counts will default to 0). The `ENABLE_VIEW_TRACKING` flag protects production data from being skewed during local development or preview deployments. The `PUBLIC_DISABLE_VIEW_COUNT_PROTECTION` flag allows you to test view counter functionality locally without waiting for the cooldown period.
 
 ## Database (Convex)
 

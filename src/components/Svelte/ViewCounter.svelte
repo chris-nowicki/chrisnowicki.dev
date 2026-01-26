@@ -2,6 +2,11 @@
   import { onMount, onDestroy } from 'svelte'
   import { convexClient } from '@/lib/convex'
   import { api } from '../../../convex/_generated/api'
+  import {
+    wasPostViewedRecently,
+    markPostAsViewed,
+    cleanupOldViewedPosts,
+  } from '@/utils/utils'
 
   export let slug: string
 
@@ -20,6 +25,9 @@
       return
     }
 
+    // Clean up old viewed posts to keep local storage tidy
+    cleanupOldViewedPosts()
+
     // Store client reference for use in callback
     const client = convexClient
 
@@ -32,12 +40,23 @@
           console.log('Received view count result:', result)
           viewCount = result.viewCount
 
-          // Increment view count once after initial load
+          // Increment view count once after initial load, but only if not viewed recently
           if (!hasIncremented) {
             hasIncremented = true
-            client.mutation(api.blogViews.incrementViewCount, { slug })
-              .then(() => console.log('Incremented view count'))
-              .catch((err) => console.error('Failed to increment:', err))
+
+            // Check if this post was viewed recently (within cooldown period)
+            // Protection can be disabled via PUBLIC_DISABLE_VIEW_COUNT_PROTECTION env var
+            if (wasPostViewedRecently(slug)) {
+              console.log(
+                `Post "${slug}" was viewed recently, skipping view count increment`
+              )
+            } else {
+              // Mark as viewed and increment count
+              markPostAsViewed(slug)
+              client.mutation(api.blogViews.incrementViewCount, { slug })
+                .then(() => console.log('Incremented view count'))
+                .catch((err) => console.error('Failed to increment:', err))
+            }
           }
         }
       )
