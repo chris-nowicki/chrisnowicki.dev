@@ -7,7 +7,7 @@ import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
 import { formatDate, formatViewCount } from '@/utils/utils'
 import CategoryMenu from '@/components/CategoryMenu.astro'
-import { convexHttpClient } from '@/lib/convex'
+import { getConvexHttpClient } from '@/lib/convex'
 import { api } from '../../../convex/_generated/api'
 
 export const prerender = false
@@ -18,6 +18,11 @@ const posts = await getPostsByCategory(category)
 const categories = await getAllPostCategories()
 
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
+
+// Get Convex URL from Worker runtime environment
+// @ts-ignore - Cloudflare runtime env access
+const convexUrl = (Astro.locals as any).runtime?.env?.PUBLIC_CONVEX_URL as string | undefined
+const convexHttpClient = getConvexHttpClient(convexUrl)
 
 // Fetch view counts for all posts from Convex
 const slugs = posts.map((post) => post.id)

@@ -19,11 +19,6 @@
 			"vars": {
 				"PUBLIC_CONVEX_URL": "https://sensible-opossum-629.convex.cloud"
 			}
-		},
-		"production": {
-			"vars": {
-				"PUBLIC_CONVEX_URL": "https://handsome-kangaroo-644.convex.cloud"
-			}
 		}
 	}
 }

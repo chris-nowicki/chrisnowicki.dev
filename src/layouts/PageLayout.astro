@@ -12,6 +12,10 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props
+
+// Get Convex URL from Worker runtime environment
+// @ts-ignore - Cloudflare runtime env access
+const convexUrl = (Astro.locals as any).runtime?.env?.PUBLIC_CONVEX_URL as string | undefined
 ---
 
 <!doctype html>
@@ -22,6 +26,12 @@ const { title, description, image } = Astro.props
       description={description}
       image={image}
     />
+    <!-- Inject Convex URL for client-side access -->
+    {convexUrl && (
+      <script define:vars={{ convexUrl }}>
+        window.__CONVEX_URL__ = convexUrl
+      </script>
+    )}
   </head>
   <body>
     <NavBar />
