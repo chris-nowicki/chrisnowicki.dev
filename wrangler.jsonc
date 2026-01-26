@@ -16,6 +16,7 @@
 	"env": {
 		"preview": {
 			"workers_dev": true,
+			"preview_urls": true,
 			"vars": {
 				"PUBLIC_CLOUDINARY_CLOUD_NAME": "ddetibihn",
 				"PUBLIC_CONVEX_URL": "https://sensible-opossum-629.convex.cloud"
