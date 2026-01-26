@@ -15,6 +15,9 @@ export default defineConfig({
   vite: {
     // @ts-ignore - Tailwind Vite plugin type compatibility
     plugins: [tailwindcss()],
+    ssr: {
+      external: ['node:async_hooks', 'node:crypto'],
+    },
   },
 
   integrations: [sitemap(), svelte()],
@@ -41,4 +44,9 @@ export default defineConfig({
   adapter: cloudflare(),
   output: 'server',
   prefetch: true,
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+    },
+  },
 })
