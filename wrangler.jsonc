@@ -12,5 +12,14 @@
 	},
 	"observability": {
     "enabled": true
-  }
+  },
+	"env": {
+		"preview": {
+			"workers_dev": true,
+			"vars": {
+				"PUBLIC_CLOUDINARY_CLOUD_NAME": "ddetibihn",
+				"PUBLIC_CONVEX_URL": "https://sensible-opossum-629.convex.cloud"
+			}
+		}
+	}
 }
