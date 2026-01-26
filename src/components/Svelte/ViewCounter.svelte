@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
-  import { convexClient } from '@/lib/convex'
+  import { getConvexClient } from '@/lib/convex'
   import { api } from '../../../convex/_generated/api'
 
   export let slug: string
@@ -12,16 +12,16 @@
 
   onMount(async () => {
     console.log('ViewCounter mounted for slug:', slug)
-    console.log('Convex client:', convexClient)
+    
+    // Get client lazily to ensure window.__CONVEX_URL__ is available
+    const client = getConvexClient()
+    console.log('Convex client:', client)
 
-    if (!convexClient) {
+    if (!client) {
       error = 'Convex client not configured'
       console.warn(error)
       return
     }
-
-    // Store client reference for use in callback
-    const client = convexClient
 
     try {
       // Subscribe to real-time view count updates

@@ -16,13 +16,15 @@ function getConvexUrl(): string | undefined {
   return import.meta.env.PUBLIC_CONVEX_URL as string | undefined
 }
 
-const convexUrl = getConvexUrl()
-
 /**
  * Browser client for real-time subscriptions (used in Svelte components)
  * Uses WebSocket connection for live updates
+ * Created lazily to ensure window.__CONVEX_URL__ is available
  */
-export const convexClient = convexUrl ? new ConvexClient(convexUrl) : null
+export function getConvexClient(): ConvexClient | null {
+  const url = getConvexUrl()
+  return url ? new ConvexClient(url) : null
+}
 
 /**
  * HTTP client for server-side queries (used in Astro pages)
