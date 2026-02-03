@@ -10,12 +10,9 @@ const { class: className = '' } = Astro.props
 
 
 <div
-  class={cn("text-md relative mb-12 flex flex-wrap gap-4 py-2 font-mono uppercase", className)}>
-  <div
-    class="absolute top-0 right-0 left-0 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent">
-  </div>
-  <div
-    class="absolute right-0 bottom-0 left-0 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent">
-  </div>
+  class={cn("text-md relative mb-12 flex flex-wrap justify-center gap-4 py-3 font-mono", className)}>
+  <!-- Full-width dashed lines -->
+  <div class="absolute top-0 left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-slate-200"></div>
+  <div class="absolute bottom-0 left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-slate-200"></div>
   <slot />
 </div>

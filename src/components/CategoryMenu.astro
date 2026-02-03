@@ -1,6 +1,7 @@
 ---
 import HorizonWrapper from './HorizonWrapper.astro'
 import Link from './Link.astro'
+import { cn } from '@/utils/utils'
 
 interface Props {
   categories: string[]
@@ -15,17 +16,26 @@ const { categories, currentCategory, pathname } = Astro.props
   <HorizonWrapper>
     <Link
       href={`/${pathname}`}
-      class={`link-underline transition-colors duration-200 ease-in-out ${!currentCategory ? 'text-black link-underline-active' : 'hover:text-black'}`}>
-      ALL
+      class={cn(
+        'transition-colors duration-200 ease-in-out',
+        !currentCategory ? 'text-foreground' : 'hover:text-foreground'
+      )}>
+      all
     </Link>
     {
-      categories.map((cat) => (
-        <Link
-          href={`/${pathname}?category=${encodeURIComponent(cat)}`}
-          class={`link-underline transition-colors duration-200 ease-in-out ${currentCategory?.toLowerCase() === cat.toLowerCase() ? 'text-black link-underline-active' : 'hover:text-black'}`}>
-          {cat}
-        </Link>
-      ))
+      categories.map((cat) => {
+        const isActive = currentCategory?.toLowerCase() === cat.toLowerCase()
+        return (
+          <Link
+            href={`/${pathname}?category=${encodeURIComponent(cat)}`}
+            class={cn(
+              'transition-colors duration-200 ease-in-out',
+              isActive ? 'text-foreground' : 'hover:text-foreground'
+            )}>
+            {cat}
+          </Link>
+        )
+      })
     }
   </HorizonWrapper>
 </div>

@@ -21,7 +21,7 @@
     document.body.style.overflow = isOpen ? 'hidden' : ''
   }
 
-  const mobileNavLinks = [{ href: '/', text: 'home' }, ...navLinks]
+  const mobileNavLinks = [{ href: '/', text: 'Home' }, ...navLinks]
 </script>
 
 <!-- Hamburger Button -->
@@ -63,13 +63,13 @@
       <ul class="flex flex-col items-start gap-2 text-2xl">
         {#each mobileNavLinks as { href, text }}
           {@const isActive =
-            (text === 'home' && pathname === '') || text === pathname}
+            (text === 'Home' && pathname === '') || text.toLowerCase() === pathname}
           <li class="w-full">
             <a
               {href}
               class={cn(
-                'flex transition-colors duration-300 ease-in-out hover:text-foreground border w-full p-2 text-center rounded-xl',
-                isActive ? 'text-foreground font-medium' : 'text-black'
+                'flex transition-colors duration-300 ease-in-out hover:text-foreground w-full p-2 text-center rounded-xl',
+                isActive ? 'text-foreground font-medium border border-dashed border-slate-400' : 'text-black border border-transparent'
               )}
               on:click={() => toggleMenu(true)}
               aria-current={isActive ? 'page' : undefined}
