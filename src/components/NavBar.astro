@@ -2,6 +2,7 @@
 import { cn } from '@/utils/utils'
 import { navLinks } from '@/lib/site'
 import MobileNav from './Svelte/MobileNav.svelte'
+import DesktopNav from './Svelte/DesktopNav.svelte'
 
 export const prerender = false
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
@@ -20,31 +21,7 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
       <span class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:-rotate-6">C</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">hris</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[16px]">&nbsp;</span><span class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-6">N</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">owicki</span>
     </a>
 
-    <ul
-      class="hidden list-none gap-4 px-4 py-2 text-lg md:flex"
-      aria-label="Desktop navigation">
-      {
-        navLinks.map(({ href, text }) => {
-          const isActive = pathname === text
-          return (
-            <li>
-              <a
-                {href}
-                class={cn(
-                  'link-underline transition-colors duration-200 ease-in-out uppercase',
-                  isActive
-                    ? 'text-black link-underline-active'
-                    : 'hover:text-black'
-                )}
-                aria-current={isActive ? 'page' : undefined}
-                data-astro-prefetch>
-                {text}
-              </a>
-            </li>
-          )
-        })
-      }
-    </ul>
+    <DesktopNav {navLinks} {pathname} client:load />
     <MobileNav client:load />
   </nav>
 </div>

@@ -8,10 +8,10 @@ import X from '@/assets/icons/x.svg'
 export const NUMBER_OF_ENTRIES = 3
 
 export const navLinks = [
-  { href: '/blog', text: 'blog' },
-  { href: '/speaking', text: 'speaking' },
-  { href: '/uses', text: 'uses' },
-  { href: '/contact', text: 'contact' },
+  { href: '/blog', text: 'Blog' },
+  { href: '/speaking', text: 'Speaking' },
+  { href: '/uses', text: 'Uses' },
+  { href: '/contact', text: 'Contact' },
 ]
 
 export const socialLinks = [
