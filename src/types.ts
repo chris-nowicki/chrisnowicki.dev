@@ -11,3 +11,8 @@ export type Metadata = {
 }
 
 export type Blog = CollectionEntry<'blog'>
+
+export type Status = {
+  available: boolean
+  message: string
+}
