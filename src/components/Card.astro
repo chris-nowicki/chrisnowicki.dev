@@ -13,24 +13,25 @@ const { href, name, description = '', image = '' } = Astro.props
 
 <a
   href={href}
-  class="group block h-full min-h-[350px] overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
+  class="group block h-full min-h-[350px] overflow-hidden rounded-lg border bg-white shadow-sm ring-1 ring-inset ring-slate-900/5 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg"
   aria-label={`Read more about ${name}`}>
-  {/* Card Image Section - Full width at top */}
-  <div class="h-40 w-full overflow-hidden bg-muted">
+  <div class="relative h-40 w-full overflow-hidden bg-muted">
     {
       image ?
-        <Image
-          src={image}
-          alt={name}
-          height={160}
-          width={256}
-          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        <>
+          <Image
+            src={image}
+            alt={name}
+            height={160}
+            width={256}
+            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-slate-900/5 transition-opacity duration-300 group-hover:opacity-0" aria-hidden="true"></div>
+        </>
       : <div class="flex h-full w-full items-center justify-center bg-muted" />
     }
   </div>
 
-  {/* Card Content Section */}
   <div class="flex h-full flex-col p-3 sm:p-4">
     <h2
       class="mb-2 min-h-[2.5em] text-lg font-bold break-words transition-colors group-hover:text-foreground">

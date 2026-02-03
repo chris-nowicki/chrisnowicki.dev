@@ -3,46 +3,80 @@ import Button from './Button.astro'
 import Link from './Link.astro'
 import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
 import Image from 'astro/components/Image.astro'
-import Me from '@/assets/images/chris.png'
+import Me from '@/assets/images/me.jpg'
+import { STATUS } from '@/lib/site'
 ---
 
-<section
-  class="relative mt-16 flex flex-wrap-reverse rounded-xl pb-4 text-base md:border sm:text-lg md:mt-30 md:mb-30">
-  <div class="p-0 md:w-2/3 md:p-8">
-    <h1 class="text-3xl md:text-4xl">
-      <span class="font-bold">Hello</span>, I'm Chris Nowicki
-    </h1>
-    <p class="mt-3 text-lg md:text-xl">
-      Developer Experience Engineer at
-      <Link
-        href="https://www.commerce.com"
-        ariaLabel="Visit the Commerce website"
-        target="_blank"
-        class="link-underline text-muted-foreground hover:text-black"
-        >Commerce.</Link>
-    </p>
+<section class="relative mt-16 pb-4 text-base sm:text-lg md:mt-30">
+  <div class="mb-8 flex flex-col items-center md:hidden">
+    <div class="relative border border-dashed border-slate-300 p-3">
+      <div class="absolute -left-1.5 -top-1.5 h-3 w-3">
+        <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
+        <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
+      </div>
+      <div class="absolute -right-1.5 -top-1.5 h-3 w-3">
+        <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
+        <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
+      </div>
+      <div class="absolute -bottom-1.5 -left-1.5 h-3 w-3">
+        <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
+        <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
+      </div>
+      <div class="absolute -bottom-1.5 -right-1.5 h-3 w-3">
+        <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
+        <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
+      </div>
+      <div class="group rounded-full shadow-lg">
+        <div class="h-[120px] w-[120px] overflow-hidden rounded-full border-4 border-white">
+          <Image src={Me} alt="Photo of me" loading="eager" width={140} class="h-full w-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0" />
+        </div>
+      </div>
+      <div class="mt-2 text-center font-mono text-[10px] uppercase tracking-widest text-slate-400">
+        Fig. 01 — Chris
+      </div>
+    </div>
+  </div>
 
-    <div class="mt-6 space-y-6 sm:space-y-8">
-      <p>
+  <div class="md:flex md:items-start md:justify-between md:gap-8">
+    <div class="min-w-0 flex-1 md:pr-4">
+    <h1 class="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
+      Hello, I'm Chris Nowicki
+    </h1>
+
+    <div class="mt-4">
+      <span class="inline-flex items-center gap-2 rounded-full border border-dashed border-slate-300 px-4 py-1.5 text-sm font-medium text-slate-600">
+        <span class="group relative cursor-help">
+          <span class:list={["block h-2 w-2 rounded-full", STATUS.available ? "bg-green-500" : "bg-red-500"]}></span>
+          <span class="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-xs text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+            {STATUS.message}
+            <span class="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900"></span>
+          </span>
+        </span>
+        Developer Experience Engineer at
+        <Link
+          href="https://www.commerce.com"
+          ariaLabel="Visit the Commerce website"
+          target="_blank"
+          class="link-underline font-semibold text-slate-900 hover:text-black"
+          >Commerce</Link>
+      </span>
+    </div>
+
+    <div class="mt-8 space-y-6 sm:space-y-8">
+      <p class="text-lg text-slate-600">
         When I'm not making developers' lives easier with docs and dev tools,
         you'll find me tinkering with new tech, optimizing my productivity setup
         (<em>while keeping it minimal</em>), or hunting for the perfect
         cheeseburger.
       </p>
 
-      <blockquote class="font-cursive relative text-2xl">
+      <blockquote class="font-cursive relative rounded-r-md border-l-2 border-slate-300 bg-gradient-to-r from-slate-50/50 to-transparent py-2 pl-4 text-2xl">
         <span class="relative inline-flex items-center">
           Oh, and coffee. Lots of coffee.
           <ArrowSquiggle
             width={45}
             height={45}
-            class="arrow-sm-only absolute top-4 -right-12 hidden rotate-90 transform md:hidden"
-          />
-
-          <ArrowSquiggle
-            width={45}
-            height={45}
-            class="absolute top-4 -right-12 bottom-0 hidden rotate-90 transform md:block"
+            class="absolute top-4 -right-12 hidden rotate-90 transform md:block"
           />
         </span>
       </blockquote>
@@ -63,8 +97,35 @@ import Me from '@/assets/images/chris.png'
         class="text-center uppercase">Buy Me A Coffee</Button
       >
     </div>
-  </div>
-  <div class="absolute -right-2 bottom-0 hidden md:block lg:-right-10">
-    <Image src={Me} alt="Photo of me" loading="eager" width={300} class="w-[275px] lg:w-[300px]'" />
+    </div>
+
+    <div class="hidden shrink-0 md:block">
+      <div class="relative border border-dashed border-slate-300 p-3">
+        <div class="absolute -left-1.5 -top-1.5 h-3 w-3">
+          <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
+          <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
+        </div>
+        <div class="absolute -right-1.5 -top-1.5 h-3 w-3">
+          <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
+          <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
+        </div>
+        <div class="absolute -bottom-1.5 -left-1.5 h-3 w-3">
+          <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
+          <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
+        </div>
+        <div class="absolute -bottom-1.5 -right-1.5 h-3 w-3">
+          <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
+          <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
+        </div>
+        <div class="group rounded-full shadow-lg">
+          <div class="h-[120px] w-[120px] overflow-hidden rounded-full border-4 border-white lg:h-[140px] lg:w-[140px]">
+            <Image src={Me} alt="Photo of me" loading="eager" width={160} class="h-full w-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0" />
+          </div>
+        </div>
+        <div class="mt-2 text-center font-mono text-[10px] uppercase tracking-widest text-slate-400">
+          Fig. 01 — Chris
+        </div>
+      </div>
+    </div>
   </div>
 </section>

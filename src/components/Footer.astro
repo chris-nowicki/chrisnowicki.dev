@@ -1,7 +1,7 @@
 ---
 import Container from './Container.astro'
 import Link from './Link.astro'
-import { navLinks, socialLinks } from '@/lib/site'
+import { navLinks, socialLinks, SITE, STATUS } from '@/lib/site'
 
 const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
 const currentYear = new Date().getFullYear()
@@ -15,70 +15,113 @@ const builtWith = [
 ]
 ---
 
-<Container>
-  <footer class="mt-16 mb-8 border-t border-border pt-8">
-    <div class="flex flex-col items-center gap-6 text-center">
-      {/* Social Icons */}
-      <div class="flex items-center gap-4">
-        {
-          socialLinks.map(({ icon: Icon, url, label }) => (
-            <Link
-              href={url}
-              target="_blank"
-              ariaLabel={label}
-              class="text-muted-foreground transition-all duration-200 ease-in-out hover:scale-110 hover:text-foreground">
-              <Icon width={20} height={20} aria-hidden="true" />
-            </Link>
-          ))
-        }
+<footer class="relative mt-12 md:mt-16">
+  <div class="relative z-20 h-px w-full border-t border-dashed border-slate-200" aria-hidden="true">
+    <div class="frame-plus absolute top-0 -translate-y-1/2" style="left: calc(50% - 28rem - 1.5rem - 0.5rem);">
+      <div class="relative h-4 w-4 bg-white">
+        <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black"></div>
+        <div class="absolute left-1/2 top-0 w-px h-full -translate-x-1/2 bg-black"></div>
+      </div>
+    </div>
+    <div class="frame-plus absolute top-0 -translate-y-1/2" style="right: calc(50% - 28rem - 1.5rem - 0.5rem);">
+      <div class="relative h-4 w-4 bg-white">
+        <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black"></div>
+        <div class="absolute left-1/2 top-0 w-px h-full -translate-x-1/2 bg-black"></div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="absolute inset-0 top-px opacity-[0.03] pointer-events-none"
+    style="background-image: radial-gradient(circle, #64748b 1px, transparent 1px); background-size: 24px 24px;"
+    aria-hidden="true">
+  </div>
+
+  <Container>
+    <div class="relative py-12 md:py-16">
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-12">
+        <div class="col-span-2 text-center md:col-span-5 md:text-left">
+          <a href="/" class="font-cursive group inline-flex items-center overflow-hidden text-4xl text-slate-900">
+            <span class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:-rotate-6">C</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">hris</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[16px]">&nbsp;</span><span class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-6">N</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">owicki</span>
+          </a>
+          <p class="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-slate-500 md:mx-0">
+            Developer Experience Engineer crafting docs, tools, and the occasional side project. Based in the US, powered by coffee.
+          </p>
+
+          <div class="mt-4 flex items-center justify-center gap-3 md:justify-start">
+            {
+              socialLinks.map(({ icon: Icon, url, label }) => (
+                <Link
+                  href={url}
+                  target="_blank"
+                  ariaLabel={label}
+                  class="group flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900">
+                  <Icon width={16} height={16} aria-hidden="true" class="transition-transform duration-200 group-hover:scale-110" />
+                </Link>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="col-span-1 md:col-span-3 md:col-start-7">
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-slate-400">Navigate</h3>
+          <nav class="mt-3 flex flex-col gap-2" aria-label="Footer navigation">
+            {
+              footerLinks.map((link) => (
+                <a
+                  href={link.href}
+                  class="text-sm text-slate-600 transition-colors duration-200 hover:text-slate-900"
+                  data-astro-prefetch>
+                  <span class="capitalize">{link.text}</span>
+                </a>
+              ))
+            }
+          </nav>
+        </div>
+
+        <div class="col-span-1 md:col-span-3">
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-slate-400">Built with</h3>
+          <div class="mt-3 flex flex-col gap-2">
+            {
+              builtWith.map((tech) => (
+                <a
+                  href={tech.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-slate-600 transition-colors duration-200 hover:text-slate-900">
+                  {tech.name}
+                </a>
+              ))
+            }
+          </div>
+        </div>
       </div>
 
-      {/* Sitemap Links */}
-      <nav class="text-xs sm:text-sm" aria-label="Footer navigation">
-        {
-          footerLinks.map((link, index, array) => (
-            <span>
-              <a
-                href={link.href}
-                class="link-underline text-muted-foreground uppercase transition-colors duration-200 hover:text-foreground"
-                data-astro-prefetch>
-                {link.text}
-              </a>
-              {index < array.length - 1 && (
-                <span class="text-muted-foreground/50 mx-1 sm:mx-2">/</span>
-              )}
-            </span>
-          ))
-        }
-      </nav>
+      <div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-slate-100 pt-6 md:mt-16 md:flex-row md:pt-8">
+        <p class="text-xs text-slate-400">
+          &copy; {currentYear} {SITE.NAME}. Crafted with care &amp; <span class="inline-block transition-transform duration-200 hover:scale-125 cursor-default">☕</span>
+        </p>
 
-      {/* Built With */}
-      <p class="text-muted-foreground text-xs sm:text-sm">
-        <span>Built with </span>
-        {
-          builtWith.map((tech, index, array) => (
-            <span>
-              <a
-                href={tech.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="link-underline transition-colors duration-200 hover:text-foreground">
-                {tech.name}
-              </a>
-              {index < array.length - 1 && ', '}
-            </span>
-          ))
-        }
-        <span> & </span>
-        <span class="cursor-default transition-transform hover:scale-125 inline-block">
-          ❤️
-        </span>
-      </p>
-
-      {/* Copyright */}
-      <p class="text-muted-foreground/70 text-xs">
-        © {currentYear} Chris Nowicki
-      </p>
+        <div class="flex items-center gap-2 text-xs text-slate-400">
+          <span class="relative flex h-2 w-2">
+            <span class:list={["absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", STATUS.available ? "bg-emerald-400" : "bg-red-400"]}></span>
+            <span class:list={["relative inline-flex h-2 w-2 rounded-full", STATUS.available ? "bg-emerald-500" : "bg-red-500"]}></span>
+          </span>
+          <span>{STATUS.message}</span>
+        </div>
+      </div>
     </div>
-  </footer>
-</Container>
+  </Container>
+</footer>
+
+<style>
+  /* Hide frame "+" on screens too narrow for the frame */
+  .frame-plus {
+    display: none;
+  }
+  @media (min-width: 960px) {
+    .frame-plus {
+      display: block;
+    }
+  }
+</style>

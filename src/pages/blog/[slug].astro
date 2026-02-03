@@ -1,11 +1,10 @@
 ---
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
-import ViewCounter from '@/components/Svelte/ViewCounter.svelte'
+import BlogPostHeader from '@/components/BlogPostHeader.astro'
 import { formatDate } from '@/utils/utils'
 import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
-import { Image } from 'astro:assets'
 import { getCollection, render } from 'astro:content'
 
 export const prerender = true
@@ -34,31 +33,22 @@ const postSlug = post.id
   title={post.data.title}
   description={post.data.description}
   image={ogImageUrl}>
+  <div class="fixed top-0 left-0 z-50 h-1 w-full bg-slate-200">
+    <div id="reading-progress" class="h-full w-0 bg-slate-400 transition-[width] duration-100"></div>
+  </div>
   <Container>
-    <article class="pt-28 text-sm sm:pt-20 sm:text-base">
-      <header class="mb-8 flex flex-col gap-2">
-        <h1 class="mt-8 text-xl font-bold sm:text-4xl">{post.data.title}</h1>
-        <span class="text-muted-foreground flex items-center gap-2 text-sm"
-          >{postDate} | {postReadTime} <ViewCounter
-            client:load
-            slug={postSlug}
-          /></span
-        >
-        {
-          post.data.image && (
-            <Image
-              src={post.data.image}
-              alt={post.data.title}
-              width={768}
-              height={438}
-              class="mt-3 w-full rounded-lg"
-            />
-          )
-        }
-      </header>
-      <div class="prose">
+    <article class="text-sm sm:text-base">
+      <BlogPostHeader
+        title={post.data.title}
+        date={postDate}
+        readTime={postReadTime}
+        slug={postSlug}
+        image={post.data.image}
+      />
+      <div class="prose mt-10">
         <Content />
       </div>
+      <span class="font-cursive mt-8 block text-4xl text-foreground">- Chris</span>
     </article>
   </Container>
 </PageLayout>
@@ -71,4 +61,31 @@ const postSlug = post.id
     cleanup()
     cleanup = copyCodeButton()
   })
+
+  function initReadingProgress() {
+    const progressBar = document.getElementById('reading-progress')
+    if (!progressBar) return
+
+    let ticking = false
+
+    const updateProgress = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+      const scrollY = window.scrollY
+      const progress = scrollHeight > 0 ? (scrollY / scrollHeight) * 100 : 0
+      progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`
+      ticking = false
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateProgress)
+        ticking = true
+      }
+    })
+
+    updateProgress()
+  }
+
+  initReadingProgress()
+  document.addEventListener('astro:after-swap', initReadingProgress)
 </script>

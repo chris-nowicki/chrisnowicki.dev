@@ -6,6 +6,7 @@ import Uses from '@/components/Uses.astro'
 import Hero from '@/components/Hero.astro'
 import LatestPosts from '@/components/LatestPosts.astro'
 import Speaking from '@/components/Speaking.astro'
+import SectionSeparator from '@/components/SectionSeparator.astro'
 import { HOME } from '@/lib/site'
 
 export const prerender = true
@@ -14,12 +15,12 @@ export const prerender = true
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
     <Hero />
+    <SectionSeparator />
     <LatestPosts />
-    <div class="mt-16 grid gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
-      {/* Left: Speaking */}
+    <SectionSeparator />
+    <div class="grid gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
       <Speaking />
-      
-      {/* Right: Uses and Contact */}
+
       <div class="flex flex-col gap-4">
         <Uses />
         <ContactSection />

@@ -93,7 +93,7 @@
   /* Headings */
 
   h2 {
-    @apply scroll-m-28 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0;
+    @apply scroll-m-28 text-3xl font-semibold tracking-tight first:mt-0;
   }
 
   h3 {
@@ -165,10 +165,10 @@
     bottom: -2px;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: 2px;
     background-color: currentColor;
     transform: scaleX(0);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s ease;
   }
 
   /* Default: animate from left */
@@ -178,6 +178,7 @@
 
   &:hover::after {
     transform: scaleX(1);
+    height: 3px;
   }
 
   /* Direction-aware: mouse entered/exited from left */
@@ -197,3 +198,19 @@
   }
 }
 
+/* Fade-in-up animation for cards and content */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}

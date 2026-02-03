@@ -1,4 +1,4 @@
-import type { Site, Metadata } from '@/types'
+import type { Site, Metadata, Status } from '@/types'
 
 import GitHub from '@/assets/icons/github.svg'
 import LinkedIn from '@/assets/icons/linkedin.svg'
@@ -44,6 +44,11 @@ export const socialLinks = [
 export const SITE: Site = {
   NAME: 'Chris Nowicki',
   EMAIL: 'chris@chrisnowicki.dev',
+}
+
+export const STATUS: Status = {
+  available: true,
+  message: 'Available for speaking & collaborations',
 }
 
 export const HOME: Metadata = {
