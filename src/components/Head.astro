@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css'
+import { ViewTransitions } from 'astro:transitions'
 import geistSans from '@/assets/fonts/Geist[wght].woff2'
 import geistSansItalic from '@/assets/fonts/Geist-Italic[wght].woff2'
 import geistMono from '@/assets/fonts/GeistMono[wght].woff2'
@@ -82,3 +83,6 @@ const imageUrl = getImageUrl(image)
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={imageUrl} />
+
+<!-- View Transitions -->
+<ViewTransitions />

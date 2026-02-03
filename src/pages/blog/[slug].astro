@@ -38,17 +38,19 @@ const postSlug = post.id
   </div>
   <Container>
     <article class="text-sm sm:text-base">
-      <BlogPostHeader
-        title={post.data.title}
-        date={postDate}
-        readTime={postReadTime}
-        slug={postSlug}
-        image={post.data.image}
-      />
-      <div class="prose mt-10">
+      <div class="page-animate" style="--delay: 0ms">
+        <BlogPostHeader
+          title={post.data.title}
+          date={postDate}
+          readTime={postReadTime}
+          slug={postSlug}
+          image={post.data.image}
+        />
+      </div>
+      <div class="page-animate prose mt-10" style="--delay: 150ms">
         <Content />
       </div>
-      <span class="font-cursive mt-8 block text-4xl text-foreground">- Chris</span>
+      <span class="page-animate font-cursive mt-8 block text-4xl text-foreground" style="--delay: 200ms">- Chris</span>
     </article>
   </Container>
 </PageLayout>
