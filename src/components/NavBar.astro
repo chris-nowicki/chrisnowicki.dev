@@ -8,7 +8,7 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 ---
 
 <div
-  class="top-6 right-0 left-0 mt-8 flex w-full items-center justify-center pr-6 pl-4">
+  class="top-6 right-0 left-0 mt-6 flex w-full items-center justify-center pr-6 pl-4">
   <nav
     class={cn(
       'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-white'
@@ -16,14 +16,12 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
     style="transition: background-color 0.3s, box-shadow 0.3s, border-radius 0.3s;">
     <a
       href="/"
-      class={cn(
-        'font-cursive rounded-full border px-2 py-1 text-2xl transition-all duration-100 ease-in-out hover:scale-105 hover:-rotate-10 hover:shadow-lg border-black/90 text-black/90',
-      )}>
-      CN
+      class="font-cursive group flex items-center overflow-hidden px-2 py-1 text-4xl text-black/90">
+      <span class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:-rotate-6">C</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">hris</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[16px]">&nbsp;</span><span class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-6">N</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">owicki</span>
     </a>
 
     <ul
-      class="hidden list-none gap-4 rounded-full border px-4 py-2 text-lg md:flex"
+      class="hidden list-none gap-4 px-4 py-2 text-lg md:flex"
       aria-label="Desktop navigation">
       {
         navLinks.map(({ href, text }) => {
