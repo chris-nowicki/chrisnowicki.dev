@@ -1,131 +1,232 @@
 ---
 import Button from './Button.astro'
 import Link from './Link.astro'
-import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
 import Image from 'astro/components/Image.astro'
 import Me from '@/assets/images/me.jpg'
-import { STATUS } from '@/lib/site'
+import { STATUS, socialLinks } from '@/lib/site'
 ---
 
-<section class="relative mt-16 pb-4 text-base sm:text-lg md:mt-30">
-  <div class="mb-8 flex flex-col items-center md:hidden">
-    <div class="relative border border-dashed border-slate-300 p-3">
-      <div class="absolute -left-1.5 -top-1.5 h-3 w-3">
-        <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
-        <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
-      </div>
-      <div class="absolute -right-1.5 -top-1.5 h-3 w-3">
-        <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
-        <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
-      </div>
-      <div class="absolute -bottom-1.5 -left-1.5 h-3 w-3">
-        <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
-        <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
-      </div>
-      <div class="absolute -bottom-1.5 -right-1.5 h-3 w-3">
-        <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
-        <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
-      </div>
-      <div class="group rounded-full shadow-lg">
-        <div class="h-[120px] w-[120px] overflow-hidden rounded-full border-4 border-white">
-          <Image src={Me} alt="Photo of me" loading="eager" width={140} class="h-full w-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0" />
-        </div>
-      </div>
-      <div class="mt-2 text-center font-mono text-[10px] uppercase tracking-widest text-slate-400">
-        Fig. 01 — Chris
-      </div>
-    </div>
-  </div>
+<section class="relative mt-12 pb-8 md:mt-20">
+  <!-- Main grid layout -->
+  <div class="grid gap-12 md:grid-cols-[1fr_auto] md:items-start md:gap-16 lg:gap-20">
 
-  <div class="md:flex md:items-start md:justify-between md:gap-8">
-    <div class="min-w-0 flex-1 md:pr-4">
-    <h1 class="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-      Hello, I'm Chris Nowicki
-    </h1>
-
-    <div class="mt-4">
-      <span class="inline-flex items-center gap-2 rounded-full border border-dashed border-slate-300 px-4 py-1.5 text-sm font-medium text-slate-600">
-        <span class="group relative cursor-help">
-          <span class:list={["block h-2 w-2 rounded-full", STATUS.available ? "bg-green-500" : "bg-red-500"]}></span>
-          <span class="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded bg-slate-900 px-2 py-1 text-xs text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            {STATUS.message}
-            <span class="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900"></span>
+    <!-- Left: Content -->
+    <div class="order-2 md:order-1">
+      <!-- Name - large typographic moment -->
+      <h1 class="group/name cursor-default">
+        <span class="name-line block overflow-hidden" style="--delay: 0ms">
+          <span class="name-text block text-4xl font-bold tracking-tight text-slate-900 transition-all duration-300 ease-out group-hover/name:-translate-y-0.5 group-hover/name:text-slate-700 sm:text-5xl lg:text-6xl">
+            Chris
           </span>
         </span>
-        Developer Experience Engineer at
-        <Link
-          href="https://www.commerce.com"
-          ariaLabel="Visit the Commerce website"
-          target="_blank"
-          class="link-underline font-semibold text-slate-900 hover:text-black"
-          >Commerce</Link>
-      </span>
-    </div>
+        <span class="name-line block overflow-hidden" style="--delay: 80ms">
+          <span class="name-text block text-4xl font-bold tracking-tight text-slate-900 transition-all duration-300 ease-out group-hover/name:-translate-y-0.5 group-hover/name:text-slate-700 sm:text-5xl lg:text-6xl">
+            Nowicki
+          </span>
+        </span>
+      </h1>
 
-    <div class="mt-8 space-y-6 sm:space-y-8">
-      <p class="text-lg text-slate-600">
-        When I'm not making developers' lives easier with docs and dev tools,
-        you'll find me tinkering with new tech, optimizing my productivity setup
-        (<em>while keeping it minimal</em>), or hunting for the perfect
-        cheeseburger.
+      <!-- Job title -->
+      <p class="hero-animate mt-3 font-mono text-sm uppercase tracking-widest text-slate-400" style="--delay: 120ms">
+        Developer Experience Engineer
       </p>
 
-      <blockquote class="font-cursive relative rounded-r-md border-l-2 border-slate-300 bg-gradient-to-r from-slate-50/50 to-transparent py-2 pl-4 text-2xl">
-        <span class="relative inline-flex items-center">
-          Oh, and coffee. Lots of coffee.
-          <ArrowSquiggle
-            width={45}
-            height={45}
-            class="absolute top-4 -right-12 hidden rotate-90 transform md:block"
-          />
-        </span>
-      </blockquote>
+      <!-- Status and company -->
+      <div class="hero-animate mt-6" style="--delay: 100ms">
+        <a
+          href="https://www.commerce.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit the Commerce website"
+          class="inline-flex items-center gap-2.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm transition-all hover:border-slate-300 hover:shadow-md"
+        >
+          <span class="group/status relative flex h-2 w-2 cursor-help">
+            <span class:list={[
+              "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
+              STATUS.available ? "bg-emerald-400" : "bg-amber-400"
+            ]}></span>
+            <span class:list={[
+              "relative inline-flex h-2 w-2 rounded-full",
+              STATUS.available ? "bg-emerald-500" : "bg-amber-500"
+            ]}></span>
+            <!-- Tooltip -->
+            <span class="pointer-events-none absolute bottom-full left-1/2 z-[100] mb-2 -translate-x-1/2 whitespace-nowrap rounded bg-slate-900 px-2.5 py-1.5 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover/status:opacity-100">
+              {STATUS.message}
+              <span class="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900"></span>
+            </span>
+          </span>
+          <span>Working at <span class="font-semibold text-slate-900">Commerce</span></span>
+        </a>
+      </div>
+
+      <!-- Bio -->
+      <div class="hero-animate mt-8 max-w-lg space-y-4" style="--delay: 150ms">
+        <p class="text-lg leading-relaxed text-slate-600">
+          When I'm not making developers' lives easier with docs and dev tools,
+          you'll find me tinkering with new tech, optimizing my productivity setup,
+          or hunting for the perfect cheeseburger.
+        </p>
+      </div>
+
+      <!-- Coffee callout -->
+      <div class="hero-animate mt-6" style="--delay: 200ms">
+        <blockquote class="border-l-2 border-slate-300 pl-4">
+          <p class="font-cursive text-2xl text-slate-500 sm:text-3xl">
+            Oh, and coffee. Lots of coffee!
+          </p>
+        </blockquote>
+      </div>
+
+      <!-- CTAs -->
+      <div class="hero-animate mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4" style="--delay: 250ms">
+        <Button
+          href="/contact"
+          size="lg"
+          variant="default"
+          class="bg-slate-900 text-center uppercase hover:bg-slate-800"
+        >
+          Contact Me
+        </Button>
+        <Button
+          href="https://buymeacoffee.com/chrisnowicki"
+          variant="outline"
+          target="_blank"
+          size="lg"
+          class="text-center uppercase"
+        >
+          Buy Me A Coffee
+        </Button>
+      </div>
+
+      <!-- Social links -->
+      <div class="hero-animate mt-8 flex items-center gap-1" style="--delay: 300ms">
+        <span class="mr-2 font-mono text-[10px] uppercase tracking-widest text-slate-400">Find me</span>
+        {socialLinks.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={link.label}
+            class="group rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-900"
+          >
+            <link.icon class="h-5 w-5" />
+          </a>
+        ))}
+      </div>
     </div>
 
-    <div class="mt-8 flex flex-col gap-3 md:flex-row md:gap-4">
-      <Button
-        href="/contact"
-        size="lg"
-        variant="default"
-        class="bg-black text-center uppercase">Contact Me</Button
-      >
-      <Button
-        href="https://buymeacoffee.com/chrisnowicki"
-        variant="outline"
-        target="_blank"
-        size="lg"
-        class="text-center uppercase">Buy Me A Coffee</Button
-      >
-    </div>
-    </div>
+    <!-- Right: Photo with blueprint frame -->
+    <div class="hero-animate order-1 flex justify-center md:order-2" style="--delay: 100ms">
+      <div class="flex flex-col items-center">
+        <!-- Dashed border frame -->
+        <div class="border border-dashed border-slate-300 p-4">
+          <!-- Photo container -->
+          <div class="group relative">
+            <div class="h-36 w-36 overflow-hidden rounded-full border-4 border-white shadow-lg sm:h-44 sm:w-44 lg:h-52 lg:w-52">
+              <Image
+                src={Me}
+                alt="Photo of Chris Nowicki"
+                loading="eager"
+                width={220}
+                class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105"
+              />
+            </div>
 
-    <div class="hidden shrink-0 md:block">
-      <div class="relative border border-dashed border-slate-300 p-3">
-        <div class="absolute -left-1.5 -top-1.5 h-3 w-3">
-          <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
-          <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
-        </div>
-        <div class="absolute -right-1.5 -top-1.5 h-3 w-3">
-          <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
-          <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
-        </div>
-        <div class="absolute -bottom-1.5 -left-1.5 h-3 w-3">
-          <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
-          <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
-        </div>
-        <div class="absolute -bottom-1.5 -right-1.5 h-3 w-3">
-          <div class="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-slate-400"></div>
-          <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-slate-400"></div>
-        </div>
-        <div class="group rounded-full shadow-lg">
-          <div class="h-[120px] w-[120px] overflow-hidden rounded-full border-4 border-white lg:h-[140px] lg:w-[140px]">
-            <Image src={Me} alt="Photo of me" loading="eager" width={160} class="h-full w-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0" />
+            <!-- Hover ring effect -->
+            <div class="absolute inset-0 rounded-full border-2 border-transparent transition-all duration-500 group-hover:border-slate-200 group-hover:scale-110"></div>
+          </div>
+
+          <!-- Figure label -->
+          <div class="mt-3 text-center">
+            <span class="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-400">
+              Fig. 01 — Chris
+            </span>
           </div>
         </div>
-        <div class="mt-2 text-center font-mono text-[10px] uppercase tracking-widest text-slate-400">
-          Fig. 01 — Chris
-        </div>
+
+        <!-- CLI command -->
+        <button
+          type="button"
+          class="cli-copy group/cli mt-4 flex cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm"
+          data-command="npx chriswix"
+          aria-label="Copy command to clipboard"
+        >
+          <code class="font-mono text-xs text-slate-500 transition-colors duration-200 ease-in group-hover/cli:text-slate-900">
+            <span class="text-slate-400 transition-colors duration-200 ease-in group-hover/cli:text-slate-900">$</span> npx chriswix
+          </code>
+          <svg class="h-3.5 w-3.5 text-slate-400 transition-colors duration-200 ease-in group-hover/cli:text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </button>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* Name reveal animation - slides up into view */
+  @keyframes nameReveal {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .name-line .name-text {
+    opacity: 0;
+    transform: translateY(100%);
+    animation: nameReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  /* General fade in animation */
+  @keyframes heroFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-animate {
+    opacity: 0;
+    animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-animate,
+    .name-line .name-text {
+      opacity: 1;
+      animation: none;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const cliButton = document.querySelector('.cli-copy') as HTMLButtonElement
+  if (cliButton) {
+    cliButton.addEventListener('click', async () => {
+      const command = cliButton.dataset.command
+      if (command) {
+        await navigator.clipboard.writeText(command)
+        const code = cliButton.querySelector('code')
+        if (code) {
+          const originalText = code.innerHTML
+          code.innerHTML = '<span class="text-emerald-500">Copied!</span>'
+          setTimeout(() => {
+            code.innerHTML = originalText
+          }, 1500)
+        }
+      }
+    })
+  }
+</script>
