@@ -9,6 +9,7 @@
   } from '@/utils/utils'
 
   export let slug: string
+  export let light: boolean = false
 
   let viewCount: number | null = null
   let unsubscribe: (() => void) | null = null
@@ -76,11 +77,11 @@
 {#if error}
   <span class="text-red-500">Error: {error}</span>
 {:else if viewCount !== null}
-  <span class="inline-flex items-center">
-    | {viewCount.toLocaleString('en-US')} views
+  <span class="inline-flex items-center {light ? 'text-white/70' : ''}">
+    {viewCount.toLocaleString('en-US')} views
   </span>
 {:else}
-  <span class="inline-flex items-center text-muted-foreground">
-    | loading...
+  <span class="inline-flex items-center {light ? 'text-white/50' : 'text-muted-foreground'}">
+    loading...
   </span>
 {/if}
