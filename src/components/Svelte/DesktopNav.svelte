@@ -1,6 +1,6 @@
 <script lang="ts">
   import { cn } from '@/utils/utils'
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
 
   interface NavLink {
     href: string
@@ -17,6 +17,7 @@
   let navRef: HTMLElement | undefined
   let pillStyle = $state({ left: 0, width: 0, opacity: 0 })
   let enableTransition = $state(false)
+  let currentPathname = $state(pathname)
 
   function movePillToElement(element: HTMLElement) {
     if (!navRef) return
@@ -43,18 +44,33 @@
     const target = event.currentTarget as HTMLElement
     enableTransition = true
     movePillToElement(target)
+    // Update current pathname immediately for instant visual feedback
+    currentPathname = href.split('/')[1] || ''
+  }
 
-    // Wait for animation, then navigate
-    setTimeout(() => {
-      window.location.href = href
-    }, 200)
-
-    event.preventDefault()
+  function handlePageLoad() {
+    // Update pathname from current URL
+    currentPathname = window.location.pathname.split('/')[1] || ''
+    // Reset transition state and update pill position
+    enableTransition = false
+    // Use requestAnimationFrame to ensure DOM is updated
+    requestAnimationFrame(() => {
+      updatePillPosition()
+    })
   }
 
   onMount(() => {
     // Position instantly on mount (no transition)
     updatePillPosition()
+
+    // Listen for Astro View Transitions page load
+    document.addEventListener('astro:page-load', handlePageLoad)
+  })
+
+  onDestroy(() => {
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('astro:page-load', handlePageLoad)
+    }
   })
 </script>
 
@@ -73,7 +89,7 @@
   />
 
   {#each navLinks as { href, text }}
-    {@const isActive = pathname === text.toLowerCase()}
+    {@const isActive = currentPathname === text.toLowerCase()}
     <li>
       <a
         {href}
