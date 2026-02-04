@@ -1,4 +1,6 @@
 ---
+import FramePlus from './FramePlus.astro'
+
 interface Props {
   class?: string
 }
@@ -9,28 +11,6 @@ const { class: className = '' } = Astro.props
 <div class:list={['relative z-20 w-screen -ml-[50vw] left-1/2 my-12 md:my-16', className]} aria-hidden="true">
   <div class="h-px w-full border-t border-dashed border-slate-200"></div>
 
-  <div class="frame-plus absolute top-0 -translate-y-1/2" style="left: calc(50% - 28rem - 1.5rem - 0.5rem);">
-    <div class="relative h-4 w-4 bg-white">
-      <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black"></div>
-      <div class="absolute left-1/2 top-0 w-px h-full -translate-x-1/2 bg-black"></div>
-    </div>
-  </div>
-
-  <div class="frame-plus absolute top-0 -translate-y-1/2" style="right: calc(50% - 28rem - 1.5rem - 0.5rem);">
-    <div class="relative h-4 w-4 bg-white">
-      <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black"></div>
-      <div class="absolute left-1/2 top-0 w-px h-full -translate-x-1/2 bg-black"></div>
-    </div>
-  </div>
+  <FramePlus position="left" />
+  <FramePlus position="right" />
 </div>
-
-<style>
-  .frame-plus {
-    display: none;
-  }
-  @media (min-width: 960px) {
-    .frame-plus {
-      display: block;
-    }
-  }
-</style>

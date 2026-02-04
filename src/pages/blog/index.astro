@@ -19,7 +19,6 @@ const categories = await getAllPostCategories()
 
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 
-// Fetch view counts for all posts from Convex
 const slugs = posts.map((post) => post.id)
 let viewCounts: Record<string, number> = {}
 

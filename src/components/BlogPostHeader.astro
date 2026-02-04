@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets'
+import FramePlus from '@/components/FramePlus.astro'
 import ViewCounter from '@/components/React/ViewCounter'
 
 interface Props {
@@ -47,18 +48,8 @@ const { title, date, readTime, slug, image } = Astro.props
 
       <div class="relative z-20 mt-0">
         <div class="absolute left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-slate-200" />
-        <div class="frame-plus absolute top-0 -translate-y-1/2" style="left: calc(50% - 28rem - 1.5rem - 0.5rem);">
-          <div class="relative h-4 w-4 bg-white">
-            <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black" />
-            <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-black" />
-          </div>
-        </div>
-        <div class="frame-plus absolute top-0 -translate-y-1/2" style="right: calc(50% - 28rem - 1.5rem - 0.5rem);">
-          <div class="relative h-4 w-4 bg-white">
-            <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black" />
-            <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-black" />
-          </div>
-        </div>
+        <FramePlus position="left" />
+        <FramePlus position="right" />
       </div>
     </header>
   ) : (
@@ -81,30 +72,9 @@ const { title, date, readTime, slug, image } = Astro.props
 
       <div class="relative z-20">
         <div class="absolute left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-slate-200" />
-        <div class="frame-plus absolute top-0 -translate-y-1/2" style="left: calc(50% - 28rem - 1.5rem - 0.5rem);">
-          <div class="relative h-4 w-4 bg-white">
-            <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black" />
-            <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-black" />
-          </div>
-        </div>
-        <div class="frame-plus absolute top-0 -translate-y-1/2" style="right: calc(50% - 28rem - 1.5rem - 0.5rem);">
-          <div class="relative h-4 w-4 bg-white">
-            <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black" />
-            <div class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-black" />
-          </div>
-        </div>
+        <FramePlus position="left" />
+        <FramePlus position="right" />
       </div>
     </header>
   )
 }
-
-<style>
-  .frame-plus {
-    display: none;
-  }
-  @media (min-width: 960px) {
-    .frame-plus {
-      display: block;
-    }
-  }
-</style>

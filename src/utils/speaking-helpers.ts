@@ -5,14 +5,6 @@ interface GetSpeakingDataOptions {
   limit?: number
 }
 
-/**
- * Gets speaking engagements from plain data file
- * Can be filtered by category and limited to specified count
- * Sorted by date (newest first)
- *
- * @param options Optional object with category and/or limit
- * @returns Array of speakingDataItem
- */
 export const getSpeakingData = async (
   options?: GetSpeakingDataOptions
 ): Promise<speakingDataItem[]> => {
@@ -43,10 +35,6 @@ export const getSpeakingData = async (
   }
 }
 
-/**
- * Gets all unique categories from speaking data
- * Returns empty array if no categories found
- */
 export const getAllSpeakingCategories = async (): Promise<string[]> => {
   try {
     const { speakingData } = await import('@/data/speaking')

@@ -1,5 +1,6 @@
 ---
 import Container from './Container.astro'
+import FramePlus from './FramePlus.astro'
 import Link from './Link.astro'
 import { navLinks, socialLinks, SITE, STATUS } from '@/lib/site'
 
@@ -8,7 +9,7 @@ const currentYear = new Date().getFullYear()
 
 const builtWith = [
   { name: 'Astro', href: 'https://astro.build' },
-  { name: 'Svelte', href: 'https://svelte.dev' },
+  { name: 'React', href: 'https://react.dev' },
   { name: 'Convex', href: 'https://convex.dev' },
   { name: 'TypeScript', href: 'https://www.typescriptlang.org' },
   { name: 'Tailwind', href: 'https://tailwindcss.com' },
@@ -17,18 +18,8 @@ const builtWith = [
 
 <footer class="relative mt-12 md:mt-16">
   <div class="relative z-20 h-px w-full border-t border-dashed border-slate-200" aria-hidden="true">
-    <div class="frame-plus absolute top-0 -translate-y-1/2" style="left: calc(50% - 28rem - 1.5rem - 0.5rem);">
-      <div class="relative h-4 w-4 bg-white">
-        <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black"></div>
-        <div class="absolute left-1/2 top-0 w-px h-full -translate-x-1/2 bg-black"></div>
-      </div>
-    </div>
-    <div class="frame-plus absolute top-0 -translate-y-1/2" style="right: calc(50% - 28rem - 1.5rem - 0.5rem);">
-      <div class="relative h-4 w-4 bg-white">
-        <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black"></div>
-        <div class="absolute left-1/2 top-0 w-px h-full -translate-x-1/2 bg-black"></div>
-      </div>
-    </div>
+    <FramePlus position="left" />
+    <FramePlus position="right" />
   </div>
 
   <div
@@ -114,14 +105,3 @@ const builtWith = [
   </Container>
 </footer>
 
-<style>
-  /* Hide frame "+" on screens too narrow for the frame */
-  .frame-plus {
-    display: none;
-  }
-  @media (min-width: 960px) {
-    .frame-plus {
-      display: block;
-    }
-  }
-</style>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  position: 'left' | 'right'
+}
+
+const { position } = Astro.props
+const positionStyle =
+  position === 'left'
+    ? 'left: calc(50% - 28rem - 1.5rem - 0.5rem);'
+    : 'right: calc(50% - 28rem - 1.5rem - 0.5rem);'
+---
+
+<div class="frame-plus absolute top-0 -translate-y-1/2" style={positionStyle}>
+  <div class="relative h-4 w-4 bg-white">
+    <div class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black"></div>
+    <div class="absolute left-1/2 top-0 w-px h-full -translate-x-1/2 bg-black"></div>
+  </div>
+</div>
+
+<style>
+  .frame-plus {
+    display: none;
+  }
+  @media (min-width: 960px) {
+    .frame-plus {
+      display: block;
+    }
+  }
+</style>
