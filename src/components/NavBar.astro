@@ -1,15 +1,13 @@
 ---
 import { cn } from '@/utils/utils'
 import { navLinks } from '@/lib/site'
-import MobileNav from './Svelte/MobileNav.svelte'
-import DesktopNav from './Svelte/DesktopNav.svelte'
+import MobileNav from './React/MobileNav'
 
 export const prerender = false
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 ---
 
-<div
-  class="top-6 right-0 left-0 mt-6 flex w-full items-center justify-center pr-6 pl-4">
+<div class="mt-6 flex w-full items-center justify-center pr-6 pl-4">
   <nav
     class={cn(
       'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-white'
@@ -17,11 +15,48 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
     style="transition: background-color 0.3s, box-shadow 0.3s, border-radius 0.3s;">
     <a
       href="/"
-      class="font-cursive group flex items-center overflow-hidden px-2 py-1 text-4xl text-black/90">
-      <span class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:-rotate-6">C</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">hris</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[16px]">&nbsp;</span><span class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-6">N</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">owicki</span>
+      class="font-cursive group inline-flex items-center overflow-hidden text-4xl text-slate-900">
+      <span
+        class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:-rotate-6"
+        >C</span
+      ><span
+        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-35"
+        >hris</span
+      ><span
+        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-4"
+        >&nbsp;</span
+      ><span
+        class="inline-block transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-6"
+        >N</span
+      ><span
+        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-35"
+        >owicki</span
+      >
     </a>
 
-    <DesktopNav {navLinks} {pathname} client:load />
+    <ul
+      class="hidden list-none gap-4 px-4 py-2 text-lg md:flex"
+      aria-label="Desktop navigation">
+      {
+        navLinks.map(({ href, text }) => {
+          const isActive = pathname === text.toLowerCase()
+          return (
+            <li>
+              <a
+                {href}
+                class={cn(
+                  'transition-colors duration-200 ease-in-out',
+                  isActive ? 'text-black' : 'hover:text-black'
+                )}
+                aria-current={isActive ? 'page' : undefined}
+                data-astro-prefetch>
+                {text}
+              </a>
+            </li>
+          )
+        })
+      }
+    </ul>
     <MobileNav client:load />
   </nav>
 </div>

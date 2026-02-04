@@ -5,7 +5,7 @@
   "semi": false,
   "singleQuote": true,
   "experimentalTernaries": true,
-  "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss", "prettier-plugin-svelte"],
+  "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
   "overrides": [
     {
       "files": "*.astro",
