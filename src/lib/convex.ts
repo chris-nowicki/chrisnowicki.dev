@@ -3,23 +3,14 @@ import { ConvexHttpClient } from 'convex/browser'
 
 const convexUrl = import.meta.env.PUBLIC_CONVEX_URL as string | undefined
 
-/**
- * Browser client for real-time subscriptions (used in Svelte components)
- * Uses WebSocket connection for live updates
- */
+// Browser client with WebSocket for real-time subscriptions (React components)
 export const convexClient = convexUrl ? new ConvexClient(convexUrl) : null
 
-/**
- * HTTP client for server-side queries (used in Astro pages)
- * Stateless client for SSR contexts
- */
+// HTTP client for SSR contexts (Astro pages)
 export const convexHttpClient = convexUrl
   ? new ConvexHttpClient(convexUrl)
   : null
 
-/**
- * Check if Convex is configured
- */
 export const isConvexConfigured = (): boolean => {
   return !!convexUrl
 }

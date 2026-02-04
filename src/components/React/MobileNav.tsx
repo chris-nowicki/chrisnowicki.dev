@@ -5,7 +5,7 @@ import { navLinks, socialLinks } from '@/lib/site'
 
 const mobileNavLinks = [{ href: '/', text: 'Home' }, ...navLinks]
 
-// quartOut easing as cubic bezier
+// Cubic bezier easing curve
 const quartOut = [0.25, 1, 0.5, 1] as const
 
 const slideVariants = {
@@ -42,7 +42,6 @@ export default function MobileNav() {
 
   return (
     <>
-      {/* Hamburger Button */}
       <button
         className="hamburger flex justify-center md:hidden"
         aria-label="Toggle mobile menu"
@@ -71,7 +70,6 @@ export default function MobileNav() {
         </div>
       </button>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
