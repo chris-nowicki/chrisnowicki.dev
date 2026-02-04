@@ -11,12 +11,13 @@
     },
     "moduleResolution": "bundler",
     "isolatedModules": true,
-    "types": ["svelte"]
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   },
   "include": [
     ".astro/types.d.ts",
     "**/*",
-    "src/**/*.svelte",
+    "src/**/*.tsx",
     "src/**/*.astro",
     "src/**/*.ts"
   ],
