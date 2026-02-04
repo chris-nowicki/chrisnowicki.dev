@@ -31,8 +31,7 @@ const ogImageUrl = generateOgImageUrl({
   <Container>
     <section class="relative pt-12 text-sm sm:pt-20">
       <header
-        class="page-animate mb-8 flex w-full items-center justify-center text-center md:mb-16"
-        style="--delay: 0ms">
+        class="mb-8 flex w-full items-center justify-center text-center md:mb-16">
         <div class="w-full sm:w-4/5 md:w-3/5">
           <h1 class="text-2xl font-semibold sm:text-3xl md:text-4xl">
             My speaking engagements and conference talks!
@@ -40,14 +39,14 @@ const ogImageUrl = generateOgImageUrl({
         </div>
       </header>
 
-      <div class="page-animate" style="--delay: 100ms">
+      <div>
         <CategoryMenu
           categories={categories}
           currentCategory={category}
           pathname={pathname}
         />
       </div>
-      <div class="page-animate space-y-0" style="--delay: 200ms">
+      <div class="space-y-0">
         {
           speaking.map((talk) => (
             <a
