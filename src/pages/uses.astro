@@ -25,8 +25,7 @@ const ogImageUrl = generateOgImageUrl({
   <Container>
     <section class="text-md relative pt-12 sm:pt-16 md:pt-20 sm:text-base">
       <header
-        class="page-animate mb-8 flex w-full flex-col items-center justify-center text-center md:mb-16"
-        style="--delay: 0ms">
+        class="mb-8 flex w-full flex-col items-center justify-center text-center md:mb-16">
         <div class="w-full sm:w-4/5 md:w-3/5">
           <h1 class="text-2xl font-semibold sm:text-3xl md:text-4xl">
             The Gear That Keeps Me Caffeinated & Coding
@@ -38,16 +37,15 @@ const ogImageUrl = generateOgImageUrl({
         src={DeskSetup}
         width={768}
         height={700 * 0.75}
-        class="page-animate mb-5 aspect-video w-full rounded-lg grayscale transition-all duration-300 ease-in-out hover:grayscale-0"
-        style="--delay: 100ms"
+        class="mb-5 aspect-video w-full rounded-lg grayscale transition-all duration-300 ease-in-out hover:grayscale-0"
         alt="Desk Setup"
       />
 
-      <div class="page-animate" style="--delay: 200ms">
+      <div>
         <BlueprintSeparator label="GitHub" />
       </div>
 
-      <div class="page-animate mb-10 grid grid-cols-1 gap-2 font-mono md:grid-cols-2" style="--delay: 250ms">
+      <div class="mb-10 grid grid-cols-1 gap-2 font-mono md:grid-cols-2">
         {
           gitHubData.map((gitHub) => (
             <a
@@ -71,11 +69,11 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <div class="page-animate" style="--delay: 300ms">
+      <div>
         <BlueprintSeparator label="Coffee" />
       </div>
 
-      <div class="page-animate grid grid-cols-1 gap-2 font-mono md:grid-cols-3" style="--delay: 350ms">
+      <div class="grid grid-cols-1 gap-2 font-mono md:grid-cols-3">
         {
           coffeeData.map((coffee, index) => (
             <a
@@ -99,11 +97,11 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <div class="page-animate" style="--delay: 400ms">
+      <div>
         <BlueprintSeparator label="Software" />
       </div>
 
-      <div class="page-animate grid grid-cols-2 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10" style="--delay: 450ms">
+      <div class="grid grid-cols-2 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10">
         {
           softwareData.map((software) => (
             <a
@@ -126,11 +124,11 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <div class="page-animate" style="--delay: 500ms">
+      <div>
         <BlueprintSeparator label="Hardware" />
       </div>
 
-      <div class="page-animate grid grid-cols-1 gap-5 font-mono sm:grid-cols-2 sm:gap-x-4" style="--delay: 550ms">
+      <div class="grid grid-cols-1 gap-5 font-mono sm:grid-cols-2 sm:gap-x-4">
         {
           hardwareData.map((hardware) => (
             <a
