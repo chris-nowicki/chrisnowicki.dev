@@ -52,11 +52,11 @@ const ogImageUrl = generateOgImageUrl({
               href={gitHub.link}
               target="_blank"
               rel="noopener noreferrer"
-              class="group flex items-start gap-4 rounded-xl border p-4 transition-shadow duration-200 hover:shadow-lg">
+              class="group flex items-start gap-4 rounded-xl border p-4 transition-all duration-200 hover:-translate-y-1 hover:border-slate-300">
               <GitHubIcon
                 width={32}
                 height={32}
-                class="mt-0.5 shrink-0 transition-transform duration-500 ease-in-out group-hover:rotate-360"
+                class="mt-0.5 shrink-0"
               />
               <div class="flex min-w-0 flex-1 flex-col gap-1">
                 <h2 class="semi-bold font-mono text-md group-hover:font-semibold">{gitHub.title}</h2>
@@ -78,7 +78,7 @@ const ogImageUrl = generateOgImageUrl({
           coffeeData.map((coffee, index) => (
             <a
               class={cn(
-                'group flex flex-col items-center gap-2 rounded-xl border p-2 transition-shadow duration-200 hover:shadow-lg hover:font-semibold',
+                'group flex flex-col items-center gap-2 rounded-xl border p-2 transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:font-semibold',
                 index === 0 && 'md:col-span-3'
               )}
               href={coffee.link}
@@ -105,18 +105,18 @@ const ogImageUrl = generateOgImageUrl({
         {
           softwareData.map((software) => (
             <a
-              class="group flex flex-col items-center justify-center gap-2"
+              class="group flex flex-col items-center justify-center gap-2 transition-transform duration-200 hover:-translate-y-1"
               href={software.link}
               target="_blank"
               rel="noopener noreferrer">
               <h2 class="text-md group-hover:font-semibold">{software.title}</h2>
-              <div class="software-icon flex aspect-square w-full items-center justify-center border">
+              <div class="flex aspect-square w-full items-center justify-center rounded-lg border transition-colors duration-200 group-hover:border-slate-300">
                 <img
                   src={software.imageSrc}
                   alt={software.title}
-                  width={42}
-                  height={42}
-                  class="object-cover grayscale transition-all duration-300 group-hover:scale-150 group-hover:grayscale-0"
+                  width={63}
+                  height={63}
+                  class="object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
                 />
               </div>
             </a>
@@ -132,7 +132,7 @@ const ogImageUrl = generateOgImageUrl({
         {
           hardwareData.map((hardware) => (
             <a
-              class="group flex flex-col justify-center gap-2 rounded-xl border p-2 transition-shadow duration-200 hover:shadow-lg"
+              class="group flex flex-col justify-center gap-2 rounded-xl border p-2 transition-all duration-200 hover:-translate-y-1 hover:border-slate-300"
               href={hardware.link}
               target="_blank"
               rel="noopener noreferrer">
@@ -146,19 +146,3 @@ const ogImageUrl = generateOgImageUrl({
   </Container>
 </PageLayout>
 
-<style>
-  .software-icon {
-    border-radius: 0.5rem;
-    transition:
-      border-radius 0.3s ease-in-out,
-      transform 0.3s ease-in-out,
-      box-shadow 0.3s ease-in-out;
-  }
-
-  .group:hover .software-icon {
-    border-radius: 50%;
-    box-shadow:
-      0 10px 15px -3px rgb(0 0 0 / 0.1),
-      0 4px 6px -4px rgb(0 0 0 / 0.1);
-  }
-</style>

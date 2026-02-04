@@ -80,7 +80,7 @@ const ogImageUrl = generateOgImageUrl({
                   <span class="text-sm tracking-tight text-muted-foreground">
                     {readingTime(post.rendered?.html ?? '')}
                   </span>
-                  {post.data.category && <span> · {post.data.category}</span>}
+                  {post.data.category && <span> · {post.data.category.toLowerCase()}</span>}
                   {(viewCounts[post.id] ?? 0) > 0 && (
                     <span class="text-sm tracking-tight text-muted-foreground">
                       {' '}· {formatViewCount(viewCounts[post.id])} views
