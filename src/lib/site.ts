@@ -56,25 +56,20 @@ export const HOME: Metadata = {
   DESCRIPTION: 'Full-Stack Developer & Technology Nerd.',
 }
 
-export const NOW: Metadata = {
-  TITLE: 'Now',
-  DESCRIPTION: 'What I am doing now.',
-}
-
 export const BLOG: Metadata = {
   TITLE: 'Blog',
   DESCRIPTION:
-    'Checkout my latest articles on all things life, tech, and productivity.',
+    'My ramblings on the web about all things tech, life, and productivity!',
 }
 
 export const SPEAKING: Metadata = {
   TITLE: 'Speaking',
-  DESCRIPTION: 'Upcoming and past speaking engagements.',
+  DESCRIPTION: 'My speaking engagements and conference talks!',
 }
 
 export const USES: Metadata = {
   TITLE: 'Uses',
-  DESCRIPTION: 'Software, Hardware & Peripherals I use daily.',
+  DESCRIPTION: 'The Gear That Keeps Me Caffeinated & Coding.',
 }
 
 export const CONTACT: Metadata = {

@@ -13,7 +13,6 @@ interface OverlayText {
   color: string
   fontFamily: string
   fontSize: number
-  fontWeight?: string
   letterSpacing?: number
   text: string
 }
@@ -25,7 +24,7 @@ interface Overlay {
   crop?: CropMode
 }
 
-const publicId = 'portfolio/yrxs2swqsxphrsbhszle'
+const publicId = 'portfolio/og-template'
 
 interface GenerateOgImageUrlProps {
   header: string
@@ -44,14 +43,13 @@ const generateOgImageUrl = ({
     {
       position: {
         x: 100,
-        y: 110,
+        y: 80,
         gravity: 'north_west',
       },
       text: {
         color: 'black',
-        fontFamily: 'Arial',
+        fontFamily: 'Geist-Bold.ttf',
         fontSize: 100,
-        fontWeight: 'bold',
         text: header,
       },
     },
@@ -60,12 +58,12 @@ const generateOgImageUrl = ({
       crop: 'fit',
       position: {
         x: 100,
-        y: 220,
+        y: 190,
         gravity: 'north_west',
       },
       text: {
         color: 'black',
-        fontFamily: 'Arial',
+        fontFamily: 'Geist-Regular.ttf',
         fontSize: 65,
         letterSpacing: -0.05,
         text: formattedDescription,
@@ -84,7 +82,7 @@ const generateOgImageUrl = ({
           },
           text: {
             color: 'black',
-            fontFamily: 'Arial',
+            fontFamily: 'Geist-Regular.ttf',
             fontSize: 35,
             text: readTime,
           },
