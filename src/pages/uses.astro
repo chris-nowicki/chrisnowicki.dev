@@ -37,7 +37,7 @@ const ogImageUrl = generateOgImageUrl({
         src={DeskSetup}
         width={768}
         height={700 * 0.75}
-        class="mb-5 aspect-video w-full rounded-lg grayscale transition-all duration-300 ease-in-out hover:grayscale-0"
+        class="mb-8 aspect-video w-full grayscale transition-all duration-500 ease-in-out hover:grayscale-0"
         alt="Desk Setup"
       />
 
@@ -52,18 +52,24 @@ const ogImageUrl = generateOgImageUrl({
               href={gitHub.link}
               target="_blank"
               rel="noopener noreferrer"
-              class="group flex items-start gap-4 rounded-xl border p-4 transition-all duration-200 hover:-translate-y-1 hover:border-slate-300">
-              <GitHubIcon
-                width={32}
-                height={32}
-                class="mt-0.5 shrink-0"
-              />
+              class={cn(
+                'group relative flex items-start gap-4 border p-4',
+                'transition-all duration-200',
+                'before:absolute before:left-0 before:top-0 before:h-full before:w-1',
+                'before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
+                'hover:before:opacity-100 hover:border-slate-300'
+              )}>
               <div class="flex min-w-0 flex-1 flex-col gap-1">
-                <h2 class="semi-bold font-mono text-md group-hover:font-semibold">{gitHub.title}</h2>
+                <h2 class="font-mono text-md group-hover:font-semibold">{gitHub.title}</h2>
                 <p class="text-sm leading-relaxed text-muted-foreground">
                   {gitHub.description}
                 </p>
               </div>
+              <GitHubIcon
+                width={24}
+                height={24}
+                class="mt-0.5 shrink-0 text-slate-400 transition-colors duration-200 group-hover:text-slate-900"
+              />
             </a>
           ))
         }
@@ -78,19 +84,27 @@ const ogImageUrl = generateOgImageUrl({
           coffeeData.map((coffee, index) => (
             <a
               class={cn(
-                'group flex flex-col items-center gap-2 rounded-xl border p-2 transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:font-semibold',
+                'group relative flex flex-col items-center gap-2 rounded-xl border p-2',
+                'transition-all duration-200',
+                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-xl',
+                'before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
+                'hover:before:opacity-100 hover:border-slate-300',
                 index === 0 && 'md:col-span-3'
               )}
               href={coffee.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="semi-bold font-mono text-md">{coffee.title}</h2>
+              <h2 class="font-mono text-md group-hover:font-semibold">{coffee.title}</h2>
               <img
                 src={coffee.imageSrc}
                 alt={coffee.title}
                 width={500}
                 height={500}
-                class="mb-2 h-36 w-32 object-cover grayscale group-hover:grayscale-0 md:h-64 md:w-56"
+                class={cn(
+                  'mb-2 object-cover grayscale transition-all duration-500',
+                  'group-hover:grayscale-0',
+                  index === 0 ? 'h-48 w-40 md:h-72 md:w-64' : 'h-36 w-32 md:h-64 md:w-56'
+                )}
               />
             </a>
           ))
@@ -105,18 +119,25 @@ const ogImageUrl = generateOgImageUrl({
         {
           softwareData.map((software) => (
             <a
-              class="group flex flex-col items-center justify-center gap-2 transition-transform duration-200 hover:-translate-y-1"
+              class="group flex flex-col items-center justify-center gap-2"
               href={software.link}
               target="_blank"
               rel="noopener noreferrer">
               <h2 class="text-md group-hover:font-semibold">{software.title}</h2>
-              <div class="flex aspect-square w-full items-center justify-center rounded-lg border transition-colors duration-200 group-hover:border-slate-300">
+              <div
+                class={cn(
+                  'relative flex aspect-square w-full items-center justify-center rounded-lg border',
+                  'transition-all duration-200',
+                  'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-lg',
+                  'before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
+                  'group-hover:before:opacity-100 group-hover:border-slate-300'
+                )}>
                 <img
                   src={software.imageSrc}
                   alt={software.title}
                   width={63}
                   height={63}
-                  class="object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
+                  class="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
                 />
               </div>
             </a>
@@ -132,7 +153,13 @@ const ogImageUrl = generateOgImageUrl({
         {
           hardwareData.map((hardware) => (
             <a
-              class="group flex flex-col justify-center gap-2 rounded-xl border p-2 transition-all duration-200 hover:-translate-y-1 hover:border-slate-300"
+              class={cn(
+                'group relative flex flex-col justify-center gap-2 rounded-xl border p-2',
+                'transition-all duration-200',
+                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-xl',
+                'before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
+                'hover:before:opacity-100 hover:border-slate-300'
+              )}
               href={hardware.link}
               target="_blank"
               rel="noopener noreferrer">
