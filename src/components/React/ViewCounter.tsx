@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { convexClient } from '@/lib/convex'
+import { initConvexClient } from '@/lib/convex-client'
 import { api } from '../../../convex/_generated/api'
 import {
   wasPostViewedRecently,
@@ -18,43 +18,53 @@ export default function ViewCounter({ slug, light = false }: Props) {
   const hasIncrementedRef = useRef(false)
 
   useEffect(() => {
-    if (!convexClient) {
-      setError('Convex client not configured')
-      return
-    }
+    let unsubscribe: (() => void) | null = null
+    let isMounted = true
 
     cleanupOldViewedPosts()
 
-    const client = convexClient
-    let unsubscribe: (() => void) | null = null
-
-    try {
-      unsubscribe = client.onUpdate(
-        api.blogViews.getViewCount,
-        { slug },
-        (result) => {
-          setViewCount(result.viewCount)
-
-          if (!hasIncrementedRef.current) {
-            hasIncrementedRef.current = true
-
-            if (wasPostViewedRecently(slug)) {
-              return
-            }
-
-            markPostAsViewed(slug)
-            client
-              .mutation(api.blogViews.incrementViewCount, { slug })
-              .catch((err) => console.error('Failed to increment:', err))
-          }
+    initConvexClient()
+      .then((client) => {
+        if (!isMounted) return
+        if (!client) {
+          setError('Convex client not configured')
+          return
         }
-      )
-    } catch (err) {
-      console.error('Error setting up subscription:', err)
-      setError(String(err))
-    }
+
+        try {
+          unsubscribe = client.onUpdate(
+            api.blogViews.getViewCount,
+            { slug },
+            (result) => {
+              if (!isMounted) return
+              setViewCount(result.viewCount)
+
+              if (!hasIncrementedRef.current) {
+                hasIncrementedRef.current = true
+
+                if (wasPostViewedRecently(slug)) {
+                  return
+                }
+
+                markPostAsViewed(slug)
+                client
+                  .mutation(api.blogViews.incrementViewCount, { slug })
+                  .catch((err) => console.error('Failed to increment:', err))
+              }
+            }
+          )
+        } catch (err) {
+          console.error('Error setting up subscription:', err)
+          if (isMounted) setError(String(err))
+        }
+      })
+      .catch((err) => {
+        console.error('Error loading Convex client:', err)
+        if (isMounted) setError(String(err))
+      })
 
     return () => {
+      isMounted = false
       if (unsubscribe) {
         unsubscribe()
       }

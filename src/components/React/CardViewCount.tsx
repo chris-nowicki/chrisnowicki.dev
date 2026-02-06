@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { convexClient } from '@/lib/convex'
+import { initConvexClient } from '@/lib/convex-client'
 import { api } from '../../../convex/_generated/api'
 
 interface Props {
@@ -10,17 +10,26 @@ export default function CardViewCount({ slug }: Props) {
   const [viewCount, setViewCount] = useState<number | null>(null)
 
   useEffect(() => {
-    if (!convexClient) return
+    let unsubscribe: (() => void) | null = null
+    let isMounted = true
 
-    const unsubscribe = convexClient.onUpdate(
-      api.blogViews.getViewCount,
-      { slug },
-      (result) => {
-        if (result) setViewCount(result.viewCount)
-      }
-    )
+    initConvexClient()
+      .then((client) => {
+        if (!isMounted || !client) return
 
-    return () => unsubscribe()
+        unsubscribe = client.onUpdate(
+          api.blogViews.getViewCount,
+          { slug },
+          (result) => {
+            if (isMounted && result) setViewCount(result.viewCount)
+          }
+        )
+      })
+
+    return () => {
+      isMounted = false
+      if (unsubscribe) unsubscribe()
+    }
   }, [slug])
 
   if (!viewCount) return null

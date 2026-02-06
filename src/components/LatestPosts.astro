@@ -67,7 +67,7 @@ const postItems = posts.map((post) => ({
 
                 <div class="mt-auto pt-2 font-mono text-xs text-muted-foreground">
                   {item.readTime}
-                  <CardViewCount client:load slug={item.slug} />
+                  <CardViewCount client:only="react" slug={item.slug} />
                 </div>
               </div>
             </a>
