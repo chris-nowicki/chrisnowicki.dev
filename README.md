@@ -2,7 +2,7 @@
 
 > Where code meets caffeine ☕
 
-![Chris Nowicki's Personal Website](public/og.webp)
+![Chris Nowicki's Personal Website](public/og.png)
 
 ## What's This?
 
