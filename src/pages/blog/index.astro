@@ -7,7 +7,7 @@ import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
 import { formatDate, formatViewCount } from '@/utils/utils'
 import CategoryMenu from '@/components/CategoryMenu.astro'
-import { convexHttpClient } from '@/lib/convex'
+import { getConvexHttpClient } from '@/lib/convex'
 import { api } from '../../../convex/_generated/api'
 
 export const prerender = false
@@ -22,6 +22,7 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 const slugs = posts.map((post) => post.id)
 let viewCounts: Record<string, number> = {}
 
+const convexHttpClient = await getConvexHttpClient()
 if (convexHttpClient) {
   try {
     viewCounts = await convexHttpClient.query(api.blogViews.getViewCounts, { slugs })

@@ -36,7 +36,7 @@ const { title, date, readTime, slug, image } = Astro.props
               <span class="h-3 w-px bg-white/40" />
               <span>{readTime}</span>
               <span class="h-3 w-px bg-white/40" />
-              <ViewCounter client:load slug={slug} light={true} />
+              <ViewCounter client:only="react" slug={slug} light={true} />
             </span>
           </div>
 
@@ -61,7 +61,7 @@ const { title, date, readTime, slug, image } = Astro.props
             <span class="h-3 w-px bg-slate-300" />
             <span>{readTime}</span>
             <span class="h-3 w-px bg-slate-300" />
-            <ViewCounter client:load slug={slug} />
+            <ViewCounter client:only="react" slug={slug} />
           </span>
         </div>
 
