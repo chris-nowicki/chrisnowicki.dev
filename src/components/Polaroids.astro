@@ -1,0 +1,108 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+
+// Generate random rotations for each polaroid (will be applied via CSS custom properties)
+const rotations = [-2, 1.5, -1, 2, -1.5, 1, -2.5, 0.5]
+---
+
+<div class:list={['polaroids', className]}>
+  <slot />
+</div>
+
+<style define:vars={{ rotations: rotations.join(',') }}>
+  .polaroids {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem 0 1.5rem;
+  }
+
+  .polaroids :global(> *) {
+    --rotation: 0deg;
+    background: white;
+    padding: 0.75rem;
+    padding-bottom: 3rem;
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    transform: rotate(var(--rotation));
+    position: relative;
+    max-width: 280px;
+  }
+
+  /* Dynamic sizing: single polaroid is larger */
+  .polaroids :global(> *:only-child) {
+    max-width: 360px;
+  }
+
+  /* Dynamic sizing: exactly 2 polaroids are medium */
+  .polaroids:has(:global(> *:nth-child(2)):not(:has(:global(> *:nth-child(3))))) :global(> *) {
+    max-width: 320px;
+  }
+
+  .polaroids :global(> *:nth-child(1)) {
+    --rotation: -2deg;
+  }
+  .polaroids :global(> *:nth-child(2)) {
+    --rotation: 1.5deg;
+  }
+  .polaroids :global(> *:nth-child(3)) {
+    --rotation: -1deg;
+  }
+  .polaroids :global(> *:nth-child(4)) {
+    --rotation: 2deg;
+  }
+  .polaroids :global(> *:nth-child(5)) {
+    --rotation: -1.5deg;
+  }
+  .polaroids :global(> *:nth-child(6)) {
+    --rotation: 1deg;
+  }
+  .polaroids :global(> *:nth-child(7)) {
+    --rotation: -2.5deg;
+  }
+  .polaroids :global(> *:nth-child(8)) {
+    --rotation: 0.5deg;
+  }
+
+  .polaroids :global(> *:hover) {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    z-index: 10;
+  }
+
+  .polaroids :global(img) {
+    filter: grayscale(1);
+    transition: filter 0.4s ease;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .polaroids :global(> *:hover img) {
+    filter: grayscale(0);
+  }
+
+  .polaroids :global([data-caption])::after {
+    content: attr(data-caption);
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 1.5rem;
+    color: hsl(240 10% 3.9%);
+  }
+</style>
