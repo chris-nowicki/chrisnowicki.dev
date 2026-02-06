@@ -1,8 +1,9 @@
 ---
-import { Image } from 'astro:assets'
 import { NUMBER_OF_ENTRIES } from '@/lib/site'
 import { getBlogPosts } from '@/utils/blog-helpers'
+import { readingTime } from '@/utils/reading-time'
 import { cn } from '@/utils/utils'
+import CardViewCount from '@/components/React/CardViewCount'
 
 interface Props {
   limit?: number
@@ -14,9 +15,10 @@ const posts = await getBlogPosts(limit)
 
 const postItems = posts.map((post) => ({
   href: `/blog/${post.id}`,
+  slug: post.id,
   name: post.data.title,
   description: post.data.description,
-  image: post.data.image,
+  readTime: readingTime(post.rendered?.html ?? ''),
 }))
 ---
 
@@ -44,7 +46,6 @@ const postItems = posts.map((post) => ({
               class={cn(
                 'group relative block h-full overflow-hidden transition-all duration-200 ease-in-out',
                 'md:rounded-lg md:border md:ring-1 md:ring-inset md:ring-slate-900/5',
-                'sm:min-h-[350px]',
                 'animate-fade-in-up',
                 'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
                 'hover:before:opacity-100',
@@ -52,34 +53,22 @@ const postItems = posts.map((post) => ({
               )}
               style={`animation-delay: ${index * 100}ms`}
               data-astro-prefetch>
-              <div class="relative hidden h-40 w-full overflow-hidden bg-muted sm:block">
-                {item.image ? (
-                  <>
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      height={160}
-                      width={256}
-                      class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105"
-                    />
-                    <div class="absolute inset-0 bg-slate-900/5 transition-opacity duration-300 group-hover:opacity-0" aria-hidden="true"></div>
-                  </>
-                ) : (
-                  <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-gray-200 to-white" />
-                )}
-              </div>
-
               <div class="flex h-full flex-col p-0 sm:p-4">
                 <span class="mb-1 font-mono text-xs text-slate-400 sm:mb-2">
                   {`\u2116 ${String(index + 1).padStart(2, '0')}`}
                 </span>
-                <h3 class="mb-0 text-base font-bold wrap-break-words sm:mb-2 sm:min-h-[2.5em] sm:text-lg">
+                <h3 class="mb-0 text-base font-bold wrap-break-words sm:mb-2 sm:min-h-[2.5em] sm:text-xl">
                   {item.name}
                 </h3>
 
                 {item.description && (
                   <p class="mb-4 flex-1 text-sm text-muted-foreground">{item.description}</p>
                 )}
+
+                <div class="mt-auto pt-2 font-mono text-xs text-muted-foreground">
+                  {item.readTime}
+                  <CardViewCount client:load slug={item.slug} />
+                </div>
               </div>
             </a>
           ))

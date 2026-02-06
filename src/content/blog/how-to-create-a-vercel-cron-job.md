@@ -1,5 +1,4 @@
 ---
-slug: how-to-create-a-vercel-cron-job
 date: 2023-04-19
 title: 'How to create a Vercel Cron Job using NextJS 13'
 description: 'Learn to create Vercel cron jobs in Next.js.'

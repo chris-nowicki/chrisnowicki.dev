@@ -1,5 +1,4 @@
 ---
-slug: 'breaking-into-tech-and-burnout'
 date: 2024-05-01
 title: 'The Reality of Burnout and Breaking Into Tech'
 description: 'Overcoming burnout through digital detox and self-care.'

@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 import react from '@astrojs/react'
+import mdx from '@astrojs/mdx'
 
 import cloudflare from '@astrojs/cloudflare';
 
@@ -20,7 +21,7 @@ export default defineConfig({
     },
   },
 
-  integrations: [sitemap(), react()],
+  integrations: [sitemap(), react(), mdx()],
 
   markdown: {
     shikiConfig: {
