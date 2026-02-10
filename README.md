@@ -11,7 +11,7 @@ My little slice of the internet, built with modern tech and way too much coffee.
 ## Tech Stack
 
 - **Framework**: Astro 5.x (SSR) - because sometimes you just want things to be fast without the client-side drama
-- **UI Components**: Svelte 5.x - for when things need to get interactive
+- **UI Components**: React 19.x - for when things need to get interactive
 - **Styling**: Tailwind CSS v4 - because writing actual CSS in 2026 is for masochists
 - **Database**: Convex - real-time view tracking with WebSocket subscriptions
 - **Content**: Markdown with auto-linking headings - keeping it simple and semantic
@@ -46,7 +46,7 @@ pnpm test
 ```
 src/
 ├── assets/        # Images and icons
-├── components/    # Astro and Svelte components
+├── components/    # Astro and React components
 ├── content/       # Blog posts in Markdown
 ├── data/          # Static data files
 ├── layouts/       # Layout templates

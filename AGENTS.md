@@ -1,11 +1,11 @@
 # Coding Agent Guidelines for chrisnowicki.dev
 
-This document provides essential information for AI coding agents working on the Chris Nowicki portfolio website built with Astro, Svelte, and TypeScript.
+This document provides essential information for AI coding agents working on the Chris Nowicki portfolio website built with Astro, React, and TypeScript.
 
 ## Tech Stack
 
 - **Framework**: Astro 5.x with SSR (Server-Side Rendering)
-- **UI Components**: Svelte 5.x for interactive components
+- **UI Components**: React 19.x with `framer-motion` for interactive components
 - **Styling**: Tailwind CSS v4 with Vite plugin
 - **TypeScript**: Strict mode enabled
 - **Package Manager**: pnpm (v10.26.2)
@@ -37,8 +37,8 @@ pnpm astro            # Access Astro CLI commands
 ```
 src/
 ├── assets/           # Images and icons
-├── components/       # Astro and Svelte components
-│   └── Svelte/      # Svelte-specific components
+├── components/       # Astro and React components
+│   └── React/       # React-specific components
 ├── content/         # Content collections (blog posts)
 ├── data/            # Static data files
 ├── layouts/         # Layout templates
@@ -78,7 +78,7 @@ import ArrowSquiggle from '@/assets/icons/arrow-squiggle.svg'
 - **Strict mode**: Always enabled - handle null checks properly
 - **Type exports**: Define shared types in `src/types.ts`
 - **Const assertions**: Use `as const` for readonly arrays/objects
-- **File extensions**: `.ts` for logic, `.astro` for components
+- **File extensions**: `.ts` for logic, `.astro` for Astro components, `.tsx` for React components
 
 ### Component Guidelines
 
@@ -101,27 +101,28 @@ const { title, description = 'Default description' } = Astro.props
 </section>
 ```
 
-#### Svelte Components (.svelte)
+#### React Components (.tsx)
 
-```svelte
-<script lang="ts">
-  import { onMount } from 'svelte'
-  import { cn } from '@/utils/utils'
+```tsx
+import { useEffect, useState } from 'react'
+import { cn } from '@/utils/utils'
 
-  // Props
-  export let isActive = false
+interface Props {
+  isActive?: boolean
+}
 
-  // State
-  let localState = ''
+export default function ExampleComponent({ isActive = false }: Props) {
+  const [localState, setLocalState] = useState('')
 
-  // Lifecycle
-  onMount(() => {
+  useEffect(() => {
     // Initialization
     return () => {
       // Cleanup
     }
-  })
-</script>
+  }, [])
+
+  return <div className={cn('component-class', isActive && 'active')}>...</div>
+}
 ```
 
 ### Styling Conventions
@@ -146,7 +147,7 @@ const { title, description = 'Default description' } = Astro.props
 
 ### Naming Conventions
 
-- **Files**: `kebab-case.ts` for utilities, `PascalCase.astro/svelte` for components
+- **Files**: `kebab-case.ts` for utilities, `PascalCase.astro/tsx` for components
 - **Variables/Functions**: `camelCase`
 - **Constants**: `UPPER_SNAKE_CASE` for global constants
 - **Types/Interfaces**: `PascalCase`
@@ -203,7 +204,7 @@ const { title, description = 'Default description' } = Astro.props
 ### Creating Components
 
 1. Astro components for static content
-2. Svelte components for interactivity
+2. React components for interactivity
 3. Always define Props interface
 4. Use semantic HTML and accessibility attributes
 
@@ -241,17 +242,17 @@ Located in `convex/blogViews.ts`:
 
 ### Client Setup
 
-See `src/lib/convex.ts` for client configuration:
+Client setup across two files:
 
-- `convexClient` - Browser client with WebSocket for real-time subscriptions (used in Svelte components)
-- `convexHttpClient` - HTTP client for server-side queries (used in Astro SSR pages)
-- `isConvexConfigured()` - Helper function to check if Convex URL is set
+- `src/lib/convex.ts` - `getConvexHttpClient()` async HTTP client for server-side queries (used in Astro SSR pages)
+- `src/lib/convex-client.ts` - `initConvexClient()` async browser client with WebSocket for real-time subscriptions (used in React components)
+- `isConvexConfigured()` - Helper function to check if Convex URL is set (in `convex.ts`)
 
 Both clients return `null` if `PUBLIC_CONVEX_URL` is not configured, allowing graceful degradation.
 
 ### Real-time Updates
 
-The `ViewCounter.svelte` component uses Convex's real-time subscriptions via `convexClient.onUpdate()`. When any user increments a view count, all connected clients see the update instantly.
+The `ViewCounter.tsx` component uses Convex's real-time subscriptions via `initConvexClient()` from `convex-client.ts`. When any user increments a view count, all connected clients see the update instantly.
 
 **ViewCounter behavior:**
 1. Subscribes to real-time updates for a specific slug on mount
@@ -264,23 +265,25 @@ The `ViewCounter.svelte` component uses Convex's real-time subscriptions via `co
 **Server-side (Astro SSR pages):**
 
 ```typescript
-import { convexHttpClient } from '@/lib/convex'
+import { getConvexHttpClient } from '@/lib/convex'
 import { api } from '../../../convex/_generated/api'
 
-if (convexHttpClient) {
-  const viewCounts = await convexHttpClient.query(api.blogViews.getViewCounts, { slugs })
+const httpClient = await getConvexHttpClient()
+if (httpClient) {
+  const viewCounts = await httpClient.query(api.blogViews.getViewCounts, { slugs })
 }
 ```
 
-**Client-side (Svelte components):**
+**Client-side (React components):**
 
 ```typescript
-import { convexClient } from '@/lib/convex'
+import { initConvexClient } from '@/lib/convex-client'
 import { api } from '../../../convex/_generated/api'
 
-// Subscribe to real-time updates
+// Initialize client and subscribe to real-time updates
+const client = await initConvexClient()
 const unsubscribe = client.onUpdate(api.blogViews.getViewCount, { slug }, (result) => {
-  viewCount = result.viewCount
+  setViewCount(result.viewCount)
 })
 
 // Mutate data

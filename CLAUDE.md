@@ -15,7 +15,7 @@ pnpm test <file>      # Run specific test file
 ## Tech Stack
 
 - **Astro 5.x** with SSR (Server-Side Rendering) on Vercel
-- **Svelte 5.x** for interactive components
+- **React 19.x** with `framer-motion` for interactive components
 - **Tailwind CSS v4** with Vite plugin
 - **TypeScript** in strict mode
 - **Convex** for real-time blog view tracking
@@ -27,12 +27,12 @@ pnpm test <file>      # Run specific test file
 
 - **Static pages**: Home page and individual blog posts use `prerender = true`
 - **SSR pages**: Blog index uses `prerender = false` to fetch dynamic view counts
-- **Client-side interactivity**: Svelte components hydrate on the client for real-time features
+- **Client-side interactivity**: React components hydrate on the client for real-time features
 
 ### Component Organization
 
 - **Astro components** (`.astro`) for static/server-rendered content
-- **Svelte components** (`.svelte`) in `src/components/Svelte/` for client-side interactivity
+- **React components** (`.tsx`) in `src/components/React/` for client-side interactivity
 - Props interfaces always named `Props` with optional fields having defaults
 
 ### Data Layer
@@ -52,9 +52,9 @@ Functions in `convex/blogViews.ts`:
 - `getViewCount(slug)` / `getViewCounts(slugs)` - Queries
 - `incrementViewCount(slug)` - Mutation (upserts)
 
-Client setup in `src/lib/convex.ts`:
-- `convexClient` - Browser client for real-time subscriptions (Svelte)
-- `convexHttpClient` - HTTP client for SSR (Astro)
+Client setup:
+- `src/lib/convex.ts` - `getConvexHttpClient()` async HTTP client for SSR (Astro)
+- `src/lib/convex-client.ts` - `initConvexClient()` async browser client for real-time subscriptions (React)
 - Gracefully degrades if `PUBLIC_CONVEX_URL` not set
 
 ## Code Style
@@ -70,7 +70,7 @@ Client setup in `src/lib/convex.ts`:
 
 ### Naming
 
-- **Files**: `kebab-case.ts` for utilities, `PascalCase.astro/svelte` for components
+- **Files**: `kebab-case.ts` for utilities, `PascalCase.astro/tsx` for components
 - **Variables/Functions**: camelCase
 - **Constants**: UPPER_SNAKE_CASE
 - **Types**: PascalCase
@@ -85,7 +85,8 @@ Client setup in `src/lib/convex.ts`:
 ## Key Files
 
 - `src/lib/site.ts` - Site metadata, navigation links, social links
-- `src/lib/convex.ts` - Convex client configuration
+- `src/lib/convex.ts` - Convex HTTP client for SSR
+- `src/lib/convex-client.ts` - Convex browser client for React components
 - `src/content.config.ts` - Content collection schemas
 - `src/utils/utils.ts` - `cn()` utility, `formatDate()`, `formatViewCount()`
 - `src/utils/blog-helpers.ts` - Blog post fetching and sorting
