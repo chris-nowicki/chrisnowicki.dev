@@ -17,6 +17,10 @@ export default defineConfig({
   vite: {
     // @ts-ignore - Tailwind Vite plugin type compatibility
     plugins: [tailwindcss()],
+    define: {
+      'process.env.BEEHIIV_API_KEY': JSON.stringify(process.env.BEEHIIV_API_KEY),
+      'process.env.BEEHIIV_PUBLICATION_ID': JSON.stringify(process.env.BEEHIIV_PUBLICATION_ID),
+    },
     ssr: {
       external: ['node:async_hooks', 'node:crypto'],
     },

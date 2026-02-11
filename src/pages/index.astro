@@ -7,6 +7,7 @@ import Hero from '@/components/Hero.astro'
 import LatestPosts from '@/components/LatestPosts.astro'
 import Speaking from '@/components/Speaking.astro'
 import SectionSeparator from '@/components/SectionSeparator.astro'
+import NewsletterSection from '@/components/NewsletterSection.astro'
 import { HOME } from '@/lib/site'
 
 export const prerender = true
@@ -26,6 +27,8 @@ export const prerender = true
         <ContactSection />
       </div>
     </div>
+    <SectionSeparator />
+    <NewsletterSection />
   </Container>
 </PageLayout>
 
