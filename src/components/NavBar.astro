@@ -2,6 +2,7 @@
 import { cn } from '@/utils/utils'
 import { navLinks } from '@/lib/site'
 import MobileNav from './React/MobileNav'
+import ThemeToggle from './ThemeToggle.astro'
 
 export const prerender = false
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
@@ -10,12 +11,12 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
 <div class="mt-6 flex w-full items-center justify-center pr-6 pl-4">
   <nav
     class={cn(
-      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-white'
+      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-background'
     )}
-    style="transition: background-color 0.3s, box-shadow 0.3s, border-radius 0.3s;">
+    style="transition: box-shadow 0.3s, border-radius 0.3s;">
     <a
       href="/"
-      class="font-cursive group inline-flex items-center overflow-hidden text-4xl text-slate-900">
+      class="font-cursive group inline-flex items-center overflow-hidden text-4xl text-foreground md:flex-1">
       <span class="inline-block">C</span><span
         class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-35"
         >hris</span
@@ -40,7 +41,7 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
                 {href}
                 class={cn(
                   'transition-colors duration-200 ease-in-out',
-                  isActive ? 'text-black' : 'hover:text-black'
+                  isActive ? 'text-foreground' : 'hover:text-foreground'
                 )}
                 aria-current={isActive ? 'page' : undefined}
                 data-astro-prefetch>
@@ -51,6 +52,9 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
         })
       }
     </ul>
+    <div class="hidden md:flex md:flex-1 md:justify-end">
+      <ThemeToggle />
+    </div>
     <MobileNav client:load />
   </nav>
 </div>

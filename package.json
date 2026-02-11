@@ -24,6 +24,7 @@
     "clsx": "^2.1.1",
     "convex": "^1.31.7",
     "framer-motion": "^12.31.0",
+    "lucide-react": "^0.563.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "rehype-autolink-headings": "^7.1.0",

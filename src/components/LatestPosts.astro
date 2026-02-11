@@ -27,12 +27,12 @@ const postItems = posts.map((post) => ({
     <section class="mt-12 sm:mt-20">
       <header class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between sm:mb-8">
         <div>
-          <span class="font-mono text-[10px] uppercase tracking-widest text-slate-400">Latest</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Latest</span>
           <h2 class="text-lg font-bold uppercase tracking-wide sm:text-2xl">Read my Latest Posts</h2>
         </div>
         <a
           href="/blog"
-          class="text-muted-foreground text-sm md:text-base hover:text-black hidden md:block"
+          class="text-muted-foreground text-sm md:text-base hover:text-foreground hidden md:block"
           data-astro-prefetch>
           View all posts
         </a>
@@ -45,16 +45,16 @@ const postItems = posts.map((post) => ({
               aria-label={`Read more about ${item.name}`}
               class={cn(
                 'group relative block h-full overflow-hidden transition-all duration-200 ease-in-out',
-                'md:rounded-lg md:border md:ring-1 md:ring-inset md:ring-slate-900/5',
+                'md:rounded-lg md:border md:ring-1 md:ring-inset md:ring-foreground/5',
                 'animate-fade-in-up',
-                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
+                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
                 'hover:before:opacity-100',
                 'md:before:rounded-l-lg'
               )}
               style={`animation-delay: ${index * 100}ms`}
               data-astro-prefetch>
               <div class="flex h-full flex-col p-0 sm:p-4">
-                <span class="mb-1 font-mono text-xs text-slate-400 sm:mb-2">
+                <span class="mb-1 font-mono text-xs text-muted-foreground sm:mb-2">
                   {`\u2116 ${String(index + 1).padStart(2, '0')}`}
                 </span>
                 <h3 class="mb-0 text-base font-bold wrap-break-words sm:mb-2 sm:min-h-[2.5em] sm:text-xl">
@@ -77,7 +77,7 @@ const postItems = posts.map((post) => ({
       <div class="mt-4 sm:hidden">
         <a
           href="/blog"
-          class="text-muted-foreground text-base hover:text-black"
+          class="text-muted-foreground text-base hover:text-foreground"
           data-astro-prefetch>
           View all posts →
         </a>

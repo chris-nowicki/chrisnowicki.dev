@@ -56,8 +56,8 @@ const ogImageUrl = generateOgImageUrl({
                 'group relative flex items-start gap-4 border p-4',
                 'transition-all duration-200',
                 'before:absolute before:left-0 before:top-0 before:h-full before:w-1',
-                'before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
-                'hover:before:opacity-100 hover:border-slate-300'
+                'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
+                'hover:before:opacity-100 hover:border-border'
               )}>
               <div class="flex min-w-0 flex-1 flex-col gap-1">
                 <h2 class="font-mono text-md group-hover:font-semibold">{gitHub.title}</h2>
@@ -68,7 +68,7 @@ const ogImageUrl = generateOgImageUrl({
               <GitHubIcon
                 width={24}
                 height={24}
-                class="mt-0.5 shrink-0 text-slate-400 transition-colors duration-200 group-hover:text-slate-900"
+                class="mt-0.5 shrink-0 text-muted-foreground transition-colors duration-200 group-hover:text-foreground"
               />
             </a>
           ))
@@ -87,8 +87,8 @@ const ogImageUrl = generateOgImageUrl({
                 'group relative flex flex-col items-center gap-2 rounded-xl border p-2',
                 'transition-all duration-200',
                 'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-xl',
-                'before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
-                'hover:before:opacity-100 hover:border-slate-300',
+                'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
+                'hover:before:opacity-100 hover:border-border',
                 index === 0 && 'md:col-span-3'
               )}
               href={coffee.link}
@@ -129,8 +129,8 @@ const ogImageUrl = generateOgImageUrl({
                   'relative flex aspect-square w-full items-center justify-center rounded-lg border',
                   'transition-all duration-200',
                   'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-lg',
-                  'before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
-                  'group-hover:before:opacity-100 group-hover:border-slate-300'
+                  'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
+                  'group-hover:before:opacity-100 group-hover:border-border'
                 )}>
                 <img
                   src={software.imageSrc}
@@ -157,8 +157,8 @@ const ogImageUrl = generateOgImageUrl({
                 'group relative flex flex-col justify-center gap-2 rounded-xl border p-2',
                 'transition-all duration-200',
                 'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-xl',
-                'before:bg-slate-900 before:opacity-0 before:transition-opacity before:duration-200',
-                'hover:before:opacity-100 hover:border-slate-300'
+                'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
+                'hover:before:opacity-100 hover:border-border'
               )}
               href={hardware.link}
               target="_blank"

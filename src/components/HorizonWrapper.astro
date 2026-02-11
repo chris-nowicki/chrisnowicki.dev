@@ -12,7 +12,7 @@ const { class: className = '' } = Astro.props
 <div
   class={cn("text-md relative mb-12 flex flex-wrap justify-center gap-4 py-3 font-mono", className)}>
   <!-- Full-width dashed lines -->
-  <div class="absolute top-0 left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-slate-200"></div>
-  <div class="absolute bottom-0 left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-slate-200"></div>
+  <div class="absolute top-0 left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-border"></div>
+  <div class="absolute bottom-0 left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-border"></div>
   <slot />
 </div>
