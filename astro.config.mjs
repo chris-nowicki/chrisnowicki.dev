@@ -6,6 +6,7 @@ import { defineConfig } from 'astro/config'
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
+import expressiveCode from 'astro-expressive-code'
 
 import cloudflare from '@astrojs/cloudflare';
 
@@ -21,13 +22,34 @@ export default defineConfig({
     },
   },
 
-  integrations: [sitemap(), react(), mdx()],
+  integrations: [
+    sitemap(),
+    react(),
+    expressiveCode({
+      themes: ['catppuccin-latte', 'catppuccin-mocha'],
+      useDarkModeMediaQuery: false,
+      themeCssSelector: (theme) => {
+        if (theme.name === 'catppuccin-mocha') return '.dark'
+        return ''
+      },
+      styleOverrides: {
+        codeFontFamily: "'Geist Mono', monospace",
+        codeFontSize: '0.875rem',
+        codeLineHeight: '1.5',
+        borderRadius: '0.375rem',
+        borderWidth: '0px',
+        frames: {
+          shadowColor: 'transparent',
+        },
+      },
+      defaultProps: {
+        wrap: true,
+      },
+    }),
+    mdx(),
+  ],
 
   markdown: {
-    shikiConfig: {
-      theme: 'catppuccin-mocha',
-      wrap: true,
-    },
     rehypePlugins: [
       rehypeHeadingIds,
       [

@@ -9,9 +9,10 @@ interface Props {
   readTime: string
   slug: string
   image?: ImageMetadata
+  draft?: boolean
 }
 
-const { title, date, readTime, slug, image } = Astro.props
+const { title, date, readTime, slug, image, draft = false } = Astro.props
 ---
 
 {
@@ -36,7 +37,7 @@ const { title, date, readTime, slug, image } = Astro.props
               <span class="h-3 w-px bg-white/40" />
               <span>{readTime}</span>
               <span class="h-3 w-px bg-white/40" />
-              <ViewCounter client:only="react" slug={slug} light={true} />
+              <ViewCounter client:only="react" slug={slug} light={true} draft={draft} />
             </span>
           </div>
 
@@ -61,7 +62,7 @@ const { title, date, readTime, slug, image } = Astro.props
             <span class="h-3 w-px bg-border" />
             <span>{readTime}</span>
             <span class="h-3 w-px bg-border" />
-            <ViewCounter client:only="react" slug={slug} />
+            <ViewCounter client:only="react" slug={slug} draft={draft} />
           </span>
         </div>
 
