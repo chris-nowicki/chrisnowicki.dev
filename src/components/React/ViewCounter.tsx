@@ -10,9 +10,10 @@ import {
 interface Props {
   slug: string
   light?: boolean
+  draft?: boolean
 }
 
-export default function ViewCounter({ slug, light = false }: Props) {
+export default function ViewCounter({ slug, light = false, draft = false }: Props) {
   const [viewCount, setViewCount] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
   const hasIncrementedRef = useRef(false)
@@ -46,10 +47,12 @@ export default function ViewCounter({ slug, light = false }: Props) {
                   return
                 }
 
-                markPostAsViewed(slug)
-                client
-                  .mutation(api.blogViews.incrementViewCount, { slug })
-                  .catch((err) => console.error('Failed to increment:', err))
+                if (!draft) {
+                  markPostAsViewed(slug)
+                  client
+                    .mutation(api.blogViews.incrementViewCount, { slug })
+                    .catch((err) => console.error('Failed to increment:', err))
+                }
               }
             }
           )

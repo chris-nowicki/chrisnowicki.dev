@@ -3,7 +3,7 @@ date: 2026-02-10
 title: 'How to Create Dynamic OG Images in Astro with Cloudinary'
 description: 'Generate dynamic Open Graph images on the fly using Cloudinary and Astro.'
 category: 'tech'
-draft: true
+draft: false
 ---
 
 If you've ever shared a link on Twitter or LinkedIn and cringed at the generic preview image, this one's for you. I got tired of manually creating OG images for every page on my site, so I set up a system where Cloudinary generates them dynamically with custom text overlays.

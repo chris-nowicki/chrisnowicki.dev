@@ -10,7 +10,10 @@ import { getCollection, render } from 'astro:content'
 export const prerender = true
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog')
+  const posts = await getCollection(
+    'blog',
+    ({ data }) => import.meta.env.DEV || !data.draft
+  )
   return posts.map((post) => ({ params: { slug: post.id }, props: { post } }))
 }
 
@@ -45,6 +48,7 @@ const postSlug = post.id
           readTime={postReadTime}
           slug={postSlug}
           image={post.data.image}
+          draft={post.data.draft}
         />
       </div>
       <div class="page-animate prose mt-10" style="--delay: 150ms">

@@ -5,7 +5,10 @@ export const getBlogPosts = async (
 ): Promise<CollectionEntry<'blog'>[]> => {
   try {
     const { getCollection } = await import('astro:content')
-    const posts = await getCollection('blog')
+    const posts = await getCollection(
+      'blog',
+      ({ data }) => import.meta.env.DEV || !data.draft
+    )
 
     if (!posts || posts.length === 0) {
       console.warn('No blog posts found in collection')
