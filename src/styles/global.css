@@ -1,5 +1,7 @@
 @import 'tailwindcss' source('../../src');
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Geist Sans Variable Font */
 @font-face {
   font-family: 'Geist';
@@ -46,6 +48,9 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
 }
 
 @layer base {
@@ -61,7 +66,25 @@
     --border: 240 5.9% 90%; /* slate-200 */
     --input: 240 5.9% 90%; /* slate-200 */
     --ring: 240 10% 3.9%; /* slate-900 */
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
     --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;        /* neutral-950 */
+    --foreground: 0 0% 98%;            /* neutral-50 */
+    --primary: 0 0% 98%;               /* neutral-50 */
+    --primary-foreground: 240 5.9% 10%; /* neutral-900 */
+    --muted: 240 3.7% 15.9%;          /* neutral-800 */
+    --muted-foreground: 240 5% 64.9%; /* neutral-400 */
+    --accent: 240 3.7% 15.9%;         /* neutral-800 */
+    --accent-foreground: 0 0% 98%;    /* neutral-50 */
+    --border: 240 3.7% 15.9%;         /* neutral-800 */
+    --input: 240 3.7% 15.9%;          /* neutral-800 */
+    --ring: 240 4.9% 83.9%;           /* neutral-300 */
+    --card: 240 10% 3.9%;             /* neutral-950 */
+    --card-foreground: 0 0% 98%;      /* neutral-50 */
   }
 
   /* Base styles for HTML and Body */
@@ -251,3 +274,4 @@
     transform: none;
   }
 }
+

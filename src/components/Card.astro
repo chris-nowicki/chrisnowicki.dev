@@ -13,7 +13,7 @@ const { href, name, description = '', image = '' } = Astro.props
 
 <a
   href={href}
-  class="group block h-full min-h-[350px] overflow-hidden rounded-lg border bg-white shadow-sm ring-1 ring-inset ring-slate-900/5 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]"
+  class="group block h-full min-h-[350px] overflow-hidden rounded-lg border bg-card shadow-sm ring-1 ring-inset ring-foreground/5 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]"
   aria-label={`Read more about ${name}`}>
   <div class="relative h-40 w-full overflow-hidden bg-muted">
     {
@@ -26,7 +26,7 @@ const { href, name, description = '', image = '' } = Astro.props
             width={256}
             class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div class="absolute inset-0 bg-slate-900/5 transition-opacity duration-300 group-hover:opacity-0" aria-hidden="true"></div>
+          <div class="absolute inset-0 bg-foreground/5 transition-opacity duration-300 group-hover:opacity-0" aria-hidden="true"></div>
         </>
       : <div class="flex h-full w-full items-center justify-center bg-muted" />
     }
