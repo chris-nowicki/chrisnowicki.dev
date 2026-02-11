@@ -11,7 +11,7 @@ function json(body: { success: boolean; message: string }, status = 200) {
   })
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json()
     const { email, _gotcha } = body as { email?: string; _gotcha?: string }
@@ -25,8 +25,9 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ success: false, message: 'Please enter a valid email address.' }, 400)
     }
 
-    const apiKey = import.meta.env.BEEHIIV_API_KEY
-    const publicationId = import.meta.env.BEEHIIV_PUBLICATION_ID
+    const { env } = (locals as { runtime: { env: Record<string, string> } }).runtime
+    const apiKey = env.BEEHIIV_API_KEY
+    const publicationId = env.BEEHIIV_PUBLICATION_ID
 
     if (!apiKey || !publicationId) {
       console.error('Missing beehiiv environment variables')
