@@ -159,17 +159,14 @@
     }
   }
 
-  /* Code blocks */
-  pre {
-    @apply my-6 overflow-auto rounded-md p-4;
+  /* Code blocks — Expressive Code handles pre/code styling */
+  .expressive-code {
+    @apply my-6;
   }
 
-  pre button {
-    @apply hidden md:block;
-  }
-
-  code {
-    @apply font-mono my-1 border-0 text-sm leading-normal! md:text-sm;
+  /* Inline code (not inside Expressive Code blocks) */
+  code:not(.ec-line *) {
+    @apply font-mono rounded bg-muted px-1.5 py-0.5 text-sm;
   }
 
   /* Images */

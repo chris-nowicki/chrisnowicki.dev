@@ -56,14 +56,6 @@ const postSlug = post.id
 </PageLayout>
 
 <script>
-  import { copyCodeButton } from '@/utils/copy-code-button'
-
-  let cleanup = copyCodeButton()
-  document.addEventListener('astro:after-swap', () => {
-    cleanup()
-    cleanup = copyCodeButton()
-  })
-
   function initReadingProgress() {
     const progressBar = document.getElementById('reading-progress')
     if (!progressBar) return

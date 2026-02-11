@@ -48,8 +48,7 @@ PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
 
 Here's where the magic happens. Create a utility function that generates a Cloudinary URL with text overlays.
 
-```typescript
-// src/utils/og-image.ts
+```typescript title="src/utils/og-image.ts"
 import { getCldOgImageUrl } from 'astro-cloudinary/helpers'
 
 // Cloudinary uses commas as URL delimiters, so we need to replace
@@ -180,13 +179,58 @@ Check out the [Cloudinary custom fonts docs](https://cloudinary.com/documentatio
 
 ## Step 5: Wire It Up in Your Pages
 
-Now use the utility in any Astro page to generate an OG image URL and pass it to your layout. Here's how I use it in my blog post template:
+Now we need to wire the generated URL into the actual page. In Astro, you'll typically have a layout component that wraps all your pages. Here's how to set yours up to accept an optional `image` prop for the OG image.
 
-```astro
+The key details: default `image` to a static fallback (like `/og.png`) so pages without a dynamic OG image still work. And since Cloudinary URLs are already absolute, pass them through as-is — local images need the full site URL prepended:
+
+```astro title="src/layouts/PageLayout.astro"
 ---
-// src/pages/blog/[slug].astro
-import generateOgImageUrl from '@/utils/og-image'
+import { SITE } from '@/lib/site'
+
+interface Props {
+  title: string
+  description: string
+  image?: string
+}
+
+const { title, description, image = '/og.png' } = Astro.props
+
+const getImageUrl = (img: string) => {
+  if (img.startsWith('http')) {
+    return img // Cloudinary URLs are already absolute
+  }
+  return new URL(img, Astro.url) // Local images need the full URL
+}
+
+const imageUrl = getImageUrl(image)
+---
+
+<html lang="en">
+  <head>
+    <title>{`${title} | ${SITE.NAME}`}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:image" content={imageUrl} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+```
+
+Now in any page, generate the OG image URL and pass it to your layout:
+
+```astro title="src/pages/blog/[slug].astro"
+---
 import PageLayout from '@/layouts/PageLayout.astro'
+import generateOgImageUrl from '@/utils/og-image'
 
 // `post` and `postReadTime` come from your content collection logic
 const ogImageUrl = generateOgImageUrl({
@@ -202,16 +246,6 @@ const ogImageUrl = generateOgImageUrl({
   image={ogImageUrl}>
   <!-- your page content -->
 </PageLayout>
-```
-
-In your layout's `<head>`, make sure you have these meta tags:
-
-```html
-<meta property="og:image" content={imageUrl} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content={imageUrl} />
 ```
 
 And that's the wiring done. Each page now generates its own unique OG image based on the content. No build step, no image processing. Cloudinary handles it all through URL transformations.

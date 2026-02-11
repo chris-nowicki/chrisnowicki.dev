@@ -32,8 +32,7 @@ Vercel has the following [limitations](https://vercel.com/docs/cron-jobs/usage-a
 3. Create a file called `route.ts`
 4. Your code should look like this:
 
-```javascript
-// /api/cron/github-metrics-sync/route.ts
+```javascript title="/api/cron/github-metrics-sync/route.ts"
 import { NextResponse } from 'next/server'
 
 export async function GET() {
