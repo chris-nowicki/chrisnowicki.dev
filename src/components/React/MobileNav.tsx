@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utils/utils'
 import { navLinks, socialLinks } from '@/lib/site'
+import ThemeToggle from './ThemeToggle'
 
 const mobileNavLinks = [{ href: '/', text: 'Home' }, ...navLinks]
 
@@ -51,19 +52,19 @@ export default function MobileNav() {
         <div className="relative flex h-6 w-8 flex-col justify-between">
           <span
             className={cn(
-              'absolute h-0.5 w-full bg-black transition-all duration-300',
+              'absolute h-0.5 w-full bg-foreground transition-all duration-300',
               isOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0'
             )}
           />
           <span
             className={cn(
-              'absolute top-1/2 h-0.5 w-full -translate-y-1/2 bg-black transition-all duration-300',
+              'absolute top-1/2 h-0.5 w-full -translate-y-1/2 bg-foreground transition-all duration-300',
               isOpen ? 'opacity-0' : 'opacity-100'
             )}
           />
           <span
             className={cn(
-              'absolute h-0.5 w-full bg-black transition-all duration-300',
+              'absolute h-0.5 w-full bg-foreground transition-all duration-300',
               isOpen ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'bottom-0'
             )}
           />
@@ -73,7 +74,7 @@ export default function MobileNav() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 top-20 z-40 bg-white"
+            className="fixed inset-0 top-20 z-40 bg-background"
             variants={slideVariants}
             initial="hidden"
             animate="visible"
@@ -93,7 +94,7 @@ export default function MobileNav() {
                           'flex w-full p-2 text-center transition-colors duration-300 ease-in-out hover:text-foreground',
                           isActive
                             ? 'font-medium text-foreground'
-                            : 'text-black'
+                            : 'text-foreground'
                         )}
                         onClick={() => toggleMenu(true)}
                         aria-current={isActive ? 'page' : undefined}
@@ -105,7 +106,7 @@ export default function MobileNav() {
                   )
                 })}
               </ul>
-              <div className="mt-8 flex flex-col items-center justify-center rounded-xl border p-3 text-center text-xl text-black">
+              <div className="mt-8 flex flex-col items-center justify-center rounded-xl border p-3 text-center text-xl text-foreground">
                 Hi. 👋🏻 so, I realllllly love coffee!
                 <a
                   href="https://buymeacoffee.com/chrisnowicki"
@@ -116,7 +117,10 @@ export default function MobileNav() {
                   Buy me a cup? ☕
                 </a>
               </div>
-              <div className="mt-8 flex items-center justify-center gap-4">
+              <div className="mt-6 flex items-center justify-center">
+                <ThemeToggle />
+              </div>
+              <div className="mt-4 flex items-center justify-center gap-4">
                 {socialLinks.map(({ url, label, name }) => (
                   <a
                     key={name}
@@ -124,7 +128,7 @@ export default function MobileNav() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="text-black"
+                    className="text-foreground"
                   >
                     {name === 'X' && (
                       <svg
