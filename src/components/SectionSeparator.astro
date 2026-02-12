@@ -3,13 +3,23 @@ import FramePlus from './FramePlus.astro'
 
 interface Props {
   class?: string
+  index?: number
 }
 
-const { class: className = '' } = Astro.props
+const { class: className = '', index } = Astro.props
+const label = index !== undefined ? String(index).padStart(2, '0') : undefined
 ---
 
 <div class:list={['relative z-20 w-screen -ml-[50vw] left-1/2 my-12 md:my-16', className]} aria-hidden="true">
   <div class="h-px w-full border-t border-dashed border-border"></div>
+
+  {label && (
+    <div class="absolute inset-0 flex items-center justify-center">
+      <span class="bg-background px-3 font-pixel-line text-[10px] tracking-[0.3em] text-muted-foreground/40">
+        {label}
+      </span>
+    </div>
+  )}
 
   <FramePlus position="left" />
   <FramePlus position="right" />

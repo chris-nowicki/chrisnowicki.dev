@@ -28,10 +28,38 @@
   src: url('../assets/fonts/GeistMono[wght].woff2') format('woff2-variations');
 }
 
+/* Geist Pixel Fonts (decorative) */
+@font-face {
+  font-family: 'Geist Pixel Square';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/GeistPixel-Square.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Geist Pixel Grid';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/GeistPixel-Grid.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Geist Pixel Line';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/GeistPixel-Line.woff2') format('woff2');
+}
+
 @theme {
   --font-sans: 'Geist', sans-serif;
   --font-mono: 'Geist Mono', monospace;
   --font-cursive: 'Reenie Beanie', 'cursive';
+  --font-pixel: 'Geist Pixel Square';
+  --font-pixel-grid: 'Geist Pixel Grid';
+  --font-pixel-line: 'Geist Pixel Line';
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));

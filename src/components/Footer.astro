@@ -23,9 +23,11 @@ const builtWith = [
   </div>
 
   <div
-    class="absolute inset-0 top-px opacity-[0.03] pointer-events-none"
-    style="background-image: radial-gradient(circle, hsl(var(--muted-foreground)) 1px, transparent 1px); background-size: 24px 24px;"
+    class="absolute inset-0 top-px overflow-hidden pointer-events-none select-none"
     aria-hidden="true">
+    <p class="font-pixel-grid text-lg leading-relaxed tracking-[0.5em] text-foreground opacity-[0.03] whitespace-pre-wrap break-all">
+      {Array(12).fill('CHRIS NOWICKI DEV EXPERIENCE ENGINEER ').join('')}
+    </p>
   </div>
 
   <Container>
@@ -55,7 +57,7 @@ const builtWith = [
         </div>
 
         <div class="col-span-1 md:col-span-3 md:col-start-7">
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Navigate</h3>
+          <h3 class="font-pixel-line text-sm font-semibold uppercase tracking-widest text-muted-foreground">Navigate</h3>
           <nav class="mt-3 flex flex-col gap-2" aria-label="Footer navigation">
             {
               footerLinks.map((link) => (
@@ -71,7 +73,7 @@ const builtWith = [
         </div>
 
         <div class="col-span-1 md:col-span-3">
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Built with</h3>
+          <h3 class="font-pixel-line text-sm font-semibold uppercase tracking-widest text-muted-foreground">Built with</h3>
           <div class="mt-3 flex flex-col gap-2">
             {
               builtWith.map((tech) => (

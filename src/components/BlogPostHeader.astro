@@ -32,7 +32,7 @@ const { title, date, readTime, slug, image, draft = false } = Astro.props
 
         <div class="absolute inset-0 flex flex-col justify-end p-5 sm:p-8 md:p-10">
           <div class="mb-3 sm:mb-4">
-            <span class="inline-flex items-center gap-2 rounded-full border border-dashed border-white/40 bg-black/30 px-4 py-1.5 font-mono text-xs uppercase tracking-widest text-white backdrop-blur-sm sm:gap-3 sm:text-sm">
+            <span class="inline-flex items-center gap-2 rounded-full border border-dashed border-white/40 bg-black/30 px-4 py-1.5 font-pixel-line text-xs uppercase tracking-widest text-white backdrop-blur-sm sm:gap-3 sm:text-sm">
               <span>{date}</span>
               <span class="h-3 w-px bg-white/40" />
               <span>{readTime}</span>
@@ -57,7 +57,7 @@ const { title, date, readTime, slug, image, draft = false } = Astro.props
     <header class="relative mt-10 mb-14">
       <div class="my-6 py-8 sm:py-12">
         <div class="mb-4 flex justify-center sm:mb-6">
-          <span class="inline-flex items-center gap-2 rounded-full border border-dashed border-border px-4 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground sm:gap-3 sm:text-sm">
+          <span class="inline-flex items-center gap-2 rounded-full border border-dashed border-border px-4 py-1.5 font-pixel-line text-xs uppercase tracking-widest text-foreground sm:gap-3 sm:text-sm">
             <span>{date}</span>
             <span class="h-3 w-px bg-border" />
             <span>{readTime}</span>
