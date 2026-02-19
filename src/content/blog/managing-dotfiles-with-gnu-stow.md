@@ -3,7 +3,7 @@ date: 2026-02-19
 title: 'Managing Your Dotfiles with GNU Stow'
 description: 'Why every developer should have a dotfiles repo and how GNU Stow makes managing one effortless.'
 category: 'tech'
-draft: true
+draft: false
 ---
 
 I got tired of setting up new machines and spending the first day tweaking terminal settings, reinstalling plugins, and trying to remember that one alias I can't live without. That's what pushed me to start managing my dotfiles with a proper system.
