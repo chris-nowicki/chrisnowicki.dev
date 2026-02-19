@@ -48,7 +48,7 @@ Here's what I mean. Say you want to manage your git config. In your dotfiles rep
 
 When you run `stow git` from inside `~/Dotfiles/`, Stow creates a symlink at `~/.gitconfig` that points to `~/Dotfiles/git/.gitconfig`. That's it. The file lives in your repo, git tracks it, and your system finds it exactly where it expects.
 
-For configs that live inside `~/.config/`, the package just mirrors that structure:
+For configs that live inside `~/.config/`, the directory just mirrors that structure:
 
 ```
 ~/Dotfiles/
@@ -71,16 +71,16 @@ brew install stow
 ### Basic Commands
 
 ```bash
-stow <package>       # Create symlinks for a package
-stow -D <package>    # Remove symlinks for a package
-stow -R <package>    # Re-stow (remove and recreate symlinks)
+stow <directory>       # Create symlinks for a package directory
+stow -D <directory>    # Remove symlinks for a package directory
+stow -R <directory>    # Re-stow (remove and recreate symlinks)
 ```
 
-The `-R` flag is handy when you've restructured files inside a package. It cleans up the old symlinks and creates fresh ones.
+The `-R` flag is handy when you've restructured files inside a directory. It cleans up the old symlinks and creates fresh ones.
 
 ## My Setup
 
-I manage eight packages in my dotfiles repo, each one representing a tool or configuration:
+I manage seven directories in my dotfiles repo, each one representing a tool or configuration:
 
 ```
 ~/Dotfiles/
@@ -98,7 +98,7 @@ I won't go into the details of each config here - the point is that every tool I
 
 ### The Install Script
 
-To tie it all together, I have a simple install script that stows everything automatically:
+Strictly speaking, this is optional. You can just run `stow <directory>` for each package directory and call it a day. But my repo has directories that aren't dotfiles - like Stream Deck scripts - and I needed a way to skip them. Writing an install script for that is probably overkill. I wrote one anyway.
 
 ```bash title="install.sh"
 #!/bin/zsh
@@ -153,8 +153,8 @@ If you don't have a dotfiles repo yet, here's how I'd approach it:
 1. **Start small** - Pick one or two configs that matter most to you (`.zshrc` and `.gitconfig` are great starting points)
 2. **Create the repo** - Make a `~/Dotfiles` directory and `git init` it
 3. **Move the files** - Move your configs into package directories that mirror the home directory structure
-4. **Stow them** - Run `stow <package>` for each one and verify the symlinks are working
-5. **Iterate** - Add more packages over time as you find configs worth tracking
+4. **Stow them** - Run `stow <directory>` for each one and verify the symlinks are working
+5. **Iterate** - Add more directories over time as you find configs worth tracking
 
 Don't feel like you need to move everything at once. I built my repo up gradually over time. The important thing is that you start.
 
