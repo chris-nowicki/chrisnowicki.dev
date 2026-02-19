@@ -80,7 +80,7 @@ The `-R` flag is handy when you've restructured files inside a directory. It cle
 
 ## My Setup
 
-I manage eight directories in my dotfiles repo, each one representing a tool or configuration:
+I manage seven directories in my dotfiles repo, each one representing a tool or configuration:
 
 ```
 ~/Dotfiles/
@@ -98,7 +98,7 @@ I won't go into the details of each config here - the point is that every tool I
 
 ### The Install Script
 
-Strictly speaking, this is optional. You can just run `stow <directory>` for each package directory and call it a day. But my repo has directories that aren't dotfiles — like Stream Deck scripts — and I needed a way to skip them. Writing an install script for that is probably overkill. I wrote one anyway.
+Strictly speaking, this is optional. You can just run `stow <directory>` for each package directory and call it a day. But my repo has directories that aren't dotfiles - like Stream Deck scripts - and I needed a way to skip them. Writing an install script for that is probably overkill. I wrote one anyway.
 
 ```bash title="install.sh"
 #!/bin/zsh
