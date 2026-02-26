@@ -94,8 +94,7 @@ Client setup:
 ## Environment Variables
 
 - `PUBLIC_CONVEX_URL` - Convex deployment URL
-- `ENABLE_VIEW_TRACKING` - Set to `true` only in production to increment views
-- `PUBLIC_DISABLE_VIEW_COUNT_PROTECTION` - Set to `true` to disable view count protection for testing (local development only)
+- `ENABLE_VIEW_TRACKING` - Dev-only opt-in. Set to `true` in `.env.local` to enable view count incrementing during local development (not needed in production — tracking is always on in production). In dev, the 30-min cooldown is bypassed automatically.
 
 ## Git Workflow
 

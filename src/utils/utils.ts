@@ -22,14 +22,6 @@ const VIEW_COUNT_COOLDOWN_MS = 30 * 60 * 1000 // Prevents refresh spam
 
 type ViewedPosts = Record<string, number>
 
-function isViewCountProtectionDisabled(): boolean {
-  if (typeof window === 'undefined') {
-    return false
-  }
-  const envValue = import.meta.env.PUBLIC_DISABLE_VIEW_COUNT_PROTECTION
-  return envValue === 'true' || envValue === '1'
-}
-
 function getViewedPosts(): ViewedPosts {
   if (typeof window === 'undefined') {
     return {}
@@ -59,7 +51,7 @@ function saveViewedPosts(posts: ViewedPosts): void {
 }
 
 export function wasPostViewedRecently(slug: string): boolean {
-  if (isViewCountProtectionDisabled()) {
+  if (import.meta.env.DEV) {
     return false
   }
 
