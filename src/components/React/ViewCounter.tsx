@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { actions } from 'astro:actions'
 import { initConvexClient } from '@/lib/convex-client'
 import { api } from '../../../convex/_generated/api'
 import {
@@ -49,9 +50,9 @@ export default function ViewCounter({ slug, light = false, draft = false }: Prop
 
                 if (!draft) {
                   markPostAsViewed(slug)
-                  client
-                    .mutation(api.blogViews.incrementViewCount, { slug })
-                    .catch((err) => console.error('Failed to increment:', err))
+                  actions.incrementViewCount({ slug }).catch((err) =>
+                    console.error('Failed to increment:', err),
+                  )
                 }
               }
             }
