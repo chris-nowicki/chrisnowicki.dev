@@ -2,6 +2,7 @@
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import BlogPostHeader from '@/components/BlogPostHeader.astro'
+import TableOfContents from '@/components/React/TableOfContents'
 import { formatDate } from '@/utils/utils'
 import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
@@ -18,7 +19,8 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props
-const { Content } = await render(post)
+const { Content, headings } = await render(post)
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3)
 
 const postDate = formatDate(post.data.date.toDateString())
 const postReadTime = readingTime(post.rendered?.html ?? '')
@@ -39,24 +41,31 @@ const postSlug = post.id
   <div class="fixed top-0 left-0 z-50 h-1 w-full bg-border">
     <div id="reading-progress" class="h-full w-0 bg-muted-foreground transition-[width] duration-100"></div>
   </div>
-  <Container>
-    <article class="text-sm sm:text-base">
-      <div class="page-animate" style="--delay: 0ms">
-        <BlogPostHeader
-          title={post.data.title}
-          date={postDate}
-          readTime={postReadTime}
-          slug={postSlug}
-          image={post.data.image}
-          draft={post.data.draft}
-        />
-      </div>
-      <div class="page-animate prose mt-10" style="--delay: 150ms">
-        <Content />
-      </div>
-      <span class="page-animate font-cursive mt-8 block text-4xl text-foreground" style="--delay: 200ms">- Chris</span>
-    </article>
-  </Container>
+  <div class="overflow-x-clip">
+    <Container>
+      <article class="text-sm sm:text-base">
+        <div class="page-animate" style="--delay: 0ms">
+          <BlogPostHeader
+            title={post.data.title}
+            date={postDate}
+            readTime={postReadTime}
+            slug={postSlug}
+            image={post.data.image}
+            draft={post.data.draft}
+          />
+        </div>
+        <div class="relative">
+          <div class="page-animate prose mt-10" style="--delay: 150ms">
+            <Content />
+          </div>
+          <span class="page-animate font-cursive mt-8 block text-4xl text-foreground" style="--delay: 200ms">- Chris</span>
+          {tocHeadings.length >= 2 && (
+            <TableOfContents headings={tocHeadings} client:load />
+          )}
+        </div>
+      </article>
+    </Container>
+  </div>
 </PageLayout>
 
 <script>

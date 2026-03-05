@@ -191,11 +191,12 @@
   .subheading-anchor {
     @apply text-foreground relative no-underline;
 
-    &::before {
-      @apply text-muted-foreground/40 absolute top-0 -left-[30px] opacity-0 transition-opacity content-['#'];
+    &::after {
+      @apply ml-2 opacity-0 transition-opacity duration-300 content-['#'];
+      color: hsl(var(--muted-foreground) / 0.4);
     }
 
-    &:hover::before {
+    &:hover::after {
       @apply opacity-100;
     }
   }
