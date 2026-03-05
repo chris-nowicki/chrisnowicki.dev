@@ -5,6 +5,7 @@ import BlogPostHeader from '@/components/BlogPostHeader.astro'
 import { formatDate } from '@/utils/utils'
 import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
+import NewsletterCTA from '@/components/NewsletterCTA.astro'
 import { getCollection, render } from 'astro:content'
 
 export const prerender = true
@@ -55,6 +56,9 @@ const postSlug = post.id
         <Content />
       </div>
       <span class="page-animate font-cursive mt-8 block text-4xl text-foreground" style="--delay: 200ms">- Chris</span>
+      <div class="page-animate" style="--delay: 250ms">
+        <NewsletterCTA />
+      </div>
     </article>
   </Container>
 </PageLayout>
