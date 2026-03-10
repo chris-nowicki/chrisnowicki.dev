@@ -2,36 +2,10 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Geist Sans Variable Font */
-@font-face {
-  font-family: 'Geist';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: optional;
-  src: url('../assets/fonts/Geist[wght].woff2') format('woff2-variations');
-}
-
-@font-face {
-  font-family: 'Geist';
-  font-style: italic;
-  font-weight: 100 900;
-  font-display: optional;
-  src: url('../assets/fonts/Geist-Italic[wght].woff2') format('woff2-variations');
-}
-
-/* Geist Mono Variable Font */
-@font-face {
-  font-family: 'Geist Mono';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: optional;
-  src: url('../assets/fonts/GeistMono[wght].woff2') format('woff2-variations');
-}
-
-@theme {
-  --font-sans: 'Geist', sans-serif;
-  --font-mono: 'Geist Mono', monospace;
-  --font-cursive: 'Reenie Beanie', 'cursive';
+@theme inline {
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+  --font-cursive: var(--font-reenie);
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));

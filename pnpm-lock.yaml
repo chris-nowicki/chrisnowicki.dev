@@ -23,9 +23,6 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.7.1
         version: 3.7.1
-      '@fontsource/reenie-beanie':
-        specifier: ^5.2.8
-        version: 5.2.8
       '@tailwindcss/vite':
         specifier: ^4.2.1
         version: 4.2.1(vite@7.3.1(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.31.1))
@@ -784,9 +781,6 @@ packages:
 
   '@expressive-code/plugin-text-markers@0.41.7':
     resolution: {integrity: sha512-Ewpwuc5t6eFdZmWlFyeuy3e1PTQC0jFvw2Q+2bpcWXbOZhPLsT7+h8lsSIJxb5mS7wZko7cKyQ2RLYDyK6Fpmw==}
-
-  '@fontsource/reenie-beanie@5.2.8':
-    resolution: {integrity: sha512-fDPSpU64a8rVtu5NKRogzKx/fukotfpcet8gFDzHYctRX3xIZ8MCbCGGS4XxJuwhSuhRJX59Ur0eU0QpBQpTZg==}
 
   '@img/colour@1.0.0':
     resolution: {integrity: sha512-A5P/LfWGFSl6nsckYtjw9da+19jB8hkJ6ACTGcDfEJ0aE+l2n2El7dsVM7UVHZQ9s2lmYMWlrS21YLy2IR1LUw==}
@@ -3824,8 +3818,6 @@ snapshots:
   '@expressive-code/plugin-text-markers@0.41.7':
     dependencies:
       '@expressive-code/core': 0.41.7
-
-  '@fontsource/reenie-beanie@5.2.8': {}
 
   '@img/colour@1.0.0': {}
 
