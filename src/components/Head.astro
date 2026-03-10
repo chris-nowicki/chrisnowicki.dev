@@ -1,11 +1,7 @@
 ---
 import '@/styles/global.css'
 import { ClientRouter } from 'astro:transitions'
-import geistSans from '@/assets/fonts/Geist[wght].woff2'
-import geistSansItalic from '@/assets/fonts/Geist-Italic[wght].woff2'
-import geistMono from '@/assets/fonts/GeistMono[wght].woff2'
-import reenieBeanie from '@fontsource/reenie-beanie/files/reenie-beanie-latin-400-normal.woff2'
-import '@fontsource/reenie-beanie/latin-400.css'
+import { Font } from 'astro:assets'
 
 interface Props {
   title: string
@@ -69,23 +65,10 @@ const imageUrl = getImageUrl(image)
 <link rel="manifest" href="/site.webmanifest" />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
-<link rel="preload" href={geistSans} as="font" type="font/woff2" crossorigin />
-<link
-  rel="preload"
-  href={geistSansItalic}
-  as="font"
-  type="font/woff2"
-  crossorigin
-/>
-<link rel="preload" href={geistMono} as="font" type="font/woff2" crossorigin />
-<link
-  rel="preload"
-  href={reenieBeanie}
-  as="font"
-  type="font/woff2"
-  crossorigin
-/>
+<!-- Font styles and preloads -->
+<Font cssVariable="--font-geist" preload />
+<Font cssVariable="--font-geist-mono" preload />
+<Font cssVariable="--font-reenie" preload />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

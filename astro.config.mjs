@@ -2,7 +2,7 @@
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'astro/config'
+import { defineConfig, fontProviders } from 'astro/config'
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
@@ -66,4 +66,53 @@ export default defineConfig({
   }),
   output: 'server',
   prefetch: true,
+
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Geist',
+      cssVariable: '--font-geist',
+      display: 'optional',
+      fallbacks: ['sans-serif'],
+      options: {
+        variants: [
+          {
+            weight: '100 900',
+            style: 'normal',
+            src: ['./src/assets/fonts/Geist[wght].woff2'],
+          },
+          {
+            weight: '100 900',
+            style: 'italic',
+            src: ['./src/assets/fonts/Geist-Italic[wght].woff2'],
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Geist Mono',
+      cssVariable: '--font-geist-mono',
+      display: 'optional',
+      fallbacks: ['monospace'],
+      options: {
+        variants: [
+          {
+            weight: '100 900',
+            style: 'normal',
+            src: ['./src/assets/fonts/GeistMono[wght].woff2'],
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: 'Reenie Beanie',
+      cssVariable: '--font-reenie',
+      display: 'optional',
+      weights: [400],
+      subsets: ['latin'],
+      fallbacks: ['cursive'],
+    },
+  ],
 })
