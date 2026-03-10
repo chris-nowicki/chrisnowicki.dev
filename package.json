@@ -10,21 +10,21 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.12",
-    "@astrojs/markdown-remark": "^6.3.10",
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/react": "^4.4.2",
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/cloudflare": "^12.6.13",
+    "@astrojs/markdown-remark": "^6.3.11",
+    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/react": "^5.0.0",
+    "@astrojs/sitemap": "^3.7.1",
     "@fontsource/reenie-beanie": "^5.2.8",
     "@tailwindcss/vite": "^4.2.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^5.18.0",
+    "astro": "^6.0.1",
     "astro-cloudinary": "^1.3.5",
     "astro-expressive-code": "^0.41.7",
     "clsx": "^2.1.1",
     "convex": "^1.32.0",
-    "framer-motion": "^12.35.0",
+    "framer-motion": "^12.35.2",
     "lucide-react": "^0.577.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -38,7 +38,6 @@
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "wrangler": "^4.70.0"
-  },
-  "packageManager": "pnpm@10.30.3"
+    "wrangler": "^4.71.0"
+  }
 }

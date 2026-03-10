@@ -18,7 +18,18 @@ export default defineConfig({
     // @ts-ignore - Tailwind Vite plugin type compatibility
     plugins: [tailwindcss()],
     ssr: {
-      external: ['node:async_hooks', 'node:crypto'],
+      external: [
+        'node:async_hooks',
+        'node:crypto',
+        'node:util',
+        'node:stream',
+        'node:path',
+        'node:events',
+        'node:os',
+        'node:child_process',
+        'child_process',
+        'fs',
+      ],
     },
   },
 
@@ -64,12 +75,9 @@ export default defineConfig({
       ],
     ],
   },
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: 'compile',
+  }),
   output: 'server',
   prefetch: true,
-  image: {
-    service: {
-      entrypoint: 'astro/assets/services/sharp',
-    },
-  },
 })
