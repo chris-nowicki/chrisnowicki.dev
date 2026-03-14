@@ -69,7 +69,7 @@ export default function SpotifyLastPlayed() {
       <img
         src={track.albumArt}
         alt={`${track.title} album art`}
-        className="h-5 w-5 rounded-sm object-cover"
+        className="h-5 w-5 rounded-sm object-cover grayscale transition-all duration-200 hover:grayscale-0"
       />
       <a
         href={track.songUrl}
