@@ -246,3 +246,20 @@
   }
 }
 
+@keyframes equalizerBar {
+  0%, 100% { transform: scaleY(0.3); }
+  50%       { transform: scaleY(1); }
+}
+
+@utility animate-equalizer {
+  animation: equalizerBar 0.8s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-equalizer {
+    animation: none;
+    transform: scaleY(0.6);
+  }
+}
+

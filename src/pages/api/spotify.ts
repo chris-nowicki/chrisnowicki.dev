@@ -43,7 +43,7 @@ export const GET: APIRoute = async ({ locals }) => {
         isPlaying: data.is_playing,
         title: data.item.name,
         artist: data.item.artists.map((a: { name: string }) => a.name).join(', '),
-        albumArt: data.item.album.images[2]?.url ?? data.item.album.images[0]?.url,
+        albumArt: data.item.album.images[0]?.url ?? data.item.album.images[2]?.url,
         songUrl: data.item.external_urls.spotify,
       })
     }
@@ -70,7 +70,7 @@ export const GET: APIRoute = async ({ locals }) => {
     isPlaying: false,
     title: track.name,
     artist: track.artists.map((a: { name: string }) => a.name).join(', '),
-    albumArt: track.album.images[2]?.url ?? track.album.images[0]?.url,
+    albumArt: track.album.images[0]?.url ?? track.album.images[2]?.url,
     songUrl: track.external_urls.spotify,
   })
 }
