@@ -54,7 +54,7 @@ export default function SpotifyLastPlayed() {
 
   return (
     <div className="flex items-center gap-2.5">
-      <span className="mr-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+      <span className="mr-2 whitespace-nowrap font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
         {track.isPlaying ? 'Now playing' : 'Last played'}
       </span>
       <a
@@ -75,7 +75,7 @@ export default function SpotifyLastPlayed() {
         href={track.songUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+        className="whitespace-nowrap font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
       >
         {track.title} by {track.artist}
       </a>
