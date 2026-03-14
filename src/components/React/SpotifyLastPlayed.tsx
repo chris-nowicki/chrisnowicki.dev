@@ -24,6 +24,7 @@ function SpotifyIcon({ className }: { className?: string }) {
 
 export default function SpotifyLastPlayed() {
   const [track, setTrack] = useState<SpotifyTrack | null>(null)
+  const [trackHovered, setTrackHovered] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -53,32 +54,45 @@ export default function SpotifyLastPlayed() {
   if (!track) return <></>
 
   return (
-    <div className="flex items-center gap-2.5">
-      <span className="mr-2 whitespace-nowrap font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-        {track.isPlaying ? 'Now playing' : 'Last played'}
-      </span>
-      <a
-        href={track.songUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Open in Spotify"
-        className="text-[#1DB954] grayscale transition-all duration-200 hover:grayscale-0"
-      >
-        <SpotifyIcon className="h-5 w-5" />
-      </a>
-      <img
-        src={track.albumArt}
-        alt={`${track.title} album art`}
-        className="h-5 w-5 rounded-sm object-cover grayscale transition-all duration-200 hover:grayscale-0"
-      />
-      <a
-        href={track.songUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="whitespace-nowrap font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
-      >
-        {track.title} by {track.artist}
-      </a>
+    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+      {/* Label group — stays on one line, wraps as a unit */}
+      <div className="flex items-center gap-x-2.5">
+        {track.isPlaying && (
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#1DB954] opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#1DB954]" />
+          </span>
+        )}
+        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          {track.isPlaying ? 'Now playing' : 'Last played'}
+        </span>
+      </div>
+
+      {/* Track group — wraps as a unit to the next line on mobile */}
+      <div className="flex items-center gap-x-2.5">
+        <a
+          href={track.songUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open in Spotify"
+          className={`shrink-0 text-[#1DB954] transition-all duration-200 hover:grayscale-0 ${trackHovered ? 'grayscale-0' : 'grayscale'}`}
+        >
+          <SpotifyIcon className="h-3.5 w-3.5" />
+        </a>
+
+        <span className="h-3 w-px shrink-0 bg-border" />
+
+        <a
+          href={track.songUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+          onMouseEnter={() => setTrackHovered(true)}
+          onMouseLeave={() => setTrackHovered(false)}
+        >
+          {track.title} · {track.artist}
+        </a>
+      </div>
     </div>
   )
 }

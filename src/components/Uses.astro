@@ -1,16 +1,32 @@
 ---
+import DeskSetup from '@/assets/images/desk-setup.webp'
+import { Image } from 'astro:assets'
 ---
 
-<section class="flex h-full flex-col justify-between rounded-xl border bg-muted p-4 sm:p-5 md:p-6 gap-3">
-  <div class="flex flex-col gap-3 sm:gap-4">
-    <h2 class="text-lg font-bold leading-tight tracking-tight sm:text-xl md:text-xl">
-      The Gear That Keeps Me Caffeinated & Coding
-    </h2>
+<section class="group relative flex min-h-[160px] flex-1 flex-col overflow-hidden rounded-xl border bg-muted">
+  {/* Full-bleed image fills the whole card */}
+  <div class="absolute inset-0">
+    <Image
+      src={DeskSetup}
+      alt="Chris's desk setup"
+      class="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+      widths={[600, 1200]}
+      sizes="(max-width: 768px) 100vw, 500px"
+    />
+    {/* Gradient: strong at top for text legibility, fades to transparent at bottom */}
+    <div class="absolute inset-0 bg-gradient-to-b from-muted via-muted/80 to-muted/10" />
   </div>
 
-  <a
-    href="/uses"
-    class="inline-flex items-center justify-center whitespace-nowrap rounded-md border-2 border-primary bg-primary px-6 py-3 text-center text-xs font-bold uppercase tracking-tight text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring sm:px-8 sm:py-4 sm:text-sm">
-    View All Gear
-  </a>
+  {/* Content sits on top */}
+  <div class="relative z-10 flex flex-col gap-3 p-4 sm:p-5 md:p-6">
+    <h2 class="text-lg font-bold leading-tight tracking-tight sm:text-xl">
+      The Gear That Keeps Me Caffeinated & Coding
+    </h2>
+
+    <a
+      href="/uses"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md border-2 border-primary bg-primary px-6 py-3 text-center text-xs font-bold uppercase tracking-tight text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring sm:px-8 sm:py-4 sm:text-sm">
+      View All Gear
+    </a>
+  </div>
 </section>

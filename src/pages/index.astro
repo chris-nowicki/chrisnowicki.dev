@@ -7,6 +7,7 @@ import Hero from '@/components/Hero.astro'
 import LatestPosts from '@/components/LatestPosts.astro'
 import Speaking from '@/components/Speaking.astro'
 import SectionSeparator from '@/components/SectionSeparator.astro'
+import SpotifyBentoCard from '@/components/React/SpotifyBentoCard'
 import { HOME } from '@/lib/site'
 
 export const prerender = true
@@ -19,7 +20,10 @@ export const prerender = true
     <LatestPosts />
     <SectionSeparator />
     <div class="grid gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
-      <Speaking />
+      <div class="flex flex-col gap-4">
+        <Speaking />
+        <SpotifyBentoCard client:only="react" />
+      </div>
 
       <div class="flex flex-col gap-4">
         <Uses />
