@@ -88,10 +88,10 @@ export default function SpotifyBentoCard() {
       href={track.songUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex min-h-[140px] overflow-hidden rounded-xl border-2 border-dashed border-border bg-transparent">
+      className="group relative flex min-h-[140px] overflow-hidden rounded-xl border bg-transparent">
 
       {/* Spotify green fade — right to left */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[#1DB954]/20 via-[#1DB954]/5 to-transparent" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-l from-[#1DB954]/20 via-[#1DB954]/5 to-transparent" aria-hidden="true" />
 
       {/* Album art — full left panel, contained scale+tilt on hover */}
       <div className="relative w-[120px] shrink-0 overflow-hidden sm:w-[140px]">
