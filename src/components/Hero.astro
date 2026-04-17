@@ -8,7 +8,7 @@ import { STATUS, socialLinks } from '@/lib/site'
 
 <section class="relative mt-12 pb-8 md:mt-20">
   <!-- Main grid layout -->
-  <div class="grid gap-12 md:grid-cols-[1fr_auto] md:items-start md:gap-16 lg:gap-20">
+  <div class="grid gap-12 md:grid-cols-[1fr_280px] md:items-start md:gap-16 lg:gap-20">
 
     <!-- Left: Content -->
     <div class="order-2 md:order-1">
@@ -115,34 +115,25 @@ import { STATUS, socialLinks } from '@/lib/site'
       </div>
     </div>
 
-    <!-- Right: Photo with blueprint frame -->
+    <!-- Right: Photo -->
     <div class="hero-animate order-1 flex justify-center md:order-2" style="--delay: 100ms">
       <div class="flex flex-col items-center">
-        <!-- Dashed border frame -->
-        <div class="border border-dashed border-border p-4">
-          <!-- Photo container -->
-          <div class="group relative">
-            <div class="h-36 w-36 overflow-hidden rounded-full border-4 border-background shadow-lg sm:h-44 sm:w-44 lg:h-52 lg:w-52">
-              <Image
-                src={Me}
-                alt="Photo of Chris Nowicki"
-                loading="eager"
-                width={220}
-                class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105"
-              />
-            </div>
-
-            <!-- Hover ring effect -->
-            <div class="absolute inset-0 rounded-full border-2 border-transparent transition-all duration-500 group-hover:border-border group-hover:scale-110"></div>
+        <!-- Photo container -->
+        <div class="group relative">
+          <div class="h-36 w-36 overflow-hidden rounded-full border-4 border-background shadow-lg sm:h-44 sm:w-44 lg:h-52 lg:w-52">
+            <Image
+              src={Me}
+              alt="Photo of Chris Nowicki"
+              loading="eager"
+              width={220}
+              class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105"
+            />
           </div>
 
-          <!-- Figure label -->
-          <div class="mt-3 text-center">
-            <span class="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-              Fig. 01 — Chris
-            </span>
-          </div>
+          <!-- Hover ring effect -->
+          <div class="absolute inset-0 rounded-full border-2 border-transparent transition-all duration-500 group-hover:border-border group-hover:scale-110"></div>
         </div>
+
 
         <!-- CLI command -->
         <button
