@@ -2,7 +2,11 @@ import type { APIRoute } from 'astro'
 
 export const prerender = false
 
-export const GET: APIRoute = async ({ locals }) => {
+const CACHE_HEADERS = {
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+}
+
+export const GET: APIRoute = async () => {
   const clientId = import.meta.env.SPOTIFY_CLIENT_ID
   const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET
   const refreshToken = import.meta.env.SPOTIFY_REFRESH_TOKEN
@@ -39,13 +43,16 @@ export const GET: APIRoute = async ({ locals }) => {
   if (currentRes.status === 200) {
     const data = await currentRes.json()
     if (data?.item) {
-      return Response.json({
-        isPlaying: data.is_playing,
-        title: data.item.name,
-        artist: data.item.artists.map((a: { name: string }) => a.name).join(', '),
-        albumArt: data.item.album.images[0]?.url ?? data.item.album.images[2]?.url,
-        songUrl: data.item.external_urls.spotify,
-      })
+      return Response.json(
+        {
+          isPlaying: data.is_playing,
+          title: data.item.name,
+          artist: data.item.artists.map((a: { name: string }) => a.name).join(', '),
+          albumArt: data.item.album.images[0]?.url ?? data.item.album.images[2]?.url,
+          songUrl: data.item.external_urls.spotify,
+        },
+        { headers: CACHE_HEADERS },
+      )
     }
   }
 
@@ -66,11 +73,14 @@ export const GET: APIRoute = async ({ locals }) => {
     return Response.json({ isPlaying: false, title: null })
   }
 
-  return Response.json({
-    isPlaying: false,
-    title: track.name,
-    artist: track.artists.map((a: { name: string }) => a.name).join(', '),
-    albumArt: track.album.images[0]?.url ?? track.album.images[2]?.url,
-    songUrl: track.external_urls.spotify,
-  })
+  return Response.json(
+    {
+      isPlaying: false,
+      title: track.name,
+      artist: track.artists.map((a: { name: string }) => a.name).join(', '),
+      albumArt: track.album.images[0]?.url ?? track.album.images[2]?.url,
+      songUrl: track.external_urls.spotify,
+    },
+    { headers: CACHE_HEADERS },
+  )
 }
