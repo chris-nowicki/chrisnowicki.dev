@@ -4,7 +4,6 @@ import Link from './Link.astro'
 import Image from 'astro/components/Image.astro'
 import Me from '@/assets/images/me.jpg'
 import { STATUS, socialLinks } from '@/lib/site'
-import SpotifyLastPlayed from './React/SpotifyLastPlayed'
 ---
 
 <section class="relative mt-12 pb-8 md:mt-20">
@@ -113,11 +112,6 @@ import SpotifyLastPlayed from './React/SpotifyLastPlayed'
             <link.icon class="h-5 w-5" />
           </a>
         ))}
-      </div>
-
-      <!-- Last played -->
-      <div class="hero-animate mt-3" style="--delay: 320ms">
-        <SpotifyLastPlayed client:load />
       </div>
     </div>
 
