@@ -20,7 +20,7 @@ export const prerender = true
     <LatestPosts />
     <SectionSeparator />
     <div class="grid gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4 [&>:first-child]:flex-1">
         <Speaking />
         <SpotifyBentoCard client:only="react" />
       </div>
