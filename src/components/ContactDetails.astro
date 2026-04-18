@@ -9,14 +9,15 @@ const socialIconClass =
 ---
 
 <section class="flex w-full flex-col gap-6 text-base md:flex-row">
-  <Image
-    src={Me}
-    alt="Photo of me"
-    loading="eager"
-    width={200}
-    height={200}
-    class="h-[200px] w-[200px] shrink-0 rounded-lg object-cover shadow-xl grayscale transition-all duration-200 hover:grayscale-0"
-  />
+  <div class="h-[200px] w-[200px] shrink-0 overflow-hidden rounded-lg shadow-xl">
+    <Image
+      src={Me}
+      alt="Photo of me"
+      loading="eager"
+      width={200}
+      class="h-full w-full object-cover grayscale transition-all duration-200 hover:grayscale-0"
+    />
+  </div>
 
   <div>
     <p class="mb-6">
