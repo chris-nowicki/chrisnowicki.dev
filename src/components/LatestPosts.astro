@@ -37,7 +37,7 @@ const postItems = posts.map((post) => ({
           View all posts
         </a>
       </header>
-      <div class="grid grid-cols-1 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {
           postItems.map((item, index) => (
             <a
@@ -45,18 +45,16 @@ const postItems = posts.map((post) => ({
               aria-label={`Read more about ${item.name}`}
               class={cn(
                 'group relative block h-full overflow-hidden transition-all duration-200 ease-in-out',
+                'border-b border-border last:border-b-0 sm:border-b-0',
                 'md:rounded-lg md:border md:ring-1 md:ring-inset md:ring-foreground/5',
                 'animate-fade-in-up',
-                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
-                'hover:before:opacity-100',
+                'sm:before:absolute sm:before:left-0 sm:before:top-0 sm:before:h-full sm:before:w-1 sm:before:bg-foreground sm:before:opacity-0 sm:before:transition-opacity sm:before:duration-200',
+                'sm:hover:before:opacity-100',
                 'md:before:rounded-l-lg'
               )}
               style={`animation-delay: ${index * 100}ms`}
               data-astro-prefetch>
-              <div class="flex h-full flex-col p-0 sm:p-4">
-                <span class="mb-1 font-mono text-xs text-muted-foreground sm:mb-2">
-                  {`\u2116 ${String(index + 1).padStart(2, '0')}`}
-                </span>
+              <div class="flex h-full flex-col py-4 sm:p-4">
                 <h3 class="mb-0 text-base font-bold wrap-break-words sm:mb-2 sm:min-h-[2.5em] sm:text-xl">
                   {item.name}
                 </h3>
