@@ -1,5 +1,11 @@
 {
-  // Astro Font API uses module-level async state that persists across requests.
-  // Without this flag, the Workers runtime cancels cross-request promise continuations.
-  "compatibility_flags": ["no_handle_cross_request_promise_resolution"]
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "name": "portfolio",
+  "compatibility_date": "2026-03-01",
+  "compatibility_flags": [
+    "nodejs_compat",
+    // Astro Font API uses module-level async state that persists across requests.
+    // Without this flag, the Workers runtime cancels cross-request promise continuations.
+    "no_handle_cross_request_promise_resolution"
+  ]
 }

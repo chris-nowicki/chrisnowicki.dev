@@ -16,7 +16,15 @@ export default defineConfig({
 
   vite: {
     // @ts-ignore - Tailwind Vite plugin type compatibility
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      {
+        name: 'increase-fs-watcher-limit',
+        configureServer(server) {
+          server.watcher.setMaxListeners(20)
+        },
+      },
+    ],
   },
 
   integrations: [
