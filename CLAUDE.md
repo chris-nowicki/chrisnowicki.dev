@@ -14,7 +14,7 @@ pnpm test <file>      # Run specific test file
 
 ## Tech Stack
 
-- **Astro 5.x** with SSR (Server-Side Rendering) on Vercel
+- **Astro 6.x** with SSR (Server-Side Rendering) on Cloudflare Workers
 - **React 19.x** with `framer-motion` for interactive components
 - **Tailwind CSS v4** with Vite plugin
 - **TypeScript** in strict mode
