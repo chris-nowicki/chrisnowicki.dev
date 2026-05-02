@@ -15,6 +15,17 @@ export default defineConfig({
   site: 'https://www.chrisnowicki.dev',
 
   vite: {
+    // Workaround for https://github.com/withastro/astro/issues/16387
+    // @astrojs/cloudflare fires buildStart on the client environment, causing a race
+    // condition that corrupts the dep optimizer metadata (react-dom never gets pre-bundled).
+    environments: {
+      client: {
+        optimizeDeps: {
+          noDiscovery: true,
+          include: ['react', 'react-dom', 'react-dom/client'],
+        },
+      },
+    },
     // @ts-ignore - Tailwind Vite plugin type compatibility
     plugins: [
       tailwindcss(),
