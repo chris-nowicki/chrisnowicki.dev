@@ -99,3 +99,12 @@ const imageUrl = getImageUrl(image)
 
 <!-- Client Router for SPA-like navigation -->
 <ClientRouter />
+
+<!-- Plausible Analytics -->
+<script>
+  import { init, track } from '@plausible-analytics/tracker'
+  init({ domain: 'chrisnowicki.dev', autoCapturePageviews: false })
+  document.addEventListener('astro:page-load', () => {
+    track('pageview')
+  })
+</script>

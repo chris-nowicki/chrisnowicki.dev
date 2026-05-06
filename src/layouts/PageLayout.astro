@@ -31,10 +31,10 @@ const fadeNoInitial = {
     />
   </head>
   <body>
-    <div class="relative overflow-x-clip">
+    <div class="relative flex min-h-screen flex-col shrink-0">
       <PageFrame />
       <NavBar />
-      <main transition:animate={fadeNoInitial}>
+      <main class="flex-1" transition:animate={fadeNoInitial}>
         <slot />
       </main>
       <Footer />

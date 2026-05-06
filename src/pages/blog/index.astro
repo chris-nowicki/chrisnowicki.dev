@@ -5,10 +5,8 @@ import { BLOG } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
 import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
-import { formatDate, formatViewCount } from '@/utils/utils'
+import { formatDate } from '@/utils/utils'
 import CategoryMenu from '@/components/CategoryMenu.astro'
-import { getConvexHttpClient } from '@/lib/convex'
-import { api } from '../../../convex/_generated/api'
 
 export const prerender = false
 
@@ -18,18 +16,6 @@ const posts = await getPostsByCategory(category)
 const categories = await getAllPostCategories()
 
 const pathname = new URL(Astro.request.url).pathname.split('/')[1]
-
-const slugs = posts.map((post) => post.id)
-let viewCounts: Record<string, number> = {}
-
-const convexHttpClient = await getConvexHttpClient()
-if (convexHttpClient) {
-  try {
-    viewCounts = await convexHttpClient.query(api.blogViews.getViewCounts, { slugs })
-  } catch (error) {
-    console.error('Failed to fetch view counts from Convex:', error)
-  }
-}
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -82,11 +68,6 @@ const ogImageUrl = generateOgImageUrl({
                     {readingTime(post.rendered?.html ?? '')}
                   </span>
                   {post.data.category && <span> · {post.data.category.toLowerCase()}</span>}
-                  {(viewCounts[post.id] ?? 0) > 0 && (
-                    <span class="text-sm tracking-tight text-muted-foreground">
-                      {' '}· {formatViewCount(viewCounts[post.id])} views
-                    </span>
-                  )}
                 </div>
               </a>
             ))}
