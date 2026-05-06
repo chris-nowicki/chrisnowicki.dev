@@ -3,7 +3,6 @@ import { NUMBER_OF_ENTRIES } from '@/lib/site'
 import { getBlogPosts } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
 import { cn } from '@/utils/utils'
-import CardViewCount from '@/components/React/CardViewCount'
 
 interface Props {
   limit?: number
@@ -65,7 +64,6 @@ const postItems = posts.map((post) => ({
 
                 <div class="mt-auto pt-2 font-mono text-xs text-muted-foreground">
                   {item.readTime}
-                  <CardViewCount client:only="react" slug={item.slug} />
                 </div>
               </div>
             </a>

@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets'
 import FramePlus from '@/components/FramePlus.astro'
-import ViewCounter from '@/components/React/ViewCounter'
 
 interface Props {
   title: string
@@ -36,8 +35,6 @@ const { title, date, readTime, slug, image, draft = false } = Astro.props
               <span>{date}</span>
               <span class="h-3 w-px bg-white/40" />
               <span>{readTime}</span>
-              <span class="h-3 w-px bg-white/40" />
-              <ViewCounter client:only="react" slug={slug} light={true} draft={draft} />
             </span>
           </div>
 
@@ -61,8 +58,6 @@ const { title, date, readTime, slug, image, draft = false } = Astro.props
             <span>{date}</span>
             <span class="h-3 w-px bg-border" />
             <span>{readTime}</span>
-            <span class="h-3 w-px bg-border" />
-            <ViewCounter client:only="react" slug={slug} draft={draft} />
           </span>
         </div>
 
