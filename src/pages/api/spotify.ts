@@ -18,9 +18,9 @@ type Track = {
 type TrackPayload = Track | typeof NO_TRACK
 
 async function refreshAccessToken(): Promise<string | null> {
-  const clientId = import.meta.env.SPOTIFY_CLIENT_ID
-  const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET
-  const refreshToken = import.meta.env.SPOTIFY_REFRESH_TOKEN
+  const clientId = env.SPOTIFY_CLIENT_ID
+  const clientSecret = env.SPOTIFY_CLIENT_SECRET
+  const refreshToken = env.SPOTIFY_REFRESH_TOKEN
   if (!clientId || !clientSecret || !refreshToken) return null
 
   const res = await fetch('https://accounts.spotify.com/api/token', {
