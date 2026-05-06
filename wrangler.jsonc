@@ -7,5 +7,8 @@
     // Astro Font API uses module-level async state that persists across requests.
     // Without this flag, the Workers runtime cancels cross-request promise continuations.
     "no_handle_cross_request_promise_resolution"
+  ],
+  "kv_namespaces": [
+    { "binding": "SESSION", "id": "fb2b9fb1c30c4ff0bbf284b01410e163" }
   ]
 }
