@@ -72,7 +72,7 @@ export default function SpotifyBentoCard() {
     }
 
     fetchTrack()
-    const interval = setInterval(fetchTrack, 90_000)
+    const interval = setInterval(fetchTrack, 60_000)
 
     return () => {
       cancelled = true
