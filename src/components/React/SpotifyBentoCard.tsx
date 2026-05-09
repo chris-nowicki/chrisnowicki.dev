@@ -60,7 +60,10 @@ export default function SpotifyBentoCard() {
     async function fetchTrack() {
       try {
         const res = await fetch('/api/spotify')
-        if (!res.ok) return
+        if (!res.ok) {
+          if (!cancelled) setIsLoading(false)
+          return
+        }
         const data = await res.json()
         if (!cancelled) {
           setTrack(data.title ? data : null)
