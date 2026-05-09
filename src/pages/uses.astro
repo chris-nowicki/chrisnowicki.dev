@@ -1,13 +1,14 @@
 ---
+import { Picture } from 'astro:assets'
+
+import GitHubIcon from '@/assets/icons/github.svg'
 import DeskSetup from '@/assets/images/desk-setup.webp'
+import BlueprintSeparator from '@/components/BlueprintSeparator.astro'
 import Container from '@/components/Container.astro'
+import { coffeeData, gitHubData,hardwareData, softwareData } from '@/data/uses'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { USES } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
-import { Picture } from 'astro:assets'
-import { softwareData, hardwareData, coffeeData, gitHubData } from '@/data/uses'
-import BlueprintSeparator from '@/components/BlueprintSeparator.astro'
-import GitHubIcon from '@/assets/icons/github.svg'
 import { cn } from '@/utils/utils'
 
 export const prerender = true

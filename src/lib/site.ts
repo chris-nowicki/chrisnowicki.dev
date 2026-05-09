@@ -1,9 +1,8 @@
-import type { Site, Metadata, Status } from '@/types'
-
 import GitHub from '@/assets/icons/github.svg'
 import LinkedIn from '@/assets/icons/linkedin.svg'
 import Twitch from '@/assets/icons/twitch.svg'
 import X from '@/assets/icons/x.svg'
+import type { Metadata, Site, Status } from '@/types'
 
 export const NUMBER_OF_ENTRIES = 3
 

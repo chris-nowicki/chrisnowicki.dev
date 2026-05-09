@@ -10,11 +10,14 @@ pnpm build            # Build for production
 pnpm preview          # Preview production build locally
 pnpm test             # Run tests with Vitest
 pnpm test <file>      # Run specific test file
+pnpm lint             # Run ESLint
+pnpm lint:fix         # Run ESLint with auto-fix
+pnpm typecheck        # TypeScript type checking
 ```
 
 ## Tech Stack
 
-- **Astro 5.x** with SSR (Server-Side Rendering) on Vercel
+- **Astro 6.x** with SSR (Server-Side Rendering) on Cloudflare Workers
 - **React 19.x** with `framer-motion` for interactive components
 - **Tailwind CSS v4** with Vite plugin
 - **TypeScript** in strict mode
@@ -80,7 +83,7 @@ Client setup:
 - Tailwind utility classes only (avoid custom CSS)
 - Use `cn()` from `@/utils/utils.ts` for class merging
 - Mobile-first responsive design (default → sm → md → lg)
-- Light theme only (no dark mode)
+- Supports light and dark mode via `.dark` class on `<html>`
 
 ## Key Files
 

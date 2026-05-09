@@ -1,22 +1,40 @@
 // @ts-check
+import cloudflare from '@astrojs/cloudflare';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
+import mdx from '@astrojs/mdx'
+import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
-import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
-import react from '@astrojs/react'
-import mdx from '@astrojs/mdx'
 import expressiveCode from 'astro-expressive-code'
-
-import cloudflare from '@astrojs/cloudflare';
+import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.chrisnowicki.dev',
 
   vite: {
-    // @ts-ignore - Tailwind Vite plugin type compatibility
-    plugins: [tailwindcss()],
+    // Workaround for https://github.com/withastro/astro/issues/16387
+    // @astrojs/cloudflare fires buildStart on the client environment, causing a race
+    // condition that corrupts the dep optimizer metadata (react-dom never gets pre-bundled).
+    environments: {
+      client: {
+        optimizeDeps: {
+          noDiscovery: true,
+          include: ['react', 'react-dom', 'react-dom/client'],
+        },
+      },
+    },
+    // @ts-expect-error - Tailwind Vite plugin type compatibility
+    plugins: [
+      tailwindcss(),
+      {
+        name: 'increase-fs-watcher-limit',
+        configureServer(server) {
+          server.watcher.setMaxListeners(20)
+        },
+      },
+    ],
   },
 
   integrations: [

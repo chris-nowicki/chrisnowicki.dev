@@ -2,21 +2,13 @@
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
-import {
-  getSpeakingData,
-  getAllSpeakingCategories,
-} from '@/utils/speaking-helpers'
 import generateOgImageUrl from '@/utils/og-image'
+import { getSpeakingData } from '@/utils/speaking-helpers'
 import { formatDate } from '@/utils/utils'
-import CategoryMenu from '@/components/CategoryMenu.astro'
 
-export const prerender = false
-const category = Astro.url.searchParams.get('category')
+export const prerender = true
 
-const speaking = await getSpeakingData({ category })
-const categories = await getAllSpeakingCategories()
-
-const pathname = new URL(Astro.request.url).pathname.split('/')[1]
+const speaking = await getSpeakingData()
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${SPEAKING.TITLE.toUpperCase()}`,
@@ -39,13 +31,6 @@ const ogImageUrl = generateOgImageUrl({
         </div>
       </header>
 
-      <div>
-        <CategoryMenu
-          categories={categories}
-          currentCategory={category}
-          pathname={pathname}
-        />
-      </div>
       <div>
         {
           speaking.map((talk) => (

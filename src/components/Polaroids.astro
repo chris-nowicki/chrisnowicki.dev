@@ -5,15 +5,13 @@ interface Props {
 
 const { class: className } = Astro.props
 
-// Generate random rotations for each polaroid (will be applied via CSS custom properties)
-const rotations = [-2, 1.5, -1, 2, -1.5, 1, -2.5, 0.5]
 ---
 
 <div class:list={['polaroids', className]}>
   <slot />
 </div>
 
-<style define:vars={{ rotations: rotations.join(',') }}>
+<style>
   .polaroids {
     display: flex;
     flex-wrap: wrap;

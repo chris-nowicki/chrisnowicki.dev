@@ -2,34 +2,14 @@
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { BLOG } from '@/lib/site'
+import { getBlogPosts } from '@/utils/blog-helpers'
 import generateOgImageUrl from '@/utils/og-image'
-import { getPostsByCategory, getAllPostCategories } from '@/utils/blog-helpers'
 import { readingTime } from '@/utils/reading-time'
-import { formatDate, formatViewCount } from '@/utils/utils'
-import CategoryMenu from '@/components/CategoryMenu.astro'
-import { getConvexHttpClient } from '@/lib/convex'
-import { api } from '../../../convex/_generated/api'
+import { formatDate } from '@/utils/utils'
 
-export const prerender = false
+export const prerender = true
 
-const category = Astro.url.searchParams.get('category')
-
-const posts = await getPostsByCategory(category)
-const categories = await getAllPostCategories()
-
-const pathname = new URL(Astro.request.url).pathname.split('/')[1]
-
-const slugs = posts.map((post) => post.id)
-let viewCounts: Record<string, number> = {}
-
-const convexHttpClient = await getConvexHttpClient()
-if (convexHttpClient) {
-  try {
-    viewCounts = await convexHttpClient.query(api.blogViews.getViewCounts, { slugs })
-  } catch (error) {
-    console.error('Failed to fetch view counts from Convex:', error)
-  }
-}
+const posts = await getBlogPosts()
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -52,10 +32,6 @@ const ogImageUrl = generateOgImageUrl({
           </h1>
         </div>
       </header>
-
-      <div>
-        <CategoryMenu categories={categories} currentCategory={category} pathname={pathname} />
-      </div>
 
       {
         posts.length > 0 ?
@@ -81,12 +57,6 @@ const ogImageUrl = generateOgImageUrl({
                   <span class="text-sm tracking-tight text-muted-foreground">
                     {readingTime(post.rendered?.html ?? '')}
                   </span>
-                  {post.data.category && <span> · {post.data.category.toLowerCase()}</span>}
-                  {(viewCounts[post.id] ?? 0) > 0 && (
-                    <span class="text-sm tracking-tight text-muted-foreground">
-                      {' '}· {formatViewCount(viewCounts[post.id])} views
-                    </span>
-                  )}
                 </div>
               </a>
             ))}

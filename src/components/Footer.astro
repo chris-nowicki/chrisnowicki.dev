@@ -1,8 +1,9 @@
 ---
+import { navLinks, SITE, socialLinks } from '@/lib/site'
+
 import Container from './Container.astro'
 import FramePlus from './FramePlus.astro'
 import Link from './Link.astro'
-import { navLinks, socialLinks, SITE, STATUS } from '@/lib/site'
 
 const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
 const currentYear = new Date().getFullYear()
@@ -10,8 +11,7 @@ const currentYear = new Date().getFullYear()
 const builtWith = [
   { name: 'Astro', href: 'https://astro.build' },
   { name: 'React', href: 'https://react.dev' },
-  { name: 'Convex', href: 'https://convex.dev' },
-  { name: 'TypeScript', href: 'https://www.typescriptlang.org' },
+{ name: 'TypeScript', href: 'https://www.typescriptlang.org' },
   { name: 'Tailwind', href: 'https://tailwindcss.com' },
 ]
 ---
@@ -30,8 +30,8 @@ const builtWith = [
 
   <Container>
     <div class="relative py-12 md:py-16">
-      <div class="grid grid-cols-2 gap-8 md:grid-cols-12">
-        <div class="col-span-2 text-center md:col-span-5 md:text-left">
+      <div class="flex flex-col items-center gap-8 md:grid md:grid-cols-12 md:items-start">
+        <div class="text-center md:col-span-5 md:text-left">
           <a href="/" class="font-cursive group inline-flex items-center overflow-hidden text-4xl text-foreground">
             <span class="inline-block">C</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">hris</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[16px]">&nbsp;</span><span class="inline-block">N</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">owicki</span>
           </a>
@@ -54,52 +54,47 @@ const builtWith = [
           </div>
         </div>
 
-        <div class="col-span-1 md:col-span-3 md:col-start-7">
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Navigate</h3>
-          <nav class="mt-3 flex flex-col gap-2" aria-label="Footer navigation">
-            {
-              footerLinks.map((link) => (
-                <a
-                  href={link.href}
-                  class="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                  data-astro-prefetch>
-                  <span class="capitalize">{link.text}</span>
-                </a>
-              ))
-            }
-          </nav>
-        </div>
+        <div class="flex gap-16 text-center md:col-span-6 md:col-start-7 md:gap-0 md:text-left">
+          <div class="md:flex-1">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Navigate</h3>
+            <nav class="mt-3 flex flex-col gap-2" aria-label="Footer navigation">
+              {
+                footerLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    class="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                    data-astro-prefetch>
+                    <span class="capitalize">{link.text}</span>
+                  </a>
+                ))
+              }
+            </nav>
+          </div>
 
-        <div class="col-span-1 md:col-span-3">
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Built with</h3>
-          <div class="mt-3 flex flex-col gap-2">
-            {
-              builtWith.map((tech) => (
-                <a
-                  href={tech.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground">
-                  {tech.name}
-                </a>
-              ))
-            }
+          <div class="md:flex-1">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Built with</h3>
+            <div class="mt-3 flex flex-col gap-2">
+              {
+                builtWith.map((tech) => (
+                  <a
+                    href={tech.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground">
+                    {tech.name}
+                  </a>
+                ))
+              }
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 md:mt-16 md:flex-row md:pt-8">
+      <div class="mt-10 flex items-center justify-center border-t border-border pt-6 md:mt-16 md:pt-8">
         <p class="text-xs text-muted-foreground">
           &copy; {currentYear} {SITE.NAME}. Crafted with care &amp; <span class="inline-block transition-transform duration-200 hover:scale-125 cursor-default">☕</span>
         </p>
 
-        <div class="flex items-center gap-2 text-xs text-muted-foreground">
-          <span class="relative flex h-2 w-2">
-            <span class:list={["absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", STATUS.available ? "bg-emerald-400" : "bg-red-400"]}></span>
-            <span class:list={["relative inline-flex h-2 w-2 rounded-full", STATUS.available ? "bg-emerald-500" : "bg-red-500"]}></span>
-          </span>
-          <span>{STATUS.message}</span>
-        </div>
       </div>
     </div>
   </Container>
