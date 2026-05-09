@@ -1,21 +1,15 @@
 ---
-import CategoryMenu from '@/components/CategoryMenu.astro'
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { BLOG } from '@/lib/site'
-import { getAllPostCategories,getPostsByCategory } from '@/utils/blog-helpers'
+import { getBlogPosts } from '@/utils/blog-helpers'
 import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
 import { formatDate } from '@/utils/utils'
 
-export const prerender = false
+export const prerender = true
 
-const category = Astro.url.searchParams.get('category')
-
-const posts = await getPostsByCategory(category)
-const categories = await getAllPostCategories()
-
-const pathname = new URL(Astro.request.url).pathname.split('/')[1]
+const posts = await getBlogPosts()
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${BLOG.TITLE.toUpperCase()}`,
@@ -38,10 +32,6 @@ const ogImageUrl = generateOgImageUrl({
           </h1>
         </div>
       </header>
-
-      <div>
-        <CategoryMenu categories={categories} currentCategory={category} pathname={pathname} />
-      </div>
 
       {
         posts.length > 0 ?
@@ -67,7 +57,6 @@ const ogImageUrl = generateOgImageUrl({
                   <span class="text-sm tracking-tight text-muted-foreground">
                     {readingTime(post.rendered?.html ?? '')}
                   </span>
-                  {post.data.category && <span> · {post.data.category.toLowerCase()}</span>}
                 </div>
               </a>
             ))}

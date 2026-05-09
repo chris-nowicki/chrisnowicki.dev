@@ -2,9 +2,6 @@
 import Image from 'astro/components/Image.astro'
 
 import Me from '@/assets/images/me.jpg'
-import { STATUS } from '@/lib/site'
-
-import Button from './Button.astro'
 ---
 
 <section class="relative mt-12 pb-8 md:mt-20">
@@ -32,33 +29,10 @@ import Button from './Button.astro'
         Developer Experience Engineer
       </p>
 
-      <!-- Status and company -->
-      <div class="hero-animate mt-3" style="--delay: 100ms">
-        <a
-          href="https://www.commerce.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Visit the Commerce website"
-          class="inline-flex items-center gap-2.5 rounded-full border border-border bg-background px-4 py-2 text-sm text-muted-foreground shadow-sm transition-all hover:border-ring"
-        >
-          <span class="group/status relative flex h-2 w-2 cursor-help">
-            <span class:list={[
-              "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
-              STATUS.available ? "bg-emerald-400" : "bg-amber-400"
-            ]}></span>
-            <span class:list={[
-              "relative inline-flex h-2 w-2 rounded-full",
-              STATUS.available ? "bg-emerald-500" : "bg-amber-500"
-            ]}></span>
-            <!-- Tooltip -->
-            <span class="pointer-events-none absolute bottom-full left-1/2 z-[100] mb-2 -translate-x-1/2 whitespace-nowrap rounded bg-primary px-2.5 py-1.5 text-xs text-primary-foreground opacity-0 shadow-lg transition-opacity duration-200 group-hover/status:opacity-100">
-              {STATUS.message}
-              <span class="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-primary"></span>
-            </span>
-          </span>
-          <span>Working at <span class="font-semibold text-foreground">Commerce</span></span>
-        </a>
-      </div>
+      <!-- Company -->
+      <p class="hero-animate mt-1 text-sm text-muted-foreground" style="--delay: 130ms">
+        Working at <a href="https://www.commerce.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-foreground hover:underline">Commerce</a>
+      </p>
 
       <!-- Bio -->
       <div class="hero-animate mt-8 max-w-lg space-y-4" style="--delay: 150ms">
@@ -78,36 +52,20 @@ import Button from './Button.astro'
         </blockquote>
       </div>
 
-      <!-- CTAs -->
-      <div class="hero-animate mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4" style="--delay: 250ms">
-        <Button
-          href="/contact"
-          size="lg"
-          variant="default"
-          class="bg-primary text-primary-foreground text-center uppercase hover:bg-primary/90"
-        >
-          Contact Me
-        </Button>
-      </div>
     </div>
 
     <!-- Right: Photo -->
     <div class="hero-animate order-1 flex md:justify-center md:order-2" style="--delay: 100ms">
       <div class="flex flex-col items-center">
         <!-- Photo container -->
-        <div class="group relative">
-          <div class="h-36 w-36 overflow-hidden rounded-2xl border-4 border-background shadow-lg sm:h-44 sm:w-44 lg:h-52 lg:w-52">
-            <Image
-              src={Me}
-              alt="Photo of Chris Nowicki"
-              loading="eager"
-              width={220}
-              class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105"
-            />
-          </div>
-
-          <!-- Hover ring effect -->
-          <div class="absolute inset-0 rounded-2xl border-2 border-transparent transition-all duration-500 group-hover:border-border group-hover:scale-110"></div>
+        <div class="h-36 w-36 overflow-hidden rounded-xl border border-border shadow-lg sm:h-44 sm:w-44 lg:h-52 lg:w-52">
+          <Image
+            src={Me}
+            alt="Photo of Chris Nowicki"
+            loading="eager"
+            width={220}
+            class="h-full w-full object-cover"
+          />
         </div>
 
       </div>

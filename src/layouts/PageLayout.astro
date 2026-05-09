@@ -1,6 +1,4 @@
 ---
-import { fade } from 'astro:transitions'
-
 import Footer from '@/components/Footer.astro'
 import Head from '@/components/Head.astro'
 import NavBar from '@/components/NavBar.astro'
@@ -16,10 +14,6 @@ interface Props {
 
 const { title, description, image } = Astro.props
 
-const fadeNoInitial = {
-  forwards: fade({ duration: '0.2s' }).forwards,
-  backwards: fade({ duration: '0.2s' }).backwards,
-}
 ---
 
 <!doctype html>
@@ -35,7 +29,7 @@ const fadeNoInitial = {
     <div class="relative flex min-h-screen flex-col shrink-0">
       <PageFrame />
       <NavBar />
-      <main class="flex-1" transition:animate={fadeNoInitial}>
+      <main class="flex-1">
         <slot />
       </main>
       <Footer />
