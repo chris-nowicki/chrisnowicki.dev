@@ -1,5 +1,5 @@
 ---
-import { navLinks, SITE, socialLinks, STATUS } from '@/lib/site'
+import { navLinks, SITE, socialLinks } from '@/lib/site'
 
 import Container from './Container.astro'
 import FramePlus from './FramePlus.astro'
@@ -90,18 +90,11 @@ const builtWith = [
         </div>
       </div>
 
-      <div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 md:mt-16 md:flex-row md:pt-8">
+      <div class="mt-10 flex items-center justify-center border-t border-border pt-6 md:mt-16 md:pt-8">
         <p class="text-xs text-muted-foreground">
           &copy; {currentYear} {SITE.NAME}. Crafted with care &amp; <span class="inline-block transition-transform duration-200 hover:scale-125 cursor-default">☕</span>
         </p>
 
-        <div class="flex items-center gap-2 text-xs text-muted-foreground">
-          <span class="relative flex h-2 w-2">
-            <span class:list={["absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", STATUS.available ? "bg-emerald-400" : "bg-red-400"]}></span>
-            <span class:list={["relative inline-flex h-2 w-2 rounded-full", STATUS.available ? "bg-emerald-500" : "bg-red-500"]}></span>
-          </span>
-          <span>{STATUS.message}</span>
-        </div>
       </div>
     </div>
   </Container>
