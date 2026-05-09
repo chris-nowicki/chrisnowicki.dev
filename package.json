@@ -36,6 +36,9 @@
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["workerd"]
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.9.1",
