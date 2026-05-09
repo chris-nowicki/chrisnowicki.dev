@@ -10,7 +10,6 @@
  * 5. The refresh token will be printed — save it as SPOTIFY_REFRESH_TOKEN
  */
 
-import http from 'http'
 import { exec } from 'child_process'
 import readline from 'readline'
 

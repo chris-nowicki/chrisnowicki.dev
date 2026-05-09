@@ -1,7 +1,8 @@
+import { AnimatePresence,motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/utils/utils'
+
 import { navLinks } from '@/lib/site'
+import { cn } from '@/utils/utils'
 
 const mobileNavLinks = [{ href: '/', text: 'Home' }, ...navLinks]
 
@@ -31,6 +32,7 @@ export default function MobileNav() {
   const [pathname, setPathname] = useState('')
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing DOM state unavailable during SSR
     setPathname(window.location.pathname.split('/')[1])
 
     return () => {

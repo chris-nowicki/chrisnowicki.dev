@@ -1,4 +1,4 @@
-@import 'tailwindcss' source('../../src');
+@import 'tailwindcss' source('../');
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -81,10 +81,6 @@
     @apply border-border;
   }
 
-  /* Additional body styles */
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
 @utility prose {

@@ -1,14 +1,13 @@
 // @ts-check
+import cloudflare from '@astrojs/cloudflare';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
+import mdx from '@astrojs/mdx'
+import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
-import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
-import react from '@astrojs/react'
-import mdx from '@astrojs/mdx'
 import expressiveCode from 'astro-expressive-code'
-
-import cloudflare from '@astrojs/cloudflare';
+import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,7 +25,7 @@ export default defineConfig({
         },
       },
     },
-    // @ts-ignore - Tailwind Vite plugin type compatibility
+    // @ts-expect-error - Tailwind Vite plugin type compatibility
     plugins: [
       tailwindcss(),
       {

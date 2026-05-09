@@ -1,6 +1,7 @@
 ---
-import Megaphone from '@/assets/images/megaphone.png'
 import { Image } from 'astro:assets'
+
+import Megaphone from '@/assets/images/megaphone.png'
 import { getSpeakingData } from '@/utils/speaking-helpers'
 
 const speaking = (await getSpeakingData({ limit: 1 }))[0] ?? {

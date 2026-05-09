@@ -1,8 +1,9 @@
 ---
+import { navLinks, SITE, socialLinks, STATUS } from '@/lib/site'
+
 import Container from './Container.astro'
 import FramePlus from './FramePlus.astro'
 import Link from './Link.astro'
-import { navLinks, socialLinks, SITE, STATUS } from '@/lib/site'
 
 const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
 const currentYear = new Date().getFullYear()

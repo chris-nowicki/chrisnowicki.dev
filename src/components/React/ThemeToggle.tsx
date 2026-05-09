@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
 import { Moon, Sun } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing DOM state unavailable during SSR
     setIsDark(document.documentElement.classList.contains('dark'))
   }, [])
 

@@ -1,14 +1,14 @@
 ---
+import CategoryMenu from '@/components/CategoryMenu.astro'
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
-import {
-  getSpeakingData,
-  getAllSpeakingCategories,
-} from '@/utils/speaking-helpers'
 import generateOgImageUrl from '@/utils/og-image'
+import {
+  getAllSpeakingCategories,
+  getSpeakingData,
+} from '@/utils/speaking-helpers'
 import { formatDate } from '@/utils/utils'
-import CategoryMenu from '@/components/CategoryMenu.astro'
 
 export const prerender = false
 const category = Astro.url.searchParams.get('category')
