@@ -1,5 +1,6 @@
-import { render, screen, act } from '@testing-library/react'
+import { act,render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import SpotifyBentoCard from './SpotifyBentoCard'
 
 const MOCK_TRACK = {

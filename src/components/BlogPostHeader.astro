@@ -1,5 +1,7 @@
 ---
+import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
+
 import FramePlus from '@/components/FramePlus.astro'
 
 interface Props {
@@ -11,7 +13,7 @@ interface Props {
   draft?: boolean
 }
 
-const { title, date, readTime, slug, image, draft = false } = Astro.props
+const { title, date, readTime, image } = Astro.props
 ---
 
 {
