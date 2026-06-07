@@ -1,6 +1,7 @@
 // @ts-check
 import cloudflare from '@astrojs/cloudflare';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
+import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
@@ -25,7 +26,6 @@ export default defineConfig({
         },
       },
     },
-    // @ts-expect-error - Tailwind Vite plugin type compatibility
     plugins: [
       tailwindcss(),
       {
@@ -65,19 +65,21 @@ export default defineConfig({
   ],
 
   markdown: {
-    rehypePlugins: [
-      rehypeHeadingIds,
-      [
-        rehypeAutoLinkHeadings,
-        {
-          behavior: 'wrap',
-          properties: {
-            class: ['subheading-anchor'],
-            ariaLabel: 'Link to section',
+    processor: unified({
+      rehypePlugins: [
+        rehypeHeadingIds,
+        [
+          rehypeAutoLinkHeadings,
+          {
+            behavior: 'wrap',
+            properties: {
+              class: ['subheading-anchor'],
+              ariaLabel: 'Link to section',
+            },
           },
-        },
+        ],
       ],
-    ],
+    }),
   },
   adapter: cloudflare({
     imageService: 'compile',
