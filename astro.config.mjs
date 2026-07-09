@@ -1,12 +1,10 @@
 // @ts-check
-import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
-import expressiveCode from 'astro-expressive-code'
-import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
+
+import { transformerCodeTitle } from './src/lib/shiki-transformers.ts'
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,48 +22,22 @@ export default defineConfig({
     ],
   },
 
-  integrations: [
-    sitemap(),
-    expressiveCode({
-      themes: ['catppuccin-latte', 'catppuccin-mocha'],
-      useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) => {
-        if (theme.name === 'catppuccin-mocha') return '.dark'
-        return ''
-      },
-      styleOverrides: {
-        codeFontFamily: "'Geist Mono', monospace",
-        codeFontSize: '0.875rem',
-        codeLineHeight: '1.5',
-        borderRadius: '0.375rem',
-        borderWidth: '0px',
-        frames: {
-          shadowColor: 'transparent',
-        },
-      },
-      defaultProps: {
-        wrap: true,
-      },
-    }),
-    mdx(),
-  ],
+  integrations: [sitemap(), mdx()],
 
+  // Sätteri (Astro's default Rust Markdown pipeline) handles rendering.
+  // Syntax highlighting is Shiki with dual catppuccin themes; `defaultColor:
+  // false` emits both palettes as CSS variables toggled by the `.dark` class.
   markdown: {
-    processor: unified({
-      rehypePlugins: [
-        rehypeHeadingIds,
-        [
-          rehypeAutoLinkHeadings,
-          {
-            behavior: 'wrap',
-            properties: {
-              class: ['subheading-anchor'],
-              ariaLabel: 'Link to section',
-            },
-          },
-        ],
-      ],
-    }),
+    syntaxHighlight: 'shiki',
+    shikiConfig: {
+      themes: {
+        light: 'catppuccin-latte',
+        dark: 'catppuccin-mocha',
+      },
+      defaultColor: false,
+      wrap: true,
+      transformers: [transformerCodeTitle()],
+    },
   },
   output: 'static',
   prefetch: true,

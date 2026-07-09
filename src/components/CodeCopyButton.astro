@@ -1,0 +1,36 @@
+---
+// Progressive enhancement: injects a copy button into every Shiki code block.
+// Renders nothing itself; runs on load and re-runs after view transitions.
+---
+
+<script>
+  function addCopyButtons() {
+    const blocks = document.querySelectorAll<HTMLPreElement>('pre.astro-code')
+    blocks.forEach((pre) => {
+      if (pre.querySelector('.code-copy')) return
+
+      const button = document.createElement('button')
+      button.type = 'button'
+      button.className = 'code-copy'
+      button.textContent = 'copy'
+      button.setAttribute('aria-label', 'Copy code to clipboard')
+
+      button.addEventListener('click', async () => {
+        const code = pre.querySelector('code')?.innerText ?? pre.innerText
+        try {
+          await navigator.clipboard.writeText(code)
+          button.textContent = 'copied'
+          setTimeout(() => (button.textContent = 'copy'), 1500)
+        } catch {
+          button.textContent = 'error'
+          setTimeout(() => (button.textContent = 'copy'), 1500)
+        }
+      })
+
+      pre.appendChild(button)
+    })
+  }
+
+  addCopyButtons()
+  document.addEventListener('astro:after-swap', addCopyButtons)
+</script>
