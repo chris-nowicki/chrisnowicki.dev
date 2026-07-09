@@ -154,11 +154,12 @@
   }
 }
 
-/* Code blocks — Sätteri + Shiki (dual catppuccin themes via CSS vars).
-   Kept at top level (not inside `prose`) so the `.dark` root class, which
-   lives on <html>, resolves correctly. */
+/* Code blocks — Sätteri + Shiki (dual catppuccin themes via CSS vars),
+   dressed with an editor-window header (traffic-light dots, or a filename
+   tab when the fence has a `title`). Kept at top level (not inside
+   `prose`) so the `.dark` root class, which lives on <html>, resolves. */
 pre.astro-code {
-  @apply relative my-6 overflow-x-auto rounded-md border border-border p-4 font-mono text-sm leading-relaxed;
+  @apply relative my-6 overflow-x-auto rounded-md border border-border px-4 pb-4 pt-12 font-mono text-sm leading-relaxed;
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
@@ -178,15 +179,24 @@ pre.astro-code span {
   font-style: var(--shiki-dark-font-style);
 }
 
-/* Filename bar, injected from `title="..."` fence meta by a Shiki transformer */
+/* Window header bar — three dots by default */
+pre.astro-code::before {
+  @apply absolute inset-x-0 top-0 flex h-9 items-center rounded-t-md border-b border-border px-4 text-xs tracking-widest;
+  content: '\2022  \2022  \2022';
+  background-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* …replaced by the filename when the fence has `title="..."` */
 pre.astro-code[data-title]::before {
-  @apply -mt-1 mb-3 block font-mono text-xs text-muted-foreground;
+  @apply font-mono tracking-normal text-foreground;
   content: attr(data-title);
 }
 
-/* Copy button, injected by CodeCopyButton enhancement script */
+/* Copy button, injected by CodeCopyButton enhancement script; sits in
+   the header bar on the right */
 pre.astro-code .code-copy {
-  @apply absolute top-2 right-2 rounded border border-border bg-background/80 px-2 py-1 font-mono text-xs text-muted-foreground opacity-0 transition-opacity;
+  @apply absolute right-3 top-1.5 z-10 cursor-pointer font-mono text-xs text-muted-foreground opacity-0 transition-opacity hover:text-foreground;
 }
 
 pre.astro-code:hover .code-copy {
