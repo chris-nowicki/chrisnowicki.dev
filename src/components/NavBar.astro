@@ -12,8 +12,11 @@ const pathname = Astro.url.pathname.split('/')[1]
   <nav
     class="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground"
     aria-label="Primary navigation">
-    <a href="/" class="font-cursive mr-2 text-3xl text-foreground">
-      Chris Nowicki
+    <a
+      href="/"
+      class="font-cursive mr-2 text-3xl leading-none text-foreground"
+      aria-label="Chris Nowicki — home">
+      CN
     </a>
 
     {
