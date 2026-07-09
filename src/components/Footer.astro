@@ -2,7 +2,6 @@
 import { navLinks, SITE, socialLinks } from '@/lib/site'
 
 import Container from './Container.astro'
-import FramePlus from './FramePlus.astro'
 import Link from './Link.astro'
 
 const footerLinks = [{ href: '/', text: 'home' }, ...navLinks]
@@ -15,19 +14,9 @@ const builtWith = [
 ]
 ---
 
-<footer class="relative mt-12 md:mt-16">
-  <div class="relative z-20 h-px w-full border-t border-dashed border-border" aria-hidden="true">
-    <FramePlus position="left" />
-    <FramePlus position="right" />
-  </div>
-
-  <div
-    class="absolute inset-0 top-px opacity-[0.03] pointer-events-none"
-    style="background-image: radial-gradient(circle, hsl(var(--muted-foreground)) 1px, transparent 1px); background-size: 24px 24px;"
-    aria-hidden="true">
-  </div>
-
+<footer class="mt-16 md:mt-24">
   <Container>
+    <div class="h-px w-full border-t border-dashed border-border" aria-hidden="true"></div>
     <div class="relative py-12 md:py-16">
       <div class="flex flex-col items-center gap-8 md:grid md:grid-cols-12 md:items-start">
         <div class="text-center md:col-span-5 md:text-left">

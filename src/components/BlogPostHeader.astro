@@ -2,8 +2,6 @@
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
 
-import FramePlus from '@/components/FramePlus.astro'
-
 interface Props {
   title: string
   date: string
@@ -46,11 +44,7 @@ const { title, date, readTime, image } = Astro.props
         </div>
       </div>
 
-      <div class="relative z-20 mt-0">
-        <div class="absolute left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-border" />
-        <FramePlus position="left" />
-        <FramePlus position="right" />
-      </div>
+      <div class="h-px w-full border-t border-dashed border-border" aria-hidden="true" />
     </header>
   ) : (
     <header class="relative mt-10 mb-14">
@@ -68,11 +62,7 @@ const { title, date, readTime, image } = Astro.props
         </h1>
       </div>
 
-      <div class="relative z-20">
-        <div class="absolute left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-border" />
-        <FramePlus position="left" />
-        <FramePlus position="right" />
-      </div>
+      <div class="h-px w-full border-t border-dashed border-border" aria-hidden="true" />
     </header>
   )
 }
