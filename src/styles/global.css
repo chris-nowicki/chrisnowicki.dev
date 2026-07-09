@@ -159,7 +159,7 @@
    tab when the fence has a `title`). Kept at top level (not inside
    `prose`) so the `.dark` root class, which lives on <html>, resolves. */
 pre.astro-code {
-  @apply relative my-6 overflow-x-auto rounded-md border border-border px-4 pb-4 pt-12 font-mono text-sm leading-relaxed;
+  @apply relative my-6 overflow-x-auto rounded-md border border-border p-4 font-mono text-sm leading-relaxed;
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
@@ -179,24 +179,22 @@ pre.astro-code span {
   font-style: var(--shiki-dark-font-style);
 }
 
-/* Window header bar — three dots by default */
-pre.astro-code::before {
-  @apply absolute inset-x-0 top-0 flex h-9 items-center rounded-t-md border-b border-border px-4 text-xs tracking-widest;
-  content: '\2022  \2022  \2022';
-  background-color: hsl(var(--muted));
-  color: hsl(var(--muted-foreground) / 0.5);
+/* Editor-window header — only when the fence has `title="..."` (a filename
+   tab). Untitled blocks have no header bar. */
+pre.astro-code[data-title] {
+  @apply pt-12;
 }
 
-/* …replaced by the filename when the fence has `title="..."` */
 pre.astro-code[data-title]::before {
-  @apply font-mono tracking-normal text-foreground;
+  @apply absolute inset-x-0 top-0 flex h-9 items-center rounded-t-md border-b border-border px-4 font-mono text-xs text-foreground;
   content: attr(data-title);
+  background-color: hsl(var(--muted));
 }
 
-/* Copy button, injected by CodeCopyButton enhancement script; sits in
-   the header bar on the right */
+/* Copy button, injected by CodeCopyButton enhancement script; aligned to
+   the code's right padding. Sits in the header on titled blocks. */
 pre.astro-code .code-copy {
-  @apply absolute right-3 top-1.5 z-10 cursor-pointer font-mono text-xs text-muted-foreground opacity-0 transition-opacity hover:text-foreground;
+  @apply absolute right-4 top-3 z-10 cursor-pointer font-mono text-xs text-muted-foreground opacity-0 transition-opacity hover:text-foreground;
 }
 
 pre.astro-code:hover .code-copy {

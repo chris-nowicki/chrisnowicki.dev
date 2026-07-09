@@ -19,7 +19,7 @@
         const code = pre.querySelector('code')?.innerText ?? pre.innerText
         try {
           await navigator.clipboard.writeText(code)
-          button.textContent = 'copied'
+          button.textContent = 'copied ✅'
           setTimeout(() => (button.textContent = 'copy'), 1500)
         } catch {
           button.textContent = 'error'
