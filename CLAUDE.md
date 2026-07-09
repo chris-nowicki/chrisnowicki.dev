@@ -19,6 +19,14 @@ pnpm typecheck        # TypeScript type checking
   served as Cloudflare Workers static assets (see `wrangler.jsonc`)
 - **No UI framework** — interactivity is small inline `<script>` blocks
 - **Tailwind CSS v4** with Vite plugin
+- **Markdown/MDX** — rendered by Sätteri (Astro's default Rust pipeline,
+  no remark/rehype). Syntax highlighting is Shiki with dual catppuccin
+  themes (`markdown.shikiConfig` in `astro.config.mjs`, `defaultColor:
+  false` toggled by the `.dark` class). Code-fence `title="..."` is
+  surfaced by a Shiki transformer (`src/lib/shiki-transformers.ts`) as a
+  `data-title` attribute; the filename bar and copy button are styled/
+  wired in `global.css` + `CodeCopyButton.astro`. Posts are plain `.md`
+  by default; `.mdx` only when a component (e.g. `Polaroids`) is needed.
 - **TypeScript** in strict mode
 - **Plausible Analytics** for privacy-friendly pageview tracking (initialized in `Head.astro`)
 - **pnpm** package manager
@@ -76,22 +84,33 @@ pnpm typecheck        # TypeScript type checking
 
 ### Design vocabulary
 
-The site has a consistent "blueprint" visual language — reuse these
-rather than inventing new treatments:
+The site is quiet and editorial: prose-first, single centered column,
+mono-labeled metadata. Distinctiveness comes from the writing and the
+docs-grade features, not visual flourish. Reuse these treatments rather
+than inventing new ones:
 
+- **Prose-first pages**: content pages are a single centered column
+  (`Container.astro`, `max-w-4xl`; the home/reading column is narrower).
+  The home page is bio-as-prose with inline links — no hero, cards, or
+  grid. Nav is a single wrapping line of text links (`NavBar.astro`), no
+  hamburger.
 - **Page headers**: `PageHeader.astro` (`title` + optional `subtitle`),
   centered, `text-2xl → md:text-4xl`.
 - **Section separators**: `Separator.astro` — a full-bleed dashed rule
   with `FramePlus` corner marks and an optional centered mono `label`.
+- **Mono metadata**: dates, labels, and nav use `font-mono`, uppercase,
+  wide tracking, `text-muted-foreground`.
 - **Accent cards**: `ACCENT_CARD` from `@/lib/styles.ts` — bordered
-  surface with a left-edge foreground rule that fades in on hover.
-- **Grayscale → color**: imagery is `grayscale` and animates to full
-  color on hover (`group-hover:grayscale-0`, ~500ms).
-- **Link underline**: `link-underline` utility (animated underline);
-  prose links use an offset underline that darkens on hover.
-- **Motion**: entrance animations use the `cubic-bezier(0.16, 1, 0.3, 1)`
-  ease curve; all motion is gated behind `prefers-reduced-motion`.
-- **Cursive accents**: `font-cursive` (Reenie Beanie) for playful asides.
+  surface with a left-edge foreground rule that fades in on hover. Used
+  on inner pages (e.g. `/uses`), not the home.
+- **Grayscale → color**: imagery on inner pages is `grayscale` and
+  animates to full color on hover (`group-hover:grayscale-0`, ~500ms).
+- **Motion**: minimal; any entrance animation uses the
+  `cubic-bezier(0.16, 1, 0.3, 1)` ease curve, gated behind
+  `prefers-reduced-motion`.
+- **Cursive signature**: `font-cursive` (Reenie Beanie) is reserved for
+  Chris's name in the nav/home intro and the post sign-off — not general
+  decoration.
 
 ## Key Files
 

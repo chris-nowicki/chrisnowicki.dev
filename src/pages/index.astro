@@ -1,30 +1,79 @@
 ---
 import Container from '@/components/Container.astro'
-import Hero from '@/components/Hero.astro'
-import LatestPosts from '@/components/LatestPosts.astro'
-import NowCard from '@/components/NowCard.astro'
 import Separator from '@/components/Separator.astro'
-import Speaking from '@/components/Speaking.astro'
-import Uses from '@/components/Uses.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
-import { HOME } from '@/lib/site'
+import { HOME, SITE } from '@/lib/site'
+import { getBlogPosts } from '@/utils/blog-helpers'
+
+const posts = await getBlogPosts(5)
+
+const monthYear = (date: Date) =>
+  date
+    .toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+    .toUpperCase()
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-    <Hero />
-    <Separator />
-    <LatestPosts />
-    <Separator />
-    <div class="grid min-w-0 gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
-      <div class="flex min-w-0 flex-col gap-4 [&>:first-child]:flex-1">
-        <Speaking />
+    <section class="mx-auto mt-16 max-w-2xl md:mt-24">
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+        <span class="font-cursive text-4xl md:text-5xl">Chris Nowicki</span>
+      </h1>
+      <p class="mt-2 font-mono text-sm uppercase tracking-widest text-muted-foreground">
+        Developer Experience Engineer
+      </p>
+
+      <div class="mt-8 space-y-6 text-lg leading-relaxed text-muted-foreground">
+        <p>
+          I&rsquo;m a Developer Experience Engineer at <a
+            href="https://www.commerce.com"
+            target="_blank"
+            rel="noopener noreferrer">Commerce</a
+          >, where I work on documentation platforms, agentic authoring tooling,
+          and API specs. My thesis is that great docs now serve two audiences at
+          once &mdash; the engineers reading them and the <a href="/llms.txt"
+            >agents parsing them</a
+          > &mdash; and this site is my attempt to prove it.
+        </p>
+        <p>
+          Before software I spent 18 years in aerospace, which taught me that
+          shipping is a discipline, not an event. These days I&rsquo;m in the
+          Dallas area, usually somewhere between a good cup of coffee and the
+          hunt for the perfect cheeseburger.
+        </p>
       </div>
 
-      <div class="flex min-w-0 flex-col gap-4">
-        <Uses />
-        <NowCard />
-      </div>
-    </div>
+      <Separator label="Selected Writing" />
+
+      <ul class="space-y-4">
+        {
+          posts.map((post) => (
+            <li class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+              <a
+                href={`/blog/${post.id}`}
+                class="font-medium text-foreground"
+                data-astro-prefetch>
+                {post.data.title}
+              </a>
+              <span class="shrink-0 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                {monthYear(post.data.date)}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <Separator />
+
+      <p class="text-lg leading-relaxed text-muted-foreground">
+        More in <a href="/blog">writing</a>, code on <a
+          href="https://github.com/chris-nowicki"
+          target="_blank"
+          rel="noopener noreferrer">GitHub</a
+        >, talks under <a href="/speaking">speaking</a>, or say hello at <a
+          href={`mailto:${SITE.EMAIL}`}>{SITE.EMAIL}</a
+        >.
+      </p>
+    </section>
   </Container>
 </PageLayout>
