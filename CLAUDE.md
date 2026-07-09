@@ -8,8 +8,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm dev              # Start development server at localhost:4321
 pnpm build            # Build for production
 pnpm preview          # Preview production build locally
-pnpm test             # Run tests with Vitest
-pnpm test <file>      # Run specific test file
 pnpm lint             # Run ESLint
 pnpm lint:fix         # Run ESLint with auto-fix
 pnpm typecheck        # TypeScript type checking
@@ -17,20 +15,22 @@ pnpm typecheck        # TypeScript type checking
 
 ## Tech Stack
 
-- **Astro 6.x** with SSR (Server-Side Rendering) on Cloudflare Workers
-- **React 19.x** with `framer-motion` for interactive components
+- **Astro 7.x** on Cloudflare Workers
+- **React 19.x** with `framer-motion` — currently used only by the mobile nav
 - **Tailwind CSS v4** with Vite plugin
 - **TypeScript** in strict mode
-- **Convex** for real-time blog view tracking
+- **Plausible Analytics** for privacy-friendly pageview tracking (initialized in `Head.astro`)
 - **pnpm** package manager
 
 ## Architecture
 
 ### Rendering Strategy
 
-- **Static pages**: Home page and individual blog posts use `prerender = true`
-- **SSR pages**: Blog index uses `prerender = false` to fetch dynamic view counts
-- **Client-side interactivity**: React components hydrate on the client for real-time features
+- Every page sets `prerender = true` — the site is effectively static.
+- The Cloudflare adapter runs in `output: 'server'` mode, but the only
+  dynamic route is `src/pages/robots.txt.ts`.
+- **Client-side interactivity**: React islands hydrate on the client
+  (currently just the mobile nav).
 
 ### Component Organization
 
@@ -43,22 +43,6 @@ pnpm typecheck        # TypeScript type checking
 - **Content collections** in `src/content/` with Zod validation
 - **Static data** in `src/data/` (speaking.ts, uses.ts)
 - **Site constants** in `src/lib/site.ts` (navigation, social links, metadata)
-- **Convex** handles real-time view tracking with WebSocket subscriptions
-
-### Convex Database
-
-Schema (blogViews table):
-- `slug` (string) - Blog post identifier
-- `viewCount` (number), `lastReadAt` (number), `updatedAt` (number)
-
-Functions in `convex/blogViews.ts`:
-- `getViewCount(slug)` / `getViewCounts(slugs)` - Queries
-- `incrementViewCount(slug)` - Mutation (upserts)
-
-Client setup:
-- `src/lib/convex.ts` - `getConvexHttpClient()` async HTTP client for SSR (Astro)
-- `src/lib/convex-client.ts` - `initConvexClient()` async browser client for real-time subscriptions (React)
-- Gracefully degrades if `PUBLIC_CONVEX_URL` not set
 
 ## Code Style
 
@@ -88,16 +72,15 @@ Client setup:
 ## Key Files
 
 - `src/lib/site.ts` - Site metadata, navigation links, social links
-- `src/lib/convex.ts` - Convex HTTP client for SSR
-- `src/lib/convex-client.ts` - Convex browser client for React components
 - `src/content.config.ts` - Content collection schemas
-- `src/utils/utils.ts` - `cn()` utility, `formatDate()`, `formatViewCount()`
+- `src/utils/utils.ts` - `cn()` utility, `formatDate()`
 - `src/utils/blog-helpers.ts` - Blog post fetching and sorting
+- `src/utils/og-image.ts` - Cloudinary OG image URL generation
 
 ## Environment Variables
 
-- `PUBLIC_CONVEX_URL` - Convex deployment URL
-- `ENABLE_VIEW_TRACKING` - Dev-only opt-in. Set to `true` in `.env.local` to enable view count incrementing during local development (not needed in production — tracking is always on in production). In dev, the 30-min cooldown is bypassed automatically.
+- `PUBLIC_CLOUDINARY_CLOUD_NAME` - Cloudinary cloud name, used by
+  `src/utils/og-image.ts` to build dynamic Open Graph image URLs.
 
 ## Git Workflow
 

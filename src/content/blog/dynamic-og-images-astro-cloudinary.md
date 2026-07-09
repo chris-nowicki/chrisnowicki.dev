@@ -2,7 +2,6 @@
 date: 2026-02-10
 title: 'How to Create Dynamic OG Images in Astro with Cloudinary'
 description: 'Generate dynamic Open Graph images on the fly using Cloudinary and Astro.'
-category: 'tech'
 draft: false
 ---
 

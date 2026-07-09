@@ -2,7 +2,6 @@
 date: 2026-02-19
 title: 'Managing Your Dotfiles with GNU Stow'
 description: 'Why every developer should have a dotfiles repo and how GNU Stow makes managing one effortless.'
-category: 'tech'
 draft: false
 ---
 

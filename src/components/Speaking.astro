@@ -4,7 +4,7 @@ import { Image } from 'astro:assets'
 import Megaphone from '@/assets/images/megaphone.png'
 import { getSpeakingData } from '@/utils/speaking-helpers'
 
-const speaking = (await getSpeakingData({ limit: 1 }))[0] ?? {
+const speaking = getSpeakingData(1)[0] ?? {
   title: 'No speaking engagements found',
   description: 'No speaking engagements found',
   category: [],
