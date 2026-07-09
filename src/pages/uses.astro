@@ -3,11 +3,13 @@ import { Picture } from 'astro:assets'
 
 import GitHubIcon from '@/assets/icons/github.svg'
 import DeskSetup from '@/assets/images/desk-setup.webp'
-import BlueprintSeparator from '@/components/BlueprintSeparator.astro'
 import Container from '@/components/Container.astro'
+import PageHeader from '@/components/PageHeader.astro'
+import Separator from '@/components/Separator.astro'
 import { coffeeData, gitHubData,hardwareData, softwareData } from '@/data/uses'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { USES } from '@/lib/site'
+import { ACCENT_CARD } from '@/lib/styles'
 import generateOgImageUrl from '@/utils/og-image'
 import { cn } from '@/utils/utils'
 
@@ -23,14 +25,7 @@ const ogImageUrl = generateOgImageUrl({
   image={ogImageUrl}>
   <Container>
     <section class="text-md relative pt-12 sm:pt-16 md:pt-20 sm:text-base">
-      <header
-        class="mb-8 flex w-full flex-col items-center justify-center text-center md:mb-16">
-        <div class="w-full sm:w-4/5 md:w-3/5">
-          <h1 class="text-2xl font-semibold sm:text-3xl md:text-4xl">
-            The Gear That Keeps Me Caffeinated & Coding
-          </h1>
-        </div>
-      </header>
+      <PageHeader title={USES.TITLE} subtitle={USES.DESCRIPTION} />
 
       <Picture
         src={DeskSetup}
@@ -40,9 +35,7 @@ const ogImageUrl = generateOgImageUrl({
         alt="Desk Setup"
       />
 
-      <div>
-        <BlueprintSeparator label="GitHub" />
-      </div>
+      <Separator label="GitHub" />
 
       <div class="mb-10 grid grid-cols-1 gap-2 font-mono md:grid-cols-2">
         {
@@ -51,13 +44,7 @@ const ogImageUrl = generateOgImageUrl({
               href={gitHub.link}
               target="_blank"
               rel="noopener noreferrer"
-              class={cn(
-                'group relative flex items-start gap-4 border p-4',
-                'transition-all duration-200',
-                'before:absolute before:left-0 before:top-0 before:h-full before:w-1',
-                'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
-                'hover:before:opacity-100 hover:border-border'
-              )}>
+              class={cn(ACCENT_CARD, 'flex items-start gap-4 p-4')}>
               <div class="flex min-w-0 flex-1 flex-col gap-1">
                 <h2 class="font-mono text-md group-hover:font-semibold">{gitHub.title}</h2>
                 <p class="text-sm leading-relaxed text-muted-foreground">
@@ -74,20 +61,15 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <div>
-        <BlueprintSeparator label="Coffee" />
-      </div>
+      <Separator label="Coffee" />
 
       <div class="grid grid-cols-1 gap-2 font-mono md:grid-cols-3">
         {
           coffeeData.map((coffee, index) => (
             <a
               class={cn(
-                'group relative flex flex-col items-center gap-2 rounded-xl border p-2',
-                'transition-all duration-200',
-                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-xl',
-                'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
-                'hover:before:opacity-100 hover:border-border',
+                ACCENT_CARD,
+                'flex flex-col items-center gap-2 rounded-xl p-2 before:rounded-l-xl',
                 index === 0 && 'md:col-span-3'
               )}
               href={coffee.link}
@@ -110,9 +92,7 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <div>
-        <BlueprintSeparator label="Software" />
-      </div>
+      <Separator label="Software" />
 
       <div class="grid grid-cols-2 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10">
         {
@@ -144,20 +124,15 @@ const ogImageUrl = generateOgImageUrl({
         }
       </div>
 
-      <div>
-        <BlueprintSeparator label="Hardware" />
-      </div>
+      <Separator label="Hardware" />
 
       <div class="grid grid-cols-1 gap-5 font-mono sm:grid-cols-2 sm:gap-x-4">
         {
           hardwareData.map((hardware) => (
             <a
               class={cn(
-                'group relative flex flex-col justify-center gap-2 rounded-xl border p-2',
-                'transition-all duration-200',
-                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-xl',
-                'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
-                'hover:before:opacity-100 hover:border-border'
+                ACCENT_CARD,
+                'flex flex-col justify-center gap-2 rounded-xl p-2 before:rounded-l-xl'
               )}
               href={hardware.link}
               target="_blank"
