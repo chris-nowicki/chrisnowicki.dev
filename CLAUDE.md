@@ -17,7 +17,7 @@ pnpm typecheck        # TypeScript type checking
 
 - **Astro 7.x** — fully static build (`output: 'static'`, no adapter),
   served as Cloudflare Workers static assets (see `wrangler.jsonc`)
-- **React 19.x** with `framer-motion` — currently used only by the mobile nav
+- **No UI framework** — interactivity is small inline `<script>` blocks
 - **Tailwind CSS v4** with Vite plugin
 - **TypeScript** in strict mode
 - **Plausible Analytics** for privacy-friendly pageview tracking (initialized in `Head.astro`)
@@ -32,13 +32,15 @@ pnpm typecheck        # TypeScript type checking
   no server runtime.
 - The build emits everything to `dist/`, which `wrangler` serves as
   static assets. `pnpm deploy` runs `astro build && wrangler deploy`.
-- **Client-side interactivity**: React islands hydrate on the client
-  (currently just the mobile nav).
+- **Client-side interactivity**: small inline `<script>` blocks, no
+  hydration framework.
 
 ### Component Organization
 
-- **Astro components** (`.astro`) for static/server-rendered content
-- **React components** (`.tsx`) in `src/components/React/` for client-side interactivity
+- **Astro components** (`.astro`) for all content
+- Client-side behavior lives in per-component inline `<script>` blocks
+  (e.g. `ThemeToggle.astro`, `MobileNav.astro`), re-initialized on
+  `astro:after-swap` for view transitions
 - Props interfaces always named `Props` with optional fields having defaults
 
 ### Data Layer
