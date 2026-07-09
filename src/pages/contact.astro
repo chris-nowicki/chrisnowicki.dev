@@ -5,8 +5,6 @@ import PageLayout from '@/layouts/PageLayout.astro'
 import { CONTACT } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
 
-export const prerender = true
-
 const ogImageUrl = generateOgImageUrl({
   header: `/${CONTACT.TITLE.toUpperCase()}`,
   description: CONTACT.DESCRIPTION,

@@ -15,7 +15,8 @@ pnpm typecheck        # TypeScript type checking
 
 ## Tech Stack
 
-- **Astro 7.x** on Cloudflare Workers
+- **Astro 7.x** — fully static build (`output: 'static'`, no adapter),
+  served as Cloudflare Workers static assets (see `wrangler.jsonc`)
 - **React 19.x** with `framer-motion` — currently used only by the mobile nav
 - **Tailwind CSS v4** with Vite plugin
 - **TypeScript** in strict mode
@@ -26,9 +27,11 @@ pnpm typecheck        # TypeScript type checking
 
 ### Rendering Strategy
 
-- Every page sets `prerender = true` — the site is effectively static.
-- The Cloudflare adapter runs in `output: 'server'` mode, but the only
-  dynamic route is `src/pages/robots.txt.ts`.
+- `output: 'static'` — every page and endpoint (including
+  `robots.txt.ts`) is prerendered to HTML/assets at build time. There is
+  no server runtime.
+- The build emits everything to `dist/`, which `wrangler` serves as
+  static assets. `pnpm deploy` runs `astro build && wrangler deploy`.
 - **Client-side interactivity**: React islands hydrate on the client
   (currently just the mobile nav).
 
