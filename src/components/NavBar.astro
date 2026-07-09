@@ -2,11 +2,10 @@
 import { navLinks } from '@/lib/site'
 import { cn } from '@/utils/utils'
 
-import MobileNav from './React/MobileNav'
+import MobileNav from './MobileNav.astro'
 import ThemeToggle from './ThemeToggle.astro'
 
-export const prerender = false
-const pathname = new URL(Astro.request.url).pathname.split('/')[1]
+const pathname = Astro.url.pathname.split('/')[1]
 ---
 
 <div class="mt-6 flex w-full items-center justify-center px-6">
@@ -56,6 +55,6 @@ const pathname = new URL(Astro.request.url).pathname.split('/')[1]
     <div class="hidden md:flex md:flex-1 md:justify-end">
       <ThemeToggle />
     </div>
-    <MobileNav client:load />
+    <MobileNav />
   </nav>
 </div>
