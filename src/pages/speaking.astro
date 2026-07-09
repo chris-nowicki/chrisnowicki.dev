@@ -8,7 +8,7 @@ import { formatDate } from '@/utils/utils'
 
 export const prerender = true
 
-const speaking = await getSpeakingData()
+const speaking = getSpeakingData()
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${SPEAKING.TITLE.toUpperCase()}`,
