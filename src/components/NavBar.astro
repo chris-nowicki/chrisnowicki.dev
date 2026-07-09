@@ -5,23 +5,18 @@ import { cn } from '@/utils/utils'
 
 import ThemeToggle from './ThemeToggle.astro'
 
-const pathname = Astro.url.pathname.split('/')[1]
+const links = [{ href: '/', text: 'home' }, ...navLinks]
+const segment = Astro.url.pathname.split('/')[1]
 ---
 
 <Container class="mt-8 mb-4">
   <nav
     class="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground"
     aria-label="Primary navigation">
-    <a
-      href="/"
-      class="font-cursive mr-2 text-3xl leading-none text-foreground"
-      aria-label="Chris Nowicki — home">
-      CN
-    </a>
-
     {
-      navLinks.map(({ href, text }) => {
-        const isActive = pathname === text.toLowerCase()
+      links.map(({ href, text }) => {
+        const isActive =
+          href === '/' ? segment === '' : segment === text.toLowerCase()
         return (
           <a
             {href}
