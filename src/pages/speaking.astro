@@ -1,5 +1,6 @@
 ---
 import Container from '@/components/Container.astro'
+import ListEntry from '@/components/ListEntry.astro'
 import PageHeader from '@/components/PageHeader.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
@@ -23,28 +24,17 @@ const ogImageUrl = generateOgImageUrl({
     <section class="relative pt-12 text-sm sm:pt-20">
       <PageHeader title={SPEAKING.TITLE} subtitle={SPEAKING.DESCRIPTION} />
 
-      <div>
+      <div class="mt-10">
         {
           speaking.map((talk) => (
-            <a
+            <ListEntry
               href={talk.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-muted">
-              <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
-                <span class="order-1 text-muted-foreground sm:order-3">
-                  {formatDate(talk.date)}
-                </span>
-                <span
-                  class="order-3 hidden flex-1 bg-muted-foreground/20 px-2 sm:order-2 sm:block"
-                  style="height: 1px; align-self: center;"
-                />
-                <h2 class="order-2 text-lg font-semibold sm:order-1">
-                  {talk.title}
-                </h2>
-              </div>
-              <p class="text-muted-foreground">{talk.description}</p>
-            </a>
+              title={talk.title}
+              date={formatDate(talk.date)}
+              description={talk.description}
+              meta={talk.category.join(', ')}
+              external
+            />
           ))
         }
       </div>
