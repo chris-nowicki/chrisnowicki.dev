@@ -7,8 +7,6 @@ import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
 import { formatDate } from '@/utils/utils'
 
-export const prerender = true
-
 const posts = await getBlogPosts()
 
 const ogImageUrl = generateOgImageUrl({
