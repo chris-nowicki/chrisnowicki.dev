@@ -1,5 +1,6 @@
 ---
 import Container from '@/components/Container.astro'
+import PageHeader from '@/components/PageHeader.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
@@ -20,14 +21,7 @@ const ogImageUrl = generateOgImageUrl({
   image={ogImageUrl}>
   <Container>
     <section class="relative pt-12 text-sm sm:pt-20">
-      <header
-        class="mb-8 flex w-full items-center justify-center text-center md:mb-16">
-        <div class="w-full sm:w-4/5 md:w-3/5">
-          <h1 class="text-2xl font-semibold sm:text-3xl md:text-4xl">
-            My speaking engagements and conference talks!
-          </h1>
-        </div>
-      </header>
+      <PageHeader title={SPEAKING.TITLE} subtitle={SPEAKING.DESCRIPTION} />
 
       <div>
         {

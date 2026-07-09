@@ -74,6 +74,25 @@ pnpm typecheck        # TypeScript type checking
 - Mobile-first responsive design (default → sm → md → lg)
 - Supports light and dark mode via `.dark` class on `<html>`
 
+### Design vocabulary
+
+The site has a consistent "blueprint" visual language — reuse these
+rather than inventing new treatments:
+
+- **Page headers**: `PageHeader.astro` (`title` + optional `subtitle`),
+  centered, `text-2xl → md:text-4xl`.
+- **Section separators**: `Separator.astro` — a full-bleed dashed rule
+  with `FramePlus` corner marks and an optional centered mono `label`.
+- **Accent cards**: `ACCENT_CARD` from `@/lib/styles.ts` — bordered
+  surface with a left-edge foreground rule that fades in on hover.
+- **Grayscale → color**: imagery is `grayscale` and animates to full
+  color on hover (`group-hover:grayscale-0`, ~500ms).
+- **Link underline**: `link-underline` utility (animated underline);
+  prose links use an offset underline that darkens on hover.
+- **Motion**: entrance animations use the `cubic-bezier(0.16, 1, 0.3, 1)`
+  ease curve; all motion is gated behind `prefers-reduced-motion`.
+- **Cursive accents**: `font-cursive` (Reenie Beanie) for playful asides.
+
 ## Key Files
 
 - `src/lib/site.ts` - Site metadata, navigation links, social links

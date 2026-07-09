@@ -3,20 +3,19 @@ import Container from '@/components/Container.astro'
 import Hero from '@/components/Hero.astro'
 import LatestPosts from '@/components/LatestPosts.astro'
 import NowCard from '@/components/NowCard.astro'
-import SectionSeparator from '@/components/SectionSeparator.astro'
+import Separator from '@/components/Separator.astro'
 import Speaking from '@/components/Speaking.astro'
 import Uses from '@/components/Uses.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { HOME } from '@/lib/site'
-
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
     <Hero />
-    <SectionSeparator />
+    <Separator />
     <LatestPosts />
-    <SectionSeparator />
+    <Separator />
     <div class="grid min-w-0 gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
       <div class="flex min-w-0 flex-col gap-4 [&>:first-child]:flex-1">
         <Speaking />
