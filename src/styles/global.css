@@ -130,43 +130,6 @@
     }
   }
 
-  /* Code blocks — Sätteri + Shiki (dual catppuccin themes via CSS vars) */
-  pre.astro-code {
-    @apply relative my-6 overflow-x-auto rounded-md p-4 font-mono text-sm leading-relaxed;
-    color: var(--shiki-light);
-    background-color: var(--shiki-light-bg);
-  }
-
-  pre.astro-code span {
-    color: var(--shiki-light);
-    font-style: var(--shiki-light-font-style);
-  }
-
-  .dark pre.astro-code {
-    color: var(--shiki-dark);
-    background-color: var(--shiki-dark-bg);
-  }
-
-  .dark pre.astro-code span {
-    color: var(--shiki-dark);
-    font-style: var(--shiki-dark-font-style);
-  }
-
-  /* Filename bar, injected from `title="..."` fence meta by a Shiki transformer */
-  pre.astro-code[data-title]::before {
-    @apply mb-3 -mt-1 block font-mono text-xs text-muted-foreground;
-    content: attr(data-title);
-  }
-
-  /* Copy button, injected by CodeBlock enhancement script */
-  pre.astro-code .code-copy {
-    @apply absolute top-2 right-2 rounded border border-border bg-background/80 px-2 py-1 font-mono text-xs text-muted-foreground opacity-0 transition-opacity;
-  }
-
-  pre.astro-code:hover .code-copy {
-    @apply opacity-100;
-  }
-
   /* Inline code */
   :not(pre) > code {
     @apply font-mono rounded bg-muted px-1.5 py-0.5 text-sm;
@@ -189,6 +152,45 @@
   figcaption {
     @apply mt-3 text-center text-sm text-muted-foreground italic;
   }
+}
+
+/* Code blocks — Sätteri + Shiki (dual catppuccin themes via CSS vars).
+   Kept at top level (not inside `prose`) so the `.dark` root class, which
+   lives on <html>, resolves correctly. */
+pre.astro-code {
+  @apply relative my-6 overflow-x-auto rounded-md border border-border p-4 font-mono text-sm leading-relaxed;
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+pre.astro-code span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+}
+
+.dark pre.astro-code {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+.dark pre.astro-code span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+}
+
+/* Filename bar, injected from `title="..."` fence meta by a Shiki transformer */
+pre.astro-code[data-title]::before {
+  @apply -mt-1 mb-3 block font-mono text-xs text-muted-foreground;
+  content: attr(data-title);
+}
+
+/* Copy button, injected by CodeCopyButton enhancement script */
+pre.astro-code .code-copy {
+  @apply absolute top-2 right-2 rounded border border-border bg-background/80 px-2 py-1 font-mono text-xs text-muted-foreground opacity-0 transition-opacity;
+}
+
+pre.astro-code:hover .code-copy {
+  @apply opacity-100;
 }
 
 @layer components {
