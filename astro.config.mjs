@@ -42,51 +42,35 @@ export default defineConfig({
   output: 'static',
   prefetch: true,
 
+  // All three fonts come from the Google provider; Astro downloads and
+  // self-hosts them at build time, so there are no font files in the repo.
   fonts: [
     {
-      provider: fontProviders.local(),
+      provider: fontProviders.google(),
       name: 'Geist',
       cssVariable: '--font-geist',
+      weights: ['100 900'],
+      styles: ['normal', 'italic'],
+      subsets: ['latin'],
       display: 'optional',
       fallbacks: ['sans-serif'],
-      options: {
-        variants: [
-          {
-            weight: '100 900',
-            style: 'normal',
-            src: ['./src/assets/fonts/Geist[wght].woff2'],
-          },
-          {
-            weight: '100 900',
-            style: 'italic',
-            src: ['./src/assets/fonts/Geist-Italic[wght].woff2'],
-          },
-        ],
-      },
     },
     {
-      provider: fontProviders.local(),
+      provider: fontProviders.google(),
       name: 'Geist Mono',
       cssVariable: '--font-geist-mono',
+      weights: ['100 900'],
+      subsets: ['latin'],
       display: 'optional',
       fallbacks: ['monospace'],
-      options: {
-        variants: [
-          {
-            weight: '100 900',
-            style: 'normal',
-            src: ['./src/assets/fonts/GeistMono[wght].woff2'],
-          },
-        ],
-      },
     },
     {
-      provider: fontProviders.fontsource(),
+      provider: fontProviders.google(),
       name: 'Reenie Beanie',
       cssVariable: '--font-reenie',
-      display: 'optional',
       weights: [400],
       subsets: ['latin'],
+      display: 'optional',
       fallbacks: ['cursive'],
     },
   ],
