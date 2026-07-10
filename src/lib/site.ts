@@ -9,17 +9,19 @@ type Status = { available: boolean; message: string }
 
 export const NUMBER_OF_ENTRIES = 3
 
+// Primary destinations — the top nav (prefixed with `home` in NavBar).
 export const navLinks = [
   { href: '/blog', text: 'Blog' },
   { href: '/work', text: 'Work' },
   { href: '/speaking', text: 'Speaking' },
-  { href: '/uses', text: 'Uses' },
-  { href: '/contact', text: 'Contact' },
 ]
 
-// Secondary "meta" pages that describe the site rather than Chris's work.
-// Footer-only — kept out of the primary nav to keep it a single tidy line.
-export const metaLinks = [
+// Utility / secondary pages that live in the footer only. The footer no
+// longer mirrors the full nav, so this is a curated set: the gear page
+// plus the "meta" pages that describe the site itself.
+export const footerLinks = [
+  { href: '/uses', text: 'Uses' },
+  { href: '/contact', text: 'Contact' },
   { href: '/colophon', text: 'Colophon' },
   { href: '/changelog', text: 'Changelog' },
 ]
