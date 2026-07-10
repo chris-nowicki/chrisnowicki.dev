@@ -192,19 +192,19 @@ pre.astro-code[data-title]::before {
 }
 
 /* Copy button, injected by CodeCopyButton enhancement script: a square
-   icon button in the top-right of the code body. */
+   icon button pinned to the top-right corner, revealed on hover. */
 pre.astro-code .code-copy {
-  @apply absolute right-3 top-3 z-10 flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-border text-muted-foreground transition-colors;
-  background-color: hsl(var(--background) / 0.6);
+  @apply absolute right-2 top-2 z-10 flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-border text-muted-foreground opacity-0 transition;
+  background-color: hsl(var(--background) / 0.7);
+}
+
+pre.astro-code:hover .code-copy,
+pre.astro-code .code-copy:focus-visible {
+  @apply opacity-100;
 }
 
 pre.astro-code .code-copy:hover {
   @apply bg-muted text-foreground;
-}
-
-/* On titled blocks, drop the button below the header into the body */
-pre.astro-code[data-title] .code-copy {
-  @apply top-14;
 }
 
 @layer components {
