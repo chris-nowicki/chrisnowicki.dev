@@ -1,30 +1,137 @@
 ---
+import { Image } from 'astro:assets'
+
+import CompressedCover from '@/assets/images/compressed-fm-cover.png'
 import Container from '@/components/Container.astro'
-import Hero from '@/components/Hero.astro'
-import LatestPosts from '@/components/LatestPosts.astro'
-import NowCard from '@/components/NowCard.astro'
 import Separator from '@/components/Separator.astro'
-import Speaking from '@/components/Speaking.astro'
-import Uses from '@/components/Uses.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
-import { HOME } from '@/lib/site'
+import { HOME, SITE } from '@/lib/site'
+import { LINK } from '@/lib/styles'
+import { getBlogPosts } from '@/utils/blog-helpers'
+import { formatDate } from '@/utils/utils'
+
+const posts = await getBlogPosts(5)
+
+const link = `text-foreground ${LINK}`
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-    <Hero />
-    <Separator />
-    <LatestPosts />
-    <Separator />
-    <div class="grid min-w-0 gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
-      <div class="flex min-w-0 flex-col gap-4 [&>:first-child]:flex-1">
-        <Speaking />
+    <section class="mt-8 md:mt-12">
+      <h1 class="font-cursive text-5xl leading-none text-foreground md:text-6xl">
+        Chris Nowicki
+      </h1>
+      <p class="mt-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+        Developer Experience Engineer
+      </p>
+
+      <div class="mt-8 space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+        <p>
+          I&rsquo;m a Developer Experience Engineer at <a
+            href="https://www.commerce.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={link}>Commerce</a
+          >, where I work on documentation platforms, agentic authoring tooling,
+          and API specs. My thesis is that great docs now serve two audiences at
+          once &mdash; the engineers reading them and the <a
+            href="/llms.txt"
+            class={link}>agents parsing them</a
+          > &mdash; and this site is my attempt to prove it.
+        </p>
+        <p>
+          Before software I spent 18 years in aerospace, which taught me that
+          shipping is a discipline, not an event. I also co-host <a
+            href="https://www.compressed.fm"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={link}>compressed.fm</a
+          >, a weekly podcast about web development and design. These days
+          I&rsquo;m in North Georgia, usually somewhere between a good cup of
+          coffee and the hunt for the perfect cheeseburger.
+        </p>
       </div>
 
-      <div class="flex min-w-0 flex-col gap-4">
-        <Uses />
-        <NowCard />
-      </div>
-    </div>
+      <Separator label="Selected Writing" contained class="mt-14" />
+
+      <ul class="-mx-3">
+        {
+          posts.map((post) => (
+            <li>
+              <a
+                href={`/blog/${post.id}`}
+                class="group flex items-baseline justify-between gap-4 rounded-md px-3 py-2.5 transition-colors duration-200 hover:bg-muted/50"
+                data-astro-prefetch>
+                <span class="font-medium text-foreground decoration-muted-foreground/40 underline-offset-[3px] group-hover:underline">
+                  {post.data.title}
+                </span>
+                <span class="shrink-0 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+                  {formatDate(post.data.date.toDateString())}
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <Separator label="Podcast" class="mt-14" />
+
+      <a
+        href="https://www.compressed.fm"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Compressed.fm podcast"
+        class="group flex items-stretch overflow-hidden rounded-xl border border-border transition-colors duration-200 hover:border-foreground/40">
+        <Image
+          src={CompressedCover}
+          width={256}
+          height={256}
+          alt="Compressed.fm podcast cover"
+          class="w-24 shrink-0 self-stretch object-cover sm:w-36"
+        />
+        <div class="flex flex-col justify-center p-5">
+          <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
+            I co-host <span class="font-medium text-foreground"
+              >compressed.fm</span
+            >, a weekly podcast about web development and design.
+          </p>
+          <span
+            class="mt-3 inline-flex items-center gap-1 font-medium text-foreground decoration-muted-foreground/40 underline-offset-[3px] group-hover:underline">
+            Listen at compressed.fm
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true">
+              <path d="M7 7h10v10"></path>
+              <path d="M7 17 17 7"></path>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <Separator label="Look around" class="mt-14" />
+
+      <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
+        Check out more of my <a href="/blog" class={link}>writing</a>, my <a
+          href="/speaking"
+          class={link}>talks</a
+        >, and the <a href="/uses" class={link}>gear I use</a> &mdash; plus
+        whatever I&rsquo;m up to on <a
+          href="https://github.com/chris-nowicki"
+          target="_blank"
+          rel="noopener noreferrer"
+          class={link}>GitHub</a
+        >. Or just say hello at <a href={`mailto:${SITE.EMAIL}`} class={link}
+          >{SITE.EMAIL}</a
+        >.
+      </p>
+    </section>
   </Container>
 </PageLayout>

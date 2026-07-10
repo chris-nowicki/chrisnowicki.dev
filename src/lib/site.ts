@@ -9,11 +9,21 @@ type Status = { available: boolean; message: string }
 
 export const NUMBER_OF_ENTRIES = 3
 
+// Primary destinations — the top nav (prefixed with `home` in NavBar).
 export const navLinks = [
   { href: '/blog', text: 'Blog' },
+  { href: '/work', text: 'Work' },
   { href: '/speaking', text: 'Speaking' },
+]
+
+// Utility / secondary pages that live in the footer only. The footer no
+// longer mirrors the full nav, so this is a curated set: the gear page
+// plus the "meta" pages that describe the site itself.
+export const footerLinks = [
   { href: '/uses', text: 'Uses' },
   { href: '/contact', text: 'Contact' },
+  { href: '/colophon', text: 'Colophon' },
+  { href: '/changelog', text: 'Changelog' },
 ]
 
 export const socialLinks = [
@@ -48,6 +58,11 @@ export const SITE: Site = {
   EMAIL: 'chris@chrisnowicki.dev',
 }
 
+// Third-person speaker bio for event organizers. Also reused by the
+// forthcoming /resume.md and llms.txt. Keep it to a tight ~60 words.
+export const BIO =
+  'Chris Nowicki is a Developer Experience Engineer at Commerce, where he works on documentation platforms, agentic authoring tooling, and API specifications. After 18 years in aerospace, he moved into software convinced that shipping is a discipline, not an event — and that great documentation now serves two audiences at once: the engineers reading it and the AI agents parsing it. He is based in North Georgia.'
+
 export const STATUS: Status = {
   available: true,
   message: 'Available for speaking & collaborations',
@@ -64,6 +79,11 @@ export const BLOG: Metadata = {
     'My ramblings on the web about all things tech, life, and productivity!',
 }
 
+export const WORK: Metadata = {
+  TITLE: 'Work',
+  DESCRIPTION: 'Selected projects, and a running log of where I’ve shipped.',
+}
+
 export const SPEAKING: Metadata = {
   TITLE: 'Speaking',
   DESCRIPTION: 'My speaking engagements and conference talks!',
@@ -77,4 +97,14 @@ export const USES: Metadata = {
 export const CONTACT: Metadata = {
   TITLE: 'Contact',
   DESCRIPTION: 'Get in touch with me.',
+}
+
+export const COLOPHON: Metadata = {
+  TITLE: 'Colophon',
+  DESCRIPTION: 'How this site is built.',
+}
+
+export const CHANGELOG: Metadata = {
+  TITLE: 'Changelog',
+  DESCRIPTION: 'A running log of how this site has changed.',
 }

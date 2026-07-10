@@ -1,0 +1,105 @@
+---
+// Accessible YouTube video modal built on the native <dialog> element
+// (free focus-trapping, Esc-to-close, backdrop). Any element on the page
+// with a `data-video-id` (and optional `data-video-title`) opens it; the
+// iframe src is set on open and cleared on close so playback stops.
+---
+
+<dialog
+  id="video-modal"
+  aria-labelledby="video-modal-title"
+  class="w-[min(92vw,960px)] overflow-hidden rounded-lg border border-border bg-background p-0 shadow-2xl">
+  <div
+    class="flex items-center justify-between gap-4 border-b border-border px-4 py-3">
+    <p
+      id="video-modal-title"
+      class="truncate font-mono text-xs uppercase tracking-widest text-muted-foreground">
+      Now playing
+    </p>
+    <button
+      type="button"
+      data-close
+      aria-label="Close video"
+      class="shrink-0 text-muted-foreground transition-colors duration-200 hover:text-foreground">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="aspect-video w-full bg-black">
+    <iframe
+      title="Video player"
+      class="h-full w-full"
+      allow="autoplay; encrypted-media; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen></iframe>
+  </div>
+</dialog>
+
+<style is:global>
+  /* The UA centers a modal <dialog> horizontally but pins it to the top
+     (top/bottom default to auto). Fix inset + margin so it centers on both
+     axes, and define ::backdrop explicitly so the dim doesn't depend on a
+     utility variant. Only shown via showModal(), so it's in the top layer. */
+  #video-modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    max-height: 90vh;
+  }
+
+  #video-modal::backdrop {
+    background-color: rgb(0 0 0 / 0.72);
+    backdrop-filter: blur(4px);
+  }
+</style>
+
+<script>
+  function initVideoModal() {
+    const dialog = document.getElementById(
+      'video-modal'
+    ) as HTMLDialogElement | null
+    if (!dialog || dialog.dataset.wired) return
+    dialog.dataset.wired = 'true'
+
+    const iframe = dialog.querySelector('iframe')
+    const titleEl = dialog.querySelector('#video-modal-title')
+    if (!iframe || !titleEl) return
+    const defaultTitle = titleEl.textContent
+
+    const close = () => dialog.close()
+
+    dialog.addEventListener('close', () => {
+      iframe.src = ''
+    })
+    dialog.querySelector('[data-close]')?.addEventListener('click', close)
+    // A click whose target is the dialog itself landed on the backdrop.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) close()
+    })
+
+    document.querySelectorAll<HTMLElement>('[data-video-id]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const id = el.dataset.videoId
+        if (!id) return
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`
+        titleEl.textContent = el.dataset.videoTitle || defaultTitle
+        dialog.showModal()
+      })
+    })
+  }
+
+  initVideoModal()
+  document.addEventListener('astro:after-swap', initVideoModal)
+</script>

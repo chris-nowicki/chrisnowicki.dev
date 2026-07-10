@@ -1,60 +1,39 @@
 ---
+import Container from '@/components/Container.astro'
 import { navLinks } from '@/lib/site'
 import { cn } from '@/utils/utils'
 
-import MobileNav from './MobileNav.astro'
 import ThemeToggle from './ThemeToggle.astro'
 
-const pathname = Astro.url.pathname.split('/')[1]
+const links = [{ href: '/', text: 'home' }, ...navLinks]
+const segment = Astro.url.pathname.split('/')[1]
 ---
 
-<div class="mt-6 flex w-full items-center justify-center px-6">
+<Container class="mt-8 mb-4">
   <nav
-    class={cn(
-      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-background'
-    )}
-    style="transition: box-shadow 0.3s, border-radius 0.3s;">
-    <a
-      href="/"
-      class="font-cursive group inline-flex items-center overflow-hidden text-4xl text-foreground md:flex-1">
-      <span class="inline-block">C</span><span
-        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-35"
-        >hris</span
-      ><span
-        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-4"
-        >&nbsp;</span
-      ><span class="inline-block">N</span><span
-        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-35"
-        >owicki</span
-      >
-    </a>
+    class="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground"
+    aria-label="Primary navigation">
+    {
+      links.map(({ href, text }) => {
+        const isActive =
+          href === '/' ? segment === '' : segment === text.toLowerCase()
+        return (
+          <a
+            {href}
+            class={cn(
+              'font-mono text-sm transition-colors duration-200',
+              isActive ? 'text-foreground' : 'hover:text-foreground'
+            )}
+            aria-current={isActive ? 'page' : undefined}
+            data-astro-prefetch>
+            {text.toLowerCase()}
+          </a>
+        )
+      })
+    }
 
-    <ul
-      class="hidden list-none gap-4 px-4 py-2 text-lg md:flex"
-      aria-label="Desktop navigation">
-      {
-        navLinks.map(({ href, text }) => {
-          const isActive = pathname === text.toLowerCase()
-          return (
-            <li>
-              <a
-                {href}
-                class={cn(
-                  'transition-colors duration-200 ease-in-out',
-                  isActive ? 'text-foreground' : 'hover:text-foreground'
-                )}
-                aria-current={isActive ? 'page' : undefined}
-                data-astro-prefetch>
-                {text}
-              </a>
-            </li>
-          )
-        })
-      }
-    </ul>
-    <div class="hidden md:flex md:flex-1 md:justify-end">
+    <div class="ml-auto">
       <ThemeToggle />
     </div>
-    <MobileNav />
   </nav>
-</div>
+</Container>

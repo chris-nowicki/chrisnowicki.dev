@@ -1,12 +1,10 @@
 // @ts-check
-import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
-import expressiveCode from 'astro-expressive-code'
-import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
+
+import { transformerCodeTitle } from './src/lib/shiki-transformers.ts'
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,97 +22,55 @@ export default defineConfig({
     ],
   },
 
-  integrations: [
-    sitemap(),
-    expressiveCode({
-      themes: ['catppuccin-latte', 'catppuccin-mocha'],
-      useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) => {
-        if (theme.name === 'catppuccin-mocha') return '.dark'
-        return ''
-      },
-      styleOverrides: {
-        codeFontFamily: "'Geist Mono', monospace",
-        codeFontSize: '0.875rem',
-        codeLineHeight: '1.5',
-        borderRadius: '0.375rem',
-        borderWidth: '0px',
-        frames: {
-          shadowColor: 'transparent',
-        },
-      },
-      defaultProps: {
-        wrap: true,
-      },
-    }),
-    mdx(),
-  ],
+  integrations: [sitemap(), mdx()],
 
+  // Sätteri (Astro's default Rust Markdown pipeline) handles rendering.
+  // Syntax highlighting is Shiki with dual catppuccin themes; `defaultColor:
+  // false` emits both palettes as CSS variables toggled by the `.dark` class.
   markdown: {
-    processor: unified({
-      rehypePlugins: [
-        rehypeHeadingIds,
-        [
-          rehypeAutoLinkHeadings,
-          {
-            behavior: 'wrap',
-            properties: {
-              class: ['subheading-anchor'],
-              ariaLabel: 'Link to section',
-            },
-          },
-        ],
-      ],
-    }),
+    syntaxHighlight: 'shiki',
+    shikiConfig: {
+      themes: {
+        light: 'catppuccin-latte',
+        dark: 'catppuccin-mocha',
+      },
+      defaultColor: false,
+      wrap: true,
+      transformers: [transformerCodeTitle()],
+    },
   },
   output: 'static',
   prefetch: true,
 
+  // All three fonts come from the Google provider; Astro downloads and
+  // self-hosts them at build time, so there are no font files in the repo.
   fonts: [
     {
-      provider: fontProviders.local(),
+      provider: fontProviders.google(),
       name: 'Geist',
       cssVariable: '--font-geist',
+      weights: ['100 900'],
+      styles: ['normal', 'italic'],
+      subsets: ['latin'],
       display: 'optional',
       fallbacks: ['sans-serif'],
-      options: {
-        variants: [
-          {
-            weight: '100 900',
-            style: 'normal',
-            src: ['./src/assets/fonts/Geist[wght].woff2'],
-          },
-          {
-            weight: '100 900',
-            style: 'italic',
-            src: ['./src/assets/fonts/Geist-Italic[wght].woff2'],
-          },
-        ],
-      },
     },
     {
-      provider: fontProviders.local(),
+      provider: fontProviders.google(),
       name: 'Geist Mono',
       cssVariable: '--font-geist-mono',
+      weights: ['100 900'],
+      subsets: ['latin'],
       display: 'optional',
       fallbacks: ['monospace'],
-      options: {
-        variants: [
-          {
-            weight: '100 900',
-            style: 'normal',
-            src: ['./src/assets/fonts/GeistMono[wght].woff2'],
-          },
-        ],
-      },
     },
     {
-      provider: fontProviders.fontsource(),
+      provider: fontProviders.google(),
       name: 'Reenie Beanie',
       cssVariable: '--font-reenie',
-      display: 'optional',
       weights: [400],
       subsets: ['latin'],
+      display: 'optional',
       fallbacks: ['cursive'],
     },
   ],

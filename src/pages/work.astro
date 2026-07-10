@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content'
+
+import Container from '@/components/Container.astro'
+import ListEntry from '@/components/ListEntry.astro'
+import PageHeader from '@/components/PageHeader.astro'
+import Separator from '@/components/Separator.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
+import { WORK } from '@/lib/site'
+import { LINK } from '@/lib/styles'
+import { getCareerByYear } from '@/utils/career-helpers'
+import generateOgImageUrl from '@/utils/og-image'
+import { formatDate } from '@/utils/utils'
+
+const years = getCareerByYear()
+
+const selectedWork = (
+  await getCollection('work', ({ data }) => import.meta.env.DEV || !data.draft)
+).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+
+const ogImageUrl = generateOgImageUrl({
+  header: `/${WORK.TITLE.toUpperCase()}`,
+  description: WORK.DESCRIPTION,
+})
+
+const link = LINK
+---
+
+<PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION} image={ogImageUrl}>
+  <Container>
+    <section class="pt-12 sm:pt-20">
+      <PageHeader title={WORK.TITLE} subtitle={WORK.DESCRIPTION} />
+
+      {
+        selectedWork.length > 0 && (
+          <>
+            <Separator label="Selected Work" contained />
+            <div>
+              {selectedWork.map((item) => (
+                <ListEntry
+                  href={item.data.link ?? `/work/${item.id}`}
+                  title={item.data.title}
+                  date={formatDate(item.data.date.toDateString())}
+                  description={item.data.description}
+                  meta={item.data.company}
+                  external={Boolean(item.data.link)}
+                />
+              ))}
+            </div>
+          </>
+        )
+      }
+
+      <Separator label="Career" contained class="mt-14" />
+
+      <ol class="mt-8">
+        {
+          years.map(([year, entries], idx) => (
+            <li class="relative pb-8 pl-6 last:pb-0">
+              {idx < years.length - 1 && (
+                <span
+                  class="absolute top-2 left-1 h-full w-px -translate-x-1/2 bg-border"
+                  aria-hidden="true"
+                />
+              )}
+              <span
+                class="absolute top-1 left-1 h-3 w-3 -translate-x-1/2 rounded-full border-2 border-background bg-muted-foreground/60"
+                aria-hidden="true"
+              />
+              <div class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                {year}
+              </div>
+              <ul class="mt-2 space-y-2">
+                {entries.map((entry) => (
+                  <li class="leading-relaxed text-foreground">
+                    {entry.link ? (
+                      <a
+                        href={entry.link}
+                        class={link}
+                        {...(entry.external
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : { 'data-astro-prefetch': true })}>
+                        {entry.title}
+                        {entry.external && <span aria-hidden="true"> ↗</span>}
+                      </a>
+                    ) : (
+                      entry.title
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </Container>
+</PageLayout>

@@ -6,3 +6,11 @@
  */
 export const ACCENT_CARD =
   'group relative border transition-all duration-200 before:absolute before:top-0 before:left-0 before:h-full before:w-1 before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200 hover:border-border hover:before:opacity-100'
+
+/**
+ * Inline text link: a thin muted underline that animates to a thicker,
+ * full-contrast (black in light / white in dark) underline on hover.
+ * Compose with `text-foreground` when the link sits in muted body text.
+ */
+export const LINK =
+  'underline decoration-muted-foreground/40 decoration-1 underline-offset-[3px] transition-all duration-200 hover:decoration-foreground hover:decoration-2'

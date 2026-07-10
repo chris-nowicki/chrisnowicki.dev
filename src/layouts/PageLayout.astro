@@ -2,7 +2,6 @@
 import Footer from '@/components/Footer.astro'
 import Head from '@/components/Head.astro'
 import NavBar from '@/components/NavBar.astro'
-import PageFrame from '@/components/PageFrame.astro'
 import ScrollToTop from '@/components/ScrollToTop.astro'
 import { SITE } from '@/lib/site'
 
@@ -27,7 +26,6 @@ const { title, description, image } = Astro.props
   </head>
   <body>
     <div class="relative flex min-h-screen flex-col shrink-0">
-      <PageFrame />
       <NavBar />
       <main class="flex-1">
         <slot />

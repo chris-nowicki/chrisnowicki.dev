@@ -1,0 +1,63 @@
+---
+// A single index row: a mono metadata line (date · meta) above a
+// full-width title, then an optional description. The metadata sits above
+// the title rather than beside it so long titles wrap cleanly with no
+// alignment issues. Used by the blog and speaking indexes.
+interface Props {
+  href: string
+  title: string
+  date: string
+  description?: string
+  meta?: string
+  external?: boolean
+}
+
+const {
+  href,
+  title,
+  date,
+  description,
+  meta,
+  external = false,
+} = Astro.props
+
+const anchorProps = external
+  ? { target: '_blank', rel: 'noopener noreferrer' }
+  : { 'data-astro-prefetch': true }
+---
+
+<a
+  href={href}
+  {...anchorProps}
+  class="group block border-b border-border/60 py-5 last:border-b-0">
+  <div class="flex flex-wrap items-center gap-x-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+    <time>{date}</time>
+    {
+      meta && (
+        <>
+          <span aria-hidden="true">&middot;</span>
+          <span>{meta}</span>
+        </>
+      )
+    }
+  </div>
+
+  <h2 class="mt-2 text-lg font-semibold text-foreground decoration-muted-foreground/40 underline-offset-4 group-hover:underline">
+    {title}
+    {
+      external && (
+        <span
+          class="ml-1 inline-block text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5"
+          aria-hidden="true">
+          &#8599;
+        </span>
+      )
+    }
+  </h2>
+
+  {
+    description && (
+      <p class="mt-1 leading-relaxed text-muted-foreground">{description}</p>
+    )
+  }
+</a>

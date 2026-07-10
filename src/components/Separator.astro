@@ -1,30 +1,32 @@
 ---
-import FramePlus from './FramePlus.astro'
+import { cn } from '@/utils/utils'
 
 interface Props {
   label?: string
   class?: string
+  // Accepted for call-site compatibility. Section rules are always
+  // column-width now (the full-bleed / corner-mark variant was retired).
+  contained?: boolean
 }
 
 const { label = '', class: className = '' } = Astro.props
 ---
 
-<div
-  class:list={[
-    'relative left-1/2 z-20 -ml-[50vw] my-12 w-screen md:my-16',
-    className,
-  ]}
-  aria-hidden="true">
-  <div class="h-px w-full border-t border-dashed border-border"></div>
-
-  {
-    label && (
-      <span class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-background px-3 font-mono text-xs font-medium tracking-widest text-muted-foreground uppercase">
+{
+  label ? (
+    // Named section: a left-aligned mono "eyebrow" label. Whitespace does
+    // the separating — no rule.
+    <div class={cn('relative z-20 mt-16 mb-6', className)}>
+      <span class="font-mono text-xs font-medium tracking-widest text-muted-foreground uppercase">
         {label}
       </span>
-    )
-  }
-
-  <FramePlus position="left" />
-  <FramePlus position="right" />
-</div>
+    </div>
+  ) : (
+    // Unlabeled divider: a thin column-width rule.
+    <div
+      class={cn('relative z-20 my-10 w-full md:my-12', className)}
+      aria-hidden="true">
+      <div class="h-px w-full border-t border-border" />
+    </div>
+  )
+}

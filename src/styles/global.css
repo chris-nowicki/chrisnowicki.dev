@@ -116,27 +116,26 @@
     @apply border-primary my-6 border-l-4 pl-6 italic sm:border-l-8;
   }
 
-  /* Links in prose content */
-  a:not(.subheading-anchor) {
+  /* Links in prose content — thin muted underline that thickens to
+     full-contrast on hover (matches LINK in @/lib/styles.ts). */
+  a {
     @apply font-medium;
     text-decoration: underline;
     text-decoration-color: hsl(var(--muted-foreground) / 0.4);
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
-    transition: text-decoration-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      text-decoration-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      text-decoration-thickness 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       text-decoration-color: hsl(var(--foreground));
+      text-decoration-thickness: 2px;
     }
   }
 
-  /* Code blocks — Expressive Code handles pre/code styling */
-  .expressive-code {
-    @apply my-6;
-  }
-
-  /* Inline code (not inside Expressive Code blocks) */
-  code:not(.ec-line *) {
+  /* Inline code */
+  :not(pre) > code {
     @apply font-mono rounded bg-muted px-1.5 py-0.5 text-sm;
   }
 
@@ -157,19 +156,164 @@
   figcaption {
     @apply mt-3 text-center text-sm text-muted-foreground italic;
   }
+}
 
-  /* Subheading anchors */
-  .subheading-anchor {
-    @apply text-foreground relative no-underline;
+/* Polaroids — scattered, framed photos for blog galleries. These live here
+   at top level (not in a component-scoped `<style>`) because the component
+   is only ever rendered inside MDX content, and Astro doesn't collect the
+   scoped styles of MDX-embedded components — the whole block silently drops
+   from the build. Every selector targets slotted `<figure>`/`<img>` children
+   anyway, so scoping bought nothing. Keep in sync with `Polaroids.astro`. */
+.polaroids {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem 0 1.5rem;
+}
 
-    &::before {
-      @apply text-muted-foreground/40 absolute top-0 -left-[30px] opacity-0 transition-opacity content-['#'];
-    }
+.polaroids > * {
+  --rotation: 0deg;
+  position: relative;
+  max-width: 280px;
+  margin: 0;
+  background: white;
+  padding: 0.75rem;
+  padding-bottom: 3rem;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: rotate(var(--rotation));
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
 
-    &:hover::before {
-      @apply opacity-100;
-    }
-  }
+/* A lone polaroid reads larger; exactly two are medium. */
+.polaroids > *:only-child {
+  max-width: 360px;
+}
+.polaroids:has(> *:nth-child(2)):not(:has(> *:nth-child(3))) > * {
+  max-width: 320px;
+}
+
+.polaroids > *:nth-child(1) {
+  --rotation: -2deg;
+}
+.polaroids > *:nth-child(2) {
+  --rotation: 1.5deg;
+}
+.polaroids > *:nth-child(3) {
+  --rotation: -1deg;
+}
+.polaroids > *:nth-child(4) {
+  --rotation: 2deg;
+}
+.polaroids > *:nth-child(5) {
+  --rotation: -1.5deg;
+}
+.polaroids > *:nth-child(6) {
+  --rotation: 1deg;
+}
+.polaroids > *:nth-child(7) {
+  --rotation: -2.5deg;
+}
+.polaroids > *:nth-child(8) {
+  --rotation: 0.5deg;
+}
+
+.polaroids > *:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  z-index: 10;
+}
+
+.polaroids img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  filter: grayscale(1);
+  transition: filter 0.4s ease;
+}
+
+.polaroids > *:hover img {
+  filter: grayscale(0);
+}
+
+.polaroids [data-caption]::after {
+  content: attr(data-caption);
+  position: absolute;
+  right: 0;
+  bottom: 0.75rem;
+  left: 0;
+  text-align: center;
+  font-family: var(--font-reenie);
+  font-size: 1.5rem;
+  color: #1a1a1a;
+}
+
+/* Code blocks — Sätteri + Shiki (dual catppuccin themes via CSS vars),
+   dressed with an editor-window header (traffic-light dots, or a filename
+   tab when the fence has a `title`). Kept at top level (not inside
+   `prose`) so the `.dark` root class, which lives on <html>, resolves. */
+pre.astro-code {
+  @apply relative my-6 overflow-x-auto rounded-md border border-border p-4 font-mono text-sm leading-relaxed;
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+pre.astro-code span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+}
+
+.dark pre.astro-code {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+.dark pre.astro-code span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+}
+
+/* Editor-window header — only when the fence has `title="..."` (a filename
+   tab). Untitled blocks have no header bar. */
+pre.astro-code[data-title] {
+  @apply pt-12;
+}
+
+pre.astro-code[data-title]::before {
+  @apply absolute inset-x-0 top-0 flex h-9 items-center rounded-t-md border-b border-border px-4 font-mono text-xs text-foreground;
+  content: attr(data-title);
+  background-color: hsl(var(--muted));
+}
+
+/* Copy button, injected by CodeCopyButton enhancement script: a square
+   icon button in the body, aligned to the first line of code (so it reads
+   as upper-right on multi-line blocks and centered on single-line ones).
+   Revealed on hover. */
+pre.astro-code .code-copy {
+  @apply absolute right-2 top-3.5 z-10 flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-border text-muted-foreground opacity-0 transition;
+  background-color: hsl(var(--background) / 0.7);
+}
+
+/* On titled blocks the code body starts below the header, so drop the
+   button to sit on the first body line rather than in the header. */
+pre.astro-code[data-title] .code-copy {
+  @apply top-11;
+}
+
+pre.astro-code:hover .code-copy,
+pre.astro-code .code-copy:focus-visible {
+  @apply opacity-100;
+}
+
+pre.astro-code .code-copy:hover {
+  @apply bg-muted text-foreground;
 }
 
 @layer components {
