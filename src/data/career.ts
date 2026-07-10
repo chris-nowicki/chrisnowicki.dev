@@ -24,8 +24,9 @@ export const careerData: CareerEntry[] = [
     link: '/work/fern-docs-migration',
   },
   {
-    date: '2026-01-14',
-    title: 'Spoke at Commit Your Code ’26, Dallas',
+    // Upcoming — talk is this fall. NOTE(chris): set the real CYC '26 date.
+    date: '2026-11-01',
+    title: 'Speaking at Commit Your Code ’26, Dallas',
   },
   {
     date: '2025-07-01',

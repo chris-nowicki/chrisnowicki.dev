@@ -61,7 +61,7 @@ export const SITE: Site = {
 // Third-person speaker bio for event organizers. Also reused by the
 // forthcoming /resume.md and llms.txt. Keep it to a tight ~60 words.
 export const BIO =
-  'Chris Nowicki is a Developer Experience Engineer at Commerce, where he works on documentation platforms, agentic authoring tooling, and API specifications. After 18 years in aerospace, he moved into software convinced that shipping is a discipline, not an event — and that great documentation now serves two audiences at once: the engineers reading it and the AI agents parsing it. He is based in the Dallas area.'
+  'Chris Nowicki is a Developer Experience Engineer at Commerce, where he works on documentation platforms, agentic authoring tooling, and API specifications. After 18 years in aerospace, he moved into software convinced that shipping is a discipline, not an event — and that great documentation now serves two audiences at once: the engineers reading it and the AI agents parsing it. He is based in North Georgia.'
 
 export const STATUS: Status = {
   available: true,
