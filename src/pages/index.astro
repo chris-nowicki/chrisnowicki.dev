@@ -6,9 +6,7 @@ import Container from '@/components/Container.astro'
 import Separator from '@/components/Separator.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { HOME, SITE } from '@/lib/site'
-import { ACCENT_CARD } from '@/lib/styles'
 import { getBlogPosts } from '@/utils/blog-helpers'
-import { cn } from '@/utils/utils'
 
 const posts = await getBlogPosts(5)
 
@@ -80,23 +78,22 @@ const link =
         }
       </ul>
 
+      <Separator label="Podcast" class="mt-14" />
+
       <a
         href="https://www.compressed.fm"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Compressed.fm podcast"
-        class={cn(
-          ACCENT_CARD,
-          'mt-14 flex flex-col gap-5 rounded-xl p-5 sm:flex-row sm:items-center'
-        )}>
+        class="group flex items-stretch overflow-hidden rounded-xl border border-border transition-colors duration-200 hover:border-foreground/40">
         <Image
           src={CompressedCover}
           width={256}
           height={256}
           alt="Compressed.fm podcast cover"
-          class="w-24 shrink-0 rounded-lg sm:w-28"
+          class="w-24 shrink-0 self-stretch object-cover sm:w-36"
         />
-        <div>
+        <div class="flex flex-col justify-center p-5">
           <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
             I co-host <span class="font-medium text-foreground"
               >compressed.fm</span
