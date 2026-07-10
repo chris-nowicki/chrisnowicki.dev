@@ -1,0 +1,63 @@
+---
+import { getCollection, render } from 'astro:content'
+
+import CodeCopyButton from '@/components/CodeCopyButton.astro'
+import Container from '@/components/Container.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
+import generateOgImageUrl from '@/utils/og-image'
+import { formatDate } from '@/utils/utils'
+
+export async function getStaticPaths() {
+  const studies = await getCollection(
+    'work',
+    ({ data }) => import.meta.env.DEV || !data.draft
+  )
+  return studies.map((study) => ({ params: { slug: study.id }, props: { study } }))
+}
+
+const { study } = Astro.props
+const { Content } = await render(study)
+
+const ogImageUrl = generateOgImageUrl({
+  header: '/WORK',
+  description: study.data.title,
+})
+---
+
+<PageLayout
+  title={study.data.title}
+  description={study.data.description}
+  image={ogImageUrl}>
+  <Container>
+    <article class="pt-12 text-sm sm:pt-20 sm:text-base">
+      <a
+        href="/work"
+        class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
+        data-astro-prefetch>
+        ← Work
+      </a>
+
+      <div class="mt-6 flex flex-wrap items-center gap-x-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+        <time>{formatDate(study.data.date.toDateString())}</time>
+        {
+          study.data.company && (
+            <>
+              <span aria-hidden="true">&middot;</span>
+              <span>{study.data.company}</span>
+            </>
+          )
+        }
+      </div>
+
+      <h1 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+        {study.data.title}
+      </h1>
+      <p class="mt-3 text-lg text-muted-foreground">{study.data.description}</p>
+
+      <div class="prose mt-10">
+        <Content />
+      </div>
+    </article>
+  </Container>
+  <CodeCopyButton />
+</PageLayout>

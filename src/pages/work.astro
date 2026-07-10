@@ -1,12 +1,21 @@
 ---
+import { getCollection } from 'astro:content'
+
 import Container from '@/components/Container.astro'
+import ListEntry from '@/components/ListEntry.astro'
 import PageHeader from '@/components/PageHeader.astro'
+import Separator from '@/components/Separator.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { WORK } from '@/lib/site'
 import { getCareerByYear } from '@/utils/career-helpers'
 import generateOgImageUrl from '@/utils/og-image'
+import { formatDate } from '@/utils/utils'
 
 const years = getCareerByYear()
+
+const caseStudies = (
+  await getCollection('work', ({ data }) => import.meta.env.DEV || !data.draft)
+).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${WORK.TITLE.toUpperCase()}`,
@@ -57,6 +66,25 @@ const link =
           ))
         }
       </div>
+
+      {
+        caseStudies.length > 0 && (
+          <>
+            <Separator label="Case Studies" contained class="mt-14" />
+            <div>
+              {caseStudies.map((study) => (
+                <ListEntry
+                  href={`/work/${study.id}`}
+                  title={study.data.title}
+                  date={formatDate(study.data.date.toDateString())}
+                  description={study.data.description}
+                  meta={study.data.company}
+                />
+              ))}
+            </div>
+          </>
+        )
+      }
     </section>
   </Container>
 </PageLayout>
