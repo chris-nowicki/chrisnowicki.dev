@@ -6,17 +6,13 @@ import Container from '@/components/Container.astro'
 import Separator from '@/components/Separator.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { HOME, SITE } from '@/lib/site'
+import { LINK } from '@/lib/styles'
 import { getBlogPosts } from '@/utils/blog-helpers'
+import { formatDate } from '@/utils/utils'
 
 const posts = await getBlogPosts(5)
 
-const monthYear = (date: Date) =>
-  date
-    .toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-    .toUpperCase()
-
-const link =
-  'text-foreground underline decoration-muted-foreground/40 underline-offset-[3px] transition-colors duration-200 hover:decoration-foreground'
+const link = `text-foreground ${LINK}`
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
@@ -69,8 +65,8 @@ const link =
                 <span class="font-medium text-foreground decoration-muted-foreground/40 underline-offset-[3px] group-hover:underline">
                   {post.data.title}
                 </span>
-                <span class="shrink-0 font-mono text-xs tracking-widest text-muted-foreground">
-                  {monthYear(post.data.date)}
+                <span class="shrink-0 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+                  {formatDate(post.data.date.toDateString())}
                 </span>
               </a>
             </li>

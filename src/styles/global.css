@@ -116,17 +116,21 @@
     @apply border-primary my-6 border-l-4 pl-6 italic sm:border-l-8;
   }
 
-  /* Links in prose content */
+  /* Links in prose content — thin muted underline that thickens to
+     full-contrast on hover (matches LINK in @/lib/styles.ts). */
   a {
     @apply font-medium;
     text-decoration: underline;
     text-decoration-color: hsl(var(--muted-foreground) / 0.4);
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
-    transition: text-decoration-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      text-decoration-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      text-decoration-thickness 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       text-decoration-color: hsl(var(--foreground));
+      text-decoration-thickness: 2px;
     }
   }
 
