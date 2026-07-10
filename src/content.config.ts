@@ -29,4 +29,20 @@ const work = defineCollection({
   }),
 })
 
-export const collections = { blog, work }
+// Site changelog — one entry per release, authored Keep-a-Changelog style.
+// Frontmatter carries the version + date + summary; the markdown body holds
+// the grouped changes (### Added / Changed / Fixed / Removed).
+const changelog = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: 'src/content/changelog' }),
+  schema: z.object({
+    version: z.string(),
+    date: z.date().transform((d) => new Date(d.setUTCHours(12, 0, 0, 0))),
+    // Optional release headline, e.g. "Editorial redesign".
+    title: z.string().optional(),
+    // One-line description shown under the version header.
+    summary: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+})
+
+export const collections = { blog, work, changelog }

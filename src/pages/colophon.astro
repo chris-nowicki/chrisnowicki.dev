@@ -1,0 +1,129 @@
+---
+import Container from '@/components/Container.astro'
+import PageHeader from '@/components/PageHeader.astro'
+import Separator from '@/components/Separator.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
+import { COLOPHON } from '@/lib/site'
+import generateOgImageUrl from '@/utils/og-image'
+
+const ogImageUrl = generateOgImageUrl({
+  header: `/${COLOPHON.TITLE.toUpperCase()}`,
+  description: COLOPHON.DESCRIPTION,
+})
+
+const link =
+  'underline decoration-muted-foreground/40 underline-offset-[3px] transition-colors duration-200 hover:decoration-foreground'
+
+// Spec-sheet rows grouped by section. Each row is a mono label + a short
+// value; the label sits in a fixed column so values line up like a docs
+// reference table.
+const sections = [
+  {
+    label: 'Platform',
+    rows: [
+      {
+        term: 'Framework',
+        html: `<a class="${link}" href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> 7, built fully static &mdash; no server runtime, no hydration framework. Interactivity is a few inline scripts.`,
+      },
+      {
+        term: 'Hosting',
+        html: `<a class="${link}" href="https://developers.cloudflare.com/workers/static-assets/" target="_blank" rel="noopener noreferrer">Cloudflare Workers</a> static assets, deployed with Wrangler.`,
+      },
+      {
+        term: 'Language',
+        html: `<a class="${link}" href="https://www.typescriptlang.org" target="_blank" rel="noopener noreferrer">TypeScript</a> in strict mode.`,
+      },
+      {
+        term: 'Styling',
+        html: `<a class="${link}" href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer">Tailwind CSS</a> v4 via the Vite plugin. Light and dark themes.`,
+      },
+      {
+        term: 'Package manager',
+        html: `<a class="${link}" href="https://pnpm.io" target="_blank" rel="noopener noreferrer">pnpm</a>.`,
+      },
+    ],
+  },
+  {
+    label: 'Content',
+    rows: [
+      {
+        term: 'Markdown',
+        html: `Rendered by Sätteri, Astro&rsquo;s default Rust pipeline. Posts are plain <code class="rounded bg-muted px-1.5 py-0.5 font-mono text-sm">.md</code>; <code class="rounded bg-muted px-1.5 py-0.5 font-mono text-sm">.mdx</code> only when a component is needed.`,
+      },
+      {
+        term: 'Highlighting',
+        html: `<a class="${link}" href="https://shiki.style" target="_blank" rel="noopener noreferrer">Shiki</a> with dual <a class="${link}" href="https://catppuccin.com" target="_blank" rel="noopener noreferrer">Catppuccin</a> themes, dressed with a code-window header and copy button.`,
+      },
+      {
+        term: 'Images',
+        html: `Processed with <a class="${link}" href="https://sharp.pixelplumbing.com" target="_blank" rel="noopener noreferrer">sharp</a>; per-page Open Graph images generated on <a class="${link}" href="https://cloudinary.com" target="_blank" rel="noopener noreferrer">Cloudinary</a>.`,
+      },
+      {
+        term: 'Analytics',
+        html: `<a class="${link}" href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible</a> &mdash; privacy-friendly, no cookies.`,
+      },
+    ],
+  },
+  {
+    label: 'Type',
+    rows: [
+      {
+        term: 'Text',
+        html: `<a class="${link}" href="https://vercel.com/font" target="_blank" rel="noopener noreferrer">Geist</a>, with Geist Mono for code and metadata.`,
+      },
+      {
+        term: 'Accent',
+        html: `Reenie Beanie for the cursive signature. All served through the Astro Fonts API.`,
+      },
+    ],
+  },
+]
+---
+
+<PageLayout
+  title={COLOPHON.TITLE}
+  description={COLOPHON.DESCRIPTION}
+  image={ogImageUrl}>
+  <Container>
+    <section class="pt-12 sm:pt-20">
+      <PageHeader title={COLOPHON.TITLE} subtitle={COLOPHON.DESCRIPTION} />
+
+      <p class="leading-relaxed text-muted-foreground">
+        This site is meant to read like documentation: a quiet, prose-first
+        column where the writing does the work and the tooling stays out of
+        the way. Here&rsquo;s what it&rsquo;s built with.
+      </p>
+
+      {
+        sections.map((section) => (
+          <>
+            <Separator label={section.label} contained />
+            <dl>
+              {section.rows.map((row) => (
+                <div class="flex flex-col gap-1 border-b border-border/60 py-4 last:border-b-0 sm:flex-row sm:gap-6">
+                  <dt class="font-mono text-xs uppercase tracking-widest text-muted-foreground sm:w-36 sm:shrink-0 sm:pt-1">
+                    {row.term}
+                  </dt>
+                  <dd class="leading-relaxed" set:html={row.html} />
+                </div>
+              ))}
+            </dl>
+          </>
+        ))
+      }
+
+      <Separator label="Source" contained />
+      <p class="leading-relaxed">
+        The whole thing is open source on{' '}
+        <a
+          class={link}
+          href="https://github.com/chris-nowicki/chrisnowicki.dev"
+          target="_blank"
+          rel="noopener noreferrer">
+          GitHub
+        </a>. Read the <a class={link} href="/changelog" data-astro-prefetch>changelog</a>
+        {' '}to see how it&rsquo;s evolved.
+      </p>
+    </section>
+  </Container>
+</PageLayout>

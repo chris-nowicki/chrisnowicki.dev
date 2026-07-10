@@ -17,6 +17,13 @@ export const navLinks = [
   { href: '/contact', text: 'Contact' },
 ]
 
+// Secondary "meta" pages that describe the site rather than Chris's work.
+// Footer-only — kept out of the primary nav to keep it a single tidy line.
+export const metaLinks = [
+  { href: '/colophon', text: 'Colophon' },
+  { href: '/changelog', text: 'Changelog' },
+]
+
 export const socialLinks = [
   {
     name: 'X',
@@ -83,4 +90,14 @@ export const USES: Metadata = {
 export const CONTACT: Metadata = {
   TITLE: 'Contact',
   DESCRIPTION: 'Get in touch with me.',
+}
+
+export const COLOPHON: Metadata = {
+  TITLE: 'Colophon',
+  DESCRIPTION: 'How this site is built.',
+}
+
+export const CHANGELOG: Metadata = {
+  TITLE: 'Changelog',
+  DESCRIPTION: 'A running log of how this site has changed.',
 }
