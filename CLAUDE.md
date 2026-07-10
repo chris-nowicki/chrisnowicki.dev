@@ -90,7 +90,7 @@ docs-grade features, not visual flourish. Reuse these treatments rather
 than inventing new ones:
 
 - **Prose-first pages**: content pages are a single centered column
-  (`Container.astro`, `max-w-4xl`; the home/reading column is narrower).
+  (`Container.astro`, `max-w-3xl` on every page for a consistent measure).
   The home page is bio-as-prose with inline links — no hero, cards, or
   grid. Nav is a single wrapping line of text links (`NavBar.astro`), no
   hamburger.
