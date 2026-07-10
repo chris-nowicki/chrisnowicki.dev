@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets'
 
-import CompressedCover from '@/assets/images/compressed-fm-cover.png'
 import Headshot from '@/assets/images/me.jpg'
 import Container from '@/components/Container.astro'
 import PageHeader from '@/components/PageHeader.astro'
@@ -45,8 +44,6 @@ const inlineLink =
   <Container>
     <section class="relative pt-12 text-sm sm:pt-20">
       <PageHeader title={SPEAKING.TITLE} subtitle={SPEAKING.DESCRIPTION} />
-
-      <Separator label="For Organizers" contained />
 
       <p class="leading-relaxed text-muted-foreground">
         Inviting me to speak? Grab a headshot and a ready-to-use bio below.
@@ -119,57 +116,6 @@ const inlineLink =
             </span>
             <span data-copy-label>Copy bio</span>
           </button>
-        </div>
-      </div>
-
-      <Separator label="Podcast" contained class="mt-16" />
-
-      <div class="flex flex-col gap-6 sm:flex-row sm:items-center">
-        <a
-          href="https://www.compressed.fm"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group shrink-0 self-start"
-          aria-label="Compressed.fm podcast">
-          <Image
-            src={CompressedCover}
-            width={320}
-            height={320}
-            alt="Compressed.fm podcast cover"
-            class="w-40 rounded-lg border border-border transition-transform duration-300 group-hover:scale-[1.02]"
-          />
-        </a>
-        <div>
-          <p class="leading-relaxed text-foreground">
-            I co-host <a
-              href="https://www.compressed.fm"
-              target="_blank"
-              rel="noopener noreferrer"
-              class={inlineLink}>Compressed.fm</a
-            >, a weekly podcast about web development and design &mdash; short,
-            focused episodes for people who build for the web.
-          </p>
-          <a
-            href="https://www.compressed.fm"
-            target="_blank"
-            rel="noopener noreferrer"
-            class:list={[kitButton, 'mt-4']}>
-            Listen at compressed.fm
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true">
-              <path d="M7 7h10v10"></path>
-              <path d="M7 17 17 7"></path>
-            </svg>
-          </a>
         </div>
       </div>
 

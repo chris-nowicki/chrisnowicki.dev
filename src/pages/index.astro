@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets'
+
+import CompressedCover from '@/assets/images/compressed-fm-cover.png'
 import Container from '@/components/Container.astro'
 import Separator from '@/components/Separator.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
@@ -74,6 +77,38 @@ const link =
           ))
         }
       </ul>
+
+      <Separator label="Podcast" contained class="mt-14" />
+
+      <div class="flex items-center gap-5">
+        <a
+          href="https://www.compressed.fm"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group shrink-0"
+          aria-label="Compressed.fm podcast">
+          <Image
+            src={CompressedCover}
+            width={256}
+            height={256}
+            alt="Compressed.fm podcast cover"
+            class="w-28 rounded-lg border border-border transition-transform duration-300 group-hover:scale-[1.02] sm:w-32"
+          />
+        </a>
+        <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
+          I co-host <a
+            href="https://www.compressed.fm"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={link}>compressed.fm</a
+          >, a weekly podcast about web development and design. <a
+            href="https://www.compressed.fm"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={link}>Listen&nbsp;&#8599;</a
+          >
+        </p>
+      </div>
 
       <Separator contained class="mt-14" />
 
