@@ -8,7 +8,7 @@
 <dialog
   id="video-modal"
   aria-labelledby="video-modal-title"
-  class="w-[min(92vw,960px)] rounded-lg border border-border bg-background p-0 shadow-2xl backdrop:bg-black/70 backdrop:backdrop-blur-sm">
+  class="w-[min(92vw,960px)] overflow-hidden rounded-lg border border-border bg-background p-0 shadow-2xl">
   <div
     class="flex items-center justify-between gap-4 border-b border-border px-4 py-3">
     <p
@@ -46,6 +46,24 @@
       allowfullscreen></iframe>
   </div>
 </dialog>
+
+<style is:global>
+  /* The UA centers a modal <dialog> horizontally but pins it to the top
+     (top/bottom default to auto). Fix inset + margin so it centers on both
+     axes, and define ::backdrop explicitly so the dim doesn't depend on a
+     utility variant. Only shown via showModal(), so it's in the top layer. */
+  #video-modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    max-height: 90vh;
+  }
+
+  #video-modal::backdrop {
+    background-color: rgb(0 0 0 / 0.72);
+    backdrop-filter: blur(4px);
+  }
+</style>
 
 <script>
   function initVideoModal() {
