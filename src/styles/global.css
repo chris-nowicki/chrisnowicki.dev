@@ -191,14 +191,20 @@ pre.astro-code[data-title]::before {
   background-color: hsl(var(--muted));
 }
 
-/* Copy button, injected by CodeCopyButton enhancement script; aligned to
-   the code's right padding. Sits in the header on titled blocks. */
+/* Copy button, injected by CodeCopyButton enhancement script: a square
+   icon button in the top-right of the code body. */
 pre.astro-code .code-copy {
-  @apply absolute right-4 top-3 z-10 cursor-pointer font-mono text-xs text-muted-foreground opacity-0 transition-opacity hover:text-foreground;
+  @apply absolute right-3 top-3 z-10 flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-border text-muted-foreground transition-colors;
+  background-color: hsl(var(--background) / 0.6);
 }
 
-pre.astro-code:hover .code-copy {
-  @apply opacity-100;
+pre.astro-code .code-copy:hover {
+  @apply bg-muted text-foreground;
+}
+
+/* On titled blocks, drop the button below the header into the body */
+pre.astro-code[data-title] .code-copy {
+  @apply top-14;
 }
 
 @layer components {
