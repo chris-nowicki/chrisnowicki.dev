@@ -22,11 +22,11 @@ const { label = '', class: className = '' } = Astro.props
       </span>
     </div>
   ) : (
-    // Unlabeled divider: a dashed column-width rule.
+    // Unlabeled divider: a thin column-width rule.
     <div
       class={cn('relative z-20 my-10 w-full md:my-12', className)}
       aria-hidden="true">
-      <div class="h-px w-full border-t border-dashed border-border" />
+      <div class="h-px w-full border-t border-border" />
     </div>
   )
 }

@@ -96,8 +96,10 @@ than inventing new ones:
   hamburger.
 - **Page headers**: `PageHeader.astro` (`title` + optional `subtitle`),
   centered, `text-2xl → md:text-4xl`.
-- **Section separators**: `Separator.astro` — a full-bleed dashed rule
-  with `FramePlus` corner marks and an optional centered mono `label`.
+- **Section labels**: `Separator.astro` — with a `label`, renders a quiet
+  left-aligned mono "eyebrow" (no rule); with no label, a thin solid
+  column-width divider. (The old full-bleed dashed rule + `FramePlus`
+  corner marks were retired.)
 - **Mono metadata**: dates, labels, and nav use `font-mono`, uppercase,
   wide tracking, `text-muted-foreground`.
 - **Accent cards**: `ACCENT_CARD` from `@/lib/styles.ts` — bordered
