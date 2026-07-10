@@ -1,10 +1,9 @@
 // Career changelog — reverse-chron, one line per meaningful event, in
 // Keep-a-Changelog style. Feeds /work (and later /resume.md).
 //
-// TODO(chris): I couldn't read your LinkedIn (it blocks automated fetches),
-// so the timeline structure is yours but the bracketed bits are guesses —
-// fill in the real company/title/month for the 2024–2025 tech role, confirm
-// when you joined Commerce, and use publicly-cleared numbers only.
+// Timeline is from Chris's LinkedIn. NOTE(chris): the 2026 accomplishment
+// numbers (Fern migration) are from the PRD — confirm they're publicly
+// shareable, and adjust any wording/dates as needed.
 export type CareerEntry = {
   // ISO date, used for sorting and to derive the year group.
   date: string
@@ -29,19 +28,21 @@ export const careerData: CareerEntry[] = [
     title: 'Spoke at Commit Your Code ’26, Dallas',
   },
   {
-    // TODO(chris): confirm the month you joined Commerce.
-    date: '2025-01-01',
+    date: '2025-07-01',
     title: 'Joined Commerce as a Developer Experience Engineer',
   },
   {
-    // TODO(chris): real company + title for the 2024–2025 role.
-    date: '2024-01-01',
-    year: '2024–2025',
-    title: 'Broke into tech — [title] at [company]',
+    date: '2024-11-01',
+    title: 'Software Engineering Lead at This Dot',
   },
   {
-    date: '2007-01-01',
+    date: '2024-02-01',
+    title: 'Full-stack engineer at Gridiron Survivor (freelance) — my break into tech',
+  },
+  {
+    date: '2007-02-01',
     year: '2007–2024',
-    title: 'Aerospace engineering — a different kind of shipping.',
+    title:
+      'Raytheon — 18 years, from technical support to Sr. Manager of the interactive simulation (IMI) product line',
   },
 ]
