@@ -1,11 +1,14 @@
 ---
+import { cn } from '@/utils/utils'
+
 import FramePlus from './FramePlus.astro'
 
 interface Props {
   label?: string
   class?: string
   // `contained` draws a column-width rule (no viewport bleed, no corner
-  // marks) for narrow reading columns; the default is full-bleed.
+  // marks) for narrow reading columns; the default is full-bleed. Only
+  // applies to the unlabeled (divider) form.
   contained?: boolean
 }
 
@@ -13,30 +16,28 @@ const { label = '', class: className = '', contained = false } = Astro.props
 ---
 
 {
-  contained ? (
+  label ? (
+    // Named section: a left-aligned mono "eyebrow" label. Whitespace does
+    // the separating — no rule.
+    <div class={cn('relative z-20 mt-16 mb-6', className)}>
+      <span class="font-mono text-xs font-medium tracking-widest text-muted-foreground uppercase">
+        {label}
+      </span>
+    </div>
+  ) : contained ? (
     <div
-      class:list={['relative z-20 my-10 w-full md:my-12', className]}
+      class={cn('relative z-20 my-10 w-full md:my-12', className)}
       aria-hidden="true">
       <div class="h-px w-full border-t border-dashed border-border" />
-      {label && (
-        <span class="bg-background text-muted-foreground absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 font-mono text-xs font-medium tracking-widest uppercase">
-          {label}
-        </span>
-      )}
     </div>
   ) : (
     <div
-      class:list={[
+      class={cn(
         'relative left-1/2 z-20 -ml-[50vw] my-12 w-screen md:my-16',
-        className,
-      ]}
+        className
+      )}
       aria-hidden="true">
       <div class="h-px w-full border-t border-dashed border-border" />
-      {label && (
-        <span class="bg-background text-muted-foreground absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 font-mono text-xs font-medium tracking-widest uppercase">
-          {label}
-        </span>
-      )}
       <FramePlus position="left" />
       <FramePlus position="right" />
     </div>

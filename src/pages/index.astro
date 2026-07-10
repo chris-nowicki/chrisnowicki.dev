@@ -6,7 +6,9 @@ import Container from '@/components/Container.astro'
 import Separator from '@/components/Separator.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { HOME, SITE } from '@/lib/site'
+import { ACCENT_CARD } from '@/lib/styles'
 import { getBlogPosts } from '@/utils/blog-helpers'
+import { cn } from '@/utils/utils'
 
 const posts = await getBlogPosts(5)
 
@@ -78,37 +80,48 @@ const link =
         }
       </ul>
 
-      <Separator label="Podcast" contained class="mt-14" />
-
-      <div class="flex items-center gap-5">
-        <a
-          href="https://www.compressed.fm"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group shrink-0"
-          aria-label="Compressed.fm podcast">
-          <Image
-            src={CompressedCover}
-            width={256}
-            height={256}
-            alt="Compressed.fm podcast cover"
-            class="w-28 rounded-lg border border-border transition-transform duration-300 group-hover:scale-[1.02] sm:w-32"
-          />
-        </a>
-        <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
-          I co-host <a
-            href="https://www.compressed.fm"
-            target="_blank"
-            rel="noopener noreferrer"
-            class={link}>compressed.fm</a
-          >, a weekly podcast about web development and design. <a
-            href="https://www.compressed.fm"
-            target="_blank"
-            rel="noopener noreferrer"
-            class={link}>Listen&nbsp;&#8599;</a
-          >
-        </p>
-      </div>
+      <a
+        href="https://www.compressed.fm"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Compressed.fm podcast"
+        class={cn(
+          ACCENT_CARD,
+          'mt-14 flex flex-col gap-5 rounded-xl p-5 sm:flex-row sm:items-center'
+        )}>
+        <Image
+          src={CompressedCover}
+          width={256}
+          height={256}
+          alt="Compressed.fm podcast cover"
+          class="w-24 shrink-0 rounded-lg sm:w-28"
+        />
+        <div>
+          <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
+            I co-host <span class="font-medium text-foreground"
+              >compressed.fm</span
+            >, a weekly podcast about web development and design.
+          </p>
+          <span
+            class="mt-3 inline-flex items-center gap-1 font-medium text-foreground decoration-muted-foreground/40 underline-offset-[3px] group-hover:underline">
+            Listen at compressed.fm
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true">
+              <path d="M7 7h10v10"></path>
+              <path d="M7 17 17 7"></path>
+            </svg>
+          </span>
+        </div>
+      </a>
 
       <Separator contained class="mt-14" />
 
