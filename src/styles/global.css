@@ -192,10 +192,18 @@ pre.astro-code[data-title]::before {
 }
 
 /* Copy button, injected by CodeCopyButton enhancement script: a square
-   icon button pinned to the top-right corner, revealed on hover. */
+   icon button in the body, aligned to the first line of code (so it reads
+   as upper-right on multi-line blocks and centered on single-line ones).
+   Revealed on hover. */
 pre.astro-code .code-copy {
-  @apply absolute right-2 top-2 z-10 flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-border text-muted-foreground opacity-0 transition;
+  @apply absolute right-2 top-3.5 z-10 flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-border text-muted-foreground opacity-0 transition;
   background-color: hsl(var(--background) / 0.7);
+}
+
+/* On titled blocks the code body starts below the header, so drop the
+   button to sit on the first body line rather than in the header. */
+pre.astro-code[data-title] .code-copy {
+  @apply top-11;
 }
 
 pre.astro-code:hover .code-copy,
