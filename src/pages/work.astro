@@ -1,0 +1,62 @@
+---
+import Container from '@/components/Container.astro'
+import PageHeader from '@/components/PageHeader.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
+import { WORK } from '@/lib/site'
+import { getCareerByYear } from '@/utils/career-helpers'
+import generateOgImageUrl from '@/utils/og-image'
+
+const years = getCareerByYear()
+
+const ogImageUrl = generateOgImageUrl({
+  header: `/${WORK.TITLE.toUpperCase()}`,
+  description: WORK.DESCRIPTION,
+})
+
+const link =
+  'underline decoration-muted-foreground/40 underline-offset-[3px] transition-colors duration-200 hover:decoration-foreground'
+---
+
+<PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION} image={ogImageUrl}>
+  <Container>
+    <section class="pt-12 sm:pt-20">
+      <PageHeader title={WORK.TITLE} subtitle={WORK.DESCRIPTION} />
+
+      <div class="mt-10 space-y-10">
+        {
+          years.map(([year, entries]) => (
+            <div class="grid gap-2 sm:grid-cols-[6rem_1fr] sm:gap-6">
+              <div class="font-mono text-xs uppercase tracking-widest text-muted-foreground sm:pt-1">
+                {year}
+              </div>
+              <ul class="space-y-3">
+                {entries.map((entry) => (
+                  <li class="flex gap-3 leading-relaxed text-foreground">
+                    <span class="select-none text-muted-foreground" aria-hidden="true">
+                      —
+                    </span>
+                    <span>
+                      {entry.link ? (
+                        <a
+                          href={entry.link}
+                          class={link}
+                          {...(entry.external
+                            ? { target: '_blank', rel: 'noopener noreferrer' }
+                            : { 'data-astro-prefetch': true })}>
+                          {entry.title}
+                          {entry.external && <span aria-hidden="true"> ↗</span>}
+                        </a>
+                      ) : (
+                        entry.title
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </Container>
+</PageLayout>

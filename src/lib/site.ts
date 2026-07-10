@@ -11,6 +11,7 @@ export const NUMBER_OF_ENTRIES = 3
 
 export const navLinks = [
   { href: '/blog', text: 'Blog' },
+  { href: '/work', text: 'Work' },
   { href: '/speaking', text: 'Speaking' },
   { href: '/uses', text: 'Uses' },
   { href: '/contact', text: 'Contact' },
@@ -62,6 +63,11 @@ export const BLOG: Metadata = {
   TITLE: 'Blog',
   DESCRIPTION:
     'My ramblings on the web about all things tech, life, and productivity!',
+}
+
+export const WORK: Metadata = {
+  TITLE: 'Work',
+  DESCRIPTION: 'A career changelog — shipping, in reverse chronological order.',
 }
 
 export const SPEAKING: Metadata = {
