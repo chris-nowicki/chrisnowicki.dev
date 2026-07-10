@@ -53,12 +53,18 @@ const link =
 
       <Separator label="Career" contained class="mt-14" />
 
-      <div class="mt-8 space-y-8 border-l border-border pl-8">
+      <ol class="mt-8">
         {
-          years.map(([year, entries]) => (
-            <div class="relative">
+          years.map(([year, entries], idx) => (
+            <li class="relative pb-8 pl-6 last:pb-0">
+              {idx < years.length - 1 && (
+                <span
+                  class="absolute top-2 left-1 h-full w-px -translate-x-1/2 bg-border"
+                  aria-hidden="true"
+                />
+              )}
               <span
-                class="absolute top-1 -left-9 h-2.5 w-2.5 rounded-full border-2 border-background bg-muted-foreground/50"
+                class="absolute top-1.5 left-1 h-2 w-2 -translate-x-1/2 rounded-full border-2 border-background bg-muted-foreground/60"
                 aria-hidden="true"
               />
               <div class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
@@ -83,10 +89,10 @@ const link =
                   </li>
                 ))}
               </ul>
-            </div>
+            </li>
           ))
         }
-      </div>
+      </ol>
     </section>
   </Container>
 </PageLayout>
