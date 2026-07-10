@@ -1,19 +1,27 @@
 ---
 import { Image } from 'astro:assets'
 
+import CompressedCover from '@/assets/images/compressed-fm-cover.png'
 import Headshot from '@/assets/images/me.jpg'
 import Container from '@/components/Container.astro'
-import ListEntry from '@/components/ListEntry.astro'
 import PageHeader from '@/components/PageHeader.astro'
 import Separator from '@/components/Separator.astro'
+import VideoModal from '@/components/VideoModal.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { buttonVariants } from '@/lib/buttonVariants'
 import { BIO, SPEAKING } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
-import { getSpeakingData } from '@/utils/speaking-helpers'
+import { getSpeakingData, getYouTubeId } from '@/utils/speaking-helpers'
 import { formatDate } from '@/utils/utils'
 
-const speaking = getSpeakingData()
+const talks = getSpeakingData().map((talk) => {
+  const videoId = getYouTubeId(talk.link)
+  return {
+    ...talk,
+    videoId,
+    thumbnail: videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : null,
+  }
+})
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${SPEAKING.TITLE.toUpperCase()}`,
@@ -25,6 +33,9 @@ const kitButton = buttonVariants({
   size: 'sm',
   className: 'gap-2',
 })
+
+const inlineLink =
+  'underline decoration-muted-foreground/40 underline-offset-[3px] transition-colors duration-200 hover:decoration-foreground'
 ---
 
 <PageLayout
@@ -41,8 +52,7 @@ const kitButton = buttonVariants({
         Inviting me to speak? Grab a headshot and a ready-to-use bio below.
         For anything else, email <a
           href="mailto:chris@chrisnowicki.dev"
-          class="underline decoration-muted-foreground/40 underline-offset-[3px] transition-colors duration-200 hover:decoration-foreground"
-          >chris@chrisnowicki.dev</a
+          class={inlineLink}>chris@chrisnowicki.dev</a
         >.
       </p>
 
@@ -112,32 +122,131 @@ const kitButton = buttonVariants({
         </div>
       </div>
 
+      <Separator label="Podcast" contained class="mt-16" />
+
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-center">
+        <a
+          href="https://www.compressed.fm"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group shrink-0 self-start"
+          aria-label="Compressed.fm podcast">
+          <Image
+            src={CompressedCover}
+            width={320}
+            height={320}
+            alt="Compressed.fm podcast cover"
+            class="w-40 rounded-lg border border-border transition-transform duration-300 group-hover:scale-[1.02]"
+          />
+        </a>
+        <div>
+          <p class="leading-relaxed text-foreground">
+            I co-host <a
+              href="https://www.compressed.fm"
+              target="_blank"
+              rel="noopener noreferrer"
+              class={inlineLink}>Compressed.fm</a
+            >, a weekly podcast about web development and design &mdash; short,
+            focused episodes for people who build for the web.
+          </p>
+          <a
+            href="https://www.compressed.fm"
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[kitButton, 'mt-4']}>
+            Listen at compressed.fm
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true">
+              <path d="M7 7h10v10"></path>
+              <path d="M7 17 17 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
       <Separator label="Talks & Appearances" contained class="mt-16" />
 
-      <div class="mt-10">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {
-          speaking.map((talk) => (
-            <ListEntry
-              href={talk.link}
-              title={talk.title}
-              date={formatDate(talk.date)}
-              description={talk.description}
-              meta={talk.category.join(', ')}
-              external
-            />
-          ))
+          talks.map((talk) =>
+            talk.videoId ? (
+              <button
+                type="button"
+                data-video-id={talk.videoId}
+                data-video-title={talk.title}
+                class="group flex flex-col overflow-hidden rounded-lg border border-border text-left transition-colors duration-200 hover:border-foreground/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+                <div class="relative aspect-video overflow-hidden bg-muted">
+                  <img
+                    src={talk.thumbnail}
+                    alt=""
+                    loading="lazy"
+                    class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                  />
+                  <span class="absolute inset-0 flex items-center justify-center">
+                    <span class="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-transform duration-200 group-hover:scale-110">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path d="M8 5.14v14l11-7-11-7z" />
+                      </svg>
+                    </span>
+                  </span>
+                </div>
+                <div class="flex flex-1 flex-col p-4">
+                  <div class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                    {formatDate(talk.date)} &middot; {talk.category.join(', ')}
+                  </div>
+                  <h3 class="mt-2 font-semibold text-foreground decoration-muted-foreground/40 underline-offset-4 group-hover:underline">
+                    {talk.title}
+                  </h3>
+                  <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {talk.description}
+                  </p>
+                </div>
+              </button>
+            ) : (
+              <a
+                href={talk.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex flex-col rounded-lg border border-border p-4 transition-colors duration-200 hover:border-foreground/40">
+                <div class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                  {formatDate(talk.date)} &middot; {talk.category.join(', ')}
+                </div>
+                <h3 class="mt-2 font-semibold text-foreground group-hover:underline">
+                  {talk.title}
+                </h3>
+                <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  {talk.description}
+                </p>
+              </a>
+            )
+          )
         }
       </div>
     </section>
   </Container>
+  <VideoModal />
 </PageLayout>
 
 <script>
   const CHECK = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`
 
   function initBioCopy() {
-    const button =
-      document.querySelector<HTMLButtonElement>('[data-copy-bio]')
+    const button = document.querySelector<HTMLButtonElement>('[data-copy-bio]')
     const bio = document.getElementById('speaker-bio')
     if (!button || !bio || button.dataset.wired) return
     button.dataset.wired = 'true'
