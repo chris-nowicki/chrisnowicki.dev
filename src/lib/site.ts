@@ -67,7 +67,7 @@ export const BLOG: Metadata = {
 
 export const WORK: Metadata = {
   TITLE: 'Work',
-  DESCRIPTION: 'A career changelog — shipping, in reverse chronological order.',
+  DESCRIPTION: 'Selected projects, and a running log of where I’ve shipped.',
 }
 
 export const SPEAKING: Metadata = {

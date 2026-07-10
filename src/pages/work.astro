@@ -13,7 +13,7 @@ import { formatDate } from '@/utils/utils'
 
 const years = getCareerByYear()
 
-const caseStudies = (
+const selectedWork = (
   await getCollection('work', ({ data }) => import.meta.env.DEV || !data.draft)
 ).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 
@@ -31,34 +31,55 @@ const link =
     <section class="pt-12 sm:pt-20">
       <PageHeader title={WORK.TITLE} subtitle={WORK.DESCRIPTION} />
 
-      <div class="mt-10 space-y-10">
+      {
+        selectedWork.length > 0 && (
+          <>
+            <Separator label="Selected Work" contained />
+            <div>
+              {selectedWork.map((item) => (
+                <ListEntry
+                  href={item.data.link ?? `/work/${item.id}`}
+                  title={item.data.title}
+                  date={formatDate(item.data.date.toDateString())}
+                  description={item.data.description}
+                  meta={item.data.company}
+                  external={Boolean(item.data.link)}
+                />
+              ))}
+            </div>
+          </>
+        )
+      }
+
+      <Separator label="Career" contained class="mt-14" />
+
+      <div class="mt-8 space-y-8 border-l border-border pl-8">
         {
           years.map(([year, entries]) => (
-            <div class="grid gap-2 sm:grid-cols-[6rem_1fr] sm:gap-6">
-              <div class="font-mono text-xs uppercase tracking-widest text-muted-foreground sm:pt-1">
+            <div class="relative">
+              <span
+                class="absolute top-1 -left-9 h-2.5 w-2.5 rounded-full border-2 border-background bg-muted-foreground/50"
+                aria-hidden="true"
+              />
+              <div class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
                 {year}
               </div>
-              <ul class="space-y-3">
+              <ul class="mt-2 space-y-2">
                 {entries.map((entry) => (
-                  <li class="flex gap-3 leading-relaxed text-foreground">
-                    <span class="select-none text-muted-foreground" aria-hidden="true">
-                      —
-                    </span>
-                    <span>
-                      {entry.link ? (
-                        <a
-                          href={entry.link}
-                          class={link}
-                          {...(entry.external
-                            ? { target: '_blank', rel: 'noopener noreferrer' }
-                            : { 'data-astro-prefetch': true })}>
-                          {entry.title}
-                          {entry.external && <span aria-hidden="true"> ↗</span>}
-                        </a>
-                      ) : (
-                        entry.title
-                      )}
-                    </span>
+                  <li class="leading-relaxed text-foreground">
+                    {entry.link ? (
+                      <a
+                        href={entry.link}
+                        class={link}
+                        {...(entry.external
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : { 'data-astro-prefetch': true })}>
+                        {entry.title}
+                        {entry.external && <span aria-hidden="true"> ↗</span>}
+                      </a>
+                    ) : (
+                      entry.title
+                    )}
                   </li>
                 ))}
               </ul>
@@ -66,25 +87,6 @@ const link =
           ))
         }
       </div>
-
-      {
-        caseStudies.length > 0 && (
-          <>
-            <Separator label="Case Studies" contained class="mt-14" />
-            <div>
-              {caseStudies.map((study) => (
-                <ListEntry
-                  href={`/work/${study.id}`}
-                  title={study.data.title}
-                  date={formatDate(study.data.date.toDateString())}
-                  description={study.data.description}
-                  meta={study.data.company}
-                />
-              ))}
-            </div>
-          </>
-        )
-      }
     </section>
   </Container>
 </PageLayout>
