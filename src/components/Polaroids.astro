@@ -42,7 +42,7 @@ const { class: className } = Astro.props
   }
 
   /* Dynamic sizing: exactly 2 polaroids are medium */
-  .polaroids:has(:global(> *:nth-child(2)):not(:has(:global(> *:nth-child(3))))) :global(> *) {
+  :global(.polaroids:has(> *:nth-child(2)):not(:has(> *:nth-child(3))) > *) {
     max-width: 320px;
   }
 
