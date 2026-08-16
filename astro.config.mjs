@@ -55,7 +55,9 @@ export default defineConfig({
       rehypePlugins: [
         rehypeHeadingIds,
         [
-          rehypeAutoLinkHeadings,
+          /** @type {import('@astrojs/markdown-remark').RehypePlugin} */ (
+            rehypeAutoLinkHeadings
+          ),
           {
             behavior: 'wrap',
             properties: {
