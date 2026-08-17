@@ -1,8 +1,9 @@
 {
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "portfolio",
-  "compatibility_date": "2026-03-01",
+  "compatibility_date": "2026-08-15",
   // Static site: no server code, just prerendered assets from `astro build`.
   "assets": {
-    "directory": "./dist"
-  }
+    "directory": "./dist",
+  },
 }

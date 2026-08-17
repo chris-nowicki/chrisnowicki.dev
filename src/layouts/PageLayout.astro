@@ -13,7 +13,6 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props
-
 ---
 
 <!doctype html>
@@ -26,10 +25,15 @@ const { title, description, image } = Astro.props
     />
   </head>
   <body>
-    <div class="relative flex min-h-screen flex-col shrink-0">
+    <a
+      href="#main-content"
+      class="focus:bg-background focus:text-foreground focus:ring-ring focus:ring-offset-background sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:px-4 focus:py-2 focus:shadow-lg focus:ring-2 focus:ring-offset-2 focus:outline-none">
+      Skip to main content
+    </a>
+    <div class="relative flex min-h-screen shrink-0 flex-col">
       <PageFrame />
       <NavBar />
-      <main class="flex-1">
+      <main id="main-content" class="flex-1" tabindex="-1">
         <slot />
       </main>
       <Footer />

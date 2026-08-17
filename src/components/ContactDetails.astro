@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets'
 
 import Me from '@/assets/images/me.jpg'
-import { socialLinks } from '@/lib/site'
+import { SITE, socialLinks } from '@/lib/site'
 
 import Link from './Link.astro'
 
@@ -10,8 +10,9 @@ const socialIconClass =
   'hover:scale-110 transition-all duration-200 ease-in-out hover:text-foreground'
 ---
 
-<section class="flex w-full flex-col gap-6 text-base md:flex-row">
-  <div class="h-[200px] w-[200px] shrink-0 overflow-hidden rounded-lg shadow-xl">
+<div class="flex w-full flex-col gap-6 text-base md:flex-row">
+  <div
+    class="h-[200px] w-[200px] shrink-0 overflow-hidden rounded-lg shadow-xl">
     <Image
       src={Me}
       alt="Photo of me"
@@ -24,11 +25,13 @@ const socialIconClass =
   <div>
     <p class="mb-6">
       If you want to get in touch with me about something or just to say hi 👋,
-      reach out on social media, schedule a virtual coffee chat or send me an email at{' '}
+      reach out on social media, schedule a virtual coffee chat or send me an
+      email at{' '}
       <a
-        href="mailto:hello@chrisnowicki.dev"
-        class="link-underline font-bold hover:text-foreground">
-        hello@chrisnowicki.dev</a>.
+        href={`mailto:${SITE.EMAIL}`}
+        class="link-underline hover:text-foreground font-bold">
+        {SITE.EMAIL}</a
+      >.
     </p>
 
     <div class="mb-8 flex flex-wrap gap-4">
@@ -45,6 +48,7 @@ const socialIconClass =
       }
     </div>
 
-    <span class="font-cursive mt-8 block text-4xl text-foreground">- Chris</span>
+    <span class="font-cursive text-foreground mt-8 block text-4xl">- Chris</span
+    >
   </div>
-</section>
+</div>

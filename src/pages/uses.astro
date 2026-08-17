@@ -6,7 +6,7 @@ import DeskSetup from '@/assets/images/desk-setup.webp'
 import Container from '@/components/Container.astro'
 import PageHeader from '@/components/PageHeader.astro'
 import Separator from '@/components/Separator.astro'
-import { coffeeData, gitHubData,hardwareData, softwareData } from '@/data/uses'
+import { coffeeData, gitHubData, hardwareData, softwareData } from '@/data/uses'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { USES } from '@/lib/site'
 import { ACCENT_CARD } from '@/lib/styles'
@@ -24,7 +24,7 @@ const ogImageUrl = generateOgImageUrl({
   description={USES.DESCRIPTION}
   image={ogImageUrl}>
   <Container>
-    <section class="text-md relative pt-12 sm:pt-16 md:pt-20 sm:text-base">
+    <section class="text-md relative pt-12 sm:pt-16 sm:text-base md:pt-20">
       <PageHeader title={USES.TITLE} subtitle={USES.DESCRIPTION} />
 
       <Picture
@@ -46,15 +46,17 @@ const ogImageUrl = generateOgImageUrl({
               rel="noopener noreferrer"
               class={cn(ACCENT_CARD, 'flex items-start gap-4 p-4')}>
               <div class="flex min-w-0 flex-1 flex-col gap-1">
-                <h2 class="font-mono text-md group-hover:font-semibold">{gitHub.title}</h2>
-                <p class="text-sm leading-relaxed text-muted-foreground">
+                <h2 class="text-md font-mono group-hover:font-semibold">
+                  {gitHub.title}
+                </h2>
+                <p class="text-muted-foreground text-sm leading-relaxed">
                   {gitHub.description}
                 </p>
               </div>
               <GitHubIcon
                 width={24}
                 height={24}
-                class="mt-0.5 shrink-0 text-muted-foreground transition-colors duration-200 group-hover:text-foreground"
+                class="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-colors duration-200"
               />
             </a>
           ))
@@ -75,16 +77,22 @@ const ogImageUrl = generateOgImageUrl({
               href={coffee.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="font-mono text-md group-hover:font-semibold">{coffee.title}</h2>
+              <h2 class="text-md font-mono group-hover:font-semibold">
+                {coffee.title}
+              </h2>
               <img
                 src={coffee.imageSrc}
                 alt={coffee.title}
+                loading="lazy"
+                decoding="async"
                 width={500}
                 height={500}
                 class={cn(
                   'mb-2 object-cover grayscale transition-all duration-500',
                   'group-hover:grayscale-0',
-                  index === 0 ? 'h-48 w-40 md:h-72 md:w-64' : 'h-36 w-32 md:h-64 md:w-56'
+                  index === 0 ?
+                    'h-48 w-40 md:h-72 md:w-64'
+                  : 'h-36 w-32 md:h-64 md:w-56'
                 )}
               />
             </a>
@@ -102,18 +110,22 @@ const ogImageUrl = generateOgImageUrl({
               href={software.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="text-md group-hover:font-semibold">{software.title}</h2>
+              <h2 class="text-md group-hover:font-semibold">
+                {software.title}
+              </h2>
               <div
                 class={cn(
                   'relative flex aspect-square w-full items-center justify-center rounded-lg border',
                   'transition-all duration-200',
-                  'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-l-lg',
+                  'before:absolute before:top-0 before:left-0 before:h-full before:w-1 before:rounded-l-lg',
                   'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
-                  'group-hover:before:opacity-100 group-hover:border-border'
+                  'group-hover:border-border group-hover:before:opacity-100'
                 )}>
                 <img
                   src={software.imageSrc}
                   alt={software.title}
+                  loading="lazy"
+                  decoding="async"
                   width={63}
                   height={63}
                   class="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
@@ -137,8 +149,12 @@ const ogImageUrl = generateOgImageUrl({
               href={hardware.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="text-md group-hover:font-semibold">{hardware.title}</h2>
-              <p class="text-sm text-muted-foreground">{hardware.description}</p>
+              <h2 class="text-md group-hover:font-semibold">
+                {hardware.title}
+              </h2>
+              <p class="text-muted-foreground text-sm">
+                {hardware.description}
+              </p>
             </a>
           ))
         }
@@ -146,4 +162,3 @@ const ogImageUrl = generateOgImageUrl({
     </section>
   </Container>
 </PageLayout>
-
