@@ -45,7 +45,7 @@ export const socialLinks = [
 
 export const SITE: Site = {
   NAME: 'Chris Nowicki',
-  EMAIL: 'chris@chrisnowicki.dev',
+  EMAIL: 'hello@chrisnowicki.dev',
 }
 
 export const STATUS: Status = {

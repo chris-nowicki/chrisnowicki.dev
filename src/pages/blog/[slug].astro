@@ -1,18 +1,16 @@
 ---
-import { getCollection, render } from 'astro:content'
+import { render } from 'astro:content'
 
 import BlogPostHeader from '@/components/BlogPostHeader.astro'
 import Container from '@/components/Container.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
+import { getBlogPosts } from '@/utils/blog-helpers'
 import generateOgImageUrl from '@/utils/og-image'
 import { readingTime } from '@/utils/reading-time'
 import { formatDate } from '@/utils/utils'
 
 export async function getStaticPaths() {
-  const posts = await getCollection(
-    'blog',
-    ({ data }) => import.meta.env.DEV || !data.draft
-  )
+  const posts = await getBlogPosts()
   return posts.map((post) => ({ params: { slug: post.id }, props: { post } }))
 }
 
@@ -35,8 +33,11 @@ const postSlug = post.id
   title={post.data.title}
   description={post.data.description}
   image={ogImageUrl}>
-  <div class="fixed top-0 left-0 z-50 h-1 w-full bg-border">
-    <div id="reading-progress" class="h-full w-0 bg-muted-foreground transition-[width] duration-100"></div>
+  <div class="bg-border fixed top-0 left-0 z-50 h-1 w-full">
+    <div
+      id="reading-progress"
+      class="bg-muted-foreground h-full w-0 transition-[width] duration-100">
+    </div>
   </div>
   <Container>
     <article class="text-sm sm:text-base">
@@ -53,36 +54,65 @@ const postSlug = post.id
       <div class="page-animate prose mt-10" style="--delay: 150ms">
         <Content />
       </div>
-      <span class="page-animate font-cursive mt-8 block text-4xl text-foreground" style="--delay: 200ms">- Chris</span>
+      <span
+        class="page-animate font-cursive text-foreground mt-8 block text-4xl"
+        style="--delay: 200ms">- Chris</span
+      >
     </article>
   </Container>
 </PageLayout>
 
 <script>
   function initReadingProgress() {
-    const progressBar = document.getElementById('reading-progress')
-    if (!progressBar) return
+    const candidate = document.querySelector<HTMLElement>('#reading-progress')
+    if (!candidate) return
+    const progressBar = candidate
 
-    let ticking = false
+    let animationFrameId: number | undefined
 
-    const updateProgress = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrollY = window.scrollY
-      const progress = scrollHeight > 0 ? (scrollY / scrollHeight) * 100 : 0
+    function updateReadingProgress() {
+      const scrollHeight =
+        document.documentElement.scrollHeight - window.innerHeight
+      const progress =
+        scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0
       progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`
-      ticking = false
+      animationFrameId = undefined
     }
 
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateProgress)
-        ticking = true
-      }
-    })
+    function handleReadingProgressScroll() {
+      if (animationFrameId !== undefined) return
+      animationFrameId = window.requestAnimationFrame(updateReadingProgress)
+    }
 
-    updateProgress()
+    window.addEventListener('scroll', handleReadingProgressScroll, {
+      passive: true,
+    })
+    updateReadingProgress()
+
+    return () => {
+      window.removeEventListener('scroll', handleReadingProgressScroll)
+      if (animationFrameId !== undefined) {
+        window.cancelAnimationFrame(animationFrameId)
+      }
+    }
   }
 
-  initReadingProgress()
-  document.addEventListener('astro:after-swap', initReadingProgress)
+  let cleanupReadingProgress: (() => void) | undefined
+
+  function reinitializeReadingProgress() {
+    cleanupReadingProgress?.()
+    cleanupReadingProgress = initReadingProgress()
+  }
+
+  function cleanupReadingProgressBeforeSwap() {
+    cleanupReadingProgress?.()
+    cleanupReadingProgress = undefined
+  }
+
+  reinitializeReadingProgress()
+  document.addEventListener('astro:page-load', reinitializeReadingProgress)
+  document.addEventListener(
+    'astro:before-swap',
+    cleanupReadingProgressBeforeSwap
+  )
 </script>

@@ -28,10 +28,15 @@ const imageUrl = getImageUrl(image)
 <script is:inline>
   function setDarkMode(document) {
     const getThemePreference = () => {
-      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      if (
+        typeof localStorage !== 'undefined' &&
+        localStorage.getItem('theme')
+      ) {
         return localStorage.getItem('theme')
       }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ?
+          'dark'
+        : 'light'
     }
     const isDark = getThemePreference() === 'dark'
     document.documentElement.classList[isDark ? 'add' : 'remove']('dark')
@@ -56,10 +61,7 @@ const imageUrl = getImageUrl(image)
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1,maximum-scale=1"
-/>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -67,7 +69,7 @@ const imageUrl = getImageUrl(image)
 <meta name="generator" content={Astro.generator} />
 
 <!-- Font styles and preloads -->
-<Font cssVariable="--font-geist" preload />
+<Font cssVariable="--font-geist" preload={[{ style: 'normal' }]} />
 <Font cssVariable="--font-geist-mono" preload />
 <Font cssVariable="--font-reenie" preload />
 
@@ -106,6 +108,6 @@ const imageUrl = getImageUrl(image)
   import { init, track } from '@plausible-analytics/tracker'
   init({ domain: 'chrisnowicki.dev', autoCapturePageviews: false })
   document.addEventListener('astro:page-load', () => {
-    track('pageview')
+    track('pageview', {})
   })
 </script>

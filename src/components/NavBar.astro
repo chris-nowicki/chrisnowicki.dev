@@ -10,13 +10,14 @@ const pathname = Astro.url.pathname.split('/')[1]
 
 <div class="mt-6 flex w-full items-center justify-center px-6">
   <nav
+    aria-label="Primary navigation"
     class={cn(
       'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-background'
     )}
     style="transition: box-shadow 0.3s, border-radius 0.3s;">
     <a
       href="/"
-      class="font-cursive group inline-flex items-center overflow-hidden text-4xl text-foreground md:flex-1">
+      class="font-cursive group text-foreground inline-flex items-center overflow-hidden text-4xl md:flex-1">
       <span class="inline-block">C</span><span
         class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-35"
         >hris</span
@@ -29,9 +30,7 @@ const pathname = Astro.url.pathname.split('/')[1]
       >
     </a>
 
-    <ul
-      class="hidden list-none gap-4 px-4 py-2 text-lg md:flex"
-      aria-label="Desktop navigation">
+    <ul class="hidden list-none gap-4 px-4 py-2 text-lg md:flex">
       {
         navLinks.map(({ href, text }) => {
           const isActive = pathname === text.toLowerCase()

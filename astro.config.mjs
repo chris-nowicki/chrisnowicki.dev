@@ -8,6 +8,29 @@ import { defineConfig, fontProviders } from 'astro/config'
 import expressiveCode from 'astro-expressive-code'
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 
+/** @type {import('@astrojs/markdown-remark').RehypePlugin} */
+const rehypeLazyImages = () => {
+  /**
+   * @param {import('hast').Root | import('hast').RootContent} node
+   */
+  const addImageProperties = (node) => {
+    if (node.type === 'element' && node.tagName === 'img') {
+      if (!('loading' in node.properties)) {
+        node.properties.loading = 'lazy'
+      }
+      if (!('decoding' in node.properties)) {
+        node.properties.decoding = 'async'
+      }
+    }
+
+    if (node.type === 'root' || node.type === 'element') {
+      node.children.forEach(addImageProperties)
+    }
+  }
+
+  return addImageProperties
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.chrisnowicki.dev',
@@ -54,6 +77,7 @@ export default defineConfig({
     processor: unified({
       rehypePlugins: [
         rehypeHeadingIds,
+        rehypeLazyImages,
         [
           /** @type {import('@astrojs/markdown-remark').RehypePlugin} */ (
             rehypeAutoLinkHeadings

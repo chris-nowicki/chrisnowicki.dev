@@ -2,11 +2,12 @@
 import js from '@eslint/js'
 import astro from 'eslint-plugin-astro'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
-import tailwindcss from 'eslint-plugin-tailwindcss'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['dist/', '.astro/', 'node_modules/', 'worker-configuration.d.ts'] },
+  {
+    ignores: ['dist/', '.astro/', 'node_modules/', 'worker-configuration.d.ts'],
+  },
 
   // Base JS + TypeScript
   js.configs.recommended,
@@ -15,7 +16,16 @@ export default tseslint.config(
   // Node.js scripts
   {
     files: ['scripts/**/*.mjs', 'scripts/**/*.js'],
-    languageOptions: { globals: { process: 'readonly', console: 'readonly', Buffer: 'readonly', URL: 'readonly', URLSearchParams: 'readonly', fetch: 'readonly' } },
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+        Buffer: 'readonly',
+        URL: 'readonly',
+        URLSearchParams: 'readonly',
+        fetch: 'readonly',
+      },
+    },
   },
 
   // Import order (external → Astro → internal → types → assets)
@@ -27,12 +37,6 @@ export default tseslint.config(
     },
   },
 
-  // Tailwind class linting (built-in classes only — no custom @theme tokens)
-  {
-    ...tailwindcss.configs['flat/recommended'][0],
-    settings: { tailwindcss: { config: './src/styles/global.css' } },
-  },
-
   // Astro files
-  ...astro.configs.recommended,
+  ...astro.configs.recommended
 )

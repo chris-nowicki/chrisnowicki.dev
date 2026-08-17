@@ -10,15 +10,20 @@ const pathname = Astro.url.pathname.split('/')[1]
   <button
     type="button"
     class="relative z-50 flex justify-center"
-    aria-label="Toggle mobile menu"
+    aria-label="Open navigation menu"
+    aria-controls="mobile-nav-panel"
     aria-expanded="false"
     data-nav-toggle>
     <span class="relative flex h-6 w-8 flex-col justify-between">
-      <span class="bar bar-top absolute top-0 right-0 h-0.5 w-[40%] bg-foreground"></span>
       <span
-        class="bar bar-mid absolute top-1/2 right-0 h-0.5 w-[65%] -translate-y-1/2 bg-foreground"
+        class="bar bar-top bg-foreground absolute top-0 right-0 h-0.5 w-[40%]"
       ></span>
-      <span class="bar bar-bot absolute right-0 bottom-0 h-0.5 w-full bg-foreground"></span>
+      <span
+        class="bar bar-mid bg-foreground absolute top-1/2 right-0 h-0.5 w-[65%] -translate-y-1/2"
+      ></span>
+      <span
+        class="bar bar-bot bg-foreground absolute right-0 bottom-0 h-0.5 w-full"
+      ></span>
     </span>
   </button>
 
@@ -28,8 +33,13 @@ const pathname = Astro.url.pathname.split('/')[1]
     data-nav-backdrop>
   </div>
 
-  <div class="panel fixed top-0 right-0 bottom-0 z-40 w-[65vw] bg-background shadow-2xl" data-nav-panel>
-    <nav class="h-full px-6 pt-24">
+  <div
+    id="mobile-nav-panel"
+    class="panel bg-background fixed top-0 right-0 bottom-0 z-40 w-[65vw] shadow-2xl"
+    aria-hidden="true"
+    inert
+    data-nav-panel>
+    <div class="h-full px-6 pt-24">
       <ul class="flex list-none flex-col items-start gap-1 text-xl">
         {
           mobileNavLinks.map(({ href, text }) => {
@@ -43,7 +53,7 @@ const pathname = Astro.url.pathname.split('/')[1]
                   class={cn(
                     'block w-full rounded-lg px-3 py-2.5 transition-colors duration-200',
                     isActive ?
-                      'bg-accent font-medium text-foreground'
+                      'bg-accent text-foreground font-medium'
                     : 'text-muted-foreground hover:text-foreground'
                   )}
                   aria-current={isActive ? 'page' : undefined}
@@ -56,7 +66,7 @@ const pathname = Astro.url.pathname.split('/')[1]
           })
         }
       </ul>
-    </nav>
+    </div>
   </div>
 </div>
 
@@ -116,28 +126,100 @@ const pathname = Astro.url.pathname.split('/')[1]
 
     const toggle = root.querySelector<HTMLButtonElement>('[data-nav-toggle]')
     const backdrop = root.querySelector<HTMLElement>('[data-nav-backdrop]')
+    const panel = root.querySelector<HTMLElement>('[data-nav-panel]')
     const links = root.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')
-    if (!toggle || !backdrop) return
+    if (!toggle || !backdrop || !panel) return
 
-    // Reset scroll lock in case a previous page left it set (view transitions)
     document.body.style.overflow = ''
 
-    const setOpen = (open: boolean) => {
+    const setOpen = (open: boolean, restoreFocus = false) => {
       root.classList.toggle('nav-open', open)
       toggle.setAttribute('aria-expanded', String(open))
+      toggle.setAttribute(
+        'aria-label',
+        open ? 'Close navigation menu' : 'Open navigation menu'
+      )
+      panel.setAttribute('aria-hidden', String(!open))
+      panel.inert = !open
       document.body.style.overflow = open ? 'hidden' : ''
+
+      if (open) {
+        links.item(0)?.focus()
+      } else if (restoreFocus) {
+        toggle.focus()
+      }
     }
 
-    toggle.addEventListener('click', () =>
-      setOpen(!root.classList.contains('nav-open'))
-    )
-    backdrop.addEventListener('click', () => setOpen(false))
-    links.forEach((link) => link.addEventListener('click', () => setOpen(false)))
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') setOpen(false)
-    })
+    const handleToggleClick = () => {
+      setOpen(!root.classList.contains('nav-open'), true)
+    }
+
+    const handleBackdropClick = () => {
+      setOpen(false, true)
+    }
+
+    const handleLinkClick = () => {
+      setOpen(false)
+    }
+
+    const handleDocumentKeydown = (event: KeyboardEvent) => {
+      if (!root.classList.contains('nav-open')) return
+
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setOpen(false, true)
+        return
+      }
+
+      if (event.key !== 'Tab' || links.length === 0) return
+
+      const firstLink = links.item(0)
+      const lastLink = links.item(links.length - 1)
+      const activeElement = document.activeElement
+
+      if (event.shiftKey && activeElement === toggle) {
+        event.preventDefault()
+        lastLink.focus()
+      } else if (!event.shiftKey && activeElement === lastLink) {
+        event.preventDefault()
+        toggle.focus()
+      } else if (!root.contains(activeElement)) {
+        event.preventDefault()
+        firstLink.focus()
+      }
+    }
+
+    toggle.addEventListener('click', handleToggleClick)
+    backdrop.addEventListener('click', handleBackdropClick)
+    links.forEach((link) => link.addEventListener('click', handleLinkClick))
+    document.addEventListener('keydown', handleDocumentKeydown)
+
+    setOpen(false)
+
+    return () => {
+      toggle.removeEventListener('click', handleToggleClick)
+      backdrop.removeEventListener('click', handleBackdropClick)
+      links.forEach((link) =>
+        link.removeEventListener('click', handleLinkClick)
+      )
+      document.removeEventListener('keydown', handleDocumentKeydown)
+      setOpen(false)
+    }
   }
 
-  initMobileNav()
-  document.addEventListener('astro:after-swap', initMobileNav)
+  let cleanupMobileNav: (() => void) | undefined
+
+  function reinitializeMobileNav() {
+    cleanupMobileNav?.()
+    cleanupMobileNav = initMobileNav()
+  }
+
+  function cleanupMobileNavBeforeSwap() {
+    cleanupMobileNav?.()
+    cleanupMobileNav = undefined
+  }
+
+  reinitializeMobileNav()
+  document.addEventListener('astro:page-load', reinitializeMobileNav)
+  document.addEventListener('astro:before-swap', cleanupMobileNavBeforeSwap)
 </script>
