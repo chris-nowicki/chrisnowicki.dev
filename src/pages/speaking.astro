@@ -4,10 +4,13 @@ import PageHeader from '@/components/PageHeader.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
-import { getSpeakingData } from '@/utils/speaking-helpers'
+import { getSpeakingTalks } from '@/utils/speaking-helpers'
 import { formatDate } from '@/utils/utils'
 
-const speaking = getSpeakingData()
+const speaking = await getSpeakingTalks()
+
+const featured = speaking.find((talk) => talk.featured && talk.hasDetail)
+const rest = speaking.filter((talk) => talk !== featured)
 
 const ogImageUrl = generateOgImageUrl({
   header: `/${SPEAKING.TITLE.toUpperCase()}`,
@@ -23,24 +26,86 @@ const ogImageUrl = generateOgImageUrl({
     <section class="relative pt-12 text-sm sm:pt-20">
       <PageHeader title={SPEAKING.TITLE} subtitle={SPEAKING.DESCRIPTION} />
 
+      {
+        featured && (
+          <a
+            href={`/speaking/${featured.slug}`}
+            class="group mb-12 block rounded-xl border border-border p-6 transition-colors duration-200 hover:bg-muted sm:mb-16 sm:p-8">
+            <div class="mb-3 flex items-center gap-3 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+              <span>Featured</span>
+              <span class="bg-border h-3 w-px" />
+              <span>{formatDate(featured.date.toDateString())}</span>
+            </div>
+            <h2 class="text-2xl font-semibold sm:text-3xl">{featured.title}</h2>
+            <p class="mt-2 text-muted-foreground">{featured.description}</p>
+            <div class="mt-4 flex flex-wrap items-center gap-2">
+              {featured.event && (
+                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
+                  {featured.event}
+                </span>
+              )}
+              {featured.category.map((cat) => (
+                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
+                  {cat}
+                </span>
+              ))}
+              {featured.slidesSlug && (
+                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
+                  Slides
+                </span>
+              )}
+              {featured.youtube && (
+                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
+                  Video
+                </span>
+              )}
+            </div>
+            <span class="mt-5 inline-flex items-center gap-1 text-sm font-medium text-foreground">
+              View talk
+              <span class="transition-transform duration-200 group-hover:translate-x-1">
+                →
+              </span>
+            </span>
+          </a>
+        )
+      }
+
+      {
+        featured && rest.length > 0 && (
+          <h2 class="mb-4 px-4 font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            Previous talks
+          </h2>
+        )
+      }
+
       <div>
         {
-          speaking.map((talk) => (
+          rest.map((talk) => (
             <a
-              href={talk.link}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={talk.hasDetail ? `/speaking/${talk.slug}` : talk.link}
+              target={talk.hasDetail ? undefined : '_blank'}
+              rel={talk.hasDetail ? undefined : 'noopener noreferrer'}
               class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-muted">
               <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
                 <span class="order-1 text-muted-foreground sm:order-3">
-                  {formatDate(talk.date)}
+                  {formatDate(talk.date.toDateString())}
                 </span>
                 <span
                   class="order-3 hidden flex-1 bg-muted-foreground/20 px-2 sm:order-2 sm:block"
                   style="height: 1px; align-self: center;"
                 />
-                <h2 class="order-2 text-lg font-semibold sm:order-1">
+                <h2 class="order-2 flex flex-1 items-center gap-2 text-lg font-semibold sm:order-1">
                   {talk.title}
+                  {talk.slidesSlug && (
+                    <span class="text-xs font-normal text-muted-foreground">
+                      Slides
+                    </span>
+                  )}
+                  {talk.youtube && (
+                    <span class="text-xs font-normal text-muted-foreground">
+                      Video
+                    </span>
+                  )}
                 </h2>
               </div>
               <p class="text-muted-foreground">{talk.description}</p>
