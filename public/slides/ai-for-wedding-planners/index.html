@@ -9,6 +9,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../_shared/theme.css">
+<style>
+  /* Hold the deck hidden until webfonts are ready so text doesn't
+     visibly reflow when Cormorant/Inter swap in. */
+  .reveal { opacity: 0; }
+  .reveal.fonts-ready { opacity: 1; transition: opacity .4s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal.fonts-ready { transition: none; }
+  }
+</style>
 </head>
 <body>
 <div class="reveal">
@@ -182,6 +191,16 @@
     transition: 'fade', transitionSpeed: 'default'
   });
   if (window.self !== window.top) { var _d = document.querySelector('.dl'); if (_d) _d.style.display = 'none'; }
+
+  // Reveal the deck once fonts are ready (with a safety timeout so it
+  // never stays hidden if font loading stalls).
+  var _reveal = document.querySelector('.reveal');
+  var _show = function () { _reveal.classList.add('fonts-ready'); };
+  var _ready = document.fonts && document.fonts.ready
+    ? document.fonts.ready
+    : Promise.resolve();
+  _ready.then(_show);
+  setTimeout(_show, 1500);
 </script>
 </body>
 </html>
