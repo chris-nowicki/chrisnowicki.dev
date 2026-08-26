@@ -117,5 +117,5 @@
   html.reveal-print .dl{ display:none!important; }
   /* Keep the QR badge and page number pinned in the exported PDF. */
   html.reveal-print .qr{ position:absolute!important; top:22px!important; right:28px!important; }
-  html.reveal-print .qr--hero{ top:auto!important; bottom:56px!important; right:72px!important; }
+  html.reveal-print .qr--hero{ top:auto!important; bottom:120px!important; right:80px!important; }
   html.reveal-print .pagenum{ position:absolute!important; top:126px!important; right:34px!important; }
