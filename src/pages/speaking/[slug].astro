@@ -1,0 +1,116 @@
+---
+import { getCollection, render } from 'astro:content'
+
+import Container from '@/components/Container.astro'
+import PageHeader from '@/components/PageHeader.astro'
+import YouTube from '@/components/YouTube.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
+import generateOgImageUrl from '@/utils/og-image'
+import { formatDate } from '@/utils/utils'
+
+export async function getStaticPaths() {
+  const talks = await getCollection(
+    'speaking',
+    ({ data }) => !import.meta.env.PROD || !data.draft
+  )
+
+  const talksWithDetail = talks.filter(
+    (entry) =>
+      Boolean(entry.data.slidesSlug) || (entry.body?.trim().length ?? 0) > 0
+  )
+
+  return talksWithDetail.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+const t = entry.data
+
+const ogImageUrl = generateOgImageUrl({
+  header: t.title,
+  description: t.description,
+})
+
+const subtitle = [t.event, formatDate(t.date.toDateString())]
+  .filter(Boolean)
+  .join(' · ')
+---
+
+<PageLayout title={t.title} description={t.description} image={ogImageUrl}>
+  <Container>
+    <article class="text-sm sm:text-base">
+      <div class="page-animate mt-10" style="--delay: 0ms">
+        <PageHeader title={t.title} subtitle={subtitle} />
+
+        {
+          t.category.length > 0 && (
+            <div class="-mt-8 mb-8 flex flex-wrap items-center justify-center gap-2 text-center">
+              {t.category.map((cat) => (
+                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
+                  {cat}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      {
+        t.youtube && (
+          <div class="page-animate mt-10" style="--delay: 100ms">
+            <YouTube id={t.youtube} title={t.title} />
+          </div>
+        )
+      }
+
+      {
+        t.slidesSlug && (
+          <div class="page-animate mt-10 flex flex-col gap-4" style="--delay: 150ms">
+            <iframe
+              src={`/slides/${t.slidesSlug}/index.html`}
+              title="Slides"
+              class="aspect-video w-full rounded-xl border border-border"
+              allowfullscreen
+              loading="lazy"
+            />
+            <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
+              <a
+                href={`/slides/${t.slidesSlug}/index.html`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-underline hover:text-foreground">
+                Open fullscreen ↗
+              </a>
+              <a
+                href={`/slides/${t.slidesSlug}/slides.pptx`}
+                class="link-underline hover:text-foreground">
+                Download .pptx
+              </a>
+              <a
+                href={`/slides/${t.slidesSlug}/slides.pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-underline hover:text-foreground">
+                View PDF
+              </a>
+            </div>
+          </div>
+        )
+      }
+
+      <div class="page-animate prose mt-10" style="--delay: 200ms">
+        <Content />
+      </div>
+
+      <a
+        href="/speaking"
+        class="page-animate link-underline mt-10 inline-block text-muted-foreground hover:text-foreground"
+        style="--delay: 250ms">
+        ← Back to speaking
+      </a>
+    </article>
+  </Container>
+</PageLayout>

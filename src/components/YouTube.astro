@@ -1,0 +1,78 @@
+---
+interface Props {
+  id: string
+  title?: string
+}
+
+const { id, title = 'YouTube video' } = Astro.props
+---
+
+<button
+  type="button"
+  class="group relative aspect-video w-full overflow-hidden rounded-xl border border-border"
+  data-youtube-facade
+  data-youtube-id={id}
+  data-youtube-title={title}
+  aria-label={`Play video: ${title}`}>
+  <img
+    src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+    alt=""
+    loading="lazy"
+    class="h-full w-full object-cover"
+  />
+  <span
+    class="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors group-hover:bg-black/40">
+    <span
+      class="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-black shadow-lg transition-transform group-hover:scale-110">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="ml-1 h-6 w-6"
+        aria-hidden="true">
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </span>
+  </span>
+</button>
+
+<script>
+  function escapeAttr(value: string) {
+    return value.replace(/[&<>"']/g, (char) => {
+      switch (char) {
+        case '&':
+          return '&amp;'
+        case '<':
+          return '&lt;'
+        case '>':
+          return '&gt;'
+        case '"':
+          return '&quot;'
+        default:
+          return '&#39;'
+      }
+    })
+  }
+
+  function initYouTubeFacades() {
+    const facades = document.querySelectorAll<HTMLButtonElement>(
+      '[data-youtube-facade]:not([data-youtube-initialized])'
+    )
+
+    facades.forEach((facade) => {
+      facade.dataset.youtubeInitialized = 'true'
+
+      facade.addEventListener('click', () => {
+        const id = facade.dataset.youtubeId ?? ''
+        const title = facade.dataset.youtubeTitle ?? 'YouTube video'
+        const safeId = encodeURIComponent(id)
+        const safeTitle = escapeAttr(title)
+
+        facade.outerHTML = `<div class="aspect-video w-full overflow-hidden rounded-xl border border-border"><iframe class="h-full w-full" src="https://www.youtube-nocookie.com/embed/${safeId}?autoplay=1" title="${safeTitle}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`
+      })
+    })
+  }
+
+  initYouTubeFacades()
+  document.addEventListener('astro:after-swap', initYouTubeFacades)
+</script>

@@ -2,14 +2,16 @@
 import { Image } from 'astro:assets'
 
 import Megaphone from '@/assets/images/megaphone.png'
-import { getSpeakingData } from '@/utils/speaking-helpers'
+import { getSpeakingTalks } from '@/utils/speaking-helpers'
 import { formatMonthYear } from '@/utils/utils'
 
-const speaking = getSpeakingData(1)[0] ?? {
+const talks = await getSpeakingTalks(1)
+const speaking = talks[0] ?? {
   title: 'No speaking engagements found',
   description: 'No speaking engagements found',
   category: [],
-  date: '',
+  date: undefined,
+  link: undefined,
 }
 ---
 
@@ -53,7 +55,7 @@ const speaking = getSpeakingData(1)[0] ?? {
       {
         speaking.date && (
           <p class="text-xs font-medium text-white/50 sm:text-sm">
-            {formatMonthYear(speaking.date)}
+            {formatMonthYear(speaking.date.toDateString())}
           </p>
         )
       }
