@@ -47,7 +47,8 @@
   .journey{ display:grid; grid-template-columns:repeat(5,1fr); gap:22px; margin-top:16px; }
   .jline{ position:relative; height:2px; background:var(--hair); margin:0 10% 0; top:22px; }
   .jstage{ text-align:center; }
-  .jdot{ width:11px; height:11px; border-radius:50%; background:var(--clay); margin:0 auto 20px; }
+  .jdot{ width:11px; height:11px; border-radius:50%; background:var(--clay); margin:0 auto 20px;
+    position:relative; z-index:1; }
   .jnum{ font-family:var(--sans); font-weight:700; font-size:14px; letter-spacing:2px; color:var(--clay); }
   .jt{ font-family:var(--serif); font-size:30px; color:var(--ink); margin:6px 0 12px; }
   .jd{ font-family:var(--sans); font-size:17px; color:var(--body); line-height:1.35; }
@@ -90,3 +91,13 @@
     padding:9px 15px; border-radius:999px; background:var(--clay); color:#fff; box-shadow:0 2px 10px rgba(43,36,34,.18); }
   .dl a.alt{ background:#fff; color:var(--clay); border:1px solid var(--clay); }
   @media (max-width:700px){ .dl a{ font-size:12px; padding:8px 12px; } }
+  /* PDF export (reveal print view): reveal's print rules force sections to
+     display:block with their own padding, which destroys the flex layout.
+     Restore the deck's real geometry inside each PDF page, and hide the
+     download bar so it isn't baked into the exported file. */
+  html.reveal-print .reveal .slides section{
+    display:flex!important; flex-direction:column!important;
+    height:720px!important; padding:56px 72px!important;
+  }
+  html.reveal-print .reveal .slides section.center{ justify-content:center!important; }
+  html.reveal-print .dl{ display:none!important; }

@@ -17,6 +17,11 @@
   @media (prefers-reduced-motion: reduce) {
     .reveal.fonts-ready { transition: none; }
   }
+  /* When printing (PDF export), skip the fade entirely — a mid-transition
+     opacity would render blank pages. */
+  @media print {
+    .reveal { opacity: 1 !important; transition: none !important; }
+  }
 </style>
 </head>
 <body>
