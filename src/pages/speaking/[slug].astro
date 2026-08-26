@@ -72,10 +72,9 @@ const subtitle = [t.event, formatDate(t.date.toDateString())]
             <iframe
               src={`/slides/${t.slidesSlug}/index.html`}
               title="Slides"
-              class="aspect-video w-full rounded-xl border border-border bg-muted opacity-0 transition-opacity duration-500 [&.is-loaded]:opacity-100 motion-reduce:transition-none"
+              class="aspect-video w-full rounded-xl border border-border bg-muted"
               allowfullscreen
               loading="lazy"
-              data-slides-frame
             />
             <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
               <a
@@ -108,27 +107,4 @@ const subtitle = [t.event, formatDate(t.date.toDateString())]
       </a>
     </article>
   </Container>
-
-  <script>
-    function initSlidesFrames() {
-      const frames = document.querySelectorAll<HTMLIFrameElement>(
-        '[data-slides-frame]:not([data-slides-initialized])'
-      )
-
-      frames.forEach((frame) => {
-        frame.dataset.slidesInitialized = 'true'
-        const reveal = () => frame.classList.add('is-loaded')
-
-        // If the frame already finished loading before this ran, reveal now.
-        if (frame.contentDocument?.readyState === 'complete') {
-          reveal()
-        } else {
-          frame.addEventListener('load', reveal, { once: true })
-        }
-      })
-    }
-
-    initSlidesFrames()
-    document.addEventListener('astro:after-swap', initSlidesFrames)
-  </script>
 </PageLayout>
