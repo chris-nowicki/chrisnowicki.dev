@@ -86,7 +86,7 @@ const subtitle = [t.event, formatDate(t.date.toDateString())]
               </a>
               <a
                 href={`/slides/${t.slidesSlug}/slides.pdf`}
-                download
+                download={`${t.slidesSlug}.pdf`}
                 class="link-underline hover:text-foreground">
                 Download PDF
               </a>
