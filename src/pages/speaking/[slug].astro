@@ -85,16 +85,10 @@ const subtitle = [t.event, formatDate(t.date.toDateString())]
                 Open fullscreen ↗
               </a>
               <a
-                href={`/slides/${t.slidesSlug}/slides.pptx`}
-                class="link-underline hover:text-foreground">
-                Download .pptx
-              </a>
-              <a
                 href={`/slides/${t.slidesSlug}/slides.pdf`}
-                target="_blank"
-                rel="noopener noreferrer"
+                download
                 class="link-underline hover:text-foreground">
-                View PDF
+                Download PDF
               </a>
             </div>
           </div>
