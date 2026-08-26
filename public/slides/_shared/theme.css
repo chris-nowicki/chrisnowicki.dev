@@ -92,13 +92,12 @@
     box-shadow:0 2px 12px rgba(43,36,34,.10);
     display:flex; align-items:center; justify-content:center; }
   .qr img{ width:100%; height:100%; display:block; }
-  /* Page number tucks directly beneath the badge (pulled out of .head flow). */
-  .pagenum{ position:absolute; top:126px; right:34px; z-index:5; }
-  /* Hero treatment for the title / closing slides — larger, with a caption */
+  /* Page number tucks directly beneath the badge, centered on it (pulled out
+     of .head flow). Matches the badge's right:28px + 96px width so text-align
+     center lands it under the QR's center. */
+  .pagenum{ position:absolute; top:126px; right:28px; width:96px; text-align:center; z-index:5; }
+  /* Hero treatment for the title / closing slides — larger badge */
   .qr--hero{ width:150px; height:150px; padding:14px; border-radius:22px; }
-  .qr--hero .qrcap{ position:absolute; top:calc(100% + 12px); right:2px; width:210px;
-    text-align:right; font-family:var(--sans); font-weight:600; font-size:12px;
-    letter-spacing:2px; text-transform:uppercase; color:var(--mut); }
   /* download bar */
   .dl{ position:fixed; left:18px; bottom:16px; z-index:60; display:flex; gap:10px; font-family:var(--sans); }
   .dl a{ text-decoration:none; font-size:13px; font-weight:600; letter-spacing:.4px;
@@ -118,4 +117,4 @@
   /* Keep the QR badge and page number pinned in the exported PDF. */
   html.reveal-print .qr{ position:absolute!important; top:22px!important; right:28px!important; }
   html.reveal-print .qr--hero{ top:auto!important; bottom:120px!important; right:80px!important; }
-  html.reveal-print .pagenum{ position:absolute!important; top:126px!important; right:34px!important; }
+  html.reveal-print .pagenum{ position:absolute!important; top:126px!important; right:28px!important; width:96px!important; text-align:center!important; }
