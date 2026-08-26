@@ -58,7 +58,7 @@
     <section>
       <div class="head"><span class="eyebrow">Think in moments</span><span class="pagenum">03</span></div>
       <h2 class="title">AI helps across the <em class="ac">client journey.</em></h2>
-      <div style="height:24px"></div>
+      <div style="height:64px"></div>
       <div class="jline"></div>
       <div class="journey">
         <div class="jstage"><div class="jdot"></div><div class="jnum">01</div><div class="jt">Inquire</div><div class="jd">Reply warmly.<br>Ask better questions.</div></div>
@@ -188,19 +188,47 @@
   Reveal.initialize({
     width: 1280, height: 720, margin: 0, minScale: 0.2, maxScale: 2.0,
     center: false, controls: true, progress: true, hash: true,
+    // Overview mode (toggled by ESC/"o") shows every slide as a tiny
+    // filmstrip — easy to trigger accidentally when exiting fullscreen
+    // with ESC, and confusing here, so disable it.
+    overview: false,
     transition: 'fade', transitionSpeed: 'default'
   });
   if (window.self !== window.top) { var _d = document.querySelector('.dl'); if (_d) _d.style.display = 'none'; }
 
-  // Reveal the deck once fonts are ready (with a safety timeout so it
-  // never stays hidden if font loading stalls).
+  // Fade the deck in only once it is in its FINAL laid-out position, so it
+  // never appears top-aligned and then jumps. That means waiting for: the
+  // webfonts (so text metrics are final), reveal.js being ready AND having
+  // applied its centering/scaling transform to .slides, and one more painted
+  // frame after that. A safety timeout guarantees it never stays hidden.
   var _reveal = document.querySelector('.reveal');
-  var _show = function () { _reveal.classList.add('fonts-ready'); };
-  var _ready = document.fonts && document.fonts.ready
+  var _shown = false;
+  var _show = function () {
+    if (_shown) return;
+    _shown = true;
+    _reveal.classList.add('fonts-ready');
+  };
+
+  var _fonts = document.fonts && document.fonts.ready
     ? document.fonts.ready
     : Promise.resolve();
-  _ready.then(_show);
-  setTimeout(_show, 1500);
+
+  _fonts.then(function whenReady() {
+    var slides = document.querySelector('.slides');
+    var laidOut =
+      window.Reveal && Reveal.isReady && Reveal.isReady() &&
+      slides && getComputedStyle(slides).transform !== 'none';
+    if (laidOut) {
+      // Wait one more frame so the laid-out state has actually painted.
+      requestAnimationFrame(_show);
+    } else {
+      requestAnimationFrame(whenReady);
+    }
+  });
+
+  // Safety net: show regardless after 2s (e.g. a background tab where
+  // requestAnimationFrame is paused, or if layout never settles).
+  setTimeout(_show, 2000);
 </script>
 </body>
 </html>
