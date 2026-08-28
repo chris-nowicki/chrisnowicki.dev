@@ -90,3 +90,10 @@ html.reveal-print .reveal .slides section .pagenum {
   justify-content: space-between;
   gap: var(--vs-space-12);
 }
+
+/* "Keep one source of truth" cards: top-align each card's content so the label,
+   title, and body sit on the same lines across all three (the deck default
+   centers them, which drops the shorter middle card lower than the others). */
+.reveal .slides section .deck-access-map > .vs-node {
+  align-content: start;
+}
