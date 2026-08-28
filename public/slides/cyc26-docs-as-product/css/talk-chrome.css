@@ -117,6 +117,36 @@ html.reveal-print .reveal .slides section .pagenum {
   min-inline-size: 0;
 }
 
+/* Closing contact block: a role line under the name, and the X handle as the
+   prominent contact (the site link stays a quieter secondary). */
+.reveal .slides section .deck-contact__name {
+  font-size: var(--vs-text-xl);
+}
+
+.reveal .slides section .deck-contact__role {
+  margin: calc(var(--vs-space-1) * -1) 0 0;
+  color: var(--vs-muted);
+  font-family: var(--vs-font-display);
+  font-size: var(--vs-text-md);
+  font-weight: 500;
+}
+
+.reveal .slides section .deck-contact__co {
+  color: var(--vs-ink);
+  font-weight: 600;
+}
+
+.reveal .slides section .deck-contact__list {
+  align-items: center;
+  gap: var(--vs-space-3) var(--vs-space-8);
+}
+
+.reveal .slides section .deck-contact__list a.deck-contact__x {
+  color: var(--vs-ink);
+  font-size: var(--vs-text-lg);
+  font-weight: 600;
+}
+
 /* "Keep one source of truth" cards: top-align each card's content so the label,
    title, and body sit on the same lines across all three (the deck default
    centers them, which drops the shorter middle card lower than the others). */
