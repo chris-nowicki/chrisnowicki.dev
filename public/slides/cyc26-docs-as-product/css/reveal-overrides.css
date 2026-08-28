@@ -12,6 +12,8 @@
   height: 100%;
   padding: 2.5rem 3.5rem;
   box-sizing: border-box;
+  isolation: isolate;
+  background-color: var(--vs-paper);
   text-align: left;
 }
 
@@ -91,4 +93,33 @@ traffic-split {
 
 .reveal .slides section .deck-source-space .vs-source {
   margin-block-start: 0;
+}
+
+/* Every slide shares one static blueprint field in its open right rail. */
+.reveal .slides section::before {
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: 48%;
+  content: "";
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--vs-paper) 0%, transparent 14%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M 48 0 L 0 0 0 48' stroke='%23919191' stroke-width='1' stroke-opacity='0.35' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+  background-position: left top, left top;
+  background-repeat: no-repeat, repeat;
+  background-size: 100% 100%, 48px 48px;
+  -webkit-mask-image: linear-gradient(
+    to bottom left,
+    var(--vs-ink) 0%,
+    var(--vs-ink) 24%,
+    transparent 92%
+  );
+  mask-image: linear-gradient(
+    to bottom left,
+    var(--vs-ink) 0%,
+    var(--vs-ink) 24%,
+    transparent 92%
+  );
 }

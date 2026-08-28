@@ -76,6 +76,7 @@
   background: var(--vs-paper);
   border-radius: var(--vs-radius-md);
   border: var(--vs-stroke) solid var(--vs-line);
+  box-shadow: 0 0 0 var(--vs-space-1) var(--vs-paper);
 }
 
 .deck-qr--large {
