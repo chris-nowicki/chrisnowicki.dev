@@ -64,3 +64,25 @@ html.reveal-print .reveal .slides section .pagenum {
   inline-size: 74px !important;
   text-align: center !important;
 }
+
+/* Cover / closing slides: a bare QR card (no panel, no caption) with softly
+   rounded corners on both the border and the modules (the SVG rounds the
+   modules). Slightly larger radius than the deck default so the rounding
+   reads as intentional. */
+.reveal .slides section .deck-qr--large {
+  border-radius: 18px;
+}
+
+/* Top-align the cover's QR with the left-hand header (the eyebrow), rather
+   than the deck's default bottom/centered alignment. */
+.reveal .slides section .deck-cover {
+  align-items: start;
+}
+
+.reveal .slides section .deck-cover .deck-cover__copy {
+  align-self: start;
+}
+
+.reveal .slides section .deck-cover__qr {
+  align-self: start;
+}
