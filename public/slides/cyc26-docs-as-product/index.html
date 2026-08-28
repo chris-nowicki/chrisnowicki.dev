@@ -26,6 +26,12 @@
               <p class="vs-eyebrow">Documentation in the Age of AI</p>
               <h1 class="vs-title">Why We Should View Docs as a Product</h1>
             </div>
+
+            <aside class="deck-cover__resource">
+              <img class="deck-qr deck-qr--large" src="./qr.svg" alt="Scan to open the talk page">
+              <p class="deck-resource-copy">Scan for the talk &amp; research</p>
+              <p class="deck-url">chrisnowicki.dev/speaking/cyc26-docs-as-product</p>
+            </aside>
           </div>
 
           <aside class="notes">
@@ -110,7 +116,6 @@
               human='{ "label": "Human requests", "percentage": "48.2%" }'
               ai='{ "label": "AI-agent requests", "percentage": "51.8%" }'
               context="On GitBook platforms, AI agents already request pages about as often as people do."
-              scope-label="Requests, not unique readers; eligible GitBook-hosted sites only; crawler and other-bot categories excluded."
             ></traffic-split>
           </div>
 
@@ -131,7 +136,6 @@
               human='{ "label": "Human browser page loads", "percentage": "105M", "share": "34%" }'
               ai='{ "label": "Agent HTTP requests", "percentage": "213M", "share": "66%" }'
               context="On Mintlify platforms, agent requests already outnumber human traffic two to one."
-              scope-label="July 2026 vs. start of 2026, Mintlify-hosted docs only; classified differently than the GitBook figures above, not one trend."
             ></traffic-split>
           </div>
 
@@ -324,7 +328,6 @@
                 <span><code>llms.txt</code> · <code>llms-full.txt</code> · MCP tools</span>
               </div>
             </div>
-            <p class="deck-access-map__note">Use these as representations and interfaces, not competing sources of truth.</p>
           </div>
 
           <aside class="notes">
@@ -367,6 +370,12 @@
 
         <section>
           <div class="deck-close">
+            <aside class="deck-cover__resource">
+              <img class="deck-qr deck-qr--large" src="./qr.svg" alt="Scan to open the talk page">
+              <p class="deck-resource-copy">Scan for the talk &amp; research</p>
+              <p class="deck-url">chrisnowicki.dev/speaking/cyc26-docs-as-product</p>
+            </aside>
+
             <div class="deck-close__copy">
               <h1 class="vs-title vs-title--compact">Treat documentation as a product.</h1>
               <p class="deck-closing-line">Own the system. Maintain the truth. Measure task success.</p>
@@ -405,10 +414,6 @@
       </div>
     </div>
 
-    <div class="dl">
-      <a href="./slides.pdf" download="cyc26-docs-as-product.pdf">Download PDF</a>
-    </div>
-
     <script type="module">
       import "./js/components.js";
       import Reveal from "./vendor/reveal/dist/reveal.esm.js";
@@ -419,35 +424,25 @@
       window.Reveal = Reveal;
 
       // Pin a QR badge (links to the talk page) and an auto-incrementing page
-      // number to every slide, before reveal initializes. Doing it here keeps
-      // the authored <section>s untouched and the numbering self-maintaining.
+      // number to the middle slides, before reveal initializes. The cover and
+      // closing slides carry their own native resource panel instead, so they
+      // are skipped here. Doing it here keeps the authored <section>s
+      // untouched and the numbering self-maintaining.
       const sections = document.querySelectorAll(".reveal .slides > section");
       sections.forEach((section, index) => {
-        // The cover (first) and closing (last) slides get a larger "hero" QR.
-        const isHero = index === 0 || index === sections.length - 1;
+        if (index === 0 || index === sections.length - 1) return;
 
         const badge = document.createElement("div");
-        badge.className = isHero ? "qr qr--hero" : "qr";
+        badge.className = "qr";
         badge.innerHTML =
           '<img src="./qr.svg" alt="Scan to open the talk page">';
         section.appendChild(badge);
 
         const pageNumber = document.createElement("span");
-        pageNumber.className = isHero ? "pagenum pagenum--hero" : "pagenum";
+        pageNumber.className = "pagenum";
         pageNumber.textContent = String(index + 1).padStart(2, "0");
         section.appendChild(pageNumber);
       });
-
-      // Hide the download bar when the deck is embedded in an iframe (the talk
-      // page shows its own "Download PDF" link) or when exporting to PDF
-      // (?print-pdf for reveal's own print view, ?export for the decktape run).
-      const exportParams = new URLSearchParams(window.location.search);
-      const isExporting =
-        exportParams.has("print-pdf") || exportParams.has("export");
-      if (window.self !== window.top || isExporting) {
-        const bar = document.querySelector(".dl");
-        if (bar) bar.style.display = "none";
-      }
 
       Reveal.initialize({
         width: 980,

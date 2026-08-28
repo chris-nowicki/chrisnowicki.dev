@@ -129,7 +129,7 @@ class TrafficSplit extends HTMLElement {
           </div>
         </div>
 
-        <p class="traffic-split__scope">${esc(scopeLabel)}</p>
+        ${scopeLabel ? `<p class="traffic-split__scope">${esc(scopeLabel)}</p>` : ""}
       </figure>
     `;
   }

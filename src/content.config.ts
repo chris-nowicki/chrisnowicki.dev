@@ -24,6 +24,7 @@ const speaking = defineCollection({
     link: z.string().url().optional(),
     youtube: z.string().optional(),
     slidesSlug: z.string().optional(),
+    slidesPdf: z.boolean().default(true),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),
