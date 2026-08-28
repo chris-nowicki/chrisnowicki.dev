@@ -5,6 +5,22 @@
   justify-content: center;
 }
 
+:is(.deck-stage--pipeline, .deck-stage--evidence, .deck-stage--detail) {
+  justify-content: flex-start;
+}
+
+.deck-stage--pipeline {
+  padding-block-start: var(--vs-space-20);
+}
+
+.deck-stage--evidence {
+  padding-block-start: var(--vs-space-24);
+}
+
+.deck-stage--detail {
+  padding-block-start: var(--vs-space-12);
+}
+
 /*
  * Spacing hook for the <Stage> component (components/Stage.vue). Every rule
  * below that reads "space after the title block" falls back to

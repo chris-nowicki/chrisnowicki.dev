@@ -54,7 +54,7 @@
         </section>
 
         <section>
-          <div class="deck-stage">
+          <div class="deck-stage deck-stage--pipeline">
             <p class="vs-eyebrow">When people read docs</p>
             <h1 class="vs-title vs-title--compact">The documentation page was the experience.</h1>
 
@@ -79,7 +79,7 @@
         </section>
 
         <section>
-          <div class="deck-stage">
+          <div class="deck-stage deck-stage--pipeline">
             <p class="vs-eyebrow">How people use docs now</p>
             <h1 class="vs-title vs-title--compact">The path now has an intermediary.</h1>
             <p class="fragment deck-answer" data-fragment-index="1">A person asks. An agent consults the docs. The person acts.</p>
@@ -104,9 +104,31 @@
           </aside>
         </section>
 
+
         <section>
-          <div class="deck-stage">
-            <p class="vs-eyebrow">Request Comparison</p>
+          <div class="deck-stage deck-stage--evidence">
+            <p class="vs-eyebrow">The wider web</p>
+
+            <div class="deck-stat deck-stat--traffic">
+              <traffic-split
+                claim-id="THALES-WEB-BOTS-001"
+                human='{ "label": "Human traffic", "percentage": "47%" }'
+                ai='{ "label": "Automated traffic", "percentage": "53%" }'
+                context="In Thales's 2025 analysis, automated traffic exceeded human traffic."
+              ></traffic-split>
+            </div>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:05</p>
+            <p><strong>Fact:</strong> Thales reported that bots accounted for 53% of the web traffic in its full-year 2025 analysis, while human traffic accounted for 47%. In a separate 2025 measurement across its customer base, Cloudflare found that identified AI bots averaged 4.2% of HTML requests and broke out dual-purpose Googlebot separately at 4.5%.</p>
+            <p><strong>Delivery:</strong> Before we narrow the lens to documentation, look at the wider web. In Thales's analysis of 2025 traffic, automated requests exceeded human traffic: 53% to 47%. That 53% includes bots in aggregate, not just LLM crawlers or agents. Cloudflare's separate HTML-request analysis makes the distinction concrete: identified AI bots averaged 4.2%, with dual-purpose Googlebot counted separately at 4.5%. So the broad evidence supports a bot majority, not an AI majority. The next two measurements narrow the lens to documentation platforms and classify agent requests separately.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--evidence">
+            <p class="vs-eyebrow">Docs traffic · GitBook</p>
 
             <traffic-split
               claim-id="CYC26-DOCS-AI-001"
@@ -125,8 +147,8 @@
         </section>
 
         <section>
-          <div class="deck-stage">
-            <p class="vs-eyebrow">Across Another Platform</p>
+          <div class="deck-stage deck-stage--evidence">
+            <p class="vs-eyebrow">Docs traffic · Mintlify</p>
 
             <traffic-split
               claim-id="MINTLIFY-AI-001"
@@ -145,7 +167,7 @@
         </section>
 
         <section>
-          <div class="deck-stage">
+          <div class="deck-stage deck-stage--evidence">
             <p class="vs-eyebrow">Why quality matters</p>
             <h1 class="vs-title">Bad docs become bad actions.</h1>
             <p class="fragment deck-answer">The agent follows the wrong path. The task fails. The user feels the frustration.</p>
@@ -210,7 +232,7 @@
         </section>
 
         <section>
-          <div class="deck-stage">
+          <div class="deck-stage deck-stage--detail">
             <p class="vs-eyebrow">Docs as product</p>
             <h1 class="vs-title">The system and content need different owners.</h1>
 
@@ -236,7 +258,7 @@
         </section>
 
         <section>
-          <div class="deck-stage">
+          <div class="deck-stage deck-stage--detail">
             <p class="vs-eyebrow">Docs as product</p>
             <h1 class="vs-title">Start with a user and a task.</h1>
             <p class="fragment deck-answer">Then measure whether they can complete it.</p>
@@ -257,7 +279,7 @@
         </section>
 
         <section>
-          <div class="deck-stage">
+          <div class="deck-stage deck-stage--detail">
             <p class="vs-eyebrow">A practical workflow</p>
             <h1 class="vs-title vs-title--compact">Use AI to draft, not to decide.</h1>
 
@@ -293,7 +315,7 @@
         </section>
 
         <section>
-          <div class="deck-stage">
+          <div class="deck-stage deck-stage--detail">
             <p class="vs-eyebrow">Human and agent access</p>
             <h1 class="vs-title vs-title--compact">Keep one source of truth. Serve every reader.</h1>
 
@@ -324,7 +346,7 @@
         </section>
 
         <section>
-          <div class="deck-stage">
+          <div class="deck-stage deck-stage--detail">
             <p class="vs-eyebrow">Docs as product</p>
             <h1 class="vs-title vs-title--compact">Let real use shape the roadmap.</h1>
 
