@@ -1,0 +1,11 @@
+---
+const shouldRenderNotes = import.meta.env.DEV
+---
+
+{
+  shouldRenderNotes && (
+    <aside class="notes">
+      <slot />
+    </aside>
+  )
+}
