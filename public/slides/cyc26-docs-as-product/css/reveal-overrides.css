@@ -1,0 +1,94 @@
+/* Neutralize reveal.js defaults and restore the Slidev-era layout behavior. */
+
+.reveal-viewport {
+  background: var(--vs-paper);
+}
+
+/* Replaces Slidev's padded .slidev-layout wrapper. reveal.js controls each
+   section's `display` via an inline style, so the deck-* layout wrappers live
+   on an inner <div> instead; `height: 100%` makes their `min-block-size: 100%`
+   vertical centering resolve. */
+.reveal .slides section {
+  height: 100%;
+  padding: 2.5rem 3.5rem;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* Slidev shipped the UnoCSS (Tailwind-style) preflight reset; replicate the
+   parts the deck relies on. :where() keeps these at zero specificity so every
+   authored margin/list style still wins, exactly as it did over the preflight. */
+:where(.reveal .slides section) :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, pre) {
+  margin: 0;
+}
+
+:where(.reveal .slides section) :where(ol, ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:where(.reveal .slides section) :where(img, svg) {
+  display: block;
+  vertical-align: middle;
+}
+
+.reveal .slides section,
+.reveal .slides section *,
+.reveal .slides section *::before,
+.reveal .slides section *::after {
+  box-sizing: border-box;
+}
+
+/* Custom elements default to display: inline; the Vue SFC roots were
+   block-level (figure/p), and layout classes (.deck-stat, .deck-pipeline-single,
+   …) now sit on the wrapper element instead of the inner figure. */
+docs-pipeline,
+source-line,
+traffic-split {
+  display: block;
+}
+
+/* Specificity restorations: rescoping .slidev-layout → .reveal .slides section
+   raised the global selectors above the (formerly Vue-scoped) component styles
+   and the unscoped deck.css rules that used to win. Restore the original
+   winners without editing the verbatim-copied files. */
+
+/* SourceLine.vue hides utilities.css's `content: "SOURCE"` prefix. */
+.reveal .slides section .source-line.vs-source::before {
+  content: none;
+}
+
+/* DocsPipeline.vue: the AI node's accent border loses to the rescoped
+   .vs-node `border` shorthand. */
+.reveal .slides section .docs-pipeline__node[data-node="ai"] {
+  border-color: var(--vs-signal);
+}
+
+/* deck.css: cover-title tuning loses to the rescoped .vs-title rule. */
+.reveal .slides section .deck-cover .vs-title {
+  line-height: 0.85;
+  max-inline-size: 17ch;
+}
+
+/* deck.css: contact links lose their muted, underline-free styling to the
+   rescoped base.css anchor rule. */
+.reveal .slides section .deck-contact__list a {
+  color: var(--vs-muted);
+  text-decoration: none;
+  transition: color var(--vs-duration) var(--vs-ease-out);
+}
+
+.reveal .slides section .deck-contact__list a:hover {
+  color: var(--vs-ink);
+}
+
+/* deck.css: stat/source spacing tweaks lose to the rescoped .vs-source rule. */
+.reveal .slides section .deck-stat .vs-source {
+  margin-block-start: var(--vs-space-4);
+  padding-block-start: var(--vs-space-2);
+}
+
+.reveal .slides section .deck-source-space .vs-source {
+  margin-block-start: 0;
+}

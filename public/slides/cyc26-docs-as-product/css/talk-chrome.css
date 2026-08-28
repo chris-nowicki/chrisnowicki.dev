@@ -1,0 +1,113 @@
+/* Talk "chrome" layered on top of the CYC26 deck to match the pattern used by
+   the site's other talks: a QR badge + page number pinned to the top-right of
+   every slide, a floating "Download PDF" bar, and print-pdf rules that keep the
+   badge and page number in the exported file. Retuned to the deck's own tokens
+   (tokens.css) rather than the wedding palette. Injected markup comes from the
+   init script in index.html, so the authored sections stay untouched. */
+
+/* QR badge — white rounded card, top-right of every slide. */
+.reveal .slides section .qr {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  z-index: 5;
+  inline-size: 74px;
+  block-size: 74px;
+  padding: 7px;
+  box-sizing: border-box;
+  background: var(--vs-paper);
+  border: var(--vs-stroke) solid var(--vs-line);
+  border-radius: var(--vs-radius-md);
+  box-shadow: 0 2px 12px rgba(29, 29, 31, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal .slides section .qr img {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+}
+
+/* Larger "hero" QR for the cover and closing slides. */
+.reveal .slides section .qr--hero {
+  inline-size: 184px;
+  block-size: 184px;
+  padding: 14px;
+  border-radius: var(--vs-radius-md);
+}
+
+/* Page number tucks directly beneath the badge, centered on it. Matches the
+   badge's right:28px + 74px width so text-align:center lands under its center. */
+.reveal .slides section .pagenum {
+  position: absolute;
+  top: 100px;
+  right: 28px;
+  inline-size: 74px;
+  text-align: center;
+  z-index: 5;
+  margin: 0;
+  color: var(--vs-muted);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+/* Sit the page number below the taller hero badge, centered on its width. */
+.reveal .slides section .pagenum--hero {
+  top: 214px;
+  inline-size: 184px;
+}
+
+/* Floating download bar (bottom-left). Hidden inside the iframe embed via the
+   init script, and hidden in the PDF export via the print rules below. */
+.dl {
+  position: fixed;
+  left: 18px;
+  bottom: 16px;
+  z-index: 60;
+  display: flex;
+  gap: 10px;
+  font-family: var(--vs-font-body);
+}
+
+.dl a {
+  text-decoration: none;
+  font-size: var(--vs-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: var(--vs-signal);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(29, 29, 31, 0.18);
+}
+
+@media (max-width: 700px) {
+  .dl a {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+/* PDF export (reveal print view): keep the QR badge and page number pinned in
+   each exported page, and drop the download bar so it isn't baked into the file. */
+html.reveal-print .dl {
+  display: none !important;
+}
+
+html.reveal-print .reveal .slides section .qr {
+  position: absolute !important;
+  top: 20px !important;
+  right: 28px !important;
+}
+
+html.reveal-print .reveal .slides section .pagenum {
+  position: absolute !important;
+  top: 100px !important;
+  right: 28px !important;
+  inline-size: 74px !important;
+  text-align: center !important;
+}

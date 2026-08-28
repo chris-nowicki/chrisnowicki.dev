@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Why We Should View Docs as a Product</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./vendor/reveal/dist/reveal.css">
+    <link rel="stylesheet" href="./vendor/fonts/geist/index.css">
+    <link rel="stylesheet" href="./vendor/fonts/geist-mono/index.css">
+    <link rel="stylesheet" href="./css/tokens.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/utilities.css">
+    <link rel="stylesheet" href="./css/code.css">
+    <link rel="stylesheet" href="./css/deck.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/reveal-overrides.css">
+    <link rel="stylesheet" href="./css/talk-chrome.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <div class="deck-cover">
+            <div class="deck-cover__copy">
+              <p class="vs-eyebrow">Documentation in the Age of AI</p>
+              <h1 class="vs-title">Why We Should View Docs as a Product</h1>
+            </div>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 0:45</p>
+            <p><strong>Thesis:</strong> AI does not make documentation less important. It makes documentation quality more consequential.</p>
+            <p><strong>Delivery:</strong> AI does not make documentation less important. It gives people another path through the same source material, which makes accuracy, ownership, and maintenance more consequential. My argument is simple: documentation should be managed with the same product discipline as the experience it supports.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Start with the user</p>
+            <h1 class="deck-question">Who reads your docs?</h1>
+            <p class="fragment deck-answer">And what counts as “reading”?</p>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 0:35</p>
+            <p><strong>Thesis:</strong> A product view begins by naming the user and the job, rather than treating every request, visit, fetch, or answer as the same event.</p>
+            <p><strong>Delivery:</strong> Start with the obvious reader: a person trying to understand or use the product. Today, that person may read the page directly or ask an agent that consults the page for them. Both paths begin with the same question: what is the user trying to do?</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">When people read docs</p>
+            <h1 class="vs-title vs-title--compact">The documentation page was the experience.</h1>
+
+            <docs-pipeline
+              class="deck-pipeline-single"
+              stage="search"
+              stage-label="Search"
+              steps='[
+                { "kind": "human", "label": "Human" },
+                { "kind": "search", "label": "Search" },
+                { "kind": "docs", "label": "Docs" },
+                { "kind": "product", "label": "Product" }
+              ]'
+            ></docs-pipeline>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 0:45</p>
+            <p><strong>Interpretation:</strong> These diagrams are a deliberately simplified model of familiar human-facing paths, not a measured history of how every documentation journey works.</p>
+            <p><strong>Delivery:</strong> In the familiar path, a person searches, opens the docs, evaluates the answer on the page, and moves into the product. The documentation team controls the place where the explanation is presented. The next path changes that last part.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">How people use docs now</p>
+            <h1 class="vs-title vs-title--compact">The path now has an intermediary.</h1>
+            <p class="fragment deck-answer" data-fragment-index="1">A person asks. An agent consults the docs. The person acts.</p>
+
+            <docs-pipeline
+              stage="product"
+              stage-label="Agent-mediated"
+              steps='[
+                { "kind": "human", "label": "Human asks" },
+                { "kind": "ai", "label": "AI consults" },
+                { "kind": "docs", "label": "Docs" },
+                { "kind": "ai", "label": "AI answers" },
+                { "kind": "product", "label": "Product" }
+              ]'
+            ></docs-pipeline>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 0:55</p>
+            <p><strong>Interpretation:</strong> This is a simplified model of an agent-mediated documentation path, not a claim that every task follows these exact steps.</p>
+            <p><strong>Delivery:</strong> The goal is still the same: help a person use the product. Instead of reading a documentation page directly, a person may ask an agent. The agent consults the documentation, returns an answer, and the person moves into the product. The documentation still provides the truth; the agent is now part of the journey to it.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Request Comparison</p>
+
+            <traffic-split
+              claim-id="CYC26-DOCS-AI-001"
+              class="deck-stat deck-stat--traffic"
+              human='{ "label": "Human requests", "percentage": "48.2%" }'
+              ai='{ "label": "AI-agent requests", "percentage": "51.8%" }'
+              context="On GitBook platforms, AI agents already request pages about as often as people do."
+              scope-label="Requests, not unique readers; eligible GitBook-hosted sites only; crawler and other-bot categories excluded."
+            ></traffic-split>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:10</p>
+            <p><strong>Fact:</strong> In a one-week GitBook sample, AI-agent requests were 51.8% of requests GitBook classified as intentional reads; human requests were 48.2% within that same constructed denominator.</p>
+            <p><strong>Delivery:</strong> GitBook classified platform page requests into human, AI-agent, crawler, and other-bot categories. It then excluded the crawler categories and published this split for what it called “intentional reads.” In that one-week sample, AI-agent requests narrowly exceeded human requests. The unit is a page request, not a person, session, completed task, or comprehension event. The evidence is bounded, but it is enough to show that the old mental model is incomplete.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Across Another Platform</p>
+
+            <traffic-split
+              claim-id="MINTLIFY-AI-001"
+              class="deck-stat deck-stat--traffic"
+              human='{ "label": "Human browser page loads", "percentage": "105M", "share": "34%" }'
+              ai='{ "label": "Agent HTTP requests", "percentage": "213M", "share": "66%" }'
+              context="On Mintlify platforms, agent requests already outnumber human traffic two to one."
+              scope-label="July 2026 vs. start of 2026, Mintlify-hosted docs only; classified differently than the GitBook figures above, not one trend."
+            ></traffic-split>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:00</p>
+            <p><strong>Fact:</strong> In Mintlify's July 2026 report, agent web requests were 213 million versus 105 million human page loads across Mintlify-hosted documentation, a reported 66% agent share, up from 15.2% at the start of the year.</p>
+            <p><strong>Delivery:</strong> Mintlify's midyear report counted 213 million agent HTTP requests and 105 million human browser page loads in July. These are different event types: human activity is measured through client-side page loads, while agent activity is measured through server-side requests. The GitBook and Mintlify methods also differ, so the two slides should not be combined into one trend.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Why quality matters</p>
+            <h1 class="vs-title">Bad docs become bad actions.</h1>
+            <p class="fragment deck-answer">The agent follows the wrong path. The task fails. The user feels the frustration.</p>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:15</p>
+            <p><strong>Thesis:</strong> When agents use documentation to act, unclear or incorrect guidance becomes a failed user task, not merely a confusing page.</p>
+            <p><strong>Delivery:</strong> A person can sometimes notice that a page is incomplete and work around it. An agent may confidently follow the documented path. If that guidance is wrong, stale, or missing a critical constraint, the action fails and the user experiences the frustration. That is why documentation quality and ownership now have direct product consequences.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title vs-title--compact">What that looks like in practice.</h1>
+
+            <ol class="deck-pillars">
+              <li class="fragment" data-fragment-index="1">
+                <span class="deck-pillars__num">01</span>
+                <span class="deck-pillars__body">
+                  <strong>Own it</strong>
+                  <span>A product owner for docs; PMs and engineers own the truth</span>
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="2">
+                <span class="deck-pillars__num">02</span>
+                <span class="deck-pillars__body">
+                  <strong>Build it fast</strong>
+                  <span>Low-friction drafting: agentic tooling, human in the loop</span>
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="3">
+                <span class="deck-pillars__num">03</span>
+                <span class="deck-pillars__body">
+                  <strong>Keep it correct</strong>
+                  <span>Automated checks in CI (spectral for OpenAPI) before publish</span>
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="4">
+                <span class="deck-pillars__num">04</span>
+                <span class="deck-pillars__body">
+                  <strong>Make it reachable</strong>
+                  <span>llms.txt, MCP, and pages you can copy as Markdown (<code>.md</code>)</span>
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="5">
+                <span class="deck-pillars__num">05</span>
+                <span class="deck-pillars__body">
+                  <strong>Learn and improve</strong>
+                  <span>Analytics, user feedback, and a maintenance roadmap</span>
+                </span>
+              </li>
+            </ol>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 0:50</p>
+            <p><strong>Thesis:</strong> Treating documentation as a product is an operating model, not a slogan. These five pillars are what the discipline actually looks like, and each one gets its own moment in the slides that follow.</p>
+            <p><strong>Delivery:</strong> If bad docs now become bad actions, docs deserve the same investment as any product. That means five things: someone owns the system while the feature teams own the truth; we build drafts fast and low-friction with a human in the loop; we keep content correct with automated checks in CI; we make it reachable to people and agents alike; and we learn from real use and improve. The next few slides walk each one.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title">The system and content need different owners.</h1>
+
+            <div class="fragment deck-two-up">
+              <div class="vs-node deck-node-copy">
+                <span class="vs-node__label">Docs product owner</span>
+                <strong>Owns the system</strong>
+                <span>Infrastructure, publishing, agentic authoring tools, discovery, and usability</span>
+              </div>
+              <div class="vs-node deck-node-copy">
+                <span class="vs-node__label">Feature PMs + engineers</span>
+                <strong>Own the content</strong>
+                <span>Accuracy, initial drafts, and maintenance as the product changes</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:10</p>
+            <p><strong>Recommendation:</strong> Separate ownership of the documentation system from ownership of the product truth expressed in each document.</p>
+            <p><strong>Delivery:</strong> The docs product owner maintains the infrastructure, publishing workflow, authoring and agent tooling, and the paths that make documentation discoverable and usable. PMs and engineers own the feature content itself: they create or verify the initial draft, ensure it is accurate, and keep it current as the product changes.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title">Start with a user and a task.</h1>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:10</p>
+            <p><strong>Thesis:</strong> Documentation should be managed as a product: with named users, accountable ownership, deliberate investment, feedback, and continuous decisions about value.</p>
+            <p><strong>Delivery:</strong> “Developers” is not a user model. An evaluator choosing a product, an operator responding to an incident, and an integrator handling a breaking change have different jobs. Name the user, name the task, and define what successful completion looks like.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title">Measure whether the user can complete the task.</h1>
+
+            <p class="fragment deck-equation">
+              <span>A request</span>
+              <strong aria-label="does not equal">≠</strong>
+              <span>A completed task</span>
+            </p>
+            <p class="fragment deck-answer">The same task must succeed for a person and an agent.</p>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:35</p>
+            <p><strong>Thesis:</strong> Traffic is a useful signal, but task completion is the outcome that matters.</p>
+            <p><strong>Delivery:</strong> Traffic tells us that a request reached a page. It does not tell us whether the user found the right version, understood the constraint, or completed the task. Test a specific job with a person or agent, observe what happens, and connect the result to a decision: improve navigation, clarify a prerequisite, or retire a stale example.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">A practical workflow</p>
+            <h1 class="vs-title vs-title--compact">Use AI to draft, not to decide.</h1>
+
+            <div class="deck-process" aria-label="Draft, review, gate, publish, and maintain documentation workflow">
+              <div class="vs-node">
+                <span class="vs-node__label">AI tools</span>
+                <strong>Draft</strong>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Truth owners</span>
+                <strong>Review</strong>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">CI checks</span>
+                <strong>Gate</strong>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Docs system</span>
+                <strong>Publish</strong>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Truth owners</span>
+                <strong>Maintain</strong>
+              </div>
+            </div>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 0:50</p>
+            <p><strong>Recommendation:</strong> Use AI to accelerate the first draft while keeping review and maintenance with the PMs and engineers who own the product truth.</p>
+            <p><strong>Delivery:</strong> AI tools can turn product context into an initial draft. The PMs and engineers closest to the feature review what is true, automated checks in CI gate the change (spectral linting on OpenAPI, for example), then the docs system publishes the approved version, and those same truth owners maintain the content as the product changes. The docs product owner maintains the infrastructure and tooling that make this workflow possible.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Human and agent access</p>
+            <h1 class="vs-title vs-title--compact">Keep one source of truth. Serve every reader.</h1>
+
+            <div class="deck-access-map" aria-label="One canonical documentation source with human and agent access paths">
+              <div class="deck-access-map__human vs-node">
+                <span class="vs-node__label">For people</span>
+                <strong>Readable site docs</strong>
+                <span>Browse, search, and copy a page as <code>.md</code>.</span>
+              </div>
+              <div class="deck-access-map__source vs-node">
+                <span class="vs-node__label">Source of truth</span>
+                <strong>Canonical documentation</strong>
+                <span>Versioned, reviewed, and maintained.</span>
+              </div>
+              <div class="deck-access-map__agent vs-node">
+                <span class="vs-node__label">For agents</span>
+                <strong>Useful access paths</strong>
+                <span><code>llms.txt</code> · <code>llms-full.txt</code> · MCP tools</span>
+              </div>
+            </div>
+            <p class="deck-access-map__note">Use these as representations and interfaces, not competing sources of truth.</p>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:15</p>
+            <p><strong>Recommendation:</strong> Keep the primary documentation site readable and useful for people, then offer machine-oriented representations or interfaces from that same governed source when a named task justifies them.</p>
+            <p><strong>Delivery:</strong> Keep one maintained source of truth, then offer it in forms that fit the job. People need readable pages and may want to copy a page as Markdown. Agents may use a curated llms dot txt, a synchronized full export, or MCP tools when interaction is required. These are access paths, not separate documentation systems.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title vs-title--compact">Let real use shape the roadmap.</h1>
+
+            <div class="deck-loop" aria-label="Measure, listen, and improve documentation from real use">
+              <div class="vs-node">
+                <span class="vs-node__label">Measure</span>
+                <strong>Watch the signals</strong>
+                <span>Top searches, and whether AI chats actually answer, or come up empty</span>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Listen</span>
+                <strong>Act on feedback</strong>
+                <span>Capture it and ship it, crediting the community, not individuals</span>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Improve</span>
+                <strong>Plan the work</strong>
+                <span>A maintenance roadmap that keeps every task doable, for agents and people</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 1:10</p>
+            <p><strong>Thesis:</strong> A product listens to how it is used and improves on purpose. Documentation should do the same, turning real signals into a maintained roadmap.</p>
+            <p><strong>Delivery:</strong> Measure what people and agents actually do: which topics get searched most, and whether the AI answers those questions or comes up empty. Listen to feedback, act on it, and credit the community as a whole rather than calling out individuals. Then improve deliberately: keep a maintenance roadmap that plans the work and keeps each task completable by both an agent and a person. That loop is what makes docs a product instead of a static artifact.</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="deck-close">
+            <div class="deck-close__copy">
+              <h1 class="vs-title vs-title--compact">Treat documentation as a product.</h1>
+              <p class="deck-closing-line">Own the system. Maintain the truth. Measure task success.</p>
+              <div class="deck-contact">
+                <img class="deck-contact__photo" src="./chris-nowicki.jpg" alt="Chris Nowicki" />
+                <div class="deck-contact__links">
+                  <p class="deck-contact__name">Chris Nowicki</p>
+                  <ul class="deck-contact__list">
+                    <li>
+                      <a href="https://chrisnowicki.dev">chrisnowicki.dev</a>
+                    </li>
+                    <li>
+                      <a href="https://x.com/iamwix" aria-label="Chris Nowicki on X">
+                        <svg class="deck-contact__icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg>
+                        <span>@iamwix</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://instagram.com/iamwix" aria-label="Chris Nowicki on Instagram">
+                        <svg class="deck-contact__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg>
+                        <span>@iamwix</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="notes">
+            <p>Target duration: 0:30</p>
+            <p><strong>Recommendation:</strong> Treat documentation as a product with system ownership, accountable truth owners, and task-level measures of success.</p>
+            <p><strong>Delivery:</strong> Documentation now shapes what people understand and what agents do. Treat it as a product: give the system an owner, keep product truth with the PMs and engineers closest to each feature, and measure whether the documentation helps the user complete the task.</p>
+          </aside>
+        </section>
+      </div>
+    </div>
+
+    <div class="dl">
+      <a href="./slides.pdf" download="cyc26-docs-as-product.pdf">Download PDF</a>
+    </div>
+
+    <script type="module">
+      import "./js/components.js";
+      import Reveal from "./vendor/reveal/dist/reveal.esm.js";
+      import Notes from "./vendor/reveal/plugin/notes/notes.esm.js";
+
+      // Expose the instance globally so tooling (e.g. decktape PDF export) and
+      // the browser console can reach it; reveal's ESM build keeps it scoped.
+      window.Reveal = Reveal;
+
+      // Pin a QR badge (links to the talk page) and an auto-incrementing page
+      // number to every slide, before reveal initializes. Doing it here keeps
+      // the authored <section>s untouched and the numbering self-maintaining.
+      const sections = document.querySelectorAll(".reveal .slides > section");
+      sections.forEach((section, index) => {
+        // The cover (first) and closing (last) slides get a larger "hero" QR.
+        const isHero = index === 0 || index === sections.length - 1;
+
+        const badge = document.createElement("div");
+        badge.className = isHero ? "qr qr--hero" : "qr";
+        badge.innerHTML =
+          '<img src="./qr.svg" alt="Scan to open the talk page">';
+        section.appendChild(badge);
+
+        const pageNumber = document.createElement("span");
+        pageNumber.className = isHero ? "pagenum pagenum--hero" : "pagenum";
+        pageNumber.textContent = String(index + 1).padStart(2, "0");
+        section.appendChild(pageNumber);
+      });
+
+      // Hide the download bar when the deck is embedded in an iframe (the talk
+      // page shows its own "Download PDF" link) or when exporting to PDF
+      // (?print-pdf for reveal's own print view, ?export for the decktape run).
+      const exportParams = new URLSearchParams(window.location.search);
+      const isExporting =
+        exportParams.has("print-pdf") || exportParams.has("export");
+      if (window.self !== window.top || isExporting) {
+        const bar = document.querySelector(".dl");
+        if (bar) bar.style.display = "none";
+      }
+
+      Reveal.initialize({
+        width: 980,
+        height: 552,
+        margin: 0.04,
+        maxScale: 3,
+        hash: true,
+        keyboard: true,
+        transition: "none",
+        controls: true,
+        progress: true,
+        center: false,
+        plugins: [Notes],
+      });
+    </script>
+  </body>
+</html>

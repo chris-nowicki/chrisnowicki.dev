@@ -1,0 +1,66 @@
+.reveal .slides section :not(pre) > code {
+  border-block-end: var(--vs-stroke) solid var(--vs-line);
+  color: var(--vs-ink);
+  background: var(--vs-code-paper);
+  padding-inline: var(--vs-space-1);
+  border-radius: var(--vs-radius-xs);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-code-scale);
+}
+
+.reveal .slides section pre,
+.reveal .slides section .slidev-code,
+.reveal .slides section .shiki {
+  border: var(--vs-stroke) solid var(--vs-line);
+  border-radius: var(--vs-radius-sm);
+  color: var(--vs-ink);
+  background: var(--vs-code-paper) !important;
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-sm);
+  line-height: var(--vs-code-leading);
+}
+
+.reveal .slides section pre code {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.reveal .slides section .slidev-code .line {
+  border-inline-start: var(--vs-stroke-accent) solid transparent;
+  padding-inline: var(--vs-space-4);
+}
+
+.reveal .slides section .slidev-code .line.highlighted,
+.reveal .slides section .slidev-code .line.has-highlighted {
+  border-inline-start-color: var(--vs-signal);
+  background: var(--vs-selection);
+}
+
+.reveal .slides section .slidev-code .line.diff.add {
+  border-inline-start-color: var(--vs-signal);
+}
+
+.reveal .slides section .slidev-code .line.diff.remove {
+  border-inline-start-color: var(--vs-warning);
+  text-decoration: line-through;
+  text-decoration-thickness: var(--vs-stroke);
+}
+
+.reveal .slides section .vs-code-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vs-space-2);
+  margin-block-end: var(--vs-space-2);
+  color: var(--vs-muted);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reveal .slides section .vs-code-label::before {
+  width: var(--vs-space-2);
+  height: var(--vs-space-2);
+  border: var(--vs-stroke) solid var(--vs-muted);
+  content: "";
+}

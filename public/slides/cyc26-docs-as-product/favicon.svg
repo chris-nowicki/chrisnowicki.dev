@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">CYC26 verified signal mark</title>
+  <rect width="64" height="64" rx="8" fill="#ffffff" />
+  <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M9 22V9h13M42 9h13v13M55 42v13H42M22 55H9V42" stroke="#007a3d" stroke-width="4" />
+    <path d="m20 31 9 9 17-20" stroke="#1d1d1f" stroke-width="5" />
+  </g>
+</svg>

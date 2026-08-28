@@ -1,0 +1,106 @@
+---
+title: 'Why We Should View Docs as a Product'
+date: 2026-09-03 # Commit Your Code 26
+event: 'Commit Your Code 26'
+description: 'Documentation in the age of AI — why docs deserve the same product discipline as the experience they support.'
+category: ['Talk']
+link: 'https://www.commityourcode.com/'
+slidesSlug: 'cyc26-docs-as-product'
+featured: true
+draft: false
+---
+
+A talk from [Commit Your Code 26](https://www.commityourcode.com/). AI does not make documentation less important. It gives people another path through the same source material, which makes accuracy, ownership, and maintenance more consequential. The argument is simple: documentation should be managed with the same product discipline as the experience it supports.
+
+When an agent reads your docs and acts on them, unclear or stale guidance stops being a confusing page and becomes a failed user task. So name the user and the job, give the system an owner while feature teams own the truth, and measure whether the task actually gets done — because a request is not a completed task.
+
+## The numbers behind the talk
+
+Two platform measurements anchor the "agents are reading your docs now" point. They come from different platforms, over different windows, classified by different rules, so they are two separate observations — not one trend line.
+
+<div class="not-prose my-8 grid gap-4 sm:grid-cols-2">
+  <div class="rounded-xl border border-border p-5 sm:p-6">
+    <div class="flex items-baseline justify-between gap-3">
+      <span class="font-mono text-3xl font-semibold tabular-nums text-foreground">51.8%</span>
+      <span class="text-xs uppercase tracking-wider text-muted-foreground">AI · 48.2% human</span>
+    </div>
+    <p class="mt-3 text-sm text-foreground">In a one-week GitBook sample, AI-agent requests were 51.8% of requests GitBook classified as intentional reads.</p>
+    <p class="mt-2 text-xs text-muted-foreground">Scope: page requests, not unique readers; GitBook-hosted sites only, with crawler and other-bot categories excluded.</p>
+    <div class="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs text-muted-foreground">
+      <a href="https://www.gitbook.com/blog/ai-docs-data-april-2026" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">GitBook, May 2026 ↗</a>
+      <span>Slide: <span class="text-foreground">Request Comparison</span></span>
+    </div>
+  </div>
+  <div class="rounded-xl border border-border p-5 sm:p-6">
+    <div class="flex items-baseline justify-between gap-3">
+      <span class="font-mono text-3xl font-semibold tabular-nums text-foreground">66%</span>
+      <span class="text-xs uppercase tracking-wider text-muted-foreground">213M agent · 105M human</span>
+    </div>
+    <p class="mt-3 text-sm text-foreground">On docs powered by Mintlify, agent web requests were 66% of measured traffic in July 2026 — up from a 15.2% share at the start of the year.</p>
+    <p class="mt-2 text-xs text-muted-foreground">Scope: July 2026, Mintlify-hosted docs only; agent requests and human page loads are counted differently, and not comparable with the GitBook figure.</p>
+    <div class="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs text-muted-foreground">
+      <a href="https://www.mintlify.com/blog/state-of-docs-traffic" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">Mintlify, July 2026 ↗</a>
+      <span>Slide: <span class="text-foreground">Across Another Platform</span></span>
+    </div>
+  </div>
+</div>
+
+## Make docs work on the web first
+
+Before adding agent-specific formats, make the documentation work well on the web. These are the established mechanisms the talk points to — each already has a defining specification.
+
+<div class="not-prose my-8 overflow-x-auto">
+  <table class="w-full border-collapse text-sm">
+    <thead>
+      <tr class="border-b border-border text-left text-xs uppercase tracking-wider text-muted-foreground">
+        <th class="py-2 pr-4 font-medium">Mechanism</th>
+        <th class="py-2 pr-4 font-medium">What it does</th>
+        <th class="py-2 font-medium">Defining spec</th>
+      </tr>
+    </thead>
+    <tbody class="text-foreground">
+      <tr class="border-b border-border/60">
+        <td class="py-3 pr-4 font-medium">Semantic headings</td>
+        <td class="py-3 pr-4 text-muted-foreground">Machine-readable document structure and outline</td>
+        <td class="py-3"><a href="https://html.spec.whatwg.org/multipage/sections.html#headings-and-outlines" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">WHATWG HTML ↗</a></td>
+      </tr>
+      <tr class="border-b border-border/60">
+        <td class="py-3 pr-4 font-medium">Durable URLs</td>
+        <td class="py-3 pr-4 text-muted-foreground">Stable identifiers that don't rot over time</td>
+        <td class="py-3"><a href="https://www.w3.org/Provider/Style/URI" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">W3C Cool URIs ↗</a></td>
+      </tr>
+      <tr class="border-b border-border/60">
+        <td class="py-3 pr-4 font-medium">Canonical link</td>
+        <td class="py-3 pr-4 text-muted-foreground">One authoritative URL per piece of content</td>
+        <td class="py-3"><a href="https://www.rfc-editor.org/rfc/rfc6596.html" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">RFC 6596 ↗</a></td>
+      </tr>
+      <tr class="border-b border-border/60">
+        <td class="py-3 pr-4 font-medium">Sitemaps</td>
+        <td class="py-3 pr-4 text-muted-foreground">Enumerate canonical URLs for discovery</td>
+        <td class="py-3"><a href="https://www.sitemaps.org/protocol.html" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">sitemaps.org ↗</a></td>
+      </tr>
+      <tr class="border-b border-border/60">
+        <td class="py-3 pr-4 font-medium">robots.txt</td>
+        <td class="py-3 pr-4 text-muted-foreground">Crawl policy for automated clients</td>
+        <td class="py-3"><a href="https://www.rfc-editor.org/rfc/rfc9309.html" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">RFC 9309 ↗</a></td>
+      </tr>
+      <tr class="border-b border-border/60">
+        <td class="py-3 pr-4 font-medium">OpenAPI</td>
+        <td class="py-3 pr-4 text-muted-foreground">Machine-readable description of an API</td>
+        <td class="py-3"><a href="https://spec.openapis.org/oas/v3.2.0.html" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">OpenAPI 3.2.0 ↗</a></td>
+      </tr>
+      <tr class="border-b border-border/60">
+        <td class="py-3 pr-4 font-medium">Copy as Markdown</td>
+        <td class="py-3 pr-4 text-muted-foreground">Serve a page as plain <code>.md</code> for machines</td>
+        <td class="py-3"><a href="https://www.rfc-editor.org/rfc/rfc7763.html" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">RFC 7763 ↗</a></td>
+      </tr>
+      <tr>
+        <td class="py-3 pr-4 font-medium">llms.txt / llms-full.txt</td>
+        <td class="py-3 pr-4 text-muted-foreground">Curated entry points and exports for LLMs</td>
+        <td class="py-3"><a href="https://llmstxt.org/" target="_blank" rel="noopener noreferrer" class="link-underline hover:text-foreground">llmstxt.org ↗</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+Keep one maintained source of truth, then serve it in the forms that fit the job: readable pages for people, and machine-oriented representations for agents. These are access paths, not competing sources of truth.
