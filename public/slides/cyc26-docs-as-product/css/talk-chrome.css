@@ -91,6 +91,32 @@ html.reveal-print .reveal .slides section .pagenum {
   gap: var(--vs-space-12);
 }
 
+/* Closing slide: same treatment as the cover — keep the copy block vertically
+   centered, but top-align the QR with the title ("Treat documentation as a
+   product."). The QR and copy share a flex row whose items align to the top,
+   and that row is centered within the slide. */
+.reveal .slides section .deck-close {
+  display: flex;
+  align-items: center;
+  min-block-size: 100%;
+}
+
+.reveal .slides section .deck-close__lead {
+  display: flex;
+  inline-size: 100%;
+  align-items: flex-start;
+  gap: var(--vs-space-12);
+}
+
+.reveal .slides section .deck-close__lead .deck-qr {
+  flex: none;
+}
+
+.reveal .slides section .deck-close__lead .deck-close__copy {
+  flex: 1;
+  min-inline-size: 0;
+}
+
 /* "Keep one source of truth" cards: top-align each card's content so the label,
    title, and body sit on the same lines across all three (the deck default
    centers them, which drops the shorter middle card lower than the others). */
