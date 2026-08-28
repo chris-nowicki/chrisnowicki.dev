@@ -73,16 +73,20 @@ html.reveal-print .reveal .slides section .pagenum {
   border-radius: 18px;
 }
 
-/* Top-align the cover's QR with the left-hand header (the eyebrow), rather
-   than the deck's default bottom/centered alignment. */
+/* Cover: keep the copy block vertically centered (its original position), but
+   top-align the QR with the left-hand eyebrow header. The copy and QR share a
+   flex row whose items align to the top (so the eyebrow and the QR sit on the
+   same line), and that row is vertically centered within the slide. */
 .reveal .slides section .deck-cover {
-  align-items: start;
+  display: flex;
+  align-items: center;
+  min-block-size: 100%;
 }
 
-.reveal .slides section .deck-cover .deck-cover__copy {
-  align-self: start;
-}
-
-.reveal .slides section .deck-cover__qr {
-  align-self: start;
+.reveal .slides section .deck-cover__lead {
+  display: flex;
+  inline-size: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--vs-space-12);
 }
