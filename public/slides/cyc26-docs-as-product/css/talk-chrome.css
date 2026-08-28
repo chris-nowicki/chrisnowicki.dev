@@ -117,14 +117,27 @@ html.reveal-print .reveal .slides section .pagenum {
   min-inline-size: 0;
 }
 
-/* Closing contact block: a role line under the name, and the X handle as the
-   prominent contact (the site link stays a quieter secondary). */
+/* Closing contact block: photo top-aligned with the name and a little larger,
+   a tight name/role pairing, and the X handle as the single contact. */
+.reveal .slides section .deck-contact {
+  align-items: flex-start;
+}
+
+.reveal .slides section .deck-contact__photo {
+  inline-size: calc(var(--vs-space-16) + var(--vs-space-6));
+  block-size: calc(var(--vs-space-16) + var(--vs-space-6));
+}
+
+.reveal .slides section .deck-contact__links {
+  gap: 0;
+}
+
 .reveal .slides section .deck-contact__name {
   font-size: var(--vs-text-xl);
 }
 
 .reveal .slides section .deck-contact__role {
-  margin: calc(var(--vs-space-1) * -1) 0 0;
+  margin: var(--vs-space-1) 0 0;
   color: var(--vs-muted);
   font-family: var(--vs-font-display);
   font-size: var(--vs-text-md);
@@ -137,13 +150,12 @@ html.reveal-print .reveal .slides section .pagenum {
 }
 
 .reveal .slides section .deck-contact__list {
-  align-items: center;
-  gap: var(--vs-space-3) var(--vs-space-8);
+  margin-block-start: var(--vs-space-4);
 }
 
 .reveal .slides section .deck-contact__list a.deck-contact__x {
   color: var(--vs-ink);
-  font-size: var(--vs-text-lg);
+  font-size: var(--vs-text-md);
   font-weight: 600;
 }
 
