@@ -117,15 +117,36 @@ html.reveal-print .reveal .slides section .pagenum {
   min-inline-size: 0;
 }
 
-/* Closing contact block: photo top-aligned with the name and a little larger,
-   a tight name/role pairing, and the X handle as the single contact. */
+/* Closing contact block: the photo (a little larger) with the @iamwix handle
+   centered beneath it, and the name + role vertically centered against the
+   photo. */
 .reveal .slides section .deck-contact {
-  align-items: flex-start;
+  align-items: center;
+}
+
+.reveal .slides section .deck-contact__id {
+  position: relative;
+  flex: none;
 }
 
 .reveal .slides section .deck-contact__photo {
   inline-size: calc(var(--vs-space-16) + var(--vs-space-6));
   block-size: calc(var(--vs-space-16) + var(--vs-space-6));
+}
+
+/* Handle sits centered under the photo, out of flow so it doesn't shift the
+   photo's vertical centering against the name/role. */
+.reveal .slides section .deck-contact__x {
+  position: absolute;
+  top: calc(100% + var(--vs-space-2));
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: var(--vs-ink);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-sm);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .reveal .slides section .deck-contact__links {
@@ -134,10 +155,11 @@ html.reveal-print .reveal .slides section .pagenum {
 
 .reveal .slides section .deck-contact__name {
   font-size: var(--vs-text-xl);
+  line-height: 1.05;
 }
 
 .reveal .slides section .deck-contact__role {
-  margin: var(--vs-space-1) 0 0;
+  margin: 0;
   color: var(--vs-muted);
   font-family: var(--vs-font-display);
   font-size: var(--vs-text-md);
@@ -146,16 +168,6 @@ html.reveal-print .reveal .slides section .pagenum {
 
 .reveal .slides section .deck-contact__co {
   color: var(--vs-ink);
-  font-weight: 600;
-}
-
-.reveal .slides section .deck-contact__list {
-  margin-block-start: var(--vs-space-4);
-}
-
-.reveal .slides section .deck-contact__list a.deck-contact__x {
-  color: var(--vs-ink);
-  font-size: var(--vs-text-md);
   font-weight: 600;
 }
 
