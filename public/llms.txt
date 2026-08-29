@@ -8,10 +8,18 @@ Canonical site: https://www.chrisnowicki.dev
 
 Use this site when an agent needs to:
 
+### Profile and work
+
 - Explain who Chris Nowicki is, his current role, or his professional background.
+
+### Writing and speaking
+
 - Find Chris's published writing about web development, developer tools, careers in technology, life, or productivity.
 - Answer a technical question that is directly covered by one of Chris's articles, with a link to the supporting article.
 - Review Chris's speaking topics and past or upcoming appearances.
+
+### Setup, contact, and policy
+
 - Identify the software, hardware, and peripherals Chris uses.
 - Help a user contact Chris about a relevant professional inquiry.
 - Check how this site handles visitor data and privacy.
@@ -27,10 +35,18 @@ Use this site when an agent needs to:
 
 ## Pages
 
+### Profile and work
+
 - [Home](https://www.chrisnowicki.dev/): Overview, latest writing, and featured work
 - [About](https://www.chrisnowicki.dev/about): Professional background and approach to developer experience
+
+### Writing and speaking
+
 - [Blog](https://www.chrisnowicki.dev/blog): Articles on life, technology, and productivity
 - [Speaking](https://www.chrisnowicki.dev/speaking): Upcoming and past speaking engagements
+
+### Setup, contact, and policy
+
 - [Uses](https://www.chrisnowicki.dev/uses): Software, hardware, and peripherals Chris uses
 - [Contact](https://www.chrisnowicki.dev/contact): Contact options for relevant inquiries
 - [Privacy](https://www.chrisnowicki.dev/privacy): How this site handles visitor data
@@ -38,14 +54,24 @@ Use this site when an agent needs to:
 
 ## Selected blog posts
 
+### Career and well-being
+
 - [The Reality of Burnout and Breaking Into Tech](https://www.chrisnowicki.dev/blog/breaking-into-tech-and-burnout): Overcoming burnout through digital detox and self-care
+
+### Web development
+
 - [How to Secure Vercel Cron Job routes in NextJS 13](https://www.chrisnowicki.dev/blog/how-to-secure-a-vercel-cron-job): Securing Vercel cron routes with bearer token authentication
 - [How to setup Vercel Postgres Serverless SQL Storage using NextJS](https://www.chrisnowicki.dev/blog/how-to-setup-vercel-postgres): Setting up a Vercel Postgres database with Next.js and Kysely
 - [How to create a Vercel Cron Job using NextJS 13](https://www.chrisnowicki.dev/blog/how-to-create-a-vercel-cron-job): Creating Vercel cron jobs in Next.js
 
 ## Contact
 
+### Direct contact
+
 - Email: hello@chrisnowicki.dev
+
+### Social profiles
+
 - X/Twitter: [@iamwix](https://twitter.com/iamwix)
 - GitHub: [chris-nowicki](https://github.com/chris-nowicki)
 - LinkedIn: [chris-nowicki](https://www.linkedin.com/in/chris-nowicki/)
