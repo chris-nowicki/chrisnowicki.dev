@@ -10,6 +10,7 @@ type Status = { available: boolean; message: string }
 export const NUMBER_OF_ENTRIES = 3
 
 export const navLinks = [
+  { href: '/about', text: 'About' },
   { href: '/blog', text: 'Blog' },
   { href: '/speaking', text: 'Speaking' },
   { href: '/uses', text: 'Uses' },
@@ -54,8 +55,9 @@ export const STATUS: Status = {
 }
 
 export const HOME: Metadata = {
-  TITLE: 'Home',
-  DESCRIPTION: 'Full-Stack Developer & Technology Nerd.',
+  TITLE: 'Developer Experience Engineer',
+  DESCRIPTION:
+    'Chris Nowicki is a Developer Experience Engineer at Commerce focused on developer experience, documentation, tools, and practical writing.',
 }
 
 export const BLOG: Metadata = {
@@ -74,7 +76,20 @@ export const USES: Metadata = {
   DESCRIPTION: 'The Gear That Keeps Me Caffeinated & Coding.',
 }
 
+export const ABOUT: Metadata = {
+  TITLE: 'About',
+  DESCRIPTION:
+    'About Chris Nowicki, a Developer Experience Engineer at Commerce based in the US.',
+}
+
 export const CONTACT: Metadata = {
   TITLE: 'Contact',
-  DESCRIPTION: 'Get in touch with me.',
+  DESCRIPTION:
+    'Contact Chris Nowicki about speaking, developer experience, published work, or professional collaboration.',
+}
+
+export const PRIVACY: Metadata = {
+  TITLE: 'Privacy',
+  DESCRIPTION:
+    'How chrisnowicki.dev handles analytics, theme preferences, outbound links, and email correspondence.',
 }

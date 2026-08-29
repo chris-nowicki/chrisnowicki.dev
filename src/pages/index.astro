@@ -1,4 +1,7 @@
 ---
+import type { ComponentProps } from 'astro/types'
+
+import Me from '@/assets/images/me.jpg'
 import Container from '@/components/Container.astro'
 import Hero from '@/components/Hero.astro'
 import LatestPosts from '@/components/LatestPosts.astro'
@@ -7,10 +10,71 @@ import Separator from '@/components/Separator.astro'
 import Speaking from '@/components/Speaking.astro'
 import Uses from '@/components/Uses.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
-import { HOME } from '@/lib/site'
+import { HOME, SITE, socialLinks } from '@/lib/site'
+
+const siteUrl = 'https://www.chrisnowicki.dev/'
+const websiteId = `${siteUrl}#website`
+const personId = `${siteUrl}#person`
+const organizationId = `${siteUrl}#organization`
+const sameAs = socialLinks.map(({ url }) => url)
+
+const structuredData: NonNullable<
+  ComponentProps<typeof PageLayout>['structuredData']
+> = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: siteUrl,
+      name: SITE.NAME,
+      description:
+        'The personal website of Chris Nowicki, a Developer Experience Engineer at Commerce based in the United States.',
+      inLanguage: 'en-US',
+      author: { '@id': personId },
+      publisher: { '@id': organizationId },
+    },
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: SITE.NAME,
+      url: siteUrl,
+      description:
+        'Chris Nowicki is a Developer Experience Engineer at Commerce based in the United States.',
+      jobTitle: 'Developer Experience Engineer',
+      email: SITE.EMAIL,
+      image: new URL(Me.src, siteUrl).href,
+      sameAs,
+      mainEntityOfPage: { '@id': websiteId },
+    },
+    {
+      '@type': 'Organization',
+      '@id': organizationId,
+      name: SITE.NAME,
+      description:
+        'The independent professional practice of Chris Nowicki, a Developer Experience Engineer based in the United States.',
+      url: siteUrl,
+      email: SITE.EMAIL,
+      sameAs,
+      founder: { '@id': personId },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'professional inquiries',
+        email: SITE.EMAIL,
+      },
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'US',
+      },
+    },
+  ],
+}
 ---
 
-<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+<PageLayout
+  title={HOME.TITLE}
+  description={HOME.DESCRIPTION}
+  structuredData={structuredData}>
   <Container>
     <Hero />
     <Separator />
