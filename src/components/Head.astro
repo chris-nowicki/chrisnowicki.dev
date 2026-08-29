@@ -4,25 +4,15 @@ import '@/styles/global.css'
 import { Font } from 'astro:assets'
 import { ClientRouter } from 'astro:transitions'
 
-type JsonLdPrimitive = boolean | null | number | string
-
-export type JsonLdValue =
-  JsonLdPrimitive | JsonLdValue[] | { [key: string]: JsonLdValue }
-
-export interface JsonLdObject {
-  [key: string]: JsonLdValue
-}
-
 interface Props {
   title: string
   description: string
   image?: string
-  structuredData?: JsonLdObject
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
-const { title, description, image = '/og.png', structuredData } = Astro.props
+const { title, description, image = '/og.png' } = Astro.props
 
 const getImageUrl = (img: string) => {
   if (img.startsWith('http')) {
@@ -32,16 +22,6 @@ const getImageUrl = (img: string) => {
 }
 
 const imageUrl = getImageUrl(image)
-
-const structuredDataJson =
-  structuredData ?
-    JSON.stringify(structuredData)
-      .replace(/&/g, '\\u0026')
-      .replace(/</g, '\\u003c')
-      .replace(/>/g, '\\u003e')
-      .replace(/\u2028/g, '\\u2028')
-      .replace(/\u2029/g, '\\u2029')
-  : undefined
 ---
 
 <!-- Theme initialization (prevents FOUC) -->
@@ -103,16 +83,6 @@ const structuredDataJson =
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
-
-{
-  structuredDataJson && (
-    <script
-      is:inline
-      type="application/ld+json"
-      set:html={structuredDataJson}
-    />
-  )
-}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />

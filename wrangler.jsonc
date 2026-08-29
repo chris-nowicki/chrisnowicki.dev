@@ -1,13 +1,9 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "portfolio",
-  "main": "./src/worker.ts",
   "compatibility_date": "2026-08-15",
-  // Prerendered by `astro build`; the Worker only negotiates response formats.
+  // Static site: no server code, just prerendered assets from `astro build`.
   "assets": {
     "directory": "./dist",
-    "binding": "ASSETS",
-    "run_worker_first": true,
-    "not_found_handling": "404-page",
   },
 }
