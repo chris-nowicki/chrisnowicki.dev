@@ -4,8 +4,7 @@ import { Image } from 'astro:assets'
 import DeskSetup from '@/assets/images/desk-setup.webp'
 ---
 
-<section
-  class="group bg-muted relative flex min-h-[160px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border">
+<section class="group relative flex min-h-[160px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border bg-muted">
   {/* Full-bleed image fills the whole card */}
   <div class="absolute inset-0">
     <Image
@@ -15,28 +14,19 @@ import DeskSetup from '@/assets/images/desk-setup.webp'
       widths={[600, 1200]}
       sizes="(max-width: 768px) 100vw, 500px"
     />
-    {
-      /* Gradient: strong at top for text legibility, fades to transparent at bottom */
-    }
-    <div
-      class="from-muted via-muted/80 to-muted/10 absolute inset-0 bg-linear-to-b">
-    </div>
+    {/* Gradient: strong at top for text legibility, fades to transparent at bottom */}
+    <div class="absolute inset-0 bg-linear-to-b from-muted via-muted/80 to-muted/10" />
   </div>
 
   {/* Content sits on top */}
   <div class="relative z-10 flex flex-col gap-3 p-4 sm:p-5 md:p-6">
-    <h2
-      class="text-lg leading-tight font-bold tracking-tight break-words sm:text-xl">
-      Developer tools and everyday setup
+    <h2 class="text-lg font-bold leading-tight tracking-tight break-words sm:text-xl">
+      The Gear That Keeps Me Caffeinated & Coding
     </h2>
-    <p class="text-foreground/80 text-sm leading-relaxed">
-      Explore the tools, desk gear, and practical choices that keep me
-      caffeinated, productive, and focused on writing and building.
-    </p>
 
     <a
       href="/uses"
-      class="border-primary bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring inline-flex items-center justify-center rounded-md border-2 px-4 py-2.5 text-center text-xs font-bold tracking-tight whitespace-nowrap uppercase shadow-sm transition-colors focus-visible:ring-1 focus-visible:outline-hidden sm:px-8 sm:py-4 sm:text-sm">
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md border-2 border-primary bg-primary px-4 py-2.5 text-center text-xs font-bold uppercase tracking-tight text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring sm:px-8 sm:py-4 sm:text-sm">
       View All Gear
     </a>
   </div>

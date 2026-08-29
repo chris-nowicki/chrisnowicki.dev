@@ -6,97 +6,59 @@ import Me from '@/assets/images/me.jpg'
 
 <section class="relative mt-12 pb-8 md:mt-20">
   <!-- Main grid layout -->
-  <div
-    class="grid gap-12 md:grid-cols-[1fr_280px] md:items-start md:gap-16 lg:gap-20">
+  <div class="grid gap-12 md:grid-cols-[1fr_280px] md:items-start md:gap-16 lg:gap-20">
+
     <!-- Left: Content -->
     <div class="order-2 md:order-1">
       <!-- Name - large typographic moment -->
       <h1 class="group/name cursor-default">
         <span class="name-line block overflow-hidden" style="--delay: 0ms">
-          <span
-            class="name-text text-foreground group-hover/name:text-muted-foreground block text-5xl font-bold tracking-tight transition-all duration-300 ease-out group-hover/name:-translate-y-0.5 sm:text-6xl lg:text-7xl">
+          <span class="name-text block text-5xl font-bold tracking-tight text-foreground transition-all duration-300 ease-out group-hover/name:-translate-y-0.5 group-hover/name:text-muted-foreground sm:text-6xl lg:text-7xl">
             Chris
           </span>
         </span>
         <span class="name-line block overflow-hidden" style="--delay: 80ms">
-          <span
-            class="name-text text-foreground group-hover/name:text-muted-foreground block text-5xl font-bold tracking-tight transition-all duration-300 ease-out group-hover/name:-translate-y-0.5 sm:text-6xl lg:text-7xl">
+          <span class="name-text block text-5xl font-bold tracking-tight text-foreground transition-all duration-300 ease-out group-hover/name:-translate-y-0.5 group-hover/name:text-muted-foreground sm:text-6xl lg:text-7xl">
             Nowicki
           </span>
         </span>
       </h1>
 
       <!-- Job title -->
-      <p
-        class="hero-animate text-muted-foreground mt-3 font-mono text-sm tracking-widest uppercase"
-        style="--delay: 120ms">
+      <p class="hero-animate mt-3 font-mono text-sm uppercase tracking-widest text-muted-foreground" style="--delay: 120ms">
         Developer Experience Engineer
       </p>
 
       <!-- Company -->
-      <p
-        class="hero-animate text-muted-foreground mt-1 text-sm"
-        style="--delay: 130ms">
-        Working at <a
-          href="https://www.commerce.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-foreground font-semibold hover:underline">Commerce</a
-        >
+      <p class="hero-animate mt-1 text-sm text-muted-foreground" style="--delay: 130ms">
+        Working at <a href="https://www.commerce.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-foreground hover:underline">Commerce</a>
       </p>
 
       <!-- Bio -->
-      <section
-        class="hero-animate mt-8 max-w-lg"
-        style="--delay: 150ms"
-        aria-labelledby="hero-bio-heading">
-        <h2
-          id="hero-bio-heading"
-          class="text-foreground text-xl font-semibold tracking-tight sm:text-2xl">
-          Making developer experience practical
-        </h2>
-
-        <h3
-          class="text-foreground mt-5 font-mono text-xs font-semibold tracking-widest uppercase">
-          At work
-        </h3>
-        <p class="text-muted-foreground mt-2 text-lg leading-relaxed">
-          I make complex products easier for developers to understand and use.
-          My work centers on clear documentation, useful tooling, and the
-          workflows that help teams move from an idea to a working integration
-          with less friction.
+      <div class="hero-animate mt-8 max-w-lg space-y-4" style="--delay: 150ms">
+        <p class="text-lg leading-relaxed text-muted-foreground">
+          When I'm not making developers' lives easier with docs and dev tools,
+          you'll find me tinkering with new tech, optimizing my productivity setup,
+          or hunting for the perfect cheeseburger.
         </p>
-
-        <h3
-          class="text-foreground mt-5 font-mono text-xs font-semibold tracking-widest uppercase">
-          On this site
-        </h3>
-        <p class="text-muted-foreground mt-2 leading-relaxed">
-          Here I share practical writing from that work, notes on the tools I
-          rely on, and lessons worth carrying into the next project. Away from
-          the keyboard, I am usually trying new technology, refining my
-          productivity setup, or looking for the perfect cheeseburger.
-        </p>
-      </section>
+      </div>
 
       <!-- Coffee callout -->
       <div class="hero-animate mt-6" style="--delay: 200ms">
         <blockquote>
-          <p class="font-cursive text-muted-foreground text-2xl sm:text-3xl">
+          <p class="font-cursive text-2xl text-muted-foreground sm:text-3xl">
             Oh, and coffee. Lots of coffee!
           </p>
         </blockquote>
       </div>
+
     </div>
 
     <!-- Right: Photo -->
-    <div
-      class="hero-animate order-1 flex md:order-2 md:justify-center"
-      style="--delay: 100ms">
+    <div class="hero-animate order-1 flex md:justify-center md:order-2" style="--delay: 100ms">
       <div class="flex flex-col items-center">
         <!-- Photo container -->
-        <div
-          class="border-border h-36 w-36 overflow-hidden rounded-xl border shadow-lg sm:h-44 sm:w-44 lg:h-52 lg:w-52">
+        <div class="h-36 w-36 overflow-hidden rounded-xl border border-border shadow-lg sm:h-44 sm:w-44 lg:h-52 lg:w-52">
           <Image
             src={Me}
             alt="Photo of Chris Nowicki"
@@ -105,6 +67,7 @@ import Me from '@/assets/images/me.jpg'
             class="h-full w-full object-cover"
           />
         </div>
+
       </div>
     </div>
   </div>
@@ -157,3 +120,4 @@ import Me from '@/assets/images/me.jpg'
     }
   }
 </style>
+

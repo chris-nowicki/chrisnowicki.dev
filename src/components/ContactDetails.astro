@@ -6,125 +6,49 @@ import { SITE, socialLinks } from '@/lib/site'
 
 import Link from './Link.astro'
 
-const socialLinkClass =
-  'group flex items-center gap-3 rounded-lg border border-border px-4 py-3 text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-foreground'
+const socialIconClass =
+  'hover:scale-110 transition-all duration-200 ease-in-out hover:text-foreground'
 ---
 
-<div class="grid gap-10 md:grid-cols-3 md:gap-12">
-  <div class="md:col-span-1">
-    <div
-      class="size-48 overflow-hidden rounded-lg shadow-xl md:sticky md:top-12">
-      <Image
-        src={Me}
-        alt="Portrait of Chris Nowicki"
-        loading="eager"
-        width={384}
-        class="h-full w-full object-cover grayscale transition-all duration-200 hover:grayscale-0"
-      />
-    </div>
+<div class="flex w-full flex-col gap-6 text-base md:flex-row">
+  <div
+    class="h-[200px] w-[200px] shrink-0 overflow-hidden rounded-lg shadow-xl">
+    <Image
+      src={Me}
+      alt="Photo of me"
+      loading="eager"
+      width={200}
+      class="h-full w-full object-cover grayscale transition-all duration-200 hover:grayscale-0"
+    />
   </div>
 
-  <div class="md:col-span-2">
-    <p class="text-lg leading-8">
-      Thanks for stopping by. Email is the clearest way to contact me about a
-      speaking opportunity, developer experience, something I have published, or
-      a professional collaboration.
-    </p>
-    <p class="text-muted-foreground mt-4 leading-7">
-      A short, specific note is welcome. You do not need a formal introduction;
-      a useful subject line and enough context to understand the request are a
-      good place to start.
-    </p>
-
-    <a
-      href={`mailto:${SITE.EMAIL}`}
-      class="group border-border bg-muted/30 hover:bg-muted mt-6 block rounded-lg border p-5 transition-colors duration-200">
-      <span
-        class="text-muted-foreground block font-mono text-xs font-semibold tracking-widest uppercase">
-        Email
-      </span>
-      <span
-        class="text-foreground mt-1 inline-flex items-center gap-2 font-semibold">
-        {SITE.EMAIL}
-        <span
-          aria-hidden="true"
-          class="transition-transform duration-200 group-hover:translate-x-1"
-          >→</span
-        >
-      </span>
-    </a>
-
-    <section
-      class="border-border mt-10 border-t pt-8"
-      aria-labelledby="helpful-details-heading">
-      <h2 id="helpful-details-heading" class="text-xl font-semibold">
-        Helpful details to include
-      </h2>
-      <p class="text-muted-foreground mt-3 leading-7">
-        The most useful context depends on the inquiry. Including the details
-        below makes the purpose of your message clear without requiring a long
-        email.
-      </p>
-      <ul
-        class="text-muted-foreground marker:text-foreground mt-4 space-y-3 pl-5">
-        <li class="list-disc leading-7">
-          <strong class="text-foreground">Speaking:</strong> the event, audience,
-          format, date, location or time zone, and whether the session will be recorded.
-        </li>
-        <li class="list-disc leading-7">
-          <strong class="text-foreground">Professional collaboration:</strong>
-          the goal, the current context, and what you would like me to consider or
-          discuss.
-        </li>
-        <li class="list-disc leading-7">
-          <strong class="text-foreground">Published work:</strong> a link to the relevant
-          page and the specific idea, question, or correction you are writing about.
-        </li>
-      </ul>
-    </section>
-
-    <section
-      class="border-border mt-10 border-t pt-8"
-      aria-labelledby="social-heading">
-      <h2 id="social-heading" class="text-xl font-semibold">
-        Elsewhere online
-      </h2>
-      <p class="text-muted-foreground mt-3 leading-7">
-        The public profiles below are another way to follow what I share. For a
-        detailed inquiry, email keeps the full context in one place.
-      </p>
-
-      <div class="mt-5 grid gap-3 sm:grid-cols-2">
-        {
-          socialLinks.map(({ name, icon: Icon, url, label }) => (
-            <Link
-              href={url}
-              class={socialLinkClass}
-              target="_blank"
-              ariaLabel={label}>
-              <Icon
-                width={20}
-                height={20}
-                aria-hidden="true"
-                class="shrink-0 transition-transform duration-200 group-hover:scale-110"
-              />
-              <span class="font-medium">{name}</span>
-            </Link>
-          ))
-        }
-      </div>
-    </section>
-
-    <p class="text-muted-foreground mt-8 text-sm leading-6">
-      The <a
-        href="/privacy"
-        class="text-foreground decoration-muted-foreground/40 hover:decoration-foreground font-medium underline underline-offset-4"
-        >privacy notice</a
-      > explains how this site handles analytics, theme preferences, outbound links,
-      and email correspondence.
+  <div>
+    <p class="mb-6">
+      If you want to get in touch with me about something or just to say hi 👋,
+      reach out on social media, schedule a virtual coffee chat or send me an
+      email at{' '}
+      <a
+        href={`mailto:${SITE.EMAIL}`}
+        class="link-underline hover:text-foreground font-bold">
+        {SITE.EMAIL}</a
+      >.
     </p>
 
-    <span class="font-cursive text-foreground mt-8 block text-4xl">— Chris</span
+    <div class="mb-8 flex flex-wrap gap-4">
+      {
+        socialLinks.map(({ icon: Icon, url, label }) => (
+          <Link
+            href={url}
+            class={socialIconClass}
+            target="_blank"
+            ariaLabel={label}>
+            <Icon width={24} aria-hidden="true" />
+          </Link>
+        ))
+      }
+    </div>
+
+    <span class="font-cursive text-foreground mt-8 block text-4xl">- Chris</span
     >
   </div>
 </div>

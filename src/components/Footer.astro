@@ -11,86 +11,58 @@ const currentYear = new Date().getFullYear()
 const builtWith = [
   { name: 'Astro', href: 'https://astro.build' },
   { name: 'React', href: 'https://react.dev' },
-  { name: 'TypeScript', href: 'https://www.typescriptlang.org' },
+{ name: 'TypeScript', href: 'https://www.typescriptlang.org' },
   { name: 'Tailwind', href: 'https://tailwindcss.com' },
 ]
 ---
 
 <footer class="relative mt-12 md:mt-16">
-  <div
-    class="border-border relative z-20 h-px w-full border-t border-dashed"
-    aria-hidden="true">
+  <div class="relative z-20 h-px w-full border-t border-dashed border-border" aria-hidden="true">
     <FramePlus position="left" />
     <FramePlus position="right" />
   </div>
 
   <div
-    class="pointer-events-none absolute inset-0 top-px opacity-[0.03]"
+    class="absolute inset-0 top-px opacity-[0.03] pointer-events-none"
     style="background-image: radial-gradient(circle, hsl(var(--muted-foreground)) 1px, transparent 1px); background-size: 24px 24px;"
     aria-hidden="true">
   </div>
 
   <Container>
     <div class="relative py-12 md:py-16">
-      <div
-        class="flex flex-col items-center gap-8 md:grid md:grid-cols-12 md:items-start">
+      <div class="flex flex-col items-center gap-8 md:grid md:grid-cols-12 md:items-start">
         <div class="text-center md:col-span-5 md:text-left">
-          <a
-            href="/"
-            class="font-cursive group text-foreground inline-flex items-center overflow-hidden text-4xl">
-            <span class="inline-block">C</span><span
-              class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]"
-              >hris</span
-            ><span
-              class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[16px]"
-              >&nbsp;</span
-            ><span class="inline-block">N</span><span
-              class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]"
-              >owicki</span
-            >
+          <a href="/" class="font-cursive group inline-flex items-center overflow-hidden text-4xl text-foreground">
+            <span class="inline-block">C</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">hris</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[16px]">&nbsp;</span><span class="inline-block">N</span><span class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-[140px]">owicki</span>
           </a>
-          <p
-            class="text-muted-foreground mx-auto mt-3 max-w-xs text-sm leading-relaxed md:mx-0">
-            Developer Experience Engineer crafting docs, tools, and the
-            occasional side project. Based in the US, powered by coffee.
+          <p class="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground md:mx-0">
+            Developer Experience Engineer crafting docs, tools, and the occasional side project. Based in the US, powered by coffee.
           </p>
 
-          <div
-            class="mt-4 flex items-center justify-center gap-3 md:justify-start">
+          <div class="mt-4 flex items-center justify-center gap-3 md:justify-start">
             {
               socialLinks.map(({ icon: Icon, url, label }) => (
                 <Link
                   href={url}
                   target="_blank"
                   ariaLabel={label}
-                  class="group border-border bg-background text-muted-foreground hover:border-ring hover:bg-accent hover:text-foreground flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-200">
-                  <Icon
-                    width={16}
-                    height={16}
-                    aria-hidden="true"
-                    class="transition-transform duration-200 group-hover:scale-110"
-                  />
+                  class="group flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-all duration-200 hover:border-ring hover:bg-accent hover:text-foreground">
+                  <Icon width={16} height={16} aria-hidden="true" class="transition-transform duration-200 group-hover:scale-110" />
                 </Link>
               ))
             }
           </div>
         </div>
 
-        <div
-          class="flex gap-16 text-center md:col-span-6 md:col-start-7 md:gap-0 md:text-left">
+        <div class="flex gap-16 text-center md:col-span-6 md:col-start-7 md:gap-0 md:text-left">
           <div class="md:flex-1">
-            <h3
-              class="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
-              Navigate
-            </h3>
-            <nav
-              class="mt-3 flex flex-col gap-2"
-              aria-label="Footer navigation">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Navigate</h3>
+            <nav class="mt-3 flex flex-col gap-2" aria-label="Footer navigation">
               {
                 footerLinks.map((link) => (
                   <a
                     href={link.href}
-                    class="text-muted-foreground hover:text-foreground text-sm transition-colors duration-200"
+                    class="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
                     data-astro-prefetch>
                     <span class="capitalize">{link.text}</span>
                   </a>
@@ -100,10 +72,7 @@ const builtWith = [
           </div>
 
           <div class="md:flex-1">
-            <h3
-              class="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
-              Built with
-            </h3>
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Built with</h3>
             <div class="mt-3 flex flex-col gap-2">
               {
                 builtWith.map((tech) => (
@@ -111,7 +80,7 @@ const builtWith = [
                     href={tech.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-muted-foreground hover:text-foreground text-sm transition-colors duration-200">
+                    class="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground">
                     {tech.name}
                   </a>
                 ))
@@ -121,25 +90,13 @@ const builtWith = [
         </div>
       </div>
 
-      <div
-        class="border-border mt-10 flex flex-col items-center gap-3 border-t pt-6 sm:flex-row sm:justify-between md:mt-16 md:pt-8">
-        <p class="text-muted-foreground text-center text-xs sm:text-left">
-          &copy; {currentYear}
-          {SITE.NAME}. Crafted with care &amp; <span
-            class="inline-block cursor-default transition-transform duration-200 hover:scale-125"
-            >☕</span
-          >
+      <div class="mt-10 flex items-center justify-center border-t border-border pt-6 md:mt-16 md:pt-8">
+        <p class="text-xs text-muted-foreground">
+          &copy; {currentYear} {SITE.NAME}. Crafted with care &amp; <span class="inline-block transition-transform duration-200 hover:scale-125 cursor-default">☕</span>
         </p>
 
-        <nav aria-label="Legal">
-          <a
-            href="/privacy"
-            class="text-muted-foreground hover:text-foreground text-xs transition-colors duration-200"
-            data-astro-prefetch>
-            Privacy
-          </a>
-        </nav>
       </div>
     </div>
   </Container>
 </footer>
+
