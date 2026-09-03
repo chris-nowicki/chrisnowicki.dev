@@ -47,15 +47,16 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 0:45</p>
             <p>
-              <strong>Point:</strong> AI changes how people reach documentation, but
-              the docs still need to be right.
+              <strong>Point:</strong> AI changes how people reach docs, but the docs
+              still have to be right.
             </p>
-            <p>
-              <strong>Say:</strong> Some people open the docs themselves. Others ask
-              an agent that reads the docs for them. Either way, the answer starts
-              with the same source, so someone has to own it and keep it accurate
-              and current. That's why I think docs should be managed like a product.
-            </p>
+            <ul>
+              <li>Some open the docs; others ask an agent that reads them</li>
+              <li>Same source either way → someone must own it</li>
+              <li>Keep it accurate and current</li>
+              <li>So: manage docs like a product</li>
+            </ul>
+            <p>Next: Who reads your docs?</p>
           </SpeakerNotes>
         </section>
 
@@ -69,15 +70,14 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 0:35</p>
             <p>
-              <strong>Point:</strong> Start with the person and what they need to
-              do.
+              <strong>Point:</strong> Start with the person and what they need to do.
             </p>
-            <p>
-              <strong>Say:</strong> The obvious reader is a person trying to understand
-              or use the product. They might read the page themselves, or they might
-              ask an agent to read it for them. The question is the same: what are
-              they trying to get done?
-            </p>
+            <ul>
+              <li>Obvious reader: a person using the product</li>
+              <li>They read it — or an agent reads it for them</li>
+              <li>Same question: what are they trying to get done?</li>
+            </ul>
+            <p>Next: The page was the experience</p>
           </SpeakerNotes>
         </section>
 
@@ -98,21 +98,23 @@ const enableSpeakerNotes = import.meta.env.DEV
                 { "kind": "docs", "label": "Docs" },
                 { "kind": "product", "label": "Product" }
               ]'
+              detour='{ "after": "docs", "label": "Stack Overflow", "kind": "stackoverflow" }'
             ></docs-pipeline>
           </div>
 
           <SpeakerNotes>
             <p>Time: 0:45</p>
             <p>
-              <strong>Point:</strong> This is a simple model of a familiar path, not
-              a history of every way people use documentation.
+              <strong>Point:</strong> A familiar path — a simple model, not every way
+              people use docs.
             </p>
-            <p>
-              <strong>Say:</strong> A person searches, opens the docs, decides whether
-              the answer works, and moves into the product. The docs page is where
-              the team presents the explanation. The next slide changes that part
-              of the path.
-            </p>
+            <ul>
+              <li>Person searches</li>
+              <li>Opens the docs — the page was the experience</li>
+              <li>Docs fall short → Stack Overflow, then loop back</li>
+              <li>Into the product</li>
+            </ul>
+            <p>Next: The path now has an intermediary</p>
           </SpeakerNotes>
         </section>
 
@@ -123,7 +125,8 @@ const enableSpeakerNotes = import.meta.env.DEV
               The path now has an intermediary.
             </h1>
             <p class="fragment deck-answer" data-fragment-index="1">
-              A person asks. An agent consults the docs. The person acts.
+              A person asks. An agent consults the docs. Then the agent or
+              person acts.
             </p>
 
             <docs-pipeline
@@ -142,21 +145,20 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 0:55</p>
             <p>
-              <strong>Point:</strong> An agent changes the route to the answer, not
+              <strong>Point:</strong> The agent changes the route to the answer, not
               the goal.
             </p>
+            <ul>
+              <li>Person asks an agent, not the docs</li>
+              <li>Agent consults the docs</li>
+              <li>Agent answers → agent or person acts</li>
+              <li>Docs are still the source; agent's in the middle</li>
+            </ul>
             <p>
-              <strong>Say:</strong> We still want to help a person use the product.
-              Now they may ask an agent instead of opening the docs themselves. The
-              agent checks the documentation, answers the question, and the person
-              acts. The docs are still the source. The agent is now in the middle.
+              <strong>Ref:</strong> Gauge — docs = 55% of agent web fetches (500-run
+              sample; illustrative vendor observation, not a general stat).
             </p>
-            <p>
-              <strong>Supporting example:</strong> In Gauge's 500-run sample of
-              coding-agent workflows, documentation accounted for 55% of recorded
-              web fetches. Gauge has not published the detailed methodology, so use
-              this as an illustrative vendor observation, not a general statistic.
-            </p>
+            <p>Next: The wider web (Thales)</p>
           </SpeakerNotes>
         </section>
 
@@ -177,21 +179,20 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 1:05</p>
             <p>
-              <strong>Point:</strong> Thales found more automated traffic than human
-              traffic in 2025, but that doesn't mean AI traffic was the majority.
+              <strong>Point:</strong> More automated than human traffic in 2025 — but
+              not an AI majority.
             </p>
+            <ul>
+              <li>Zoom out to the wider web first</li>
+              <li>Automated 53% vs human 47% (Thales, full-year 2025)</li>
+              <li>Next two slides narrow to docs platforms</li>
+            </ul>
             <p>
-              <strong>Say:</strong> Before we narrow this to documentation, look at
-              the wider web. Thales found that automated requests made up 53% of web
-              traffic in its full-year 2025 analysis. Human traffic was 47%.
+              <strong>Ref:</strong> 53% = all bots, not just LLM crawlers/agents.
+              Cloudflare 2025: AI bots avg 4.2% of HTML requests; dual-purpose
+              Googlebot 4.5%, counted separately.
             </p>
-            <p>
-              <strong>Careful:</strong> That 53% includes all bots, not only LLM crawlers
-              or agents. In a separate 2025 measurement across its customer base,
-              Cloudflare found that identified AI bots averaged 4.2% of HTML requests.
-              It counted dual-purpose Googlebot separately at 4.5%. The next two slides
-              focus specifically on documentation platforms and agent requests.
-            </p>
+            <p>Next: Docs traffic · GitBook</p>
           </SpeakerNotes>
         </section>
 
@@ -211,21 +212,19 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 1:10</p>
             <p>
-              <strong>Point:</strong> In one GitBook sample, agents made slightly
-              more of the requests GitBook called "intentional reads."
+              <strong>Point:</strong> In one GitBook sample, agents made slightly more
+              "intentional reads."
             </p>
+            <ul>
+              <li>Grouped: human / AI agent / crawler / other — crawlers removed</li>
+              <li>One week: AI 51.8% vs human 48.2%</li>
+              <li>People aren't the only ones reading docs anymore</li>
+            </ul>
             <p>
-              <strong>Say:</strong> GitBook grouped page requests into human, AI agent,
-              crawler, and other bot traffic. It removed the crawler groups before
-              publishing this split. Over that one week, AI agent requests were 51.8%
-              and human requests were 48.2%.
+              <strong>Ref:</strong> Requests ≠ people / sessions / tasks; one week
+              only — don't overstate.
             </p>
-            <p>
-              <strong>Careful:</strong> These are page requests, not people, sessions,
-              completed tasks, or proof that someone understood the page. It's also
-              only one week of traffic. I don't want to overstate it, but it shows
-              that people aren't the only ones reading docs anymore.
-            </p>
+            <p>Next: Docs traffic · Mintlify</p>
           </SpeakerNotes>
         </section>
 
@@ -245,21 +244,18 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 1:00</p>
             <p>
-              <strong>Point:</strong> Mintlify reported twice as many agent requests
-              as human page loads in July 2026.
+              <strong>Point:</strong> Mintlify reported ~2× agent requests vs human
+              page loads (July 2026).
             </p>
+            <ul>
+              <li>213M agent HTTP requests vs 105M human page loads</li>
+              <li>66% agent share — up from 15.2% in January</li>
+            </ul>
             <p>
-              <strong>Say:</strong> Mintlify counted 213 million agent HTTP requests
-              and 105 million human browser page loads across its hosted documentation.
-              That is a reported 66% agent share, up from 15.2% at the start of the
-              year.
+              <strong>Ref:</strong> Different events (server requests vs client page
+              loads); GitBook/Mintlify methods differ — don't combine into one trend.
             </p>
-            <p>
-              <strong>Careful:</strong> These numbers measure different events. Human
-              activity uses client-side page loads, while agent activity uses server-side
-              requests. GitBook and Mintlify also use different methods, so we shouldn't
-              combine them into a single trend.
-            </p>
+            <p>Next: Bad docs become bad actions</p>
           </SpeakerNotes>
         </section>
 
@@ -276,16 +272,16 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 1:15</p>
             <p>
-              <strong>Point:</strong> When an agent follows bad documentation, the
-              user's task can fail.
+              <strong>Point:</strong> When an agent follows bad docs, the user's task
+              fails.
             </p>
-            <p>
-              <strong>Say:</strong> A person can sometimes spot an incomplete page
-              and work around it. An agent may follow the documented path with confidence.
-              If that path is wrong, stale, or missing an important constraint, the
-              action fails, and the user is the one dealing with it. That makes documentation
-              quality and ownership part of the product experience.
-            </p>
+            <ul>
+              <li>People can spot a gap and work around it</li>
+              <li>Agents follow the documented path with confidence</li>
+              <li>Wrong / stale / missing → action fails, user pays</li>
+              <li>So docs quality + ownership = part of the product</li>
+            </ul>
+            <p>Next: What it looks like in practice (5 pillars)</p>
           </SpeakerNotes>
         </section>
 
@@ -351,17 +347,18 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 0:50</p>
             <p>
-              <strong>Point:</strong> Treating docs as a product describes how the
-              work should run.
+              <strong>Point:</strong> Bad docs → bad actions, so run docs like a
+              product.
             </p>
-            <p>
-              <strong>Say:</strong> If bad docs can lead to bad actions, they deserve
-              the same care as the rest of the product. Someone owns the docs system.
-              Feature teams own what is true. AI can help with drafts, automated checks
-              help keep content correct, and the docs need to work for people and
-              agents. Then we learn from real use and plan what to improve. The next
-              few slides take those ideas one at a time.
-            </p>
+            <ul>
+              <li>Own it — a docs owner; teams own the truth</li>
+              <li>Draft it — agentic tooling, human in the loop</li>
+              <li>Keep it correct — CI checks (Spectral) before publish</li>
+              <li>Make it reachable — llms.txt, MCP, copy-as-Markdown</li>
+              <li>Learn — analytics, feedback, maintenance roadmap</li>
+            </ul>
+            <p>Next few slides take these one at a time.</p>
+            <p>Next: System vs content — different owners</p>
           </SpeakerNotes>
         </section>
 
@@ -395,16 +392,20 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 1:10</p>
             <p>
-              <strong>Point:</strong> The documentation system and the product facts
-              need different owners.
+              <strong>Point:</strong> The docs system and the product facts need
+              different owners.
             </p>
-            <p>
-              <strong>Say:</strong> The docs product owner maintains the infrastructure,
-              publishing workflow, authoring tools, and the paths that make the docs
-              easy to find and use. PMs and engineers own the feature content. They
-              create or verify the first draft, make sure it is accurate, and keep
-              it current as the product changes.
-            </p>
+            <ul>
+              <li>
+                Docs product owner → the system (infra, publishing, tooling,
+                discovery)
+              </li>
+              <li>
+                PMs + engineers → the content (accuracy, first draft, upkeep as the
+                product changes)
+              </li>
+            </ul>
+            <p>Next: Start with a user and a task</p>
           </SpeakerNotes>
         </section>
 
@@ -429,20 +430,17 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 2:15</p>
             <p>
-              <strong>Point:</strong> Traffic tells us that someone reached the docs.
-              It doesn't tell us whether they finished the task.
+              <strong>Point:</strong> Traffic says someone arrived — not that they
+              finished.
             </p>
-            <p>
-              <strong>Say:</strong> "Developers" is too broad to be a useful user
-              model. Someone evaluating a product, someone responding to an incident,
-              and someone handling a breaking change have different jobs. Name the
-              user, name the task, and decide what success looks like. Then test that
-              task with a person or an agent. Watch what happens and use the result
-              to make a decision, such as improving navigation, explaining a prerequisite,
-              or removing a stale example. A page request alone can't tell us whether
-              someone found the right version, understood a constraint, or completed
-              the task.
-            </p>
+            <ul>
+              <li>"Developers" is too broad — name the user + task</li>
+              <li>Then measure whether they complete it</li>
+              <li>A request ≠ a completed task</li>
+              <li>Same task must succeed for a person AND an agent</li>
+              <li>Test it; act on the result (nav, prereq, stale example)</li>
+            </ul>
+            <p>Next: Use AI to draft, not to decide</p>
           </SpeakerNotes>
         </section>
 
@@ -482,17 +480,17 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 0:50</p>
             <p>
-              <strong>Point:</strong> Use AI for the first draft, but keep decisions
-              and maintenance with the people who know the product.
+              <strong>Point:</strong> Use AI to draft; keep decisions and upkeep with
+              the people who know the product.
             </p>
-            <p>
-              <strong>Say:</strong> AI tools can turn product context into a first
-              draft. The PMs and engineers closest to the feature review what is true.
-              CI checks validate the change, such as Spectral linting for OpenAPI,
-              and the docs system publishes the approved version. Those same PMs and
-              engineers keep the content current. The docs product owner keeps the
-              infrastructure and tooling running.
-            </p>
+            <ul>
+              <li>Draft — AI turns product context into a first draft</li>
+              <li>Review — truth owners (PMs/engineers) check what's true</li>
+              <li>Validate — CI checks (Spectral for OpenAPI)</li>
+              <li>Publish — docs system ships the approved version</li>
+              <li>Maintain — truth owners keep it current; owner keeps tooling running</li>
+            </ul>
+            <p>Next: One source, every reader (access)</p>
           </SpeakerNotes>
         </section>
 
@@ -533,16 +531,15 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 1:15</p>
             <p>
-              <strong>Point:</strong> Keep one maintained source, then give people
-              and agents ways to use it.
+              <strong>Point:</strong> Keep one maintained source; give people and
+              agents paths to it.
             </p>
-            <p>
-              <strong>Say:</strong> People need readable pages, and they may want
-              to copy a page as Markdown. Agents may use a curated llms dot txt file,
-              a synchronized full export, or MCP tools when the task requires interaction.
-              These are different paths into the same documentation, not separate
-              documentation systems.
-            </p>
+            <ul>
+              <li>People → readable pages, copy as Markdown</li>
+              <li>Agents → llms.txt, full export, MCP tools</li>
+              <li>Different paths, same docs — not separate systems</li>
+            </ul>
+            <p>Next: Let real use shape the roadmap</p>
           </SpeakerNotes>
         </section>
 
@@ -583,17 +580,14 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 1:10</p>
             <p>
-              <strong>Point:</strong> Let actual use and feedback decide what the
-              docs team works on next.
+              <strong>Point:</strong> Let real use and feedback decide what's next.
             </p>
-            <p>
-              <strong>Say:</strong> Look at what people and agents do. Which topics
-              do they search for? Does the AI answer their questions, or does it come
-              up empty? Capture feedback, act on it, and credit the community rather
-              than calling out individuals. Put that work on a maintenance roadmap
-              and keep checking whether both a person and an agent can complete the
-              task. That is how docs stay useful instead of becoming a static artifact.
-            </p>
+            <ul>
+              <li>Measure — top searches; do AI chats answer or come up empty?</li>
+              <li>Listen — capture feedback, ship it, credit the community</li>
+              <li>Improve — maintenance roadmap; keep every task doable (people + agents)</li>
+            </ul>
+            <p>Next: Close — treat docs as a product</p>
           </SpeakerNotes>
         </section>
 
@@ -640,16 +634,14 @@ const enableSpeakerNotes = import.meta.env.DEV
           <SpeakerNotes>
             <p>Time: 0:30</p>
             <p>
-              <strong>Point:</strong> Give the docs system an owner, keep product
-              facts with the people closest to them, and measure whether users finish
-              the task.
+              <strong>Point:</strong> Own the system, keep facts with the closest
+              people, measure task success.
             </p>
-            <p>
-              <strong>Say:</strong> Documentation shapes what people understand and
-              what agents do. Treat it like a product. Give the system an owner, keep
-              the content accurate, and measure whether the documentation helps the
-              user finish what they came to do.
-            </p>
+            <ul>
+              <li>Docs shape what people understand + what agents do</li>
+              <li>Treat it like a product</li>
+              <li>Owner + accuracy + task success</li>
+            </ul>
           </SpeakerNotes>
         </section>
       </div>
