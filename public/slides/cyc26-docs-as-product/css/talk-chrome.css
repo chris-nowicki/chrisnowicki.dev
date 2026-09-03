@@ -1,0 +1,169 @@
+/* Talk "chrome" layered on top of the CYC26 deck to match the pattern used by
+   the site's other talks: a QR badge + page number pinned to the top-right of
+   the middle slides, and print-pdf rules that keep the badge and page number
+   in the exported file. The cover and closing slides use their own native
+   resource panel (deck.css) instead of this floating badge. Retuned to the
+   deck's own tokens (tokens.css) rather than the wedding palette. Injected
+   markup comes from the init script in index.html, so the authored sections
+   stay untouched. */
+
+/* QR badge — white rounded card, top-right of the middle slides. */
+.reveal .slides section .qr {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  z-index: 5;
+  inline-size: 74px;
+  block-size: 74px;
+  padding: 7px;
+  box-sizing: border-box;
+  background: var(--vs-paper);
+  border: var(--vs-stroke) solid var(--vs-line);
+  border-radius: var(--vs-radius-md);
+  box-shadow:
+    0 0 0 var(--vs-space-1) var(--vs-paper),
+    0 2px 12px rgba(29, 29, 31, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal .slides section .qr img {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+}
+
+/* Page number tucks directly beneath the badge, centered on it. Matches the
+   badge's right:28px + 74px width so text-align:center lands under its center. */
+.reveal .slides section .pagenum {
+  position: absolute;
+  top: 100px;
+  right: 28px;
+  inline-size: 74px;
+  text-align: center;
+  z-index: 5;
+  margin: 0;
+  color: var(--vs-muted);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+/* PDF export (reveal print view): keep the QR badge and page number pinned in
+   each exported page. */
+html.reveal-print .reveal .slides section .qr {
+  position: absolute !important;
+  top: 20px !important;
+  right: 28px !important;
+}
+
+html.reveal-print .reveal .slides section .pagenum {
+  position: absolute !important;
+  top: 100px !important;
+  right: 28px !important;
+  inline-size: 74px !important;
+  text-align: center !important;
+}
+
+/* Cover / closing slides: a bare QR card (no panel, no caption) with softly
+   rounded corners on both the border and the modules (the SVG rounds the
+   modules). Slightly larger radius than the deck default so the rounding
+   reads as intentional. */
+.reveal .slides section .deck-qr--large {
+  border-radius: 18px;
+}
+
+/* Cover: keep the copy block vertically centered (its original position), but
+   top-align the QR with the left-hand eyebrow header. The copy and QR share a
+   flex row whose items align to the top (so the eyebrow and the QR sit on the
+   same line), and that row is vertically centered within the slide. */
+.reveal .slides section .deck-cover {
+  display: flex;
+  align-items: center;
+  min-block-size: 100%;
+}
+
+.reveal .slides section .deck-cover__lead {
+  display: flex;
+  inline-size: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--vs-space-12);
+}
+
+/* Closing slide: same treatment as the cover — keep the copy block vertically
+   centered, but top-align the QR with the title ("Treat documentation as a
+   product."). The QR and copy share a flex row whose items align to the top,
+   and that row is centered within the slide. */
+.reveal .slides section .deck-close {
+  display: flex;
+  align-items: center;
+  min-block-size: 100%;
+}
+
+.reveal .slides section .deck-close__lead {
+  display: flex;
+  inline-size: 100%;
+  align-items: flex-start;
+  gap: var(--vs-space-12);
+}
+
+.reveal .slides section .deck-close__lead .deck-qr {
+  flex: none;
+}
+
+.reveal .slides section .deck-close__lead .deck-close__copy {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+/* Closing contact block: photo (a little larger) centered against a three-line
+   byline — name, role, and the @iamwix handle — with even, tight spacing. */
+.reveal .slides section .deck-contact {
+  align-items: center;
+}
+
+.reveal .slides section .deck-contact__photo {
+  inline-size: calc(var(--vs-space-16) + var(--vs-space-6));
+  block-size: calc(var(--vs-space-16) + var(--vs-space-6));
+}
+
+.reveal .slides section .deck-contact__links {
+  gap: var(--vs-space-1);
+}
+
+.reveal .slides section .deck-contact__name {
+  font-size: var(--vs-text-xl);
+  line-height: 1.05;
+}
+
+.reveal .slides section .deck-contact__role {
+  margin: 0;
+  color: var(--vs-muted);
+  font-family: var(--vs-font-display);
+  font-size: var(--vs-text-md);
+  font-weight: 500;
+}
+
+.reveal .slides section .deck-contact__co {
+  color: var(--vs-ink);
+  font-weight: 600;
+}
+
+.reveal .slides section .deck-contact__x {
+  color: var(--vs-ink);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* "Keep one source of truth" cards: top-align each card's content so the label,
+   title, and body sit on the same lines across all three (the deck default
+   centers them, which drops the shorter middle card lower than the others). */
+.reveal .slides section .deck-access-map > .vs-node {
+  align-content: start;
+}
+

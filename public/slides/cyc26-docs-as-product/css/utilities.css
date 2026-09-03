@@ -1,0 +1,98 @@
+.reveal .slides section .vs-title {
+  max-inline-size: var(--vs-title-measure);
+  margin: 0;
+  font-family: var(--vs-font-display);
+  font-size: var(--vs-text-4xl);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.reveal .slides section .vs-title--compact {
+  max-inline-size: var(--vs-title-measure-compact);
+  font-size: var(--vs-text-3xl);
+  line-height: 1.02;
+}
+
+.reveal .slides section .vs-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--vs-space-3);
+  margin-block-end: var(--stage-head-gap, var(--vs-space-6));
+  color: var(--vs-muted);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.reveal .slides section .vs-eyebrow::before {
+  width: var(--vs-space-2);
+  height: var(--vs-space-2);
+  border: var(--vs-stroke) solid currentColor;
+  background: var(--vs-ink);
+  content: "";
+}
+
+.reveal .slides section .vs-eyebrow::after {
+  width: var(--vs-space-12);
+  height: var(--vs-stroke);
+  background: var(--vs-line);
+  content: "";
+}
+
+.reveal .slides section .vs-source {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--vs-space-4);
+  align-items: baseline;
+  margin-block-start: var(--vs-space-8);
+  padding-block-start: var(--vs-space-3);
+  border-block-start: var(--vs-stroke) solid var(--vs-line);
+  color: var(--vs-muted);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-sm);
+  line-height: 1.45;
+}
+
+.reveal .slides section .vs-source::before {
+  color: var(--vs-muted);
+  content: "SOURCE";
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.reveal .slides section .vs-source a {
+  color: inherit;
+  overflow-wrap: anywhere;
+}
+
+
+.reveal .slides section .vs-node {
+  position: relative;
+  min-inline-size: 0;
+  padding: var(--vs-space-4);
+  border: var(--vs-stroke) solid var(--vs-line);
+  border-radius: var(--vs-radius-sm);
+  background: var(--vs-panel);
+}
+
+.reveal .slides section .vs-node[data-signal="verified"] {
+  border-color: var(--vs-signal);
+}
+
+.reveal .slides section .vs-node[data-signal="warning"] {
+  border-color: var(--vs-warning);
+  border-style: dashed;
+}
+
+.reveal .slides section .vs-node__label {
+  color: var(--vs-muted);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

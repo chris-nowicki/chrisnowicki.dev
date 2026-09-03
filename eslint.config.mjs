@@ -6,7 +6,15 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    ignores: ['dist/', '.astro/', 'node_modules/', 'worker-configuration.d.ts'],
+    ignores: [
+      'dist/',
+      '.astro/',
+      'node_modules/',
+      'worker-configuration.d.ts',
+      // Self-contained static slide decks: vendored reveal.js bundles and
+      // framework-free browser scripts, not part of the linted source.
+      'public/slides/**',
+    ],
   },
 
   // Base JS + TypeScript

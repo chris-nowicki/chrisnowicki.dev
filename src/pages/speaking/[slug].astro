@@ -30,8 +30,9 @@ const { Content } = await render(entry)
 const t = entry.data
 
 const ogImageUrl = generateOgImageUrl({
-  header: t.title,
-  description: t.description,
+  header: '/SPEAKING',
+  description: t.title,
+  supportingText: t.description,
 })
 
 const subtitle = [t.event, formatDate(t.date.toDateString())]
@@ -84,12 +85,16 @@ const subtitle = [t.event, formatDate(t.date.toDateString())]
                 class="link-underline hover:text-foreground">
                 Open fullscreen ↗
               </a>
-              <a
-                href={`/slides/${t.slidesSlug}/slides.pdf`}
-                download={`${t.slidesSlug}.pdf`}
-                class="link-underline hover:text-foreground">
-                Download PDF
-              </a>
+              {
+                t.slidesPdf && (
+                  <a
+                    href={`/slides/${t.slidesSlug}/slides.pdf`}
+                    download={`${t.slidesSlug}.pdf`}
+                    class="link-underline hover:text-foreground">
+                    Download PDF
+                  </a>
+                )
+              }
             </div>
           </div>
         )

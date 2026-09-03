@@ -1,0 +1,104 @@
+.reveal .slides section {
+  overflow: hidden;
+  color: var(--vs-ink);
+  background-color: var(--vs-paper);
+  font-family: var(--vs-font-body);
+  font-size: var(--vs-text-md);
+  font-synthesis: none;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  accent-color: var(--vs-signal);
+}
+
+.reveal .slides section h1,
+.reveal .slides section h2,
+.reveal .slides section h3,
+.reveal .slides section h4 {
+  margin-block: 0;
+  color: var(--vs-ink);
+  font-family: var(--vs-font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.reveal .slides section p,
+.reveal .slides section li {
+  text-wrap: pretty;
+}
+
+.reveal .slides section a {
+  color: inherit;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: var(--vs-stroke);
+  text-underline-offset: var(--vs-space-1);
+  transition:
+    color var(--vs-duration) var(--vs-ease-out),
+    text-decoration-thickness var(--vs-duration) var(--vs-ease-out);
+}
+
+.reveal .slides section a:hover {
+  text-decoration-thickness: var(--vs-stroke-accent);
+}
+
+/* Slidev's .slidev-vclick-target / .slidev-vclick-hidden, translated to
+   reveal.js fragments. `visibility` stays in the transition list so hiding a
+   fragment (stepping backward) still fades instead of snapping. */
+.reveal .slides section .fragment {
+  transition:
+    opacity var(--vs-duration) var(--vs-ease-out),
+    visibility var(--vs-duration) var(--vs-ease-out),
+    transform 320ms var(--vs-ease-out);
+}
+
+.reveal .slides section .fragment:not(.visible) {
+  transform: translateX(-1.5rem);
+}
+
+.reveal .slides section strong {
+  color: var(--vs-ink);
+  font-weight: 700;
+}
+
+.reveal .slides section mark {
+  color: var(--vs-ink);
+  background: #fff1d6;
+  padding-inline: var(--vs-space-1);
+}
+
+.reveal .slides section hr {
+  height: var(--vs-stroke);
+  border: 0;
+  background: var(--vs-line);
+}
+
+.reveal .slides section ::selection {
+  color: var(--vs-ink);
+  background: var(--vs-selection);
+}
+
+.reveal .slides section :focus-visible {
+  outline: var(--vs-stroke-focus) solid var(--vs-focus);
+  outline-offset: var(--vs-space-1);
+  border-radius: var(--vs-radius-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section,
+  .reveal .slides section *,
+  .reveal .slides section *::before,
+  .reveal .slides section *::after {
+    /* Near-zero durations preserve lifecycle events without visible motion. */
+    scroll-behavior: auto !important;
+    animation-duration: var(--vs-duration-reduced) !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--vs-duration-reduced) !important;
+  }
+
+  .reveal .slides section .fragment:not(.visible) {
+    transform: none !important;
+  }
+}

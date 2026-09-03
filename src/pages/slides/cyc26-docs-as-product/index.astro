@@ -1,0 +1,701 @@
+---
+import SpeakerNotes from '@/components/slides/SpeakerNotes.astro'
+
+export const prerender = true
+
+const enableSpeakerNotes = import.meta.env.DEV
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Why We Should View Docs as a Product</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./vendor/reveal/dist/reveal.css" />
+    <link rel="stylesheet" href="./vendor/fonts/geist/index.css" />
+    <link rel="stylesheet" href="./vendor/fonts/geist-mono/index.css" />
+    <link rel="stylesheet" href="./css/tokens.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/utilities.css" />
+    <link rel="stylesheet" href="./css/code.css" />
+    <link rel="stylesheet" href="./css/deck.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/reveal-overrides.css" />
+    <link rel="stylesheet" href="./css/talk-chrome.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section class="deck-slide--cover">
+          <div class="deck-cover">
+            <div class="deck-cover__lead">
+              <div class="deck-cover__copy">
+                <p class="vs-eyebrow">Documentation in the Age of AI</p>
+                <h1 class="vs-title">Why We Should View Docs as a Product</h1>
+              </div>
+
+              <img
+                class="deck-qr deck-qr--large deck-cover__qr"
+                src="./qr.svg"
+                alt="Scan to open the talk page"
+              />
+            </div>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 0:45</p>
+            <p>
+              <strong>Point:</strong> AI changes how people reach docs, but the docs
+              still have to be right.
+            </p>
+            <ul>
+              <li>Some open the docs; others ask an agent that reads them</li>
+              <li>Same source either way → someone must own it</li>
+              <li>Keep it accurate and current</li>
+              <li>So: manage docs like a product</li>
+            </ul>
+            <p>Next: Who reads your docs?</p>
+          </SpeakerNotes>
+        </section>
+
+        <section class="deck-slide--chapter">
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Start with the user</p>
+            <h1 class="deck-question">Who reads your docs?</h1>
+            <p class="fragment deck-answer">And what counts as “reading”?</p>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 0:35</p>
+            <p>
+              <strong>Point:</strong> Start with the person and what they need to do.
+            </p>
+            <ul>
+              <li>Obvious reader: a person using the product</li>
+              <li>They read it — or an agent reads it for them</li>
+              <li>Same question: what are they trying to get done?</li>
+            </ul>
+            <p>Next: The page was the experience</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--pipeline">
+            <p class="vs-eyebrow">When people read docs</p>
+            <h1 class="vs-title vs-title--compact">
+              The documentation page was the experience.
+            </h1>
+
+            <docs-pipeline
+              class="deck-pipeline-single"
+              stage="search"
+              stage-label="Search"
+              steps='[
+                { "kind": "human", "label": "Human" },
+                { "kind": "search", "label": "Search" },
+                { "kind": "docs", "label": "Docs" },
+                { "kind": "product", "label": "Product" }
+              ]'
+              detour='{ "after": "docs", "label": "Stack Overflow", "kind": "stackoverflow" }'
+            ></docs-pipeline>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 0:45</p>
+            <p>
+              <strong>Point:</strong> A familiar path — a simple model, not every way
+              people use docs.
+            </p>
+            <ul>
+              <li>Person searches</li>
+              <li>Opens the docs — the page was the experience</li>
+              <li>Docs fall short → Stack Overflow, then loop back</li>
+              <li>Into the product</li>
+            </ul>
+            <p>Next: The path now has an intermediary</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--pipeline">
+            <p class="vs-eyebrow">How people use docs now</p>
+            <h1 class="vs-title vs-title--compact">
+              The path now has an intermediary.
+            </h1>
+            <p class="fragment deck-answer" data-fragment-index="1">
+              A person asks. An agent consults the docs. Then the agent or
+              person acts.
+            </p>
+
+            <docs-pipeline
+              stage="product"
+              stage-label="Agent-mediated"
+              steps='[
+                { "kind": "human", "label": "Human asks" },
+                { "kind": "ai", "label": "AI consults" },
+                { "kind": "docs", "label": "Docs" },
+                { "kind": "ai", "label": "AI answers" },
+                { "kind": "product", "label": "Product" }
+              ]'
+            ></docs-pipeline>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 0:55</p>
+            <p>
+              <strong>Point:</strong> The agent changes the route to the answer, not
+              the goal.
+            </p>
+            <ul>
+              <li>Person asks an agent, not the docs</li>
+              <li>Agent consults the docs</li>
+              <li>Agent answers → agent or person acts</li>
+              <li>Docs are still the source; agent's in the middle</li>
+            </ul>
+            <p>
+              <strong>Ref:</strong> Gauge — docs = 55% of agent web fetches (500-run
+              sample; illustrative vendor observation, not a general stat).
+            </p>
+            <p>Next: The wider web (Thales)</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--evidence">
+            <p class="vs-eyebrow">The wider web</p>
+
+            <div class="deck-stat deck-stat--traffic">
+              <traffic-split
+                claim-id="THALES-WEB-BOTS-001"
+                human='{ "label": "Human traffic", "percentage": "47%" }'
+                ai='{ "label": "Automated traffic", "percentage": "53%" }'
+                context="In Thales's 2025 analysis, automated traffic exceeded human traffic."
+              ></traffic-split>
+            </div>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 1:05</p>
+            <p>
+              <strong>Point:</strong> More automated than human traffic in 2025 — but
+              not an AI majority.
+            </p>
+            <ul>
+              <li>Zoom out to the wider web first</li>
+              <li>Automated 53% vs human 47% (Thales, full-year 2025)</li>
+              <li>Next two slides narrow to docs platforms</li>
+            </ul>
+            <p>
+              <strong>Ref:</strong> 53% = all bots, not just LLM crawlers/agents.
+              Cloudflare 2025: AI bots avg 4.2% of HTML requests; dual-purpose
+              Googlebot 4.5%, counted separately.
+            </p>
+            <p>Next: Docs traffic · GitBook</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--evidence">
+            <p class="vs-eyebrow">Docs traffic · GitBook</p>
+
+            <traffic-split
+              claim-id="CYC26-DOCS-AI-001"
+              class="deck-stat deck-stat--traffic"
+              human='{ "label": "Human requests", "percentage": "48.2%" }'
+              ai='{ "label": "AI-agent requests", "percentage": "51.8%" }'
+              context="On GitBook platforms, AI agents already request pages about as often as people do."
+            ></traffic-split>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 1:10</p>
+            <p>
+              <strong>Point:</strong> In one GitBook sample, agents made slightly more
+              "intentional reads."
+            </p>
+            <ul>
+              <li>Grouped: human / AI agent / crawler / other — crawlers removed</li>
+              <li>One week: AI 51.8% vs human 48.2%</li>
+              <li>People aren't the only ones reading docs anymore</li>
+            </ul>
+            <p>
+              <strong>Ref:</strong> Requests ≠ people / sessions / tasks; one week
+              only — don't overstate.
+            </p>
+            <p>Next: Docs traffic · Mintlify</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--evidence">
+            <p class="vs-eyebrow">Docs traffic · Mintlify</p>
+
+            <traffic-split
+              claim-id="MINTLIFY-AI-001"
+              class="deck-stat deck-stat--traffic"
+              human='{ "label": "Human browser page loads", "percentage": "105M", "share": "34%" }'
+              ai='{ "label": "Agent HTTP requests", "percentage": "213M", "share": "66%" }'
+              context="On Mintlify platforms, agent requests already outnumber human traffic two to one."
+            ></traffic-split>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 1:00</p>
+            <p>
+              <strong>Point:</strong> Mintlify reported ~2× agent requests vs human
+              page loads (July 2026).
+            </p>
+            <ul>
+              <li>213M agent HTTP requests vs 105M human page loads</li>
+              <li>66% agent share — up from 15.2% in January</li>
+            </ul>
+            <p>
+              <strong>Ref:</strong> Different events (server requests vs client page
+              loads); GitBook/Mintlify methods differ — don't combine into one trend.
+            </p>
+            <p>Next: Bad docs become bad actions</p>
+          </SpeakerNotes>
+        </section>
+
+        <section class="deck-slide--chapter">
+          <div class="deck-stage deck-stage--evidence">
+            <p class="vs-eyebrow">Why quality matters</p>
+            <h1 class="vs-title">Bad docs become bad actions.</h1>
+            <p class="fragment deck-answer">
+              The agent follows the wrong path. The task fails. The user feels
+              the frustration.
+            </p>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 1:15</p>
+            <p>
+              <strong>Point:</strong> When an agent follows bad docs, the user's task
+              fails.
+            </p>
+            <ul>
+              <li>People can spot a gap and work around it</li>
+              <li>Agents follow the documented path with confidence</li>
+              <li>Wrong / stale / missing → action fails, user pays</li>
+              <li>So docs quality + ownership = part of the product</li>
+            </ul>
+            <p>Next: What it looks like in practice (5 pillars)</p>
+          </SpeakerNotes>
+        </section>
+
+        <section class="deck-slide--chapter">
+          <div class="deck-stage">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title vs-title--compact">
+              What that looks like in practice.
+            </h1>
+
+            <ol class="deck-pillars">
+              <li class="fragment" data-fragment-index="1">
+                <span class="deck-pillars__num">01</span>
+                <span class="deck-pillars__body">
+                  <strong>Own it</strong>
+                  <span
+                    >A product owner for docs; PMs and engineers own the truth</span
+                  >
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="2">
+                <span class="deck-pillars__num">02</span>
+                <span class="deck-pillars__body">
+                  <strong>Draft it efficiently</strong>
+                  <span
+                    >Low-friction drafting: agentic tooling, human in the loop</span
+                  >
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="3">
+                <span class="deck-pillars__num">03</span>
+                <span class="deck-pillars__body">
+                  <strong>Keep it correct</strong>
+                  <span
+                    >Automated checks in CI (spectral for OpenAPI) before
+                    publish</span
+                  >
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="4">
+                <span class="deck-pillars__num">04</span>
+                <span class="deck-pillars__body">
+                  <strong>Make it reachable</strong>
+                  <span
+                    >llms.txt, MCP, and pages you can copy as Markdown (<code
+                      >.md</code
+                    >)</span
+                  >
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="5">
+                <span class="deck-pillars__num">05</span>
+                <span class="deck-pillars__body">
+                  <strong>Learn and improve</strong>
+                  <span
+                    >Analytics, user feedback, and a maintenance roadmap</span
+                  >
+                </span>
+              </li>
+            </ol>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 0:50</p>
+            <p>
+              <strong>Point:</strong> Bad docs → bad actions, so run docs like a
+              product.
+            </p>
+            <ul>
+              <li>Own it — a docs owner; teams own the truth</li>
+              <li>Draft it — agentic tooling, human in the loop</li>
+              <li>Keep it correct — CI checks (Spectral) before publish</li>
+              <li>Make it reachable — llms.txt, MCP, copy-as-Markdown</li>
+              <li>Learn — analytics, feedback, maintenance roadmap</li>
+            </ul>
+            <p>Next few slides take these one at a time.</p>
+            <p>Next: System vs content — different owners</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--detail">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title">
+              The system and content need different owners.
+            </h1>
+
+            <div class="fragment deck-two-up">
+              <div class="vs-node deck-node-copy">
+                <span class="vs-node__label">Docs product owner</span>
+                <strong>Owns the system</strong>
+                <span
+                  >Infrastructure, publishing, agentic authoring tools,
+                  discovery, and usability</span
+                >
+              </div>
+              <div class="vs-node deck-node-copy">
+                <span class="vs-node__label">Feature PMs + engineers</span>
+                <strong>Own the content</strong>
+                <span
+                  >Accuracy, initial drafts, and maintenance as the product
+                  changes</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 1:10</p>
+            <p>
+              <strong>Point:</strong> The docs system and the product facts need
+              different owners.
+            </p>
+            <ul>
+              <li>
+                Docs product owner → the system (infra, publishing, tooling,
+                discovery)
+              </li>
+              <li>
+                PMs + engineers → the content (accuracy, first draft, upkeep as the
+                product changes)
+              </li>
+            </ul>
+            <p>Next: Start with a user and a task</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--detail">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title">Start with a user and a task.</h1>
+            <p class="fragment deck-answer">
+              Then measure whether they can complete it.
+            </p>
+
+            <p class="fragment deck-equation">
+              <span>A request</span>
+              <strong aria-label="does not equal">≠</strong>
+              <span>A completed task</span>
+            </p>
+            <p class="fragment deck-answer">
+              The same task must succeed for a human and an agent.
+            </p>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 2:15</p>
+            <p>
+              <strong>Point:</strong> Traffic says someone arrived — not that they
+              finished.
+            </p>
+            <ul>
+              <li>"Developers" is too broad — name the user + task</li>
+              <li>Then measure whether they complete it</li>
+              <li>A request ≠ a completed task</li>
+              <li>Same task must succeed for a person AND an agent</li>
+              <li>Test it; act on the result (nav, prereq, stale example)</li>
+            </ul>
+            <p>Next: Use AI to draft, not to decide</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--detail">
+            <p class="vs-eyebrow">A practical workflow</p>
+            <h1 class="vs-title vs-title--compact">
+              Use AI to draft, not to decide.
+            </h1>
+
+            <div
+              class="deck-process"
+              aria-label="Draft, review, validate, publish, and maintain documentation workflow">
+              <div class="vs-node">
+                <span class="vs-node__label">AI tools</span>
+                <strong>Draft</strong>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Truth owners</span>
+                <strong>Review</strong>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">CI checks</span>
+                <strong>Validate</strong>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Docs system</span>
+                <strong>Publish</strong>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Truth owners</span>
+                <strong>Maintain</strong>
+              </div>
+            </div>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 0:50</p>
+            <p>
+              <strong>Point:</strong> Use AI to draft; keep decisions and upkeep with
+              the people who know the product.
+            </p>
+            <ul>
+              <li>Draft — AI turns product context into a first draft</li>
+              <li>Review — truth owners (PMs/engineers) check what's true</li>
+              <li>Validate — CI checks (Spectral for OpenAPI)</li>
+              <li>Publish — docs system ships the approved version</li>
+              <li>Maintain — truth owners keep it current; owner keeps tooling running</li>
+            </ul>
+            <p>Next: One source, every reader (access)</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--detail">
+            <p class="vs-eyebrow">Human and agent access</p>
+            <h1 class="vs-title vs-title--compact">
+              Keep one source of truth. Serve every reader.
+            </h1>
+
+            <div
+              class="deck-access-map"
+              aria-label="One canonical documentation source with human and agent access paths">
+              <div class="deck-access-map__human vs-node">
+                <span class="vs-node__label">For people</span>
+                <strong>Usable site docs</strong>
+                <span
+                  >Browse, search, ask AI, and view or copy pages as Markdown.</span
+                >
+              </div>
+              <div class="deck-access-map__source vs-node">
+                <span class="vs-node__label">Source of truth</span>
+                <strong>Canonical documentation</strong>
+                <span>Versioned, reviewed, maintained, with changelogs.</span>
+              </div>
+              <div class="deck-access-map__agent vs-node">
+                <span class="vs-node__label">For agents</span>
+                <strong>Useful access paths</strong>
+                <span
+                  ><code>llms.txt</code> · <code>llms-full.txt</code> · <code
+                    >.md</code
+                  > pages · MCP tools</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 1:15</p>
+            <p>
+              <strong>Point:</strong> Keep one maintained source; give people and
+              agents paths to it.
+            </p>
+            <ul>
+              <li>People → readable pages, copy as Markdown</li>
+              <li>Agents → llms.txt, full export, MCP tools</li>
+              <li>Different paths, same docs — not separate systems</li>
+            </ul>
+            <p>Next: Let real use shape the roadmap</p>
+          </SpeakerNotes>
+        </section>
+
+        <section>
+          <div class="deck-stage deck-stage--detail">
+            <p class="vs-eyebrow">Docs as product</p>
+            <h1 class="vs-title vs-title--compact">
+              Let real use shape the roadmap.
+            </h1>
+
+            <div
+              class="deck-loop"
+              aria-label="Measure, listen, and improve documentation from real use">
+              <div class="vs-node">
+                <span class="vs-node__label">Measure</span>
+                <strong>Track usage and outcomes</strong>
+                <span
+                  >Top searches, and whether AI chats actually answer, or come
+                  up empty</span
+                >
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Listen</span>
+                <strong>Act on feedback</strong>
+                <span>Capture it and ship it, crediting the community</span>
+              </div>
+              <div class="fragment vs-node">
+                <span class="vs-node__label">Improve</span>
+                <strong>Plan the work</strong>
+                <span
+                  >A maintenance roadmap that keeps every task doable, for
+                  agents and people</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 1:10</p>
+            <p>
+              <strong>Point:</strong> Let real use and feedback decide what's next.
+            </p>
+            <ul>
+              <li>Measure — top searches; do AI chats answer or come up empty?</li>
+              <li>Listen — capture feedback, ship it, credit the community</li>
+              <li>Improve — maintenance roadmap; keep every task doable (people + agents)</li>
+            </ul>
+            <p>Next: Close — treat docs as a product</p>
+          </SpeakerNotes>
+        </section>
+
+        <section class="deck-slide--close">
+          <div class="deck-close">
+            <div class="deck-close__lead">
+              <img
+                class="deck-qr deck-qr--large"
+                src="./qr.svg"
+                alt="Scan to open the talk page"
+              />
+
+              <div class="deck-close__copy">
+                <h1 class="vs-title vs-title--compact">
+                  Treat documentation as a product.
+                </h1>
+                <p class="deck-closing-line">
+                  Own the system. Maintain the truth. Measure task success.
+                </p>
+                <div class="deck-contact">
+                  <img
+                    class="deck-contact__photo"
+                    src="./chris-nowicki.jpg"
+                    alt="Chris Nowicki"
+                  />
+                  <div class="deck-contact__links">
+                    <p class="deck-contact__name">Chris Nowicki</p>
+                    <p class="deck-contact__role">
+                      DevEx Engineer / Documentation Product Manager at <span
+                        class="deck-contact__co">Commerce</span
+                      >
+                    </p>
+                    <a
+                      class="deck-contact__x"
+                      href="https://x.com/iamwix"
+                      aria-label="Chris Nowicki on X">@iamwix</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <SpeakerNotes>
+            <p>Time: 0:30</p>
+            <p>
+              <strong>Point:</strong> Own the system, keep facts with the closest
+              people, measure task success.
+            </p>
+            <ul>
+              <li>Docs shape what people understand + what agents do</li>
+              <li>Treat it like a product</li>
+              <li>Owner + accuracy + task success</li>
+            </ul>
+          </SpeakerNotes>
+        </section>
+      </div>
+    </div>
+
+    <script is:inline type="module" define:vars={{ enableSpeakerNotes }}>
+      import './js/components.js'
+      import Reveal from './vendor/reveal/dist/reveal.esm.js'
+
+      // Expose the instance globally so tooling (e.g. decktape PDF export) and
+      // the browser console can reach it; reveal's ESM build keeps it scoped.
+      Object.assign(window, { Reveal })
+
+      const plugins = []
+      if (enableSpeakerNotes) {
+        const { default: Notes } =
+          await import('./vendor/reveal/plugin/notes/notes.esm.js')
+        plugins.push(Notes)
+      }
+
+      // Pin a QR badge (links to the talk page) and an auto-incrementing page
+      // number to the middle slides, before reveal initializes. The cover and
+      // closing slides carry their own native resource panel instead, so they
+      // are skipped here. Doing it here keeps the authored <section>s
+      // untouched and the numbering self-maintaining.
+      const sections = document.querySelectorAll('.reveal .slides > section')
+      sections.forEach((section, index) => {
+        if (index === 0 || index === sections.length - 1) return
+
+        const badge = document.createElement('div')
+        badge.className = 'qr'
+        badge.innerHTML =
+          '<img src="./qr.svg" alt="Scan to open the talk page">'
+        section.appendChild(badge)
+
+        const pageNumber = document.createElement('span')
+        pageNumber.className = 'pagenum'
+        pageNumber.textContent = String(index + 1).padStart(2, '0')
+        section.appendChild(pageNumber)
+      })
+
+      Reveal.initialize({
+        width: 980,
+        height: 552,
+        margin: 0.04,
+        maxScale: 3,
+        hash: true,
+        keyboard: true,
+        transition: 'none',
+        controls: true,
+        progress: true,
+        center: false,
+        plugins,
+      })
+    </script>
+  </body>
+</html>

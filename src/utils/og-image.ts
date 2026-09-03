@@ -30,15 +30,20 @@ const publicId = 'portfolio/og-template'
 interface GenerateOgImageUrlProps {
   header: string
   description: string
+  supportingText?: string
   readTime?: string
 }
 
 const generateOgImageUrl = ({
   header,
   description,
-  readTime
+  supportingText,
+  readTime,
 }: GenerateOgImageUrlProps): string => {
   const formattedDescription = formatCloudinaryText(description)
+  const formattedSupportingText = supportingText
+    ? formatCloudinaryText(supportingText)
+    : undefined
 
   const baseOverlays: Overlay[] = [
     {
@@ -72,24 +77,42 @@ const generateOgImageUrl = ({
     }
   ]
 
-  const overlays: Overlay[] = readTime
-    ? [
-        ...baseOverlays,
-        {
-          position: {
-            x: 205,
-            y: 490,
-            gravity: 'north_west',
-          },
-          text: {
-            color: 'black',
-            fontFamily: 'Geist-Regular.ttf',
-            fontSize: 35,
-            text: readTime,
-          },
-        }
-      ]
-    : baseOverlays
+  const overlays: Overlay[] = [...baseOverlays]
+
+  if (formattedSupportingText) {
+    overlays.push({
+      width: 1000,
+      crop: 'fit',
+      position: {
+        x: 100,
+        y: 350,
+        gravity: 'north_west',
+      },
+      text: {
+        color: 'black',
+        fontFamily: 'Geist-Regular.ttf',
+        fontSize: 34,
+        letterSpacing: -0.05,
+        text: formattedSupportingText,
+      },
+    })
+  }
+
+  if (readTime) {
+    overlays.push({
+      position: {
+        x: 205,
+        y: 490,
+        gravity: 'north_west',
+      },
+      text: {
+        color: 'black',
+        fontFamily: 'Geist-Regular.ttf',
+        fontSize: 35,
+        text: readTime,
+      },
+    })
+  }
 
   return getCldOgImageUrl({
     src: publicId,

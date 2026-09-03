@@ -1,0 +1,269 @@
+---
+title: 'Why We Should View Docs as a Product'
+date: 2026-09-03 # Commit Your Code 26
+event: 'Commit Your Code 26'
+description: 'Documentation in the age of AI — why docs deserve the same product discipline as the experience they support.'
+category: ['Talk']
+link: 'https://www.commityourcode.com/'
+slidesSlug: 'cyc26-docs-as-product'
+slidesPdf: false
+featured: true
+draft: false
+---
+
+A talk from [Commit Your Code 26](https://www.commityourcode.com/). AI isn't making documentation less important. It's changing how people get to it: they might open a page themselves, or ask an agent to read it for them. Either way, the answer still depends on the docs being accurate and having someone responsible for them. That's the case I make in this talk.
+
+> Docs deserve the same care as the product they explain.
+
+What gets tricky is what happens when the docs are unclear or stale. An agent may keep going, and then the user's task fails. So the talk comes back to a few practical questions. Who is this for? What are they trying to do? Who keeps the docs system running, and which team owns the feature details? Traffic tells you that a request happened. It doesn't tell you whether the person finished what they came to do.
+
+## The numbers behind the talk
+
+Three headline measurements anchor the traffic shift discussed in the talk. Thales measures bot and human traffic across the wider web, while GitBook and Mintlify measure agent and human requests on their own documentation platforms. A Cloudflare measurement provides AI-specific context. They cover different populations, windows, units, and classification rules, so they are separate observations — not one trend line.
+
+<div class="not-prose my-8 grid gap-4 lg:grid-cols-3">
+  <div class="border-border rounded-xl border p-5 sm:p-6">
+    <div class="flex items-baseline justify-between gap-3">
+      <span class="text-foreground font-mono text-3xl font-semibold tabular-nums">
+        53%
+      </span>
+      <span class="text-muted-foreground text-xs tracking-wider uppercase">
+        bot · 47% human
+      </span>
+    </div>
+    <p class="text-foreground mt-3 text-sm">
+      Bots accounted for 53% of global web traffic in Thales's full-year 2025
+      analysis, exceeding human traffic at 47%.
+    </p>
+    <p class="text-muted-foreground mt-2 text-xs">
+      Scope: bots in aggregate, not AI agents alone. Thales says its report
+      combines analysis from its Threat Research and Security Analyst Services
+      teams.
+    </p>
+    <div class="text-muted-foreground mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs">
+      <a
+        href="https://cpl.thalesgroup.com/resources/application-security/2026-bad-bot-report"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-underline hover:text-foreground"
+      >
+        Thales, April 2026 ↗
+      </a>
+      <span>
+        Slide: <span class="text-foreground">The Wider Web</span>
+      </span>
+    </div>
+  </div>
+  <div class="border-border rounded-xl border p-5 sm:p-6">
+    <div class="flex items-baseline justify-between gap-3">
+      <span class="text-foreground font-mono text-3xl font-semibold tabular-nums">
+        51.8%
+      </span>
+      <span class="text-muted-foreground text-xs tracking-wider uppercase">
+        AI · 48.2% human
+      </span>
+    </div>
+    <p class="text-foreground mt-3 text-sm">
+      In a one-week GitBook sample, AI-agent requests were 51.8% of requests
+      GitBook classified as intentional reads.
+    </p>
+    <p class="text-muted-foreground mt-2 text-xs">
+      Scope: page requests, not unique readers; GitBook-hosted sites only, with
+      crawler and other-bot categories excluded.
+    </p>
+    <div class="text-muted-foreground mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs">
+      <a
+        href="https://www.gitbook.com/blog/ai-docs-data-april-2026"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-underline hover:text-foreground"
+      >
+        GitBook, May 2026 ↗
+      </a>
+      <span>
+        Slide: <span class="text-foreground">Docs Traffic · GitBook</span>
+      </span>
+    </div>
+  </div>
+  <div class="border-border rounded-xl border p-5 sm:p-6">
+    <div class="flex items-baseline justify-between gap-3">
+      <span class="text-foreground font-mono text-3xl font-semibold tabular-nums">
+        66%
+      </span>
+      <span class="text-muted-foreground text-xs tracking-wider uppercase">
+        213M agent · 105M human
+      </span>
+    </div>
+    <p class="text-foreground mt-3 text-sm">
+      On docs powered by Mintlify, agent web requests were 66% of measured
+      traffic in July 2026 — up from a 15.2% share at the start of the year.
+    </p>
+    <p class="text-muted-foreground mt-2 text-xs">
+      Scope: July 2026, Mintlify-hosted docs only; agent requests and human page
+      loads are counted differently, and not comparable with the GitBook figure.
+    </p>
+    <div class="text-muted-foreground mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs">
+      <a
+        href="https://www.mintlify.com/blog/state-of-docs-traffic"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-underline hover:text-foreground"
+      >
+        Mintlify, July 2026 ↗
+      </a>
+      <span>
+        Slide: <span class="text-foreground">Docs Traffic · Mintlify</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+The broader web result is a bot majority, not an AI majority. In its 2025 network analysis, [Cloudflare measured identified AI bots at an average 4.2% of HTML requests](https://blog.cloudflare.com/radar-2025-year-in-review/#while-other-ai-bots-accounted-for-4-2-of-html-request-traffic-googlebot-alone-accounted-for-4-5), with dual-purpose Googlebot broken out separately at 4.5%. That distinction is why the talk moves from the broad automation result to the two documentation-specific measurements instead of treating every bot request as an agent reading docs.
+
+## Make docs work on the web first
+
+Before I get into formats built for agents, I want to start with the web. Docs need to work there first. The mechanisms below already have defining specifications, which gives us a good place to start.
+
+<div class="not-prose my-8 overflow-x-auto">
+  <table class="w-full border-collapse text-sm">
+    <thead>
+      <tr class="border-border text-muted-foreground border-b text-left text-xs tracking-wider uppercase">
+        <th class="py-2 pr-4 font-medium">Mechanism</th>
+        <th class="py-2 pr-4 font-medium">What it does</th>
+        <th class="py-2 font-medium">Defining spec</th>
+      </tr>
+    </thead>
+    <tbody class="text-foreground">
+      <tr class="border-border/60 border-b">
+        <td class="py-3 pr-4 font-medium">Semantic headings</td>
+        <td class="text-muted-foreground py-3 pr-4">
+          Machine-readable document structure and outline
+        </td>
+        <td class="py-3">
+          <a
+            href="https://html.spec.whatwg.org/multipage/sections.html#headings-and-outlines"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline hover:text-foreground"
+          >
+            WHATWG HTML ↗
+          </a>
+        </td>
+      </tr>
+      <tr class="border-border/60 border-b">
+        <td class="py-3 pr-4 font-medium">Durable URLs</td>
+        <td class="text-muted-foreground py-3 pr-4">
+          Stable identifiers that don't rot over time
+        </td>
+        <td class="py-3">
+          <a
+            href="https://www.w3.org/Provider/Style/URI"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline hover:text-foreground"
+          >
+            W3C Cool URIs ↗
+          </a>
+        </td>
+      </tr>
+      <tr class="border-border/60 border-b">
+        <td class="py-3 pr-4 font-medium">Canonical link</td>
+        <td class="text-muted-foreground py-3 pr-4">
+          One authoritative URL per piece of content
+        </td>
+        <td class="py-3">
+          <a
+            href="https://www.rfc-editor.org/rfc/rfc6596.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline hover:text-foreground"
+          >
+            RFC 6596 ↗
+          </a>
+        </td>
+      </tr>
+      <tr class="border-border/60 border-b">
+        <td class="py-3 pr-4 font-medium">Sitemaps</td>
+        <td class="text-muted-foreground py-3 pr-4">
+          Enumerate canonical URLs for discovery
+        </td>
+        <td class="py-3">
+          <a
+            href="https://www.sitemaps.org/protocol.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline hover:text-foreground"
+          >
+            sitemaps.org ↗
+          </a>
+        </td>
+      </tr>
+      <tr class="border-border/60 border-b">
+        <td class="py-3 pr-4 font-medium">robots.txt</td>
+        <td class="text-muted-foreground py-3 pr-4">
+          Crawl policy for automated clients
+        </td>
+        <td class="py-3">
+          <a
+            href="https://www.rfc-editor.org/rfc/rfc9309.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline hover:text-foreground"
+          >
+            RFC 9309 ↗
+          </a>
+        </td>
+      </tr>
+      <tr class="border-border/60 border-b">
+        <td class="py-3 pr-4 font-medium">OpenAPI</td>
+        <td class="text-muted-foreground py-3 pr-4">
+          Machine-readable description of an API
+        </td>
+        <td class="py-3">
+          <a
+            href="https://spec.openapis.org/oas/v3.2.0.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline hover:text-foreground"
+          >
+            OpenAPI 3.2.0 ↗
+          </a>
+        </td>
+      </tr>
+      <tr class="border-border/60 border-b">
+        <td class="py-3 pr-4 font-medium">Copy as Markdown</td>
+        <td class="text-muted-foreground py-3 pr-4">
+          Serve a page as plain <code>.md</code> for machines
+        </td>
+        <td class="py-3">
+          <a
+            href="https://www.rfc-editor.org/rfc/rfc7763.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline hover:text-foreground"
+          >
+            RFC 7763 ↗
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td class="py-3 pr-4 font-medium">llms.txt / llms-full.txt</td>
+        <td class="text-muted-foreground py-3 pr-4">
+          Curated entry points and exports for LLMs
+        </td>
+        <td class="py-3">
+          <a
+            href="https://llmstxt.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline hover:text-foreground"
+          >
+            llmstxt.org ↗
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+I'd still keep one maintained set of docs, with readable pages for people and machine-friendly formats for agents when they need them. Both paths should lead back to the same source.
