@@ -37,7 +37,8 @@
 .docs-pipeline__steps {
   display: grid;
   grid-template-columns: repeat(var(--docs-pipeline-count), minmax(0, 1fr));
-  gap: var(--vs-space-8);
+  column-gap: var(--vs-space-8);
+  row-gap: var(--vs-space-4);
   align-items: stretch;
   margin: 0;
   padding: 0;
@@ -82,6 +83,44 @@
   font-size: var(--vs-text-2xl);
   font-weight: 700;
   line-height: 1;
+}
+
+/* Detour: a node hanging below a step with a down/up loop back into it.
+   Arrows + node share one grid cell (row 2) so the branch only adds a single
+   row; the row-gap override below keeps the vertical footprint inside the
+   fixed 552-unit slide height. */
+/* `> li` sets display:block at higher specificity, so scope the override to
+   the same selector depth to win and turn the cell into a centered grid. */
+.docs-pipeline__steps > .docs-pipeline__detour {
+  display: grid;
+  gap: var(--vs-space-2);
+  place-items: center;
+  min-inline-size: 0;
+}
+
+.docs-pipeline__detour-arrows {
+  display: inline-flex;
+  gap: var(--vs-space-3);
+  color: var(--vs-muted);
+  font-family: var(--vs-font-mono);
+  font-size: var(--vs-text-xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.docs-pipeline__detour-node {
+  min-block-size: var(--vs-space-12);
+  align-self: stretch;
+}
+
+.docs-pipeline__so {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vs-space-2);
+}
+
+.docs-pipeline__so-icon {
+  flex: none;
 }
 
 /* components/TrafficSplit.vue */
