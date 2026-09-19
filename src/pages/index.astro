@@ -3,6 +3,7 @@ import Container from '@/components/Container.astro'
 import Hero from '@/components/Hero.astro'
 import LatestPosts from '@/components/LatestPosts.astro'
 import NowCard from '@/components/NowCard.astro'
+import Podcast from '@/components/Podcast.astro'
 import Separator from '@/components/Separator.astro'
 import Speaking from '@/components/Speaking.astro'
 import Uses from '@/components/Uses.astro'
@@ -16,15 +17,14 @@ import { HOME } from '@/lib/site'
     <Separator />
     <LatestPosts />
     <Separator />
-    <div class="grid min-w-0 gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
-      <div class="flex min-w-0 flex-col gap-4 [&>:first-child]:flex-1">
+    <section aria-labelledby="bento-heading">
+      <h2 id="bento-heading" class="mb-6 text-lg font-semibold tracking-tight sm:text-2xl">Beyond the code</h2>
+      <div class="grid min-w-0 gap-3 md:grid-cols-12 md:gap-4 [&>*]:min-w-0 md:[&>:nth-child(odd)]:col-span-7 md:[&>:nth-child(even)]:col-span-5">
         <Speaking />
-      </div>
-
-      <div class="flex min-w-0 flex-col gap-4">
+        <Podcast />
         <Uses />
         <NowCard />
       </div>
-    </div>
+    </section>
   </Container>
 </PageLayout>

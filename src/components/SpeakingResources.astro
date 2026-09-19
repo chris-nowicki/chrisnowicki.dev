@@ -1,0 +1,22 @@
+---
+import { getSpeakingResources } from "@/utils/speaking-resources";
+
+interface Props {
+  talk: Parameters<typeof getSpeakingResources>[0];
+}
+
+const resources = getSpeakingResources(Astro.props.talk);
+---
+
+{resources.length > 0 && (
+  <div class="flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium">
+    {resources.map((resource) => (
+      <a href={resource.href} download={resource.download}
+        target={resource.download ? undefined : "_blank"}
+        rel={resource.download ? undefined : "noopener noreferrer"}
+        class="bento-action inline-flex min-h-11 items-center gap-1 underline decoration-border underline-offset-4 hover:decoration-current">
+        {resource.label}<span aria-hidden="true">{resource.download ? "↓" : "↗"}</span>
+      </a>
+    ))}
+  </div>
+)}

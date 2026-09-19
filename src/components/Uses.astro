@@ -1,33 +1,18 @@
 ---
-import { Image } from 'astro:assets'
-
-import DeskSetup from '@/assets/images/desk-setup.webp'
+import { Image } from "astro:assets";
+import DeskSetup from "@/assets/images/desk-setup.webp";
 ---
 
-<section class="group relative flex min-h-[160px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border bg-muted">
-  {/* Full-bleed image fills the whole card */}
-  <div class="absolute inset-0">
-    <Image
-      src={DeskSetup}
-      alt="Chris's desk setup"
-      class="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-      widths={[600, 1200]}
-      sizes="(max-width: 768px) 100vw, 500px"
-    />
-    {/* Gradient: strong at top for text legibility, fades to transparent at bottom */}
-    <div class="absolute inset-0 bg-linear-to-b from-muted via-muted/80 to-muted/10" />
+<a href="/uses" class="bento-card bento-gear card-link relative isolate flex min-h-72 flex-col overflow-hidden bg-muted">
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <Image src={DeskSetup} alt="" widths={[480, 800, 1200]}
+      sizes="(min-width: 768px) 520px, 100vw" class="bento-image h-full w-full object-cover" loading="lazy" />
+    <div class="absolute inset-0 bg-linear-to-b from-background via-background/85 to-background/40"></div>
+    <div class="bento-gear-wash absolute inset-0 bg-background/20"></div>
   </div>
-
-  {/* Content sits on top */}
-  <div class="relative z-10 flex flex-col gap-3 p-4 sm:p-5 md:p-6">
-    <h2 class="text-lg font-bold leading-tight tracking-tight break-words sm:text-xl">
-      The Gear That Keeps Me Caffeinated & Coding
-    </h2>
-
-    <a
-      href="/uses"
-      class="inline-flex items-center justify-center whitespace-nowrap rounded-md border-2 border-primary bg-primary px-4 py-2.5 text-center text-xs font-bold uppercase tracking-tight text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring sm:px-8 sm:py-4 sm:text-sm">
-      View All Gear
-    </a>
+  <div class="flex flex-1 flex-col gap-3 p-5 md:p-7">
+    <span class="bento-label text-muted-foreground">My setup</span>
+    <h3 class="max-w-sm text-xl font-semibold leading-tight tracking-tight sm:text-2xl">The gear that keeps me caffeinated & coding</h3>
+    <span class="mt-auto inline-flex min-h-11 w-fit items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">Explore my setup <span class="bento-arrow" aria-hidden="true">→</span></span>
   </div>
-</section>
+</a>

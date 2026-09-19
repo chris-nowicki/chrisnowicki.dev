@@ -70,28 +70,34 @@ export const softwareData: SoftwareDataItem[] = [
     link: 'https://cleanshot.com/',
   },
   {
-    title: 'Cursor',
-    description: 'AI-powered code editor built on VS Code',
-    imageSrc: '/icons/cursor.png',
-    link: 'https://cursor.com',
+    title: 'Claude',
+    description: 'AI assistant for writing, research, and coding',
+    imageSrc: '/icons/claude.png',
+    link: 'https://claude.ai/',
   },
   {
-    title: 'Goose',
-    description: 'your local AI agent, automating engineering tasks seamlessly',
-    imageSrc: '/icons/goose.png',
-    link: 'https://block.github.io/goose/',
+    title: 'Codex',
+    description: 'AI coding agent for building and reviewing software',
+    imageSrc: '/icons/codex.png',
+    link: 'https://openai.com/codex/',
+  },
+  {
+    title: 'Ghostty',
+    description: 'Fast, GPU-accelerated terminal with a native interface',
+    imageSrc: '/icons/ghostty.png',
+    link: 'https://ghostty.org/',
+  },
+  {
+    title: 'Herdr',
+    description: 'Terminal workspace for managing multiple AI coding agents',
+    imageSrc: '/icons/herdr.png',
+    link: 'https://herdr.dev/',
   },
   {
     title: 'Obsidian',
     description: 'Knowledge base and note-taking app with markdown',
     imageSrc: '/icons/obsidian.png',
     link: 'https://obsidian.md/',
-  },
-  {
-    title: 'Open Code',
-    description: 'Open source agent that helps you write code in your terminal, IDE, or desktop',
-    imageSrc: '/icons/opencode-logo-light.png',
-    link: 'https://opencode.ai/',
   },
   {
     title: 'Postman',
@@ -111,12 +117,6 @@ export const softwareData: SoftwareDataItem[] = [
     imageSrc: '/icons/vscode.png',
     link: 'https://code.visualstudio.com/',
   },
-  {
-    title: 'Wezterm',
-    description: 'GPU-accelerated cross-platform terminal emulator',
-    imageSrc: '/icons/wezterm.png',
-    link: 'https://wezterm.org',
-  },
 ]
 
 export const hardwareData: HardwareDataItem[] = [
@@ -126,9 +126,9 @@ export const hardwareData: HardwareDataItem[] = [
     link: 'https://www.apple.com/shop/buy-mac/macbook-pro/16-inch-m3-max',
   },
   {
-    title: 'BenQ 28" Programming Monitor',
-    description: 'Eye-care monitor optimized for coding',
-    link: 'https://a.co/d/aGNavya',
+    title: 'LG 34" UltraWide Ergo Monitor',
+    description: '34WN780-B ultrawide QHD display with an adjustable Ergo arm',
+    link: 'https://www.lg.com/us/monitors/lg-34wn780-b-ultrawide-monitor',
   },
   {
     title: 'CalDigit TS4 Docking Station',
@@ -136,19 +136,19 @@ export const hardwareData: HardwareDataItem[] = [
     link: 'https://amzn.to/4aNQvvX',
   },
   {
-    title: 'LG 28" DualUp Monitor',
-    description: 'Unique 16:18 aspect ratio vertical display',
-    link: 'https://amzn.to/3Uef9iq',
-  },
-  {
     title: 'Uplift V2 Standing Desk',
     description: 'Adjustable height standing desk',
     link: 'https://www.upliftdesk.com',
   },
   {
-    title: 'ZSA Voyager Keyboard',
-    description: 'Split ergonomic mechanical keyboard',
-    link: 'https://www.zsa.io/voyager',
+    title: 'Apple Magic Keyboard with Touch ID',
+    description: 'Compact wireless keyboard with Touch ID and Lightning charging',
+    link: 'https://www.bhphotovideo.com/c/product/1658216-REG/apple_mk293ll_a_magic_keyboard_with_touch.html',
+  },
+  {
+    title: 'Logitech MX Master 4 for Mac',
+    description: 'Wireless ergonomic mouse with haptic feedback',
+    link: 'https://www.logitech.com/en-us/shop/p/mx-master-4-mac',
   },
   {
     title: 'Audio Technica M50x Headphones',

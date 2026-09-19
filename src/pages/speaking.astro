@@ -1,6 +1,8 @@
 ---
 import Container from '@/components/Container.astro'
+import HoverList from "@/components/HoverList.astro";
 import PageHeader from '@/components/PageHeader.astro'
+import SpeakingResources from "@/components/SpeakingResources.astro";
 import PageLayout from '@/layouts/PageLayout.astro'
 import { SPEAKING } from '@/lib/site'
 import generateOgImageUrl from '@/utils/og-image'
@@ -28,91 +30,48 @@ const ogImageUrl = generateOgImageUrl({
 
       {
         featured && (
-          <a
-            href={`/speaking/${featured.slug}`}
-            class="group mb-12 block rounded-xl border border-border p-6 transition-colors duration-200 hover:bg-muted sm:mb-16 sm:p-8">
-            <div class="mb-3 flex items-center gap-3 font-mono text-xs tracking-widest text-muted-foreground uppercase">
-              <span>Featured</span>
-              <span class="bg-border h-3 w-px" />
-              <span>{formatDate(featured.date.toDateString())}</span>
-            </div>
-            <h2 class="text-2xl font-semibold sm:text-3xl">{featured.title}</h2>
-            <p class="mt-2 text-muted-foreground">{featured.description}</p>
-            <div class="mt-4 flex flex-wrap items-center gap-2">
-              {featured.event && (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  {featured.event}
-                </span>
-              )}
-              {featured.category.map((cat) => (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  {cat}
-                </span>
-              ))}
-              {featured.slidesSlug && (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  Slides
-                </span>
-              )}
-              {featured.youtube && (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  Video
-                </span>
-              )}
-            </div>
-            <span class="mt-5 inline-flex items-center gap-1 text-sm font-medium text-foreground">
-              View talk
-              <span class="transition-transform duration-200 group-hover:translate-x-1">
-                →
-              </span>
-            </span>
-          </a>
+          <article class="mb-10 rounded-2xl border border-border bg-card p-5 sm:mb-12 sm:p-8">
+            <p class="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">Featured appearance</p>
+            <p class="mb-3 text-sm text-muted-foreground">
+              {featured.event && <span>{featured.event} · </span>}
+              <time datetime={featured.date.toISOString()}>{formatDate(featured.date.toDateString())}</time>
+            </p>
+            <h2 class="text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
+              <a class="bento-action hover:underline underline-offset-4" href={`/speaking/${featured.slug}`}>{featured.title}</a>
+            </h2>
+            <p class="mt-3 mb-4 max-w-prose leading-relaxed text-muted-foreground">{featured.description}</p>
+            <SpeakingResources talk={featured} />
+          </article>
         )
       }
 
-      {
-        featured && rest.length > 0 && (
-          <h2 class="mb-4 px-4 font-mono text-xs tracking-widest text-muted-foreground uppercase">
-            Previous talks
-          </h2>
-        )
-      }
-
-      <div>
-        {
-          rest.map((talk) => (
-            <a
-              href={talk.hasDetail ? `/speaking/${talk.slug}` : talk.link}
-              target={talk.hasDetail ? undefined : '_blank'}
-              rel={talk.hasDetail ? undefined : 'noopener noreferrer'}
-              class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-muted">
-              <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
-                <span class="order-1 text-muted-foreground sm:order-3">
-                  {formatDate(talk.date.toDateString())}
-                </span>
-                <span
-                  class="order-3 hidden flex-1 bg-muted-foreground/20 px-2 sm:order-2 sm:block"
-                  style="height: 1px; align-self: center;"
-                />
-                <h2 class="order-2 flex flex-1 items-center gap-2 text-lg font-semibold sm:order-1">
+      {rest.length > 0 && <h2 class="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">{featured ? "Previous talks" : "Talks & appearances"}</h2>}
+      <HoverList class="-mx-3">
+      <ul class="relative">
+        {rest.map((talk) => {
+          const href = talk.hasDetail ? `/speaking/${talk.slug}` : talk.link;
+          const Tag = href ? "a" : "div";
+          return (
+            <li>
+              <Tag href={href}
+                target={href && !talk.hasDetail ? "_blank" : undefined}
+                rel={href && !talk.hasDetail ? "noopener noreferrer" : undefined}
+                data-hover-row={href ? "" : undefined}
+                class:list={["relative flex min-h-14 flex-col justify-center gap-1 rounded-lg px-3 py-4 sm:flex-row sm:items-center sm:gap-3", href && "bento-action focus-visible:bg-muted"]}>
+                <h3 class="min-w-0 text-base font-medium leading-snug">
                   {talk.title}
-                  {talk.slidesSlug && (
-                    <span class="text-xs font-normal text-muted-foreground">
-                      Slides
-                    </span>
-                  )}
-                  {talk.youtube && (
-                    <span class="text-xs font-normal text-muted-foreground">
-                      Video
-                    </span>
-                  )}
-                </h2>
-              </div>
-              <p class="text-muted-foreground">{talk.description}</p>
-            </a>
-          ))
-        }
-      </div>
+                </h3>
+                <span class="hidden h-px min-w-4 flex-1 bg-muted-foreground/20 sm:block" aria-hidden="true"></span>
+                <time datetime={talk.date.toISOString()} class="shrink-0 whitespace-nowrap text-xs text-muted-foreground">
+                  {formatDate(talk.date.toDateString())}
+                </time>
+              </Tag>
+            </li>
+          );
+        })}
+      </ul>
+      </HoverList>
+      {speaking.length === 0 && <p class="text-muted-foreground">No talks published yet.</p>}
     </section>
   </Container>
 </PageLayout>
