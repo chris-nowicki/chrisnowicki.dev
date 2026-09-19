@@ -1,9 +1,9 @@
-import { glob } from 'astro/loaders'
-import { z } from 'astro/zod'
-import { defineCollection } from 'astro:content'
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
+import { defineCollection } from "astro:content";
 
 const blog = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: 'src/content/blog' }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/blog" }),
   schema: z.object({
     date: z.date().transform((d) => new Date(d.setUTCHours(12, 0, 0, 0))),
     title: z.string(),
@@ -11,16 +11,16 @@ const blog = defineCollection({
     image: z.string().optional(),
     draft: z.boolean(),
   }),
-})
+});
 
 const speaking = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: 'src/content/speaking' }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/speaking" }),
   schema: z.object({
     title: z.string(),
     date: z.date().transform((d) => new Date(d.setUTCHours(12, 0, 0, 0))),
     event: z.string().optional(),
     description: z.string(),
-    category: z.array(z.string()).default([]),
+    category: z.array(z.enum(["Talk", "Podcast"])).default([]),
     link: z.string().url().optional(),
     youtube: z.string().optional(),
     slidesSlug: z.string().optional(),
@@ -28,6 +28,6 @@ const speaking = defineCollection({
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),
-})
+});
 
-export const collections = { blog, speaking }
+export const collections = { blog, speaking };

@@ -1,10 +1,9 @@
 ---
-
 ---
 
 <button
   id="scrollToTop"
-  class="bg-foreground text-background pointer-events-none invisible fixed right-12 bottom-10 hidden cursor-pointer rounded-full p-3 opacity-0 shadow-lg transition-all duration-300 hover:scale-105 lg:block"
+  class="bg-foreground text-background pointer-events-none invisible fixed right-12 bottom-10 hidden cursor-pointer rounded-full p-3 opacity-0 transition-opacity duration-150 hover:opacity-80 lg:block"
   aria-label="Scroll to top"
   aria-hidden="true"
   tabindex="-1">
@@ -24,63 +23,64 @@
 
 <script>
   function initScrollToTop() {
-    const candidate = document.querySelector<HTMLButtonElement>('#scrollToTop')
-    if (!candidate) return
-    const scrollButton = candidate
+    const candidate = document.querySelector<HTMLButtonElement>("#scrollToTop");
+    if (!candidate) return;
+    const scrollButton = candidate;
 
-    const scrollThreshold = 300
+    const scrollThreshold = 300;
 
     function setScrollButtonVisible(visible: boolean) {
-      scrollButton.classList.toggle('invisible', !visible)
-      scrollButton.classList.toggle('pointer-events-none', !visible)
-      scrollButton.style.opacity = visible ? '1' : '0'
-      scrollButton.setAttribute('aria-hidden', String(!visible))
-      scrollButton.tabIndex = visible ? 0 : -1
+      scrollButton.classList.toggle("invisible", !visible);
+      scrollButton.classList.toggle("pointer-events-none", !visible);
+      scrollButton.style.opacity = visible ? "1" : "0";
+      scrollButton.setAttribute("aria-hidden", String(!visible));
+      scrollButton.tabIndex = visible ? 0 : -1;
 
       if (!visible && document.activeElement === scrollButton) {
-        scrollButton.blur()
+        scrollButton.blur();
       }
     }
 
     function handleScroll() {
-      setScrollButtonVisible(window.scrollY > scrollThreshold)
+      setScrollButtonVisible(window.scrollY > scrollThreshold);
     }
 
-    function handleScrollToTopClick() {
+    function handleScrollToTopClick(event: MouseEvent) {
       const prefersReducedMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
       window.scrollTo({
         top: 0,
-        behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      })
+        behavior:
+          prefersReducedMotion || event.detail === 0 ? "auto" : "smooth",
+      });
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    scrollButton.addEventListener('click', handleScrollToTopClick)
-    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    scrollButton.addEventListener("click", handleScrollToTopClick);
+    handleScroll();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-      scrollButton.removeEventListener('click', handleScrollToTopClick)
-      setScrollButtonVisible(false)
-    }
+      window.removeEventListener("scroll", handleScroll);
+      scrollButton.removeEventListener("click", handleScrollToTopClick);
+      setScrollButtonVisible(false);
+    };
   }
 
-  let cleanupScrollToTop: (() => void) | undefined
+  let cleanupScrollToTop: (() => void) | undefined;
 
   function reinitializeScrollToTop() {
-    cleanupScrollToTop?.()
-    cleanupScrollToTop = initScrollToTop()
+    cleanupScrollToTop?.();
+    cleanupScrollToTop = initScrollToTop();
   }
 
   function cleanupScrollToTopBeforeSwap() {
-    cleanupScrollToTop?.()
-    cleanupScrollToTop = undefined
+    cleanupScrollToTop?.();
+    cleanupScrollToTop = undefined;
   }
 
-  reinitializeScrollToTop()
-  document.addEventListener('astro:page-load', reinitializeScrollToTop)
-  document.addEventListener('astro:before-swap', cleanupScrollToTopBeforeSwap)
+  reinitializeScrollToTop();
+  document.addEventListener("astro:page-load", reinitializeScrollToTop);
+  document.addEventListener("astro:before-swap", cleanupScrollToTopBeforeSwap);
 </script>

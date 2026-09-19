@@ -1,77 +1,50 @@
 ---
-import { Image } from 'astro:assets'
-
-import FramePlus from '@/components/FramePlus.astro'
-
+import { Image } from "astro:assets";
+import sharp from "sharp";
 interface Props {
-  title: string
-  date: string
-  readTime: string
-  slug: string
-  image?: string
-  draft?: boolean
+  title: string;
+  date: string;
+  readTime: string;
+  slug: string;
+  image?: string;
+  draft?: boolean;
 }
-
-const { title, date, readTime, image } = Astro.props
+const { title, date, readTime, image, draft } = Astro.props;
+const dimensions =
+  image?.startsWith("/") ? await sharp(`public${image}`).metadata() : undefined;
 ---
 
-{
-  image ?
-    <header class="group relative mt-10 mb-14">
-      <div class="relative -mx-6 my-6 overflow-hidden lg:mx-0">
-        <div class="relative aspect-video sm:aspect-[2.5/1]">
-          <Image
-            src={image}
-            alt={title}
-            width={1200}
-            height={480}
-            loading="eager"
-            fetchpriority="high"
-            class="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
-          />
-          <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-black/30" />
-        </div>
-
-        <div class="absolute inset-0 flex flex-col justify-end p-5 sm:p-8 md:p-10">
-          <div class="mb-3 sm:mb-4">
-            <span class="inline-flex items-center gap-2 rounded-full border border-dashed border-white/40 bg-black/30 px-4 py-1.5 font-mono text-xs tracking-widest text-white uppercase backdrop-blur-sm sm:gap-3 sm:text-sm">
-              <span>{date}</span>
-              <span class="h-3 w-px bg-white/40" />
-              <span>{readTime}</span>
-            </span>
-          </div>
-
-          <h1 class="max-w-4xl text-2xl leading-tight font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
-            {title}
-          </h1>
-        </div>
-      </div>
-
-      <div class="relative z-20 mt-0">
-        <div class="border-border absolute left-1/2 w-screen -translate-x-1/2 border-t border-dashed" />
-        <FramePlus position="left" />
-        <FramePlus position="right" />
-      </div>
-    </header>
-  : <header class="relative mt-10 mb-14">
-      <div class="my-6 py-8 sm:py-12">
-        <div class="mb-4 flex justify-center sm:mb-6">
-          <span class="border-border text-muted-foreground inline-flex items-center gap-2 rounded-full border border-dashed px-4 py-1.5 font-mono text-xs tracking-widest uppercase sm:gap-3 sm:text-sm">
-            <span>{date}</span>
-            <span class="bg-border h-3 w-px" />
-            <span>{readTime}</span>
-          </span>
-        </div>
-
-        <h1 class="text-foreground mx-auto max-w-3xl text-center text-2xl leading-tight font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
-          {title}
-        </h1>
-      </div>
-
-      <div class="relative z-20">
-        <div class="border-border absolute left-1/2 w-screen -translate-x-1/2 border-t border-dashed" />
-        <FramePlus position="left" />
-        <FramePlus position="right" />
-      </div>
-    </header>
-}
+<header class="mb-10 mt-14 sm:mt-20">
+  <a href="/blog" class="text-link text-sm text-muted-foreground">
+    ← All articles
+  </a>
+  <h1 class="mt-7 text-3xl font-semibold leading-tight tracking-tight sm:text-[2.5rem]">
+    {title}
+  </h1>
+  <p class="mt-4 text-sm text-muted-foreground">
+    {date}{" "}
+    <span class="px-2" aria-hidden="true">
+      ·
+    </span>{" "}
+    {readTime}
+    {draft && <span class="ml-3">Draft</span>}
+  </p>
+  {image && dimensions ?
+    <Image
+      src={image}
+      alt={title}
+      width={dimensions.width!}
+      height={dimensions.height!}
+      loading="eager"
+      class="mt-8 h-auto w-full rounded-lg"
+    />
+  : image ?
+    <Image
+      src={image}
+      alt={title}
+      inferSize
+      loading="eager"
+      class="mt-8 h-auto w-full rounded-lg"
+    />
+  : null}
+</header>

@@ -1,54 +1,25 @@
 ---
-import { Image } from 'astro:assets'
-
-import Me from '@/assets/images/me.jpg'
-import { SITE, socialLinks } from '@/lib/site'
-
-import Link from './Link.astro'
-
-const socialIconClass =
-  'hover:scale-110 transition-all duration-200 ease-in-out hover:text-foreground'
+import { SITE, socialLinks } from "@/lib/site";
 ---
 
-<div class="flex w-full flex-col gap-6 text-base md:flex-row">
-  <div
-    class="h-[200px] w-[200px] shrink-0 overflow-hidden rounded-lg shadow-xl">
-    <Image
-      src={Me}
-      alt="Photo of me"
-      loading="eager"
-      width={200}
-      class="h-full w-full object-cover grayscale transition-all duration-200 hover:grayscale-0"
-    />
-  </div>
-
-  <div>
-    <p class="mb-6">
-      If you want to get in touch with me about something or just to say hi 👋,
-      reach out on social media, schedule a virtual coffee chat or send me an
-      email at{' '}
-      <a
-        href={`mailto:${SITE.EMAIL}`}
-        class="link-underline hover:text-foreground font-bold">
-        {SITE.EMAIL}</a
-      >.
-    </p>
-
-    <div class="mb-8 flex flex-wrap gap-4">
-      {
-        socialLinks.map(({ icon: Icon, url, label }) => (
-          <Link
-            href={url}
-            class={socialIconClass}
-            target="_blank"
-            ariaLabel={label}>
-            <Icon width={24} aria-hidden="true" />
-          </Link>
-        ))
-      }
-    </div>
-
-    <span class="font-cursive text-foreground mt-8 block text-4xl">- Chris</span
-    >
-  </div>
+<div class="space-y-6 text-lg leading-relaxed">
+  <p>
+    Have something to share, an idea to work on together, or a speaking
+    invitation? I’d love to hear from you.
+  </p>
+  <p>
+    <a class="text-link" href={`mailto:${SITE.EMAIL}`}>
+      {SITE.EMAIL}
+    </a>
+  </p>
+  <ul class="flex flex-wrap gap-x-6 gap-y-3 text-base text-muted-foreground">
+    {socialLinks.map(({ name, url }) => (
+      <li>
+        <a class="text-link" href={url}>
+          {name} ↗
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="font-cursive text-4xl">- Chris</p>
 </div>

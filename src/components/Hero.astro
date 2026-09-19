@@ -1,123 +1,174 @@
 ---
-import { Image } from 'astro:assets'
+import { Image } from "astro:assets";
 
-import Me from '@/assets/images/me.jpg'
+import Me from "@/assets/images/me.jpg";
+import { PROFILE } from "@/lib/profile";
 ---
 
-<section class="relative mt-12 pb-8 md:mt-20">
-  <!-- Main grid layout -->
-  <div class="grid gap-12 md:grid-cols-[1fr_280px] md:items-start md:gap-16 lg:gap-20">
-
-    <!-- Left: Content -->
-    <div class="order-2 md:order-1">
-      <!-- Name - large typographic moment -->
-      <h1 class="group/name cursor-default">
-        <span class="name-line block overflow-hidden" style="--delay: 0ms">
-          <span class="name-text block text-5xl font-bold tracking-tight text-foreground transition-all duration-300 ease-out group-hover/name:-translate-y-0.5 group-hover/name:text-muted-foreground sm:text-6xl lg:text-7xl">
-            Chris
-          </span>
-        </span>
-        <span class="name-line block overflow-hidden" style="--delay: 80ms">
-          <span class="name-text block text-5xl font-bold tracking-tight text-foreground transition-all duration-300 ease-out group-hover/name:-translate-y-0.5 group-hover/name:text-muted-foreground sm:text-6xl lg:text-7xl">
-            Nowicki
-          </span>
-        </span>
+<section class="mb-16 mt-14 sm:mb-20 sm:mt-20" aria-labelledby="intro-title">
+  <div class="flex items-center gap-4">
+    <Image
+      src={Me}
+      alt="Chris Nowicki"
+      width={128}
+      height={142}
+      loading="eager"
+      class="h-16 w-16 shrink-0 rounded-2xl object-cover"
+    />
+    <div class="min-w-0">
+      <h1
+        id="intro-title"
+        class="text-2xl font-semibold tracking-tight sm:text-[1.625rem]">
+        Chris Nowicki<span class="text-accent-strong">.</span>
       </h1>
-
-      <!-- Job title -->
-      <p class="hero-animate mt-3 font-mono text-sm uppercase tracking-widest text-muted-foreground" style="--delay: 120ms">
-        Developer Experience Engineer
+      <p class="mt-1 text-base leading-snug text-muted-foreground">
+        Developer Experience Engineer at{" "}
+        <a class="text-link text-foreground" href="https://www.commerce.com">
+          Commerce
+        </a>
       </p>
-
-      <!-- Company -->
-      <p class="hero-animate mt-1 text-sm text-muted-foreground" style="--delay: 130ms">
-        Working at <a href="https://www.commerce.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-foreground hover:underline">Commerce</a>
-      </p>
-
-      <!-- Bio -->
-      <div class="hero-animate mt-8 max-w-lg space-y-4" style="--delay: 150ms">
-        <p class="text-lg leading-relaxed text-muted-foreground">
-          When I'm not making developers' lives easier with docs and dev tools,
-          you'll find me tinkering with new tech, optimizing my productivity setup,
-          or hunting for the perfect cheeseburger.
-        </p>
-      </div>
-
-      <!-- Coffee callout -->
-      <div class="hero-animate mt-6" style="--delay: 200ms">
-        <blockquote>
-          <p class="font-cursive text-2xl text-muted-foreground sm:text-3xl">
-            Oh, and coffee. Lots of coffee!
-          </p>
-        </blockquote>
-      </div>
-
     </div>
+  </div>
 
-    <!-- Right: Photo -->
-    <div class="hero-animate order-1 flex md:justify-center md:order-2" style="--delay: 100ms">
-      <div class="flex flex-col items-center">
-        <!-- Photo container -->
-        <div class="h-36 w-36 overflow-hidden rounded-xl border border-border shadow-lg sm:h-44 sm:w-44 lg:h-52 lg:w-52">
-          <Image
-            src={Me}
-            alt="Photo of Chris Nowicki"
-            loading="eager"
-            width={220}
-            class="h-full w-full object-cover"
-          />
-        </div>
-
-      </div>
-    </div>
+  <div class="mt-9 sm:mt-10">
+    <p class="hero-statement relative isolate font-medium tracking-tight">
+      <span class="sm:block">
+        I build{" "}
+        <mark class="relative whitespace-nowrap" data-rough-type="highlight">
+          {PROFILE.focus[0]}
+        </mark>
+        ,
+      </span>{" "}
+      <span class="sm:block">
+        <span class="relative" data-rough-type="underline">
+          {PROFILE.focus[1]}
+        </span>
+        , and{" "}
+        <span
+          class="hero-box relative inline-block whitespace-nowrap"
+          data-rough-type="box">
+          {PROFILE.focus[2]}
+        </span>
+      </span>
+      <span class="mt-3 block text-xl font-normal leading-relaxed tracking-normal text-muted-foreground sm:mt-4 sm:text-2xl">
+        to make developers’ lives easier.
+      </span>
+    </p>
+    <p class="mt-7 max-w-[60ch] text-lg leading-relaxed text-muted-foreground sm:text-xl">
+      Here, I write about what I’m building and learning, with the occasional
+      detour into life and the tools I use.
+    </p>
+    <p class="mt-5 font-cursive text-3xl text-foreground">
+      Oh, and coffee. Lots of coffee!
+    </p>
   </div>
 </section>
 
 <style>
-  /* Name reveal animation - slides up into view */
-  @keyframes nameReveal {
-    from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .hero-statement {
+    font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+    line-height: 1.65;
+  }
+  .hero-box {
+    margin-inline: 0.12em;
+    padding-inline: 0.13em;
+    line-height: 1.25;
   }
 
-  .name-line .name-text {
-    opacity: 0;
-    transform: translateY(100%);
-    animation: nameReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: var(--delay, 0ms);
+  [data-rough-type="underline"]:not([data-rough-ready]) {
+    text-decoration: underline;
+    text-decoration-color: var(--highlight);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
   }
-
-  /* General fade in animation */
-  @keyframes heroFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  [data-rough-type="box"]:not([data-rough-ready]) {
+    outline: 2px solid var(--highlight);
+    outline-offset: 4px;
   }
-
-  .hero-animate {
-    opacity: 0;
-    animation: heroFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: var(--delay, 0ms);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-animate,
-    .name-line .name-text {
-      opacity: 1;
-      animation: none;
-      transform: none;
-    }
+  mark[data-rough-ready] {
+    background: none;
   }
 </style>
 
+<script>
+  import { annotate, annotationGroup } from "rough-notation";
+
+  let activeRoot: HTMLElement | null = null;
+  let cleanupHighlights: (() => void) | undefined;
+
+  function initializeHighlights() {
+    const root =
+      document.getElementById("intro-title")?.closest("section") ?? null;
+    if (root === activeRoot) return;
+    cleanupHighlights?.();
+    if (!root) return;
+    activeRoot = root;
+    const marks = Array.from(
+      root.querySelectorAll<HTMLElement>("[data-rough-type]"),
+    );
+    const annotations: ReturnType<typeof annotate>[] = [];
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let disposed = false;
+
+    function finishImmediately() {
+      if (!reducedMotion.matches) return;
+      annotations.forEach((annotation) => {
+        annotation.animate = false;
+        annotation.show();
+      });
+    }
+
+    cleanupHighlights = () => {
+      disposed = true;
+      activeRoot = null;
+      reducedMotion.removeEventListener("change", finishImmediately);
+      annotations.forEach((annotation) => annotation.remove());
+      marks.forEach((mark) => delete mark.dataset.roughReady);
+    };
+
+    // Measure settled fonts and play once for each homepage visit.
+    void document.fonts.ready.then(() => {
+      if (disposed) return;
+      try {
+        const animate = !reducedMotion.matches;
+        marks.forEach((mark) => {
+          const type = mark.dataset.roughType;
+          if (type !== "highlight" && type !== "underline" && type !== "box")
+            return;
+          const annotation = annotate(mark, {
+            type,
+            color: "var(--highlight)",
+            animate,
+            animationDuration: 230,
+            multiline: true,
+            iterations: 1,
+            strokeWidth: 2,
+            padding:
+              type === "highlight" ? 1
+              : type === "box" ? [5, 3]
+              : 4,
+          });
+          annotations.push(annotation);
+          const svg =
+            type === "highlight" ?
+              mark.previousElementSibling
+            : mark.nextElementSibling;
+          if (svg?.classList.contains("rough-annotation")) {
+            svg.setAttribute("aria-hidden", "true");
+            svg.setAttribute("focusable", "false");
+          }
+          mark.dataset.roughReady = "true";
+        });
+        annotationGroup(annotations).show();
+        reducedMotion.addEventListener("change", finishImmediately);
+      } catch (error) {
+        cleanupHighlights?.();
+        console.error("Could not render introductory highlights:", error);
+      }
+    });
+  }
+
+  initializeHighlights();
+  document.addEventListener("astro:page-load", initializeHighlights);
+  document.addEventListener("astro:before-swap", () => cleanupHighlights?.());
+</script>

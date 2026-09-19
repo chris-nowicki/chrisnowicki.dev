@@ -1,113 +1,101 @@
 ---
-import { getCollection, render } from 'astro:content'
+import { getCollection, render } from "astro:content";
 
-import Container from '@/components/Container.astro'
-import PageHeader from '@/components/PageHeader.astro'
-import YouTube from '@/components/YouTube.astro'
-import PageLayout from '@/layouts/PageLayout.astro'
-import generateOgImageUrl from '@/utils/og-image'
-import { formatDate } from '@/utils/utils'
+import Container from "@/components/Container.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import YouTube from "@/components/YouTube.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import generateOgImageUrl from "@/utils/og-image";
+import { formatDate } from "@/utils/utils";
 
 export async function getStaticPaths() {
   const talks = await getCollection(
-    'speaking',
-    ({ data }) => !import.meta.env.PROD || !data.draft
-  )
+    "speaking",
+    ({ data }) => !import.meta.env.PROD || !data.draft,
+  );
 
   const talksWithDetail = talks.filter(
     (entry) =>
-      Boolean(entry.data.slidesSlug) || (entry.body?.trim().length ?? 0) > 0
-  )
+      Boolean(entry.data.slidesSlug) || (entry.body?.trim().length ?? 0) > 0,
+  );
 
   return talksWithDetail.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
-  }))
+  }));
 }
 
-const { entry } = Astro.props
-const { Content } = await render(entry)
-const t = entry.data
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const t = entry.data;
 
 const ogImageUrl = generateOgImageUrl({
-  header: '/SPEAKING',
+  header: "/SPEAKING",
   description: t.title,
   supportingText: t.description,
-})
+});
 
 const subtitle = [t.event, formatDate(t.date.toDateString())]
   .filter(Boolean)
-  .join(' · ')
+  .join(" · ");
 ---
 
 <PageLayout title={t.title} description={t.description} image={ogImageUrl}>
   <Container>
-    <article class="text-sm sm:text-base">
-      <div class="page-animate mt-10" style="--delay: 0ms">
+    <article class="mx-auto max-w-[720px] text-sm sm:text-base">
+      <div class="mt-14 sm:mt-20">
         <PageHeader title={t.title} subtitle={subtitle} />
 
-        {
-          t.category.length > 0 && (
-            <div class="-mt-8 mb-8 flex flex-wrap items-center justify-center gap-2 text-center">
-              {t.category.map((cat) => (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  {cat}
-                </span>
-              ))}
-            </div>
-          )
-        }
+        {t.category.length > 0 && (
+          <div class="-mt-5 mb-8 flex flex-wrap items-center gap-2">
+            {t.category.map((cat) => (
+              <span class="text-xs text-muted-foreground">{cat}</span>
+            ))}
+          </div>
+        )}
       </div>
 
-      {
-        t.youtube && (
-          <div class="page-animate mt-10" style="--delay: 100ms">
-            <YouTube id={t.youtube} title={t.title} />
-          </div>
-        )
-      }
+      {t.youtube && (
+        <div class="mt-10">
+          <YouTube id={t.youtube} title={t.title} />
+        </div>
+      )}
 
-      {
-        t.slidesSlug && (
-          <div class="page-animate mt-10 flex flex-col gap-4" style="--delay: 150ms">
-            <iframe
-              src={`/slides/${t.slidesSlug}/index.html`}
-              title="Slides"
-              class="aspect-video w-full rounded-xl border border-border bg-muted"
-              allowfullscreen
-              loading="lazy"
-            />
-            <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
+      {t.slidesSlug && (
+        <div class="mt-10 flex flex-col gap-4">
+          <iframe
+            src={`/slides/${t.slidesSlug}/index.html`}
+            title="Slides"
+            class="aspect-video w-full rounded-xl border border-border bg-muted"
+            allowfullscreen
+            loading="lazy"></iframe>
+          <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <a
+              href={`/slides/${t.slidesSlug}/index.html`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link-underline hover:text-foreground">
+              Open fullscreen ↗
+            </a>
+            {t.slidesPdf && (
               <a
-                href={`/slides/${t.slidesSlug}/index.html`}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/slides/${t.slidesSlug}/slides.pdf`}
+                download={`${t.slidesSlug}.pdf`}
                 class="link-underline hover:text-foreground">
-                Open fullscreen ↗
+                Download PDF
               </a>
-              {
-                t.slidesPdf && (
-                  <a
-                    href={`/slides/${t.slidesSlug}/slides.pdf`}
-                    download={`${t.slidesSlug}.pdf`}
-                    class="link-underline hover:text-foreground">
-                    Download PDF
-                  </a>
-                )
-              }
-            </div>
+            )}
           </div>
-        )
-      }
+        </div>
+      )}
 
-      <div class="page-animate prose mt-10" style="--delay: 200ms">
+      <div class="prose mt-10">
         <Content />
       </div>
 
       <a
         href="/speaking"
-        class="page-animate link-underline mt-10 inline-block text-muted-foreground hover:text-foreground"
-        style="--delay: 250ms">
+        class="link-underline mt-10 inline-block text-muted-foreground hover:text-foreground">
         ← Back to speaking
       </a>
     </article>

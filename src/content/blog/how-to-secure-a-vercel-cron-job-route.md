@@ -80,6 +80,6 @@ At the end of this tutorial I will show you how to configure [Postman](https://w
 
    ![](/blog/setup-postman-4.png)
 
-# Conclusion
+## Conclusion
 
 And that is it! I hope you found this helpful! Please reach out to me if you have any questions and I will do my best to respond.

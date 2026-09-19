@@ -1,118 +1,108 @@
 ---
-import Container from '@/components/Container.astro'
-import PageHeader from '@/components/PageHeader.astro'
-import PageLayout from '@/layouts/PageLayout.astro'
-import { SPEAKING } from '@/lib/site'
-import generateOgImageUrl from '@/utils/og-image'
-import { getSpeakingTalks } from '@/utils/speaking-helpers'
-import { formatDate } from '@/utils/utils'
-
-const speaking = await getSpeakingTalks()
-
-const featured = speaking.find((talk) => talk.featured && talk.hasDetail)
-const rest = speaking.filter((talk) => talk !== featured)
-
-const ogImageUrl = generateOgImageUrl({
-  header: `/${SPEAKING.TITLE.toUpperCase()}`,
-  description: SPEAKING.DESCRIPTION,
-})
+import Container from "@/components/Container.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import { PROFILE } from "@/lib/profile";
+import { SITE, SPEAKING } from "@/lib/site";
+import generateOgImageUrl from "@/utils/og-image";
+import { getSpeakingTalks } from "@/utils/speaking-helpers";
+import { formatDate } from "@/utils/utils";
+const talks = await getSpeakingTalks();
 ---
 
 <PageLayout
   title={SPEAKING.TITLE}
   description={SPEAKING.DESCRIPTION}
-  image={ogImageUrl}>
+  image={generateOgImageUrl({
+    header: "SPEAKING",
+    description: "Talks, conversations, and shared ideas.",
+  })}>
   <Container>
-    <section class="relative pt-12 text-sm sm:pt-20">
-      <PageHeader title={SPEAKING.TITLE} subtitle={SPEAKING.DESCRIPTION} />
-
-      {
-        featured && (
-          <a
-            href={`/speaking/${featured.slug}`}
-            class="group mb-12 block rounded-xl border border-border p-6 transition-colors duration-200 hover:bg-muted sm:mb-16 sm:p-8">
-            <div class="mb-3 flex items-center gap-3 font-mono text-xs tracking-widest text-muted-foreground uppercase">
-              <span>Featured</span>
-              <span class="bg-border h-3 w-px" />
-              <span>{formatDate(featured.date.toDateString())}</span>
-            </div>
-            <h2 class="text-2xl font-semibold sm:text-3xl">{featured.title}</h2>
-            <p class="mt-2 text-muted-foreground">{featured.description}</p>
-            <div class="mt-4 flex flex-wrap items-center gap-2">
-              {featured.event && (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  {featured.event}
-                </span>
+    <section class="mt-14 sm:mt-20">
+      <PageHeader
+        title="Speaking"
+        subtitle="Talks and conversations about documentation, developer experience, and the things we learn along the way."
+      />
+      <a class="text-link mb-10 inline-block text-sm" href="#for-organizers">
+        Organizing an event? ↓
+      </a>
+      <ul class="space-y-9">
+        {talks.map((talk) => (
+          <li>
+            <p class="mb-2 text-sm text-muted-foreground">
+              <time datetime={talk.date.toISOString()}>
+                {formatDate(talk.date.toDateString())}
+              </time>{" "}
+              · {talk.category.join(" / ")}
+              {talk.featured && (
+                <span class="ml-3 text-accent-strong">Featured</span>
               )}
-              {featured.category.map((cat) => (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  {cat}
-                </span>
-              ))}
-              {featured.slidesSlug && (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  Slides
-                </span>
-              )}
-              {featured.youtube && (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  Video
-                </span>
-              )}
-            </div>
-            <span class="mt-5 inline-flex items-center gap-1 text-sm font-medium text-foreground">
-              View talk
-              <span class="transition-transform duration-200 group-hover:translate-x-1">
-                →
-              </span>
-            </span>
+            </p>
+            <h2 class="text-xl font-medium">
+              <a
+                class="text-link"
+                href={talk.hasDetail ? `/speaking/${talk.slug}` : talk.link}>
+                {talk.title}
+              </a>
+            </h2>
+            {talk.event && (
+              <p class="mt-1 text-sm text-muted-foreground">{talk.event}</p>
+            )}
+            <p class="mt-2 text-lg leading-relaxed text-muted-foreground">
+              {talk.description}
+            </p>
+            {(talk.slidesSlug || talk.youtube) && (
+              <p class="mt-2 text-sm text-muted-foreground">
+                {[talk.slidesSlug && "Slides", talk.youtube && "Recording"]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+      <section
+        id="for-organizers"
+        class="mt-16 scroll-mt-8"
+        aria-labelledby="organizer-title">
+        <h2 id="organizer-title" class="section-title">
+          For organizers
+        </h2>
+        <p class="text-lg leading-relaxed text-muted-foreground">
+          I’d love to talk about documentation infrastructure, developer
+          experience, or agentic tooling at your event.{" "}
+          <a class="text-link text-foreground" href={`mailto:${SITE.EMAIL}`}>
+            Get in touch
           </a>
-        )
-      }
-
-      {
-        featured && rest.length > 0 && (
-          <h2 class="mb-4 px-4 font-mono text-xs tracking-widest text-muted-foreground uppercase">
-            Previous talks
-          </h2>
-        )
-      }
-
-      <div>
-        {
-          rest.map((talk) => (
+          .
+        </p>
+        <h3 class="mb-3 mt-8 text-sm font-medium">Short bio</h3>
+        <p class="text-lg leading-relaxed text-muted-foreground">
+          {PROFILE.speakerBio}
+        </p>
+        <div class="mt-8 flex items-center gap-5">
+          <img
+            src={PROFILE.headshot.url}
+            width={PROFILE.headshot.width}
+            height={PROFILE.headshot.height}
+            alt="Chris Nowicki’s headshot"
+            loading="lazy"
+            class="h-auto w-20 rounded-lg"
+          />
+          <div>
             <a
-              href={talk.hasDetail ? `/speaking/${talk.slug}` : talk.link}
-              target={talk.hasDetail ? undefined : '_blank'}
-              rel={talk.hasDetail ? undefined : 'noopener noreferrer'}
-              class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-muted">
-              <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
-                <span class="order-1 text-muted-foreground sm:order-3">
-                  {formatDate(talk.date.toDateString())}
-                </span>
-                <span
-                  class="order-3 hidden flex-1 bg-muted-foreground/20 px-2 sm:order-2 sm:block"
-                  style="height: 1px; align-self: center;"
-                />
-                <h2 class="order-2 flex flex-1 items-center gap-2 text-lg font-semibold sm:order-1">
-                  {talk.title}
-                  {talk.slidesSlug && (
-                    <span class="text-xs font-normal text-muted-foreground">
-                      Slides
-                    </span>
-                  )}
-                  {talk.youtube && (
-                    <span class="text-xs font-normal text-muted-foreground">
-                      Video
-                    </span>
-                  )}
-                </h2>
-              </div>
-              <p class="text-muted-foreground">{talk.description}</p>
+              class="text-link text-sm"
+              href={PROFILE.headshot.url}
+              download="chris-nowicki-headshot.jpg">
+              Download headshot ↓
             </a>
-          ))
-        }
-      </div>
+            <p class="mt-1 text-sm text-muted-foreground">
+              Original JPEG · {PROFILE.headshot.width} ×{" "}
+              {PROFILE.headshot.height} pixels
+            </p>
+          </div>
+        </div>
+      </section>
     </section>
   </Container>
 </PageLayout>

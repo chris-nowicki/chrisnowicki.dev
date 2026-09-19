@@ -1,62 +1,59 @@
 ---
-import '@/styles/global.css'
+import "@/styles/global.css";
 
-import { Font } from 'astro:assets'
-import { ClientRouter } from 'astro:transitions'
+import { Font } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
-  title: string
-  description: string
-  image?: string
+  title: string;
+  description: string;
+  image?: string;
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/og.png' } = Astro.props
+const { title, description, image = "/og.jpg" } = Astro.props;
 
 const getImageUrl = (img: string) => {
-  if (img.startsWith('http')) {
-    return img // Return Cloudinary URLs as-is
+  if (img.startsWith("http")) {
+    return img; // Return Cloudinary URLs as-is
   }
-  return new URL(img, Astro.url) // Handle local images like /og.webp
-}
+  return new URL(img, Astro.url); // Handle local images like /og.webp
+};
 
-const imageUrl = getImageUrl(image)
+const imageUrl = getImageUrl(image);
 ---
 
 <!-- Theme initialization (prevents FOUC) -->
 <script is:inline>
-  function setDarkMode(document) {
-    const getThemePreference = () => {
-      if (
-        typeof localStorage !== 'undefined' &&
-        localStorage.getItem('theme')
-      ) {
-        return localStorage.getItem('theme')
+  (() => {
+    function applyTheme(target) {
+      let theme;
+      try {
+        theme = localStorage.getItem("theme");
+      } catch {
+        /* Fall back to system preference. */
       }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ?
-          'dark'
-        : 'light'
+      const dark =
+        theme === "dark" ||
+        (theme !== "light" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      target.documentElement.classList.toggle("dark", dark);
+      target.documentElement.style.colorScheme = dark ? "dark" : "light";
+      if (target === document)
+        document.dispatchEvent(new Event("site:theme-change"));
     }
-    const isDark = getThemePreference() === 'dark'
-    document.documentElement.classList[isDark ? 'add' : 'remove']('dark')
-
-    if (typeof localStorage !== 'undefined') {
-      const observer = new MutationObserver(() => {
-        const isDark = document.documentElement.classList.contains('dark')
-        localStorage.setItem('theme', isDark ? 'dark' : 'light')
-      })
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class'],
-      })
+    applyTheme(document);
+    if (!window.__siteThemeInitialized) {
+      window.__siteThemeInitialized = true;
+      document.addEventListener("astro:before-swap", (event) =>
+        applyTheme(event.newDocument),
+      );
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", () => applyTheme(document));
     }
-  }
-
-  setDarkMode(document)
-  document.addEventListener('astro:before-swap', (ev) => {
-    setDarkMode(ev.newDocument)
-  })
+  })();
 </script>
 
 <!-- Global Metadata -->
@@ -69,7 +66,7 @@ const imageUrl = getImageUrl(image)
 <meta name="generator" content={Astro.generator} />
 
 <!-- Font styles and preloads -->
-<Font cssVariable="--font-geist" preload={[{ style: 'normal' }]} />
+<Font cssVariable="--font-geist" preload={[{ style: "normal" }]} />
 <Font cssVariable="--font-geist-mono" preload />
 <Font cssVariable="--font-reenie" preload />
 
@@ -105,9 +102,9 @@ const imageUrl = getImageUrl(image)
 
 <!-- Plausible Analytics -->
 <script>
-  import { init, track } from '@plausible-analytics/tracker'
-  init({ domain: 'chrisnowicki.dev', autoCapturePageviews: false })
-  document.addEventListener('astro:page-load', () => {
-    track('pageview', {})
-  })
+  import { init, track } from "@plausible-analytics/tracker";
+  init({ domain: "chrisnowicki.dev", autoCapturePageviews: false });
+  document.addEventListener("astro:page-load", () => {
+    track("pageview", {});
+  });
 </script>

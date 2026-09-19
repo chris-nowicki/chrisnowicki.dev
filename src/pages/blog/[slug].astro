@@ -1,32 +1,32 @@
 ---
-import { render } from 'astro:content'
+import { render } from "astro:content";
 
-import BlogPostHeader from '@/components/BlogPostHeader.astro'
-import Container from '@/components/Container.astro'
-import PageLayout from '@/layouts/PageLayout.astro'
-import { getBlogPosts } from '@/utils/blog-helpers'
-import generateOgImageUrl from '@/utils/og-image'
-import { readingTime } from '@/utils/reading-time'
-import { formatDate } from '@/utils/utils'
+import BlogPostHeader from "@/components/BlogPostHeader.astro";
+import Container from "@/components/Container.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import { getBlogPosts } from "@/utils/blog-helpers";
+import generateOgImageUrl from "@/utils/og-image";
+import { readingTime } from "@/utils/reading-time";
+import { formatDate } from "@/utils/utils";
 
 export async function getStaticPaths() {
-  const posts = await getBlogPosts()
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }))
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
 
-const { post } = Astro.props
-const { Content } = await render(post)
+const { post } = Astro.props;
+const { Content } = await render(post);
 
-const postDate = formatDate(post.data.date.toDateString())
-const postReadTime = readingTime(post.rendered?.html ?? '')
+const postDate = formatDate(post.data.date.toDateString());
+const postReadTime = readingTime(post.rendered?.html ?? "");
 
 const ogImageUrl = generateOgImageUrl({
-  header: '/BLOG',
+  header: "/BLOG",
   description: post.data.title,
   readTime: postReadTime,
-})
+});
 
-const postSlug = post.id
+const postSlug = post.id;
 ---
 
 <PageLayout
@@ -36,12 +36,11 @@ const postSlug = post.id
   <div class="bg-border fixed top-0 left-0 z-50 h-1 w-full">
     <div
       id="reading-progress"
-      class="bg-muted-foreground h-full w-0 transition-[width] duration-100">
-    </div>
+      class="bg-accent-strong h-full w-full origin-left scale-x-0"></div>
   </div>
   <Container>
-    <article class="text-sm sm:text-base">
-      <div class="page-animate" style="--delay: 0ms">
+    <article class="mx-auto max-w-[720px] text-sm sm:text-base">
+      <div>
         <BlogPostHeader
           title={post.data.title}
           date={postDate}
@@ -51,68 +50,67 @@ const postSlug = post.id
           draft={post.data.draft}
         />
       </div>
-      <div class="page-animate prose mt-10" style="--delay: 150ms">
+      <div class="prose mt-10">
         <Content />
       </div>
-      <span
-        class="page-animate font-cursive text-foreground mt-8 block text-4xl"
-        style="--delay: 200ms">- Chris</span
-      >
+      <span class="font-cursive text-foreground mt-8 block text-4xl">
+        - Chris
+      </span>
     </article>
   </Container>
 </PageLayout>
 
 <script>
   function initReadingProgress() {
-    const candidate = document.querySelector<HTMLElement>('#reading-progress')
-    if (!candidate) return
-    const progressBar = candidate
+    const candidate = document.querySelector<HTMLElement>("#reading-progress");
+    if (!candidate) return;
+    const progressBar = candidate;
 
-    let animationFrameId: number | undefined
+    let animationFrameId: number | undefined;
 
     function updateReadingProgress() {
       const scrollHeight =
-        document.documentElement.scrollHeight - window.innerHeight
+        document.documentElement.scrollHeight - window.innerHeight;
       const progress =
-        scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0
-      progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`
-      animationFrameId = undefined
+        scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      progressBar.style.transform = `scaleX(${Math.min(100, Math.max(0, progress)) / 100})`;
+      animationFrameId = undefined;
     }
 
     function handleReadingProgressScroll() {
-      if (animationFrameId !== undefined) return
-      animationFrameId = window.requestAnimationFrame(updateReadingProgress)
+      if (animationFrameId !== undefined) return;
+      animationFrameId = window.requestAnimationFrame(updateReadingProgress);
     }
 
-    window.addEventListener('scroll', handleReadingProgressScroll, {
+    window.addEventListener("scroll", handleReadingProgressScroll, {
       passive: true,
-    })
-    updateReadingProgress()
+    });
+    updateReadingProgress();
 
     return () => {
-      window.removeEventListener('scroll', handleReadingProgressScroll)
+      window.removeEventListener("scroll", handleReadingProgressScroll);
       if (animationFrameId !== undefined) {
-        window.cancelAnimationFrame(animationFrameId)
+        window.cancelAnimationFrame(animationFrameId);
       }
-    }
+    };
   }
 
-  let cleanupReadingProgress: (() => void) | undefined
+  let cleanupReadingProgress: (() => void) | undefined;
 
   function reinitializeReadingProgress() {
-    cleanupReadingProgress?.()
-    cleanupReadingProgress = initReadingProgress()
+    cleanupReadingProgress?.();
+    cleanupReadingProgress = initReadingProgress();
   }
 
   function cleanupReadingProgressBeforeSwap() {
-    cleanupReadingProgress?.()
-    cleanupReadingProgress = undefined
+    cleanupReadingProgress?.();
+    cleanupReadingProgress = undefined;
   }
 
-  reinitializeReadingProgress()
-  document.addEventListener('astro:page-load', reinitializeReadingProgress)
+  reinitializeReadingProgress();
+  document.addEventListener("astro:page-load", reinitializeReadingProgress);
   document.addEventListener(
-    'astro:before-swap',
-    cleanupReadingProgressBeforeSwap
-  )
+    "astro:before-swap",
+    cleanupReadingProgressBeforeSwap,
+  );
 </script>

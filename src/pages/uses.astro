@@ -1,164 +1,76 @@
 ---
-import { Picture } from 'astro:assets'
+import { Image } from "astro:assets";
 
-import GitHubIcon from '@/assets/icons/github.svg'
-import DeskSetup from '@/assets/images/desk-setup.webp'
-import Container from '@/components/Container.astro'
-import PageHeader from '@/components/PageHeader.astro'
-import Separator from '@/components/Separator.astro'
-import { coffeeData, gitHubData, hardwareData, softwareData } from '@/data/uses'
-import PageLayout from '@/layouts/PageLayout.astro'
-import { USES } from '@/lib/site'
-import { ACCENT_CARD } from '@/lib/styles'
-import generateOgImageUrl from '@/utils/og-image'
-import { cn } from '@/utils/utils'
-
-const ogImageUrl = generateOgImageUrl({
-  header: `/${USES.TITLE.toUpperCase()}`,
-  description: USES.DESCRIPTION,
-})
+import DeskSetup from "@/assets/images/desk-setup.webp";
+import Container from "@/components/Container.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import {
+  coffeeData,
+  gitHubData,
+  hardwareData,
+  softwareData,
+} from "@/data/uses";
+import PageLayout from "@/layouts/PageLayout.astro";
+import { USES } from "@/lib/site";
+import generateOgImageUrl from "@/utils/og-image";
+const sections = [
+  { title: "GitHub", items: gitHubData },
+  { title: "Coffee", items: coffeeData },
+  { title: "Software", items: softwareData },
+  { title: "Hardware", items: hardwareData },
+];
 ---
 
 <PageLayout
   title={USES.TITLE}
   description={USES.DESCRIPTION}
-  image={ogImageUrl}>
+  image={generateOgImageUrl({ header: "USES", description: USES.DESCRIPTION })}>
   <Container>
-    <section class="text-md relative pt-12 sm:pt-16 sm:text-base md:pt-20">
-      <PageHeader title={USES.TITLE} subtitle={USES.DESCRIPTION} />
-
-      <Picture
+    <section class="mt-14 sm:mt-20">
+      <PageHeader title="Uses" subtitle={USES.DESCRIPTION} />
+      <Image
         src={DeskSetup}
-        width={768}
-        height={700 * 0.75}
-        class="mb-8 aspect-video w-full grayscale transition-all duration-500 ease-in-out hover:grayscale-0"
-        alt="Desk Setup"
+        width={1000}
+        alt="My desk setup"
+        class="mb-14 h-auto w-full rounded-lg"
       />
-
-      <Separator label="GitHub" />
-
-      <div class="mb-10 grid grid-cols-1 gap-2 font-mono md:grid-cols-2">
-        {
-          gitHubData.map((gitHub) => (
-            <a
-              href={gitHub.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              class={cn(ACCENT_CARD, 'flex items-start gap-4 p-4')}>
-              <div class="flex min-w-0 flex-1 flex-col gap-1">
-                <h2 class="text-md font-mono group-hover:font-semibold">
-                  {gitHub.title}
-                </h2>
-                <p class="text-muted-foreground text-sm leading-relaxed">
-                  {gitHub.description}
-                </p>
-              </div>
-              <GitHubIcon
-                width={24}
-                height={24}
-                class="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-colors duration-200"
-              />
-            </a>
-          ))
-        }
-      </div>
-
-      <Separator label="Coffee" />
-
-      <div class="grid grid-cols-1 gap-2 font-mono md:grid-cols-3">
-        {
-          coffeeData.map((coffee, index) => (
-            <a
-              class={cn(
-                ACCENT_CARD,
-                'flex flex-col items-center gap-2 rounded-xl p-2 before:rounded-l-xl',
-                index === 0 && 'md:col-span-3'
-              )}
-              href={coffee.link}
-              target="_blank"
-              rel="noopener noreferrer">
-              <h2 class="text-md font-mono group-hover:font-semibold">
-                {coffee.title}
-              </h2>
-              <img
-                src={coffee.imageSrc}
-                alt={coffee.title}
-                loading="lazy"
-                decoding="async"
-                width={500}
-                height={500}
-                class={cn(
-                  'mb-2 object-cover grayscale transition-all duration-500',
-                  'group-hover:grayscale-0',
-                  index === 0 ?
-                    'h-48 w-40 md:h-72 md:w-64'
-                  : 'h-36 w-32 md:h-64 md:w-56'
+      {sections.map(({ title, items }) => (
+        <section class="mb-14" aria-labelledby={`uses-${title.toLowerCase()}`}>
+          <h2 id={`uses-${title.toLowerCase()}`} class="section-title">
+            {title}
+          </h2>
+          <ul class="space-y-7">
+            {items.map((item) => (
+              <li class="flex items-start gap-5">
+                {"imageSrc" in item && typeof item.imageSrc === "string" && (
+                  <img
+                    src={item.imageSrc}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width={72}
+                    height={72}
+                    class="h-16 w-16 shrink-0 rounded-lg bg-white object-contain p-1"
+                  />
                 )}
-              />
-            </a>
-          ))
-        }
-      </div>
-
-      <Separator label="Software" />
-
-      <div class="grid grid-cols-2 gap-5 font-mono sm:grid-cols-6 sm:gap-x-10">
-        {
-          softwareData.map((software) => (
-            <a
-              class="group flex flex-col items-center justify-center gap-2"
-              href={software.link}
-              target="_blank"
-              rel="noopener noreferrer">
-              <h2 class="text-md group-hover:font-semibold">
-                {software.title}
-              </h2>
-              <div
-                class={cn(
-                  'relative flex aspect-square w-full items-center justify-center rounded-lg border',
-                  'transition-all duration-200',
-                  'before:absolute before:top-0 before:left-0 before:h-full before:w-1 before:rounded-l-lg',
-                  'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
-                  'group-hover:border-border group-hover:before:opacity-100'
-                )}>
-                <img
-                  src={software.imageSrc}
-                  alt={software.title}
-                  loading="lazy"
-                  decoding="async"
-                  width={63}
-                  height={63}
-                  class="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
-                />
-              </div>
-            </a>
-          ))
-        }
-      </div>
-
-      <Separator label="Hardware" />
-
-      <div class="grid grid-cols-1 gap-5 font-mono sm:grid-cols-2 sm:gap-x-4">
-        {
-          hardwareData.map((hardware) => (
-            <a
-              class={cn(
-                ACCENT_CARD,
-                'flex flex-col justify-center gap-2 rounded-xl p-2 before:rounded-l-xl'
-              )}
-              href={hardware.link}
-              target="_blank"
-              rel="noopener noreferrer">
-              <h2 class="text-md group-hover:font-semibold">
-                {hardware.title}
-              </h2>
-              <p class="text-muted-foreground text-sm">
-                {hardware.description}
-              </p>
-            </a>
-          ))
-        }
-      </div>
+                <div class="min-w-0">
+                  <h3 class="font-medium">
+                    <a class="text-link" href={item.link}>
+                      {item.title}{" "}
+                      <span class="text-muted-foreground" aria-hidden="true">
+                        ↗
+                      </span>
+                    </a>
+                  </h3>
+                  <p class="mt-1 text-lg leading-relaxed text-muted-foreground">
+                    {item.description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
     </section>
   </Container>
 </PageLayout>

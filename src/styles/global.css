@@ -1,4 +1,4 @@
-@import 'tailwindcss' source('../');
+@import "tailwindcss" source("../");
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -23,12 +23,15 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
 
+  --color-accent-strong: var(--accent-strong);
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 }
 
 @layer base {
   :root {
+    --highlight: #ff3b9d;
+    --accent-strong: #c21870;
     --background: 0 0% 100%; /* white */
     --foreground: 240 10% 3.9%; /* slate-950 */
     --primary: 240 5.9% 10%; /* slate-900 */
@@ -46,29 +49,30 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;        /* neutral-950 */
-    --foreground: 0 0% 98%;            /* neutral-50 */
-    --primary: 0 0% 98%;               /* neutral-50 */
+    --highlight: #7442c8;
+    --accent-strong: #c4a0ff;
+    --background: 240 10% 3.9%; /* neutral-950 */
+    --foreground: 0 0% 98%; /* neutral-50 */
+    --primary: 0 0% 98%; /* neutral-50 */
     --primary-foreground: 240 5.9% 10%; /* neutral-900 */
-    --muted: 240 3.7% 15.9%;          /* neutral-800 */
+    --muted: 240 3.7% 15.9%; /* neutral-800 */
     --muted-foreground: 240 5% 64.9%; /* neutral-400 */
-    --accent: 240 3.7% 15.9%;         /* neutral-800 */
-    --accent-foreground: 0 0% 98%;    /* neutral-50 */
-    --border: 240 3.7% 15.9%;         /* neutral-800 */
-    --input: 240 3.7% 15.9%;          /* neutral-800 */
-    --ring: 240 4.9% 83.9%;           /* neutral-300 */
-    --card: 240 10% 3.9%;             /* neutral-950 */
-    --card-foreground: 0 0% 98%;      /* neutral-50 */
+    --accent: 240 3.7% 15.9%; /* neutral-800 */
+    --accent-foreground: 0 0% 98%; /* neutral-50 */
+    --border: 240 3.7% 15.9%; /* neutral-800 */
+    --input: 240 3.7% 15.9%; /* neutral-800 */
+    --ring: 240 4.9% 83.9%; /* neutral-300 */
+    --card: 240 10% 3.9%; /* neutral-950 */
+    --card-foreground: 0 0% 98%; /* neutral-50 */
   }
 
   /* Base styles for HTML and Body */
   html,
   body {
-    @apply bg-background text-foreground size-full scroll-smooth font-sans antialiased;
+    @apply bg-background text-foreground size-full font-sans antialiased;
   }
 
   html {
-    overflow-x: hidden;
     overflow-y: scroll;
   }
 
@@ -80,7 +84,6 @@
   * {
     @apply border-border;
   }
-
 }
 
 @utility prose {
@@ -113,7 +116,7 @@
   }
 
   blockquote {
-    @apply border-primary my-6 border-l-4 pl-6 italic sm:border-l-8;
+    @apply border-accent-strong text-muted-foreground my-6 border-l-2 pl-5;
   }
 
   /* Links in prose content */
@@ -137,12 +140,12 @@
 
   /* Inline code (not inside Expressive Code blocks) */
   code:not(.ec-line *) {
-    @apply font-mono rounded bg-muted px-1.5 py-0.5 text-sm;
+    @apply bg-muted rounded px-1.5 py-0.5 font-mono text-sm;
   }
 
   /* Images */
   img {
-    @apply my-6 w-full rounded-lg shadow-md;
+    @apply my-6 h-auto max-w-full rounded-lg;
   }
 
   /* Reset styles for images inside polaroids (they have their own styling) */
@@ -155,7 +158,7 @@
   }
 
   figcaption {
-    @apply mt-3 text-center text-sm text-muted-foreground italic;
+    @apply text-muted-foreground mt-3 text-center text-sm italic;
   }
 
   /* Subheading anchors */
@@ -163,7 +166,7 @@
     @apply text-foreground relative no-underline;
 
     &::before {
-      @apply text-muted-foreground/40 absolute top-0 -left-[30px] opacity-0 transition-opacity content-['#'];
+      @apply text-muted-foreground/40 absolute top-0 -left-[18px] opacity-0 transition-opacity content-['#'];
     }
 
     &:hover::before {
@@ -179,68 +182,98 @@
   }
 }
 
+@layer base {
+  body {
+    line-height: 1.6;
+  }
+  ::selection {
+    background: var(--highlight);
+    color: hsl(var(--foreground));
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent-strong);
+    outline-offset: 5px;
+    border-radius: 2px;
+  }
+  mark {
+    color: inherit;
+    background: linear-gradient(
+      transparent 28%,
+      var(--highlight) 28%,
+      var(--highlight) 94%,
+      transparent 94%
+    );
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding: 0 0.08em;
+  }
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+}
+@utility section-title {
+  @apply text-muted-foreground mb-6 text-lg font-medium;
+}
+@utility text-link {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  &:hover,
+  &:focus-visible {
+    text-decoration-color: var(--accent-strong);
+  }
+}
 @utility link-underline {
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: hsl(var(--foreground));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  &:hover::after {
-    transform: scaleX(1);
-  }
+  @apply text-link;
 }
-
-/* Fade-in-up animation for cards and content */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.nav-link[aria-current="page"] {
+  color: hsl(var(--foreground));
+  text-decoration: underline;
+  text-decoration-color: var(--accent-strong);
+  text-underline-offset: 8px;
+  text-decoration-thickness: 2px;
 }
-
-@utility animate-fade-in-up {
-  animation: fadeInUp 0.5s ease-out forwards;
-  opacity: 0;
+.prose {
+  max-width: 65ch;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
 }
-
-/* Page entrance animation with staggered delay support */
-@keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.prose p {
+  line-height: 1.8;
 }
-
-@utility page-animate {
-  opacity: 0;
-  animation: pageEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: var(--delay, 0ms);
+.prose h2 {
+  font-size: 1.65rem;
+  line-height: 1.3;
 }
-
+.prose h3 {
+  font-size: 1.3rem;
+  line-height: 1.4;
+}
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+.prose .expressive-code {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: normal;
+}
+.prose a:not(.subheading-anchor):hover {
+  text-decoration-color: var(--accent-strong);
+}
+.prose .subheading-anchor:focus-visible::before {
+  opacity: 1;
+}
 @media (prefers-reduced-motion: reduce) {
-  .page-animate {
-    opacity: 1;
-    animation: none;
-    transform: none;
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
   }
 }
-
-

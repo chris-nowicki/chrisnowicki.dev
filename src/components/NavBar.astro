@@ -1,59 +1,35 @@
 ---
-import { navLinks } from '@/lib/site'
-import { cn } from '@/utils/utils'
-
-import MobileNav from './MobileNav.astro'
-import ThemeToggle from './ThemeToggle.astro'
-
-const pathname = Astro.url.pathname.split('/')[1]
+import Container from "@/components/Container.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import Wordmark from "@/components/Wordmark.astro";
+import { navLinks } from "@/lib/site";
+const pathname = Astro.url.pathname;
 ---
 
-<div class="mt-6 flex w-full items-center justify-center px-6">
+<Container>
   <nav
     aria-label="Primary navigation"
-    class={cn(
-      'text-muted-foreground flex items-center justify-between rounded-full w-full max-w-4xl bg-background'
-    )}
-    style="transition: box-shadow 0.3s, border-radius 0.3s;">
-    <a
-      href="/"
-      class="font-cursive group text-foreground inline-flex items-center overflow-hidden text-4xl md:flex-1">
-      <span class="inline-block">C</span><span
-        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-35"
-        >hris</span
-      ><span
-        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-4"
-        >&nbsp;</span
-      ><span class="inline-block">N</span><span
-        class="inline-block max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover:max-w-35"
-        >owicki</span
-      >
-    </a>
-
-    <ul class="hidden list-none gap-4 px-4 py-2 text-lg md:flex">
-      {
-        navLinks.map(({ href, text }) => {
-          const isActive = pathname === text.toLowerCase()
-          return (
-            <li>
-              <a
-                {href}
-                class={cn(
-                  'transition-colors duration-200 ease-in-out',
-                  isActive ? 'text-foreground' : 'hover:text-foreground'
-                )}
-                aria-current={isActive ? 'page' : undefined}
-                data-astro-prefetch>
-                {text}
-              </a>
-            </li>
-          )
-        })
-      }
+    class="flex flex-wrap items-center justify-between gap-y-5 pt-8 sm:pt-12">
+    <Wordmark />
+    <ul class="order-3 flex w-full flex-wrap gap-x-6 gap-y-2 text-base sm:order-2 sm:w-auto sm:gap-x-5">
+      {navLinks.map(({ href, text }) => (
+        <li>
+          <a
+            href={href}
+            aria-current={
+              pathname === href || pathname.startsWith(`${href}/`) ?
+                "page"
+              : undefined
+            }
+            class="nav-link inline-block py-2 text-muted-foreground hover:text-foreground"
+            data-astro-prefetch>
+            {text}
+          </a>
+        </li>
+      ))}
     </ul>
-    <div class="hidden md:flex md:flex-1 md:justify-end">
+    <div class="order-2 sm:order-3">
       <ThemeToggle />
     </div>
-    <MobileNav />
   </nav>
-</div>
+</Container>

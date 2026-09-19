@@ -1,30 +1,51 @@
 ---
-import Container from '@/components/Container.astro'
-import Hero from '@/components/Hero.astro'
-import LatestPosts from '@/components/LatestPosts.astro'
-import NowCard from '@/components/NowCard.astro'
-import Separator from '@/components/Separator.astro'
-import Speaking from '@/components/Speaking.astro'
-import Uses from '@/components/Uses.astro'
-import PageLayout from '@/layouts/PageLayout.astro'
-import { HOME } from '@/lib/site'
+import Container from "@/components/Container.astro";
+import Hero from "@/components/Hero.astro";
+import LatestPosts from "@/components/LatestPosts.astro";
+import Speaking from "@/components/Speaking.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import { PROFILE } from "@/lib/profile";
+import { HOME } from "@/lib/site";
+import generateOgImageUrl from "@/utils/og-image";
 ---
 
-<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+<PageLayout
+  title={HOME.TITLE}
+  description={HOME.DESCRIPTION}
+  image={generateOgImageUrl({
+    header: "CHRIS NOWICKI",
+    description: "Docs, tools, and the work in between.",
+  })}>
   <Container>
     <Hero />
-    <Separator />
     <LatestPosts />
-    <Separator />
-    <div class="grid min-w-0 gap-4 md:grid-cols-[2fr_1fr] md:items-stretch">
-      <div class="flex min-w-0 flex-col gap-4 [&>:first-child]:flex-1">
-        <Speaking />
-      </div>
-
-      <div class="flex min-w-0 flex-col gap-4">
-        <Uses />
-        <NowCard />
-      </div>
-    </div>
+    <section class="mb-14" aria-labelledby="podcast-title">
+      <h2 id="podcast-title" class="section-title">
+        Behind the mic
+      </h2>
+      <h3>
+        <a
+          href={PROFILE.podcast.url}
+          class="inline-flex max-w-full rounded-lg bg-[#17141d] px-5 py-4">
+          <img
+            src="/images/compressed-fm.svg"
+            width="220"
+            height="68"
+            alt={PROFILE.podcast.name}
+            loading="lazy"
+            class="h-auto w-[220px]"
+          />
+        </a>
+      </h3>
+      <p class="mt-2 text-lg leading-relaxed text-muted-foreground">
+        {PROFILE.podcast.description}
+      </p>
+      <a
+        class="text-link mt-5 inline-block text-base"
+        href={PROFILE.podcast.url}>
+        Listen to the podcast <span aria-hidden="true">→</span>
+      </a>
+    </section>
+    <Speaking />
   </Container>
 </PageLayout>

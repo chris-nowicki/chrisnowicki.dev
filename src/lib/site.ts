@@ -1,80 +1,81 @@
-import GitHub from '@/assets/icons/github.svg'
-import LinkedIn from '@/assets/icons/linkedin.svg'
-import Twitch from '@/assets/icons/twitch.svg'
-import X from '@/assets/icons/x.svg'
+import GitHub from "@/assets/icons/github.svg";
+import LinkedIn from "@/assets/icons/linkedin.svg";
+import Twitch from "@/assets/icons/twitch.svg";
+import X from "@/assets/icons/x.svg";
+import { PROFILE } from "@/lib/profile";
 
-type Site = { NAME: string; EMAIL: string }
-type Metadata = { TITLE: string; DESCRIPTION: string }
-type Status = { available: boolean; message: string }
+type Site = { NAME: string; EMAIL: string };
+type Metadata = { TITLE: string; DESCRIPTION: string };
+type Status = { available: boolean; message: string };
 
-export const NUMBER_OF_ENTRIES = 3
+export const NUMBER_OF_ENTRIES = 3;
 
 export const navLinks = [
-  { href: '/blog', text: 'Blog' },
-  { href: '/speaking', text: 'Speaking' },
-  { href: '/uses', text: 'Uses' },
-  { href: '/contact', text: 'Contact' },
-]
+  { href: "/blog", text: "Blog" },
+  { href: "/speaking", text: "Speaking" },
+  { href: "/uses", text: "Uses" },
+  { href: "/contact", text: "Contact" },
+];
 
 export const socialLinks = [
   {
-    name: 'X',
+    name: "X",
     icon: X,
-    url: 'https://twitter.com/iamwix',
-    label: 'Visit my X Profile @iamwix',
+    url: "https://twitter.com/iamwix",
+    label: "Visit my X Profile @iamwix",
   },
   {
-    name: 'LinkedIn',
+    name: "LinkedIn",
     icon: LinkedIn,
-    url: 'https://www.linkedin.com/in/chris-nowicki/',
-    label: 'Visit my LinkedIn Profile',
+    url: "https://www.linkedin.com/in/chris-nowicki/",
+    label: "Visit my LinkedIn Profile",
   },
   {
-    name: 'GitHub',
+    name: "GitHub",
     icon: GitHub,
-    url: 'https://github.com/chris-nowicki',
-    label: 'Visit my GitHub Profile',
+    url: "https://github.com/chris-nowicki",
+    label: "Visit my GitHub Profile",
   },
   {
-    name: 'Twitch',
+    name: "Twitch",
     icon: Twitch,
-    url: 'https://www.twitch.tv/chriswix',
-    label: 'Visit my Twitch Profile',
+    url: "https://www.twitch.tv/chriswix",
+    label: "Visit my Twitch Profile",
   },
-] as const
+] as const;
 
 export const SITE: Site = {
-  NAME: 'Chris Nowicki',
-  EMAIL: 'hello@chrisnowicki.dev',
-}
+  NAME: "Chris Nowicki",
+  EMAIL: "hello@chrisnowicki.dev",
+};
 
 export const STATUS: Status = {
   available: true,
-  message: 'Available for speaking & collaborations',
-}
+  message: "Available for speaking & collaborations",
+};
 
 export const HOME: Metadata = {
-  TITLE: 'Home',
-  DESCRIPTION: 'Full-Stack Developer & Technology Nerd.',
-}
+  TITLE: "Home",
+  DESCRIPTION: PROFILE.bio,
+};
 
 export const BLOG: Metadata = {
-  TITLE: 'Blog',
+  TITLE: "Blog",
   DESCRIPTION:
-    'My ramblings on the web about all things tech, life, and productivity!',
-}
+    "Notes on engineering, documentation, developer tools, and life along the way.",
+};
 
 export const SPEAKING: Metadata = {
-  TITLE: 'Speaking',
-  DESCRIPTION: 'My speaking engagements and conference talks!',
-}
+  TITLE: "Speaking",
+  DESCRIPTION: "My speaking engagements and conference talks!",
+};
 
 export const USES: Metadata = {
-  TITLE: 'Uses',
-  DESCRIPTION: 'The Gear That Keeps Me Caffeinated & Coding.',
-}
+  TITLE: "Uses",
+  DESCRIPTION: "The Gear That Keeps Me Caffeinated & Coding.",
+};
 
 export const CONTACT: Metadata = {
-  TITLE: 'Contact',
-  DESCRIPTION: 'Get in touch with me.',
-}
+  TITLE: "Contact",
+  DESCRIPTION: "Get in touch with me.",
+};

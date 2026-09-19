@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { formatDate } from "@/utils/utils";
+interface Props {
+  posts: CollectionEntry<"blog">[];
+  showDates?: boolean;
+  headingLevel?: "h2" | "h3";
+}
+const { posts, showDates = true, headingLevel: Heading = "h3" } = Astro.props;
+---
+
+<ul class="space-y-7">
+  {posts.map((post) => (
+    <li>
+      {showDates && (
+        <time
+          datetime={post.data.date.toISOString()}
+          class="mb-1 block text-sm text-muted-foreground">
+          {formatDate(post.data.date.toDateString())}
+        </time>
+      )}
+      <Heading class="text-xl font-medium leading-snug sm:text-[1.375rem]">
+        <a class="text-link" href={`/blog/${post.id}`} data-astro-prefetch>
+          {post.data.title}
+        </a>
+      </Heading>
+      <p class="mt-1.5 text-lg leading-relaxed text-muted-foreground">
+        {post.data.description}
+      </p>
+    </li>
+  ))}
+</ul>
