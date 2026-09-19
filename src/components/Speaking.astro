@@ -1,80 +1,23 @@
 ---
-import { Image } from 'astro:assets'
+import { getSpeakingTalks } from "@/utils/speaking-helpers";
+import { formatMonthYear } from "@/utils/utils";
 
-import Megaphone from '@/assets/images/megaphone.png'
-import { getSpeakingTalks } from '@/utils/speaking-helpers'
-import { formatMonthYear } from '@/utils/utils'
-
-const talks = await getSpeakingTalks(1)
-const speaking = talks[0] ?? {
-  title: 'No speaking engagements found',
-  description: 'No speaking engagements found',
-  category: [],
-  date: undefined,
-  link: undefined,
-}
+const [talk] = await getSpeakingTalks(1);
+const href = talk?.hasDetail ? `/speaking/${talk.slug}` : talk?.link ?? "/speaking";
+const isExternal = href.startsWith("https://") || href.startsWith("http://");
 ---
 
-<section
-  class="relative flex min-w-0 flex-col justify-between overflow-hidden rounded-xl border bg-black p-4 text-white sm:p-6 md:p-10 lg:p-12">
-  {/* Subtle megaphone background */}
-  <div
-    class="pointer-events-none absolute -right-8 opacity-10 md:-right-12 md:-bottom-10">
-    <Image
-      src={Megaphone}
-      alt=""
-      width={250}
-      height={250}
-      class="grayscale md:h-[300px] md:w-[300px]"
-    />
-  </div>
-
-  <div class="relative z-10 flex flex-col justify-between gap-4 sm:gap-6">
-    {/* Header with badge */}
-    <div class="flex flex-col gap-3 sm:gap-4">
-      <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-        <span
-          class="inline-flex items-center rounded-full border border-white bg-white px-2.5 py-1 text-xs font-bold tracking-wider text-black uppercase sm:px-3">
-          Latest Talk
-        </span>
-      </div>
-
-      <h2
-        class="text-lg leading-tight font-bold tracking-tight break-words text-white sm:text-2xl md:text-3xl lg:text-4xl">
-        {speaking.title}
-      </h2>
-
-      {
-        speaking.description && (
-          <p class="line-clamp-2 text-sm text-white/70 sm:line-clamp-none sm:text-base md:text-lg">
-            {speaking.description}
-          </p>
-        )
-      }
-
-      {
-        speaking.date && (
-          <p class="text-xs font-medium text-white/50 sm:text-sm">
-            {formatMonthYear(speaking.date.toDateString())}
-          </p>
-        )
-      }
-    </div>
-
-    {/* CTA Buttons */}
-    <div class="flex flex-col gap-2.5 sm:flex-row sm:gap-3 md:gap-4">
-      <a
-        href={speaking.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="focus-visible:ring-ring inline-flex items-center justify-center rounded-md border-2 border-white bg-white px-4 py-2.5 text-center text-xs font-bold tracking-tight whitespace-nowrap text-black uppercase shadow-sm transition-colors hover:bg-white/90 focus-visible:ring-1 focus-visible:outline-hidden sm:px-8 sm:py-4 sm:text-sm">
-        Watch Now
-      </a>
-      <a
-        href="/speaking"
-        class="focus-visible:ring-ring inline-flex items-center justify-center rounded-md border-2 border-white bg-transparent px-4 py-2.5 text-center text-xs font-bold tracking-tight whitespace-nowrap text-white uppercase shadow-xs transition-colors hover:bg-white hover:text-black focus-visible:ring-1 focus-visible:outline-hidden sm:px-8 sm:py-4 sm:text-sm">
-        View All Talks
-      </a>
-    </div>
-  </div>
-</section>
+<a href={href} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noopener noreferrer" : undefined}
+  class="bento-card card-link card-surface flex flex-col gap-5 bg-card p-5 md:p-7">
+  <p class="bento-label text-muted-foreground">Latest talk</p>
+  {talk ? (
+    <>
+      <h3 class="text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">{talk.title}</h3>
+      <p class="text-sm leading-relaxed text-muted-foreground">{talk.description}</p>
+      <p class="text-xs text-muted-foreground">{[talk.event, formatMonthYear(talk.date.toDateString())].filter(Boolean).join(" · ")}</p>
+    </>
+  ) : <h3 class="text-2xl font-semibold">Speaking and sharing ideas</h3>}
+  <span class="mt-auto inline-flex min-h-11 items-center gap-2 pt-2 text-sm font-medium">
+    {talk ? "View talk" : "All talks"} <span class="bento-arrow" aria-hidden="true">{isExternal ? "↗" : "→"}</span>
+  </span>
+</a>

@@ -1,0 +1,88 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={["hover-list relative", className]} data-hover-list>
+  <div class="list-highlight pointer-events-none absolute inset-x-0 top-0 rounded-lg bg-muted opacity-0" aria-hidden="true"></div>
+  <div class="relative">
+    <slot />
+  </div>
+</div>
+
+<style is:global>
+  .list-highlight {
+    transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), opacity 150ms ease;
+  }
+
+  .hover-list:has(:focus-visible) .list-highlight {
+    opacity: 0 !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hover-list:not([data-hover-ready]) [data-hover-row]:hover {
+      background-color: hsl(var(--muted));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+    .list-highlight {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initListHighlights() {
+    document.querySelectorAll<HTMLElement>("[data-hover-list]").forEach((list) => {
+      if (list.dataset.hoverReady !== undefined) return;
+      const highlight = list.querySelector<HTMLElement>(".list-highlight");
+      if (!highlight) return;
+      const pointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+      let activeRow: HTMLElement | null = null;
+
+      const positionHighlight = (row: HTMLElement) => {
+        const rowBounds = row.getBoundingClientRect();
+        const listBounds = list.getBoundingClientRect();
+        highlight.style.height = `${rowBounds.height}px`;
+        highlight.style.transform = `translateY(${rowBounds.top - listBounds.top}px)`;
+      };
+
+      const clearHighlight = () => {
+        highlight.style.opacity = "0";
+        activeRow = null;
+      };
+
+      list.addEventListener("pointerover", (event) => {
+        if (!pointer.matches || event.pointerType === "touch") return;
+        const row = event.target instanceof Element
+          ? event.target.closest<HTMLElement>("[data-hover-row]")
+          : null;
+        if (!row || !list.contains(row)) {
+          clearHighlight();
+          return;
+        }
+        if (row === activeRow) return;
+        if (!activeRow) {
+          // Start under the first hovered row rather than flying in from the top.
+          highlight.style.transition = "none";
+          positionHighlight(row);
+          highlight.getBoundingClientRect();
+          highlight.style.removeProperty("transition");
+        } else {
+          positionHighlight(row);
+        }
+        activeRow = row;
+        highlight.style.opacity = "1";
+      });
+      list.addEventListener("pointerleave", clearHighlight);
+      list.addEventListener("focusin", clearHighlight);
+      list.dataset.hoverReady = "";
+    });
+  }
+
+  initListHighlights();
+  document.addEventListener("astro:page-load", initListHighlights);
+</script>

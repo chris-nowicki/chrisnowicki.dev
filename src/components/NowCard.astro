@@ -6,14 +6,14 @@ const items = [
 ]
 ---
 
-<div class="rounded-xl border bg-muted p-4 sm:p-5 md:p-6">
-  <h2 class="mb-4 text-base font-bold sm:text-lg">Now</h2>
-  <ul class="space-y-3">
+<section class="bento-card bg-card p-5 md:p-7">
+  <h3 class="bento-label mb-6 text-muted-foreground">Now</h3>
+  <ul class="divide-y divide-border">
     {items.map(({ label, value }) => (
-      <li class="flex flex-col gap-0.5">
+      <li class="flex flex-col gap-2 py-5 first:pt-0 last:pb-0">
         <span class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</span>
         <span class="text-sm text-foreground">{value}</span>
       </li>
     ))}
   </ul>
-</div>
+</section>

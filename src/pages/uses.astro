@@ -46,7 +46,7 @@ const ogImageUrl = generateOgImageUrl({
               rel="noopener noreferrer"
               class={cn(ACCENT_CARD, 'flex items-start gap-4 p-4')}>
               <div class="flex min-w-0 flex-1 flex-col gap-1">
-                <h2 class="text-md font-mono group-hover:font-semibold">
+                <h2 class="text-md font-mono">
                   {gitHub.title}
                 </h2>
                 <p class="text-muted-foreground text-sm leading-relaxed">
@@ -71,13 +71,13 @@ const ogImageUrl = generateOgImageUrl({
             <a
               class={cn(
                 ACCENT_CARD,
-                'flex flex-col items-center gap-2 rounded-xl p-2 before:rounded-l-xl',
+                'flex flex-col items-center gap-2 rounded-xl p-2',
                 index === 0 && 'md:col-span-3'
               )}
               href={coffee.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="text-md font-mono group-hover:font-semibold">
+              <h2 class="text-md font-mono">
                 {coffee.title}
               </h2>
               <img
@@ -106,21 +106,15 @@ const ogImageUrl = generateOgImageUrl({
         {
           softwareData.map((software) => (
             <a
-              class="group flex flex-col items-center justify-center gap-2"
+              class="group card-link flex flex-col items-center justify-center gap-2"
               href={software.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="text-md group-hover:font-semibold">
+              <h2 class="text-md">
                 {software.title}
               </h2>
               <div
-                class={cn(
-                  'relative flex aspect-square w-full items-center justify-center rounded-lg border',
-                  'transition-all duration-200',
-                  'before:absolute before:top-0 before:left-0 before:h-full before:w-1 before:rounded-l-lg',
-                  'before:bg-foreground before:opacity-0 before:transition-opacity before:duration-200',
-                  'group-hover:border-border group-hover:before:opacity-100'
-                )}>
+                class="card-surface flex aspect-square w-full items-center justify-center rounded-lg border">
                 <img
                   src={software.imageSrc}
                   alt={software.title}
@@ -144,12 +138,12 @@ const ogImageUrl = generateOgImageUrl({
             <a
               class={cn(
                 ACCENT_CARD,
-                'flex flex-col justify-center gap-2 rounded-xl p-2 before:rounded-l-xl'
+                'flex flex-col justify-center gap-2 rounded-xl p-2'
               )}
               href={hardware.link}
               target="_blank"
               rel="noopener noreferrer">
-              <h2 class="text-md group-hover:font-semibold">
+              <h2 class="text-md">
                 {hardware.title}
               </h2>
               <p class="text-muted-foreground text-sm">

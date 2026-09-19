@@ -2,7 +2,7 @@
 import { getCollection, render } from 'astro:content'
 
 import Container from '@/components/Container.astro'
-import PageHeader from '@/components/PageHeader.astro'
+import SpeakingResources from "@/components/SpeakingResources.astro";
 import YouTube from '@/components/YouTube.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import generateOgImageUrl from '@/utils/og-image'
@@ -35,29 +35,21 @@ const ogImageUrl = generateOgImageUrl({
   supportingText: t.description,
 })
 
-const subtitle = [t.event, formatDate(t.date.toDateString())]
-  .filter(Boolean)
-  .join(' · ')
 ---
 
 <PageLayout title={t.title} description={t.description} image={ogImageUrl}>
   <Container>
     <article class="text-sm sm:text-base">
-      <div class="page-animate mt-10" style="--delay: 0ms">
-        <PageHeader title={t.title} subtitle={subtitle} />
-
-        {
-          t.category.length > 0 && (
-            <div class="-mt-8 mb-8 flex flex-wrap items-center justify-center gap-2 text-center">
-              {t.category.map((cat) => (
-                <span class="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                  {cat}
-                </span>
-              ))}
-            </div>
-          )
-        }
-      </div>
+      <header class="mt-12 sm:mt-20">
+        <a href="/speaking" class="bento-action mb-6 inline-flex min-h-11 items-center text-sm text-muted-foreground hover:text-foreground">← All talks & appearances</a>
+        <p class="mb-3 text-sm text-muted-foreground">
+          {t.event && <span>{t.event} · </span>}
+          <time datetime={t.date.toISOString()}>{formatDate(t.date.toDateString())}</time>
+        </p>
+        <h1 class="max-w-3xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">{t.title}</h1>
+        <p class="mt-4 mb-5 max-w-prose text-base leading-relaxed text-muted-foreground sm:text-lg">{t.description}</p>
+        <SpeakingResources talk={t} />
+      </header>
 
       {
         t.youtube && (
@@ -77,25 +69,7 @@ const subtitle = [t.event, formatDate(t.date.toDateString())]
               allowfullscreen
               loading="lazy"
             />
-            <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
-              <a
-                href={`/slides/${t.slidesSlug}/index.html`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="link-underline hover:text-foreground">
-                Open fullscreen ↗
-              </a>
-              {
-                t.slidesPdf && (
-                  <a
-                    href={`/slides/${t.slidesSlug}/slides.pdf`}
-                    download={`${t.slidesSlug}.pdf`}
-                    class="link-underline hover:text-foreground">
-                    Download PDF
-                  </a>
-                )
-              }
-            </div>
+
           </div>
         )
       }

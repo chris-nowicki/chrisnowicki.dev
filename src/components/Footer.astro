@@ -10,7 +10,6 @@ const currentYear = new Date().getFullYear()
 
 const builtWith = [
   { name: 'Astro', href: 'https://astro.build' },
-  { name: 'React', href: 'https://react.dev' },
 { name: 'TypeScript', href: 'https://www.typescriptlang.org' },
   { name: 'Tailwind', href: 'https://tailwindcss.com' },
 ]
@@ -90,7 +89,7 @@ const builtWith = [
         </div>
       </div>
 
-      <div class="mt-10 flex items-center justify-center border-t border-border pt-6 md:mt-16 md:pt-8">
+      <div class="copyright-row relative mt-10 flex items-center justify-center pt-6 md:mt-16 md:pt-8">
         <p class="text-xs text-muted-foreground">
           &copy; {currentYear} {SITE.NAME}. Crafted with care &amp; <span class="inline-block transition-transform duration-200 hover:scale-125 cursor-default">☕</span>
         </p>
@@ -100,3 +99,20 @@ const builtWith = [
   </Container>
 </footer>
 
+<style>
+  .copyright-row::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px dashed hsl(var(--border));
+  }
+
+  @media (min-width: 944px) {
+    .copyright-row::before {
+      left: calc(50% - 29.5rem);
+      right: calc(50% - 29.5rem);
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import Container from '@/components/Container.astro'
+import HoverList from "@/components/HoverList.astro";
 import PageHeader from '@/components/PageHeader.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { BLOG } from '@/lib/site'
@@ -26,20 +27,21 @@ const ogImageUrl = generateOgImageUrl({
 
       {
         posts.length > 0 ?
-          <div>
+          <HoverList>
             {posts.map((post) => (
               <a
                 href={`/blog/${post.id}`}
-                class="group block rounded-lg p-4 hover:cursor-pointer hover:bg-muted">
+                data-hover-row
+                class="bento-action group block rounded-lg p-4 focus-visible:bg-muted">
                 <div class="text-md flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <span class="order-1 text-muted-foreground sm:order-3">
+                  <span class="order-1 shrink-0 whitespace-nowrap text-muted-foreground sm:order-3">
                     {formatDate(post.data.date.toDateString())}
                   </span>
                   <span
-                    class="order-3 hidden flex-1 bg-muted-foreground/20 px-2 sm:order-2 sm:block"
-                    style="height: 1px; align-self: center;"
+                    class="order-3 hidden h-px min-w-4 flex-1 self-center bg-muted-foreground/20 sm:order-2 sm:block"
+                    aria-hidden="true"
                   />
-                  <h2 class="order-2 text-lg font-semibold sm:order-1">
+                  <h2 class="order-2 min-w-0 break-words text-lg font-semibold sm:order-1">
                     {post.data.title}
                   </h2>
                 </div>
@@ -51,7 +53,7 @@ const ogImageUrl = generateOgImageUrl({
                 </div>
               </a>
             ))}
-          </div>
+          </HoverList>
         : <p class="text-muted-foreground">No blog posts found.</p>
       }
     </section>
