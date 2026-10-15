@@ -1,0 +1,24 @@
+---
+import { slug } from 'github-slugger'
+
+import { blockPlainText, type PTHeadingBlock } from './utils'
+
+interface Props {
+  node: PTHeadingBlock
+  index?: number
+  isInline?: boolean
+}
+
+const { node } = Astro.props
+
+const Tag = (node.style ?? 'h2') as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+// `headingId` comes from the per-post `withHeadingIds()` pre-pass, which
+// dedupes. Fall back to an undeduped slug if rendered outside that wrapper.
+const id = node.headingId ?? slug(blockPlainText(node))
+---
+
+<Tag id={id}>
+  <a class="subheading-anchor" aria-label="Link to section" href={`#${id}`}>
+    <slot />
+  </a>
+</Tag>
