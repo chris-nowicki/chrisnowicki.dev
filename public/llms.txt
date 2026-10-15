@@ -16,8 +16,11 @@ Chris Nowicki is a Developer Experience Engineer who writes about web developmen
 
 ## Blog Posts
 
+- [Managing Your Dotfiles with GNU Stow](https://www.chrisnowicki.dev/blog/managing-dotfiles-with-gnu-stow): Why every developer should have a dotfiles repo and how GNU Stow makes managing one effortless
+- [How to Create Dynamic OG Images in Astro with Cloudinary](https://www.chrisnowicki.dev/blog/dynamic-og-images-astro-cloudinary): Generate dynamic Open Graph images on the fly using Cloudinary and Astro
+- [2024-2025 Retrospective](https://www.chrisnowicki.dev/blog/2025-retrospective): Two years of breaking into tech, switching jobs, and learning when to step back
 - [The Reality of Burnout and Breaking Into Tech](https://www.chrisnowicki.dev/blog/breaking-into-tech-and-burnout): Overcoming burnout through digital detox and self-care
-- [How to Secure Vercel Cron Job routes in NextJS 13](https://www.chrisnowicki.dev/blog/how-to-secure-a-vercel-cron-job): Secure Vercel cron routes with bearer token authentication
+- [How to Secure Vercel Cron Job routes in NextJS 13](https://www.chrisnowicki.dev/blog/how-to-secure-a-vercel-cron-job-route): Secure Vercel cron routes with bearer token authentication
 - [How to setup Vercel Postgres Serverless SQL Storage using NextJS](https://www.chrisnowicki.dev/blog/how-to-setup-vercel-postgres): Setup Vercel Postgres database with Next.js and Kysely
 - [How to create a Vercel Cron Job using NextJS 13](https://www.chrisnowicki.dev/blog/how-to-create-a-vercel-cron-job): Learn to create Vercel cron jobs in Next.js
 

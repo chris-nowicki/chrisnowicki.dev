@@ -11,13 +11,24 @@ pnpm preview          # Preview production build locally
 pnpm lint             # Run ESLint
 pnpm lint:fix         # Run ESLint with auto-fix
 pnpm typecheck        # TypeScript type checking
+pnpm migrate:blog     # Convert src/content/blog → .emdash/seed.json (--dry-run, --seed-local)
+pnpm seed:local       # Reset local D1/R2 and apply .emdash/seed.json
 ```
+
+`pnpm lint` and `pnpm typecheck` are currently broken: TypeScript 7 isn't
+supported by typescript-eslint or `astro check`. Verify with `pnpm build`.
+
+The Astro 7 dev server can run detached (`astro dev --background`); stop
+it with `pnpm astro dev stop`.
 
 ## Tech Stack
 
-- **Astro 7.x** — fully static build (`output: 'static'`, no adapter),
-  served as Cloudflare Workers static assets (see `wrangler.jsonc`)
-- **No UI framework** — interactivity is small inline `<script>` blocks
+- **Astro 7.x** with the `@astrojs/cloudflare` adapter, deployed as a
+  Cloudflare Worker (see `wrangler.jsonc`)
+- **EmDash CMS** (`emdash`, `@emdash-cms/cloudflare`) for the blog —
+  content in D1, media in R2, admin at `/_emdash/admin` (passkey login)
+- **No UI framework on the site** — interactivity is small inline
+  `<script>` blocks. React is installed only for the EmDash admin UI
 - **Tailwind CSS v4** with Vite plugin
 - **TypeScript** in strict mode
 - **Plausible Analytics** for privacy-friendly pageview tracking (initialized in `Head.astro`)
@@ -27,11 +38,15 @@ pnpm typecheck        # TypeScript type checking
 
 ### Rendering Strategy
 
-- `output: 'static'` — every page and endpoint (including
-  `robots.txt.ts`) is prerendered to HTML/assets at build time. There is
-  no server runtime.
-- The build emits everything to `dist/`, which `wrangler` serves as
-  static assets. `pnpm deploy` runs `astro build && wrangler deploy`.
+- `output: 'server'` (hybrid). Every non-CMS page and endpoint sets
+  `export const prerender = true` — **new pages must add it**, and any
+  page using `getStaticPaths` returns 500 without it.
+- Blog routes (`/blog`, `/blog/[slug]`, `sitemap-blog.xml.ts`) render
+  on demand from EmDash and set `Astro.cache` hints.
+- `LatestPosts` is a server island (`server:defer` in `index.astro`) so
+  the homepage stays prerendered.
+- `pnpm deploy` runs `astro build && wrangler deploy` with
+  `EMDASH_SITE_URL` set for the build.
 - **Client-side interactivity**: small inline `<script>` blocks, no
   hydration framework.
 
@@ -45,7 +60,13 @@ pnpm typecheck        # TypeScript type checking
 
 ### Data Layer
 
+- **Blog**: EmDash `posts` collection (`title`, `description`, `date`,
+  `cover`, Portable Text `content`; draft/published is EmDash status).
+  Always read it through `src/utils/blog-helpers.ts`. Posts are written
+  in `/_emdash/admin`, not in the repo.
 - **Content collections** in `src/content/` with Zod validation
+  (`speaking`; `src/content/blog` is the pre-migration source, kept until
+  the EmDash cut-over is verified)
 - **Static data** in `src/data/` (speaking.ts, uses.ts)
 - **Site constants** in `src/lib/site.ts` (navigation, social links, metadata)
 
@@ -92,19 +113,38 @@ rather than inventing new treatments:
 - **Motion**: entrance animations use the `cubic-bezier(0.16, 1, 0.3, 1)`
   ease curve; all motion is gated behind `prefers-reduced-motion`.
 - **Cursive accents**: `font-cursive` (Reenie Beanie) for playful asides.
+- **Polaroid gallery**: an EmDash gallery block in a post renders as
+  `PolaroidGallery.astro` (tilted frames, grayscale → color, cursive
+  captions from each image's caption).
 
 ## Key Files
 
 - `src/lib/site.ts` - Site metadata, navigation links, social links
 - `src/content.config.ts` - Content collection schemas
+- `src/live.config.ts` - EmDash live collection loader
+- `src/worker.ts` - Worker entry (EmDash handler + scheduled publishing cron)
+- `ec.config.mjs` - Expressive Code options (must live here so the runtime
+  `<Code>` used for CMS code blocks gets them)
+- `.emdash/seed.json` - EmDash schema (`posts`) and migrated post content
+- `scripts/migrate-blog-to-emdash.ts` - Markdown/MDX → Portable Text migration
+- `src/components/blog/portable-text/` - Portable Text renderers (code,
+  headings, images, blockquotes, Polaroid gallery)
 - `src/utils/utils.ts` - `cn()` utility, `formatDate()`
-- `src/utils/blog-helpers.ts` - Blog post fetching and sorting
+- `src/utils/blog-helpers.ts` - Blog post fetching from EmDash
 - `src/utils/og-image.ts` - Cloudinary OG image URL generation
 
 ## Environment Variables
 
 - `PUBLIC_CLOUDINARY_CLOUD_NAME` - Cloudinary cloud name, used by
   `src/utils/og-image.ts` to build dynamic Open Graph image URLs.
+- `EMDASH_SITE_URL` - public site URL for EmDash links, passkeys and media.
+  Must be set in the **build** environment (`.env` isn't read at that
+  stage); without it CMS images ship untransformed at full size.
+- `EMDASH_ENCRYPTION_KEY` - EmDash secret; generate with
+  `npx emdash secrets generate --write .env`.
+
+Prerendering runs in workerd, so `.env` needs these locally too (see
+`.env.example`).
 
 ## Git Workflow
 
