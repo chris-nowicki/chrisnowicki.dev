@@ -16,6 +16,12 @@
  *
  * The converter fails loudly: any Markdown/MDX construct it doesn't
  * explicitly map throws with file + line instead of being dropped.
+ *
+ * Typography: Astro renders Markdown/MDX with remark-smartypants (default
+ * options), so the old site showed curly quotes, dashes and ellipses. The
+ * same plugin is applied to the Portable Text spans (see `smartenText`) and
+ * the result is checked character-for-character against the plugin's output
+ * on the source mdast.
  */
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -29,6 +35,7 @@ import prettier from 'prettier'
 import remarkGfm from 'remark-gfm'
 import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
+import remarkSmartypants from 'remark-smartypants'
 import { unified } from 'unified'
 import { parse as parseYaml } from 'yaml'
 
@@ -553,11 +560,66 @@ interface PreparedBody {
 }
 
 // ---------------------------------------------------------------------------
+// Smart punctuation (matches Astro's Markdown pipeline)
+// ---------------------------------------------------------------------------
+
+type SmartypantsNode = {
+  type: string
+  value?: string
+  children?: SmartypantsNode[]
+}
+
+/** remark-smartypants with Astro's (default) options, as a tree transform. */
+const smartypants = remarkSmartypants as unknown as () => (
+  tree: SmartypantsNode
+) => void
+
+/**
+ * Apply remark-smartypants to the Portable Text spans. The spans are mapped
+ * onto the mdast shape the plugin expects: each text block is a paragraph
+ * (fresh quote context), each span a `text` node, and `code`-marked spans are
+ * `inlineCode` (they keep their text but still give neighbouring quotes their
+ * context). The plugin pairs quotes across the whole run of nodes, so quotes
+ * split across differently-marked spans are resolved like on the old site.
+ * Code blocks, image alt text and captions are not prose and are untouched,
+ * exactly as in Astro (captions were JSX attributes there).
+ */
+const smartenText = (blocks: OutputBlock[]) => {
+  const spans = new Map<SmartypantsNode, Span>()
+  const tree: SmartypantsNode = {
+    type: 'root',
+    children: blocks
+      .filter((block): block is TextBlock => block._type === 'block')
+      .map((block) => ({
+        type: 'paragraph',
+        children: block.children.filter(isSpan).map((span) => {
+          const node = {
+            type: span.marks.includes('code') ? 'inlineCode' : 'text',
+            value: span.text,
+          }
+          spans.set(node, span)
+          return node
+        }),
+      })),
+  }
+  smartypants()(tree)
+  for (const [node, span] of spans) span.text = node.value!
+}
+
+// ---------------------------------------------------------------------------
 // Text/mark parity check
 // ---------------------------------------------------------------------------
 
-/** Non-whitespace character counts: total and per mark kind. */
-type TextProfile = Record<string, number>
+/**
+ * Non-whitespace character counts (total and per mark kind), plus the
+ * non-whitespace text itself in document order.
+ */
+interface TextProfile {
+  counts: Record<string, number>
+  text: string
+}
+
+const emptyProfile = (): TextProfile => ({ counts: {}, text: '' })
 
 const MDAST_MARKS: Record<string, string> = {
   strong: 'strong',
@@ -572,14 +634,16 @@ const addText = (
   text: string,
   marks: Iterable<string>
 ) => {
-  const length = text.replace(/\s+/g, '').length
-  if (!length) return
-  profile.total = (profile.total ?? 0) + length
-  for (const mark of marks) profile[mark] = (profile[mark] ?? 0) + length
+  const compact = text.replace(/\s+/g, '')
+  if (!compact) return
+  const { counts } = profile
+  profile.text += compact
+  counts.total = (counts.total ?? 0) + compact.length
+  for (const mark of marks) counts[mark] = (counts[mark] ?? 0) + compact.length
 }
 
 const mdastTextProfile = (tree: MdastNode, skip: Set<MdastNode>) => {
-  const profile: TextProfile = {}
+  const profile = emptyProfile()
   const visit = (node: MdastNode, marks: Set<string>) => {
     if (skip.has(node) || node.type === 'code' || node.type === 'image') return
     const mark = MDAST_MARKS[node.type]
@@ -594,7 +658,7 @@ const mdastTextProfile = (tree: MdastNode, skip: Set<MdastNode>) => {
 }
 
 const portableTextProfile = (blocks: OutputBlock[]) => {
-  const profile: TextProfile = {}
+  const profile = emptyProfile()
   for (const block of blocks) {
     if (block._type !== 'block') continue
     const links = new Set(block.markDefs.map((def) => def._key))
@@ -612,23 +676,40 @@ const portableTextProfile = (blocks: OutputBlock[]) => {
 /**
  * Guards against converter bugs (like the leaked-link-mark one): every
  * character of prose, and every character under each mark, must survive.
+ * `expected` is profiled after remark-smartypants ran on the source mdast,
+ * so this also proves the PT spans got the same typography as Astro's render.
  */
 const assertSameProfile = (
   expected: TextProfile,
   actual: TextProfile,
   file: string
 ) => {
-  const keys = new Set([...Object.keys(expected), ...Object.keys(actual)])
+  const keys = new Set([
+    ...Object.keys(expected.counts),
+    ...Object.keys(actual.counts),
+  ])
   const diffs = [...keys]
-    .filter((key) => (expected[key] ?? 0) !== (actual[key] ?? 0))
+    .filter((key) => (expected.counts[key] ?? 0) !== (actual.counts[key] ?? 0))
     .map(
-      (key) => `${key}: source ${expected[key] ?? 0} vs PT ${actual[key] ?? 0}`
+      (key) =>
+        `${key}: source ${expected.counts[key] ?? 0} vs PT ${actual.counts[key] ?? 0}`
     )
   if (diffs.length) {
     throw new MigrationError(
       file,
       undefined,
       `text/mark mismatch (${diffs.join('; ')})`
+    )
+  }
+  if (expected.text !== actual.text) {
+    let index = 0
+    while (expected.text[index] === actual.text[index]) index++
+    const around = (text: string) =>
+      JSON.stringify(text.slice(Math.max(0, index - 30), index + 30))
+    throw new MigrationError(
+      file,
+      undefined,
+      `text mismatch at char ${index}: source ${around(expected.text)} vs PT ${around(actual.text)}`
     )
   }
 }
@@ -713,6 +794,8 @@ const prepareBody = (
     node.children?.forEach((child) => walk(child, node))
   }
   walk(tree)
+  // Profile the text as Astro rendered it (smart quotes, dashes, ellipses).
+  smartypants()(tree as SmartypantsNode)
 
   let markdown = body
   for (const { start, end, text } of replacements.sort(
@@ -1066,6 +1149,7 @@ const convertPost = (
     orderedListIndex: 0,
   }
   const content = raw.flatMap((node) => normalizeNode(node, ctx))
+  smartenText(content)
 
   assertSameProfile(textProfile, portableTextProfile(content), file)
   if (ctx.orderedListIndex !== orderedListStarts.length) {
