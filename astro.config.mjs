@@ -1,11 +1,15 @@
 // @ts-check
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import { unified } from '@astrojs/markdown-remark'
+import cloudflare from '@astrojs/cloudflare'
 import mdx from '@astrojs/mdx'
+import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
+import { d1, r2 } from '@emdash-cms/cloudflare'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
 import expressiveCode from 'astro-expressive-code'
+import emdash from 'emdash/astro'
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 
 /** @type {import('@astrojs/markdown-remark').RehypePlugin} */
@@ -36,6 +40,17 @@ export default defineConfig({
   site: 'https://www.chrisnowicki.dev',
 
   vite: {
+    // The workerd dev runner can't evaluate the CJS deps (postcss etc.) pulled
+    // in by expressive-code's runtime <Code> component unless pre-bundled.
+    ssr: {
+      optimizeDeps: {
+        include: [
+          'astro-expressive-code',
+          'astro-expressive-code > rehype-expressive-code',
+          'astro-expressive-code > rehype-expressive-code/hast',
+        ],
+      },
+    },
     plugins: [
       tailwindcss(),
       {
@@ -47,29 +62,18 @@ export default defineConfig({
     ],
   },
 
+  adapter: cloudflare(),
+
   integrations: [
-    sitemap(),
-    expressiveCode({
-      themes: ['catppuccin-latte', 'catppuccin-mocha'],
-      useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) => {
-        if (theme.name === 'catppuccin-mocha') return '.dark'
-        return ''
-      },
-      styleOverrides: {
-        codeFontFamily: "'Geist Mono', monospace",
-        codeFontSize: '0.875rem',
-        codeLineHeight: '1.5',
-        borderRadius: '0.375rem',
-        borderWidth: '0px',
-        frames: {
-          shadowColor: 'transparent',
-        },
-      },
-      defaultProps: {
-        wrap: true,
-      },
+    react(),
+    emdash({
+      database: d1({ binding: 'DB' }),
+      storage: r2({ binding: 'MEDIA' }),
     }),
+    sitemap(),
+    // Options live in ec.config.mjs: the runtime <Code> component (used for
+    // CMS code blocks) can't receive non-serializable inline options.
+    expressiveCode(),
     mdx(),
   ],
 
@@ -93,7 +97,7 @@ export default defineConfig({
       ],
     }),
   },
-  output: 'static',
+  output: 'server',
   prefetch: true,
 
   fonts: [

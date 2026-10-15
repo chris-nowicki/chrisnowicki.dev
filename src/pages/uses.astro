@@ -13,6 +13,8 @@ import { ACCENT_CARD } from '@/lib/styles'
 import generateOgImageUrl from '@/utils/og-image'
 import { cn } from '@/utils/utils'
 
+export const prerender = true
+
 const ogImageUrl = generateOgImageUrl({
   header: `/${USES.TITLE.toUpperCase()}`,
   description: USES.DESCRIPTION,

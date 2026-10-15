@@ -8,6 +8,8 @@ import PageLayout from '@/layouts/PageLayout.astro'
 import generateOgImageUrl from '@/utils/og-image'
 import { formatDate } from '@/utils/utils'
 
+export const prerender = true
+
 export async function getStaticPaths() {
   const talks = await getCollection(
     'speaking',

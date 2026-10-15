@@ -31,3 +31,14 @@ pnpm-debug.log*
 
 
 .env.local
+
+# emdash: local sqlite/file storage (unused; D1/R2 via miniflare) and CLI
+# output duplicated by the dev-generated emdash-env.d.ts
+data.db*
+uploads/
+.emdash/types.ts
+.emdash/schema.json
+.emdash/migrations.json
+
+# Claude Code subagent worktrees
+.claude/worktrees/
