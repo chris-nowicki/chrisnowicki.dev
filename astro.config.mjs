@@ -70,7 +70,10 @@ export default defineConfig({
       database: d1({ binding: 'DB' }),
       storage: r2({ binding: 'MEDIA' }),
     }),
-    sitemap(),
+    sitemap({
+      // The blog is on-demand (EmDash) and listed by src/pages/sitemap-blog.xml.ts.
+      filter: (page) => !new URL(page).pathname.startsWith('/blog'),
+    }),
     // Options live in ec.config.mjs: the runtime <Code> component (used for
     // CMS code blocks) can't receive non-serializable inline options.
     expressiveCode(),

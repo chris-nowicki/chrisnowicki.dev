@@ -1,34 +1,31 @@
 ---
-import { render } from 'astro:content'
-
 import BlogPostHeader from '@/components/BlogPostHeader.astro'
 import Container from '@/components/Container.astro'
+import { BlogPortableText } from '@/components/blog/portable-text'
 import PageLayout from '@/layouts/PageLayout.astro'
-import { getBlogPosts } from '@/utils/blog-helpers'
+import { applyCacheHint, getBlogPost } from '@/utils/blog-helpers'
 import generateOgImageUrl from '@/utils/og-image'
-import { readingTime } from '@/utils/reading-time'
+import { readingTimeFromPortableText } from '@/utils/reading-time'
 import { formatDate } from '@/utils/utils'
 
-export const prerender = true
+const { slug = '' } = Astro.params
+const { post, cacheHint, isPreview } = await getBlogPost(slug)
 
-export async function getStaticPaths() {
-  const posts = await getBlogPosts()
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }))
-}
+// An empty-bodied 404 makes Astro render the (prerendered) 404 page with a
+// real 404 status.
+if (!post) return new Response(null, { status: 404 })
 
-const { post } = Astro.props
-const { Content } = await render(post)
+// Never cache a draft served through a preview link.
+if (!isPreview) applyCacheHint(Astro.cache, cacheHint)
 
 const postDate = formatDate(post.data.date.toDateString())
-const postReadTime = readingTime(post.rendered?.html ?? '')
+const postReadTime = readingTimeFromPortableText(post.data.content)
 
 const ogImageUrl = generateOgImageUrl({
   header: '/BLOG',
   description: post.data.title,
   readTime: postReadTime,
 })
-
-const postSlug = post.id
 ---
 
 <PageLayout
@@ -48,14 +45,15 @@ const postSlug = post.id
           title={post.data.title}
           date={postDate}
           readTime={postReadTime}
-          slug={postSlug}
-          image={post.data.image}
-          draft={post.data.draft}
+          slug={post.id}
+          cover={post.data.cover}
         />
       </div>
-      <div class="page-animate prose mt-10" style="--delay: 150ms">
-        <Content />
-      </div>
+      <BlogPortableText
+        value={post.data.content}
+        class="page-animate mt-10"
+        style="--delay: 150ms"
+      />
       <span
         class="page-animate font-cursive text-foreground mt-8 block text-4xl"
         style="--delay: 200ms">- Chris</span
