@@ -1,0 +1,171 @@
+---
+import MediaPicture from '@/components/blog/MediaPicture.astro'
+
+import { toMediaValue, type PTImage } from './utils'
+
+interface Props {
+  node: {
+    _type: 'gallery'
+    _key: string
+    columns?: number
+    images?: PTImage[]
+  }
+  index?: number
+  isInline?: boolean
+}
+
+const { node } = Astro.props
+
+// Frames are 280–360px wide and CSS crops photos to a square, so request
+// square crops: 280/560 cover 1x/2x of the common 280px frame, 720 a 2x
+// lone (360px) polaroid.
+const IMAGE_WIDTHS = [280, 560, 720]
+const IMAGE_SIZES = '(max-width: 640px) 280px, 360px'
+
+const normalize = (text: string | undefined) => text?.trim().toLowerCase()
+
+const polaroids = (node?.images ?? [])
+  .filter((image) => image?.asset)
+  .map((image) => {
+    const media = toMediaValue(image)
+    const caption = image.caption?.trim() || undefined
+    return {
+      media,
+      caption,
+      // Alt text usually repeats the caption in these posts; hide the visual
+      // caption from assistive tech then so it isn't announced twice.
+      captionIsAlt: !!caption && normalize(caption) === normalize(media.alt),
+    }
+  })
+---
+
+{polaroids.length > 0 && (
+  <div class="polaroids flex flex-wrap justify-center gap-4 pt-4 pb-6">
+    {polaroids.map(({ media, caption, captionIsAlt }) => (
+      <figure class="polaroid" data-caption={caption}>
+        <MediaPicture
+          image={media}
+          widths={IMAGE_WIDTHS}
+          sizes={IMAGE_SIZES}
+          aspectRatio={1}
+        />
+        {caption && (
+          <figcaption
+            class="polaroid-caption"
+            aria-hidden={captionIsAlt ? 'true' : undefined}>
+            {caption}
+          </figcaption>
+        )}
+      </figure>
+    ))}
+  </div>
+)}
+
+<style>
+  /* Frames get an explicit width (capped by the container) so every
+     polaroid in a gallery is the same size whatever its photo's intrinsic
+     width; the image fills the frame. */
+  .polaroid {
+    --rotation: 0deg;
+    position: relative;
+    width: 280px;
+    max-width: 100%;
+    padding: 0.75rem 0.75rem 3rem;
+    background: white;
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transform: rotate(var(--rotation));
+  }
+
+  /* A lone polaroid is larger; exactly two are medium. */
+  .polaroid:only-child {
+    width: 360px;
+  }
+
+  .polaroids:has(> .polaroid:nth-child(2)):not(:has(> .polaroid:nth-child(3)))
+    > .polaroid {
+    width: 320px;
+  }
+
+  /* Hand-placed tilt, repeating every 8 photos. */
+  .polaroid:nth-child(8n + 1) {
+    --rotation: -2deg;
+  }
+  .polaroid:nth-child(8n + 2) {
+    --rotation: 1.5deg;
+  }
+  .polaroid:nth-child(8n + 3) {
+    --rotation: -1deg;
+  }
+  .polaroid:nth-child(8n + 4) {
+    --rotation: 2deg;
+  }
+  .polaroid:nth-child(8n + 5) {
+    --rotation: -1.5deg;
+  }
+  .polaroid:nth-child(8n + 6) {
+    --rotation: 1deg;
+  }
+  .polaroid:nth-child(8n + 7) {
+    --rotation: -2.5deg;
+  }
+  .polaroid:nth-child(8n + 8) {
+    --rotation: 0.5deg;
+  }
+
+  .polaroid :global(img) {
+    display: block;
+    width: 100%;
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: none;
+    filter: grayscale(1);
+  }
+
+  .polaroid:hover {
+    z-index: 10;
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  .polaroid:hover :global(img) {
+    filter: grayscale(0);
+  }
+
+  /* Straighten + lift and the color fade only when motion is welcome. */
+  @media (prefers-reduced-motion: no-preference) {
+    .polaroid {
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .polaroid :global(img) {
+      transition: filter 0.4s ease;
+    }
+
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+  }
+
+  /* Handwritten caption on the polaroid's bottom margin. Overrides the
+     generic `.prose figcaption` treatment. */
+  .polaroid-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0.75rem;
+    left: 0;
+    margin: 0;
+    color: #1a1a1a;
+    font-family: var(--font-reenie);
+    font-size: 1.5rem;
+    font-style: normal;
+    line-height: inherit;
+    text-align: center;
+  }
+</style>

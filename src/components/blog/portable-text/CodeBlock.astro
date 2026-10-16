@@ -1,0 +1,42 @@
+---
+import { Code } from 'astro-expressive-code/components'
+
+// Themes, `.dark` selector, wrap and font overrides come from ec.config.mjs,
+// the same config the prerendered Markdown pipeline uses.
+interface Props {
+  node: {
+    _type: 'code'
+    _key: string
+    code: string
+    language?: string
+    /** EmDash's built-in field for a file name shown above the block. */
+    filename?: string
+    /** Also accepted: a migrated fence `title="…"`. */
+    title?: string
+    /** Raw fence meta (e.g. `{2-4} ins={5}`), passed through to Expressive Code. */
+    meta?: string
+  }
+  index?: number
+  isInline?: boolean
+}
+
+const { node } = Astro.props
+
+const PLAINTEXT_ALIASES = new Set(['', 'text', 'txt', 'plain', 'none'])
+
+function normalizeLanguage(language: string | undefined) {
+  const lang = language?.trim().toLowerCase() ?? ''
+  return PLAINTEXT_ALIASES.has(lang) ? 'plaintext' : lang
+}
+
+const title = node?.filename || node?.title || undefined
+---
+
+{node?.code?.trim() && (
+  <Code
+    code={node.code}
+    lang={normalizeLanguage(node.language)}
+    meta={node.meta}
+    title={title}
+  />
+)}

@@ -9,6 +9,8 @@ import generateOgImageUrl from '@/utils/og-image'
 import { getSpeakingTalks } from '@/utils/speaking-helpers'
 import { formatDate } from '@/utils/utils'
 
+export const prerender = true
+
 const speaking = await getSpeakingTalks()
 
 const featured = speaking.find((talk) => talk.featured && talk.hasDetail)

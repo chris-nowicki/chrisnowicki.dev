@@ -1,0 +1,33 @@
+---
+import { getEditMeta } from 'emdash'
+import { PortableText } from 'emdash/ui'
+
+import { cn } from '@/utils/utils'
+
+import type { HTMLAttributes } from 'astro/types'
+
+import { blogPortableTextComponents } from './components'
+import { withHeadingIds, withListItemBlocks } from './utils'
+
+interface Props extends HTMLAttributes<'div'> {
+  /** A post's Portable Text field, e.g. `entry.data.content`. */
+  value: unknown[] | null | undefined
+}
+
+const { value, class: className, ...attrs } = Astro.props
+
+// In EmDash's visual-edit mode the value carries edit metadata on the array
+// itself and PortableText renders the inline editor, so leave it untouched.
+// Otherwise assign deduped heading ids for this post and nest list items'
+// images/code back into their items.
+const blocks = value ?? []
+const renderValue =
+  getEditMeta(blocks) ? blocks : withListItemBlocks(withHeadingIds(blocks))
+---
+
+<div class={cn('prose', className)} {...attrs}>
+  <PortableText
+    value={renderValue as never}
+    components={blogPortableTextComponents}
+  />
+</div>

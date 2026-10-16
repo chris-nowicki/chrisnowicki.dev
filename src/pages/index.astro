@@ -2,6 +2,7 @@
 import Container from '@/components/Container.astro'
 import Hero from '@/components/Hero.astro'
 import LatestPosts from '@/components/LatestPosts.astro'
+import LatestPostsSkeleton from '@/components/LatestPostsSkeleton.astro'
 import NowCard from '@/components/NowCard.astro'
 import Podcast from '@/components/Podcast.astro'
 import Separator from '@/components/Separator.astro'
@@ -9,13 +10,17 @@ import Speaking from '@/components/Speaking.astro'
 import Uses from '@/components/Uses.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { HOME } from '@/lib/site'
+
+export const prerender = true
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
     <Hero />
     <Separator />
-    <LatestPosts />
+    <LatestPosts server:defer>
+      <LatestPostsSkeleton slot="fallback" />
+    </LatestPosts>
     <Separator />
     <section aria-labelledby="bento-heading">
       <h2 id="bento-heading" class="mb-6 text-lg font-semibold tracking-tight sm:text-2xl">Beyond the code</h2>

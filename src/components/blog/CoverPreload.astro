@@ -1,0 +1,32 @@
+---
+/**
+ * `<link rel="preload">` for a post's cover, the page's LCP image, so the
+ * browser starts fetching it from the `<head>` instead of after layout. Uses
+ * the same picture options as BlogPostHeader so the preloaded candidate is
+ * the one the `<img>` picks. Only the best format is preloaded; `type` makes
+ * browsers without AVIF support skip it rather than fetch a wasted copy.
+ */
+import { COVER_PICTURE } from '@/lib/media/picture'
+import { resolvePicture } from '@/lib/media/resolve-picture'
+
+import type { ImageValue } from 'emdash'
+
+interface Props {
+  cover: ImageValue
+}
+
+const { cover } = Astro.props
+const picture = await resolvePicture(cover, COVER_PICTURE, Astro.url)
+const best = picture?.sources[0]
+---
+
+{best && (
+  <link
+    rel="preload"
+    as="image"
+    type={best.type}
+    imagesrcset={best.srcset}
+    imagesizes={COVER_PICTURE.sizes}
+    fetchpriority="high"
+  />
+)}

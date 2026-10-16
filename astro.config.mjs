@@ -1,11 +1,18 @@
 // @ts-check
+import { fileURLToPath } from 'node:url'
+
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import { unified } from '@astrojs/markdown-remark'
+import cloudflare from '@astrojs/cloudflare'
+import { cacheCloudflare } from '@astrojs/cloudflare/cache'
 import mdx from '@astrojs/mdx'
+import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
+import { d1, r2 } from '@emdash-cms/cloudflare'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
 import expressiveCode from 'astro-expressive-code'
+import emdash from 'emdash/astro'
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings'
 
 /** @type {import('@astrojs/markdown-remark').RehypePlugin} */
@@ -31,13 +38,53 @@ const rehypeLazyImages = () => {
   return addImageProperties
 }
 
+const IMAGE_ENDPOINT = fileURLToPath(
+  new URL('./src/lib/media/image-endpoint.ts', import.meta.url)
+)
+
+// Route caching for the on-demand (EmDash) blog routes. Entries are
+// invalidated by tag when content is published in EmDash, so `maxAge` only
+// bounds staleness if a purge fails (Workers Cache purges are rate limited
+// to 5/min). `posts` is the EmDash collection tag EmDash purges on write;
+// `all` is never purged automatically and works as a manual kill switch.
+const BLOG_CACHE_RULE = { maxAge: 3_600, swr: 86_400, tags: ['posts', 'all'] }
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.chrisnowicki.dev',
 
   vite: {
+    // The workerd dev runner can't evaluate the CJS deps (postcss etc.) pulled
+    // in by expressive-code's runtime <Code> component unless pre-bundled.
+    ssr: {
+      optimizeDeps: {
+        include: [
+          'astro-expressive-code',
+          'astro-expressive-code > rehype-expressive-code',
+          'astro-expressive-code > rehype-expressive-code/hast',
+        ],
+      },
+    },
     plugins: [
       tailwindcss(),
+      {
+        // EmDash installs `@emdash-cms/cloudflare/image-endpoint` as
+        // `/_image` (and gives that route a storage-only fast path in its
+        // middleware). Swap in our version, which adds crops (`fit`/`position`) and
+        // stores transforms in Workers Cache; see the file for details. Astro resolves route
+        // entrypoints itself, so a `resolve.alias` never sees the specifier.
+        name: 'emdash-image-endpoint-override',
+        enforce: 'pre',
+        resolveId(id) {
+          if (
+            /@emdash-cms[\\/]cloudflare[\\/](dist[\\/])?image-endpoint(\.mjs)?$/.test(
+              id
+            )
+          ) {
+            return IMAGE_ENDPOINT
+          }
+        },
+      },
       {
         name: 'increase-fs-watcher-limit',
         configureServer(server) {
@@ -47,29 +94,39 @@ export default defineConfig({
     ],
   },
 
+  adapter: cloudflare(),
+
+  // Stores responses in the Workers Cache (a hit never runs the Worker). The
+  // adapter enables `cache.enabled` in the generated Wrangler config.
+  cache: {
+    provider: cacheCloudflare(),
+  },
+  // Rules match request paths; anything without a rule (admin, API) is
+  // marked no-store. EmDash opts preview, editor and 404 responses out.
+  routeRules: {
+    '/blog': BLOG_CACHE_RULE,
+    '/blog/[slug]': BLOG_CACHE_RULE,
+    '/sitemap-blog.xml': BLOG_CACHE_RULE,
+    // The LatestPosts server island on the (prerendered) homepage.
+    '/_server-islands/[name]': BLOG_CACHE_RULE,
+  },
+
   integrations: [
-    sitemap(),
-    expressiveCode({
-      themes: ['catppuccin-latte', 'catppuccin-mocha'],
-      useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) => {
-        if (theme.name === 'catppuccin-mocha') return '.dark'
-        return ''
-      },
-      styleOverrides: {
-        codeFontFamily: "'Geist Mono', monospace",
-        codeFontSize: '0.875rem',
-        codeLineHeight: '1.5',
-        borderRadius: '0.375rem',
-        borderWidth: '0px',
-        frames: {
-          shadowColor: 'transparent',
-        },
-      },
-      defaultProps: {
-        wrap: true,
-      },
+    react(),
+    emdash({
+      database: d1({ binding: 'DB' }),
+      storage: r2({ binding: 'MEDIA' }),
+      // Cached pages are shared by every visitor, so render the editor
+      // toolbar client-side instead of into the HTML.
+      toolbar: 'client',
     }),
+    sitemap({
+      // The blog is on-demand (EmDash) and listed by src/pages/sitemap-blog.xml.ts.
+      filter: (page) => !new URL(page).pathname.startsWith('/blog'),
+    }),
+    // Options live in ec.config.mjs: the runtime <Code> component (used for
+    // CMS code blocks) can't receive non-serializable inline options.
+    expressiveCode(),
     mdx(),
   ],
 
@@ -93,7 +150,7 @@ export default defineConfig({
       ],
     }),
   },
-  output: 'static',
+  output: 'server',
   prefetch: true,
 
   fonts: [

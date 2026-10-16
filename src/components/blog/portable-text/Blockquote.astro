@@ -1,0 +1,18 @@
+---
+// Matches the Markdown output (<blockquote><p>…</p></blockquote>) so prose
+// paragraph spacing applies inside single-paragraph quotes. Multi-paragraph
+// quotes are grouped by EmDash's built-in blockquoteGroup renderer.
+import type { PTBlock } from './utils'
+
+interface Props {
+  node: PTBlock
+  index?: number
+  isInline?: boolean
+}
+---
+
+<blockquote>
+  <p>
+    <slot />
+  </p>
+</blockquote>

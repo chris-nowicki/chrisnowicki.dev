@@ -154,6 +154,12 @@
     @apply my-8;
   }
 
+  /* Markdown put list-item images inline in the item's paragraph, so they
+     got the image's own margin rather than a figure's. */
+  li > figure {
+    @apply my-6;
+  }
+
   figcaption {
     @apply mt-3 text-center text-sm text-muted-foreground italic;
   }

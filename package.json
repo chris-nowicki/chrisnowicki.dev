@@ -8,21 +8,32 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "astro build && wrangler deploy",
+    "deploy": "EMDASH_SITE_URL=https://www.chrisnowicki.dev astro build && wrangler deploy",
+    "deploy:warm": "tsx scripts/verify-media.ts --base-url https://www.chrisnowicki.dev --warm",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "migrate:blog": "tsx scripts/migrate-blog-to-emdash.ts",
+    "seed:local": "tsx scripts/seed-local-emdash.ts",
+    "verify:media": "tsx scripts/verify-media.ts"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "14.3.4",
     "@astrojs/markdown-remark": "^7.3.3",
     "@astrojs/mdx": "^8.1.0",
+    "@astrojs/react": "7.0.1",
     "@astrojs/sitemap": "^3.7.4",
+    "@emdash-cms/cloudflare": "1.3.0",
     "@plausible-analytics/tracker": "^0.4.6",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.0",
     "astro-cloudinary": "^1.4.0",
     "astro-expressive-code": "^0.44.2",
     "clsx": "^2.1.1",
+    "emdash": "1.3.0",
+    "github-slugger": "2.0.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
     "rehype-autolink-headings": "^7.1.0",
     "sharp": "^0.35.5",
     "tailwind-merge": "^3.7.0",
@@ -32,6 +43,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
+    "@portabletext/markdown": "2.5.1",
     "@types/node": "^26.6.5",
     "eslint": "^10.12.0",
     "eslint-plugin-astro": "^3.2.1",
@@ -39,7 +51,14 @@
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "remark-gfm": "4.0.1",
+    "remark-mdx": "3.1.1",
+    "remark-parse": "11.0.0",
+    "remark-smartypants": "3.0.3",
+    "tsx": "4.23.15",
     "typescript-eslint": "^8.71.2",
-    "wrangler": "^4.151.0"
+    "unified": "11.0.5",
+    "wrangler": "^4.151.0",
+    "yaml": "2.9.1"
   }
 }

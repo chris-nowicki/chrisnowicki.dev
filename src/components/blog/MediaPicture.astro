@@ -1,0 +1,72 @@
+---
+/**
+ * Responsive image for EmDash media, served through our `/_image` endpoint
+ * (src/lib/media/image-endpoint.ts).
+ *
+ * Unlike `emdash/ui`'s `<Image>` it can crop to a display aspect ratio
+ * (`fit=cover`, positioned by the EmDash focal point), so the downloaded
+ * pixels match what CSS shows, and it serves AVIF with a WebP fallback.
+ * Media without a storage key or known size falls back to EmDash's
+ * `<Image>`.
+ */
+import { Image as EmDashImage } from 'emdash/ui'
+
+import { resolvePicture } from '@/lib/media/resolve-picture'
+
+import type { MediaValue } from 'emdash'
+
+interface Props {
+  image: MediaValue
+  alt?: string
+  /** Candidate widths; trimmed to what the source can fill. */
+  widths: readonly number[]
+  sizes: string
+  /** Crop to this width / height ratio. Defaults to the source's own. */
+  aspectRatio?: number
+  /** Above-the-fold image: eager, high fetch priority. */
+  priority?: boolean
+  class?: string
+}
+
+const {
+  image,
+  alt = image.alt ?? '',
+  widths,
+  sizes,
+  aspectRatio,
+  priority = false,
+  class: className,
+} = Astro.props
+
+const picture = await resolvePicture(image, { widths, aspectRatio }, Astro.url)
+const fallback = picture?.sources.at(-1)
+---
+
+{picture && fallback ?
+  <picture>
+    {picture.sources.slice(0, -1).map((source) => (
+      <source type={source.type} srcset={source.srcset} sizes={sizes} />
+    ))}
+    <img
+      src={picture.src}
+      srcset={fallback.srcset}
+      sizes={sizes}
+      width={picture.width}
+      height={picture.height}
+      alt={alt}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : undefined}
+      decoding="async"
+      class={className}
+      style={picture.style}
+    />
+  </picture>
+: <EmDashImage
+    image={image}
+    alt={alt}
+    widths={[...widths]}
+    sizes={sizes}
+    priority={priority}
+    class={className}
+  />
+}

@@ -1,9 +1,30 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "portfolio",
+  "main": "./src/worker.ts",
   "compatibility_date": "2026-08-15",
-  // Static site: no server code, just prerendered assets from `astro build`.
-  "assets": {
-    "directory": "./dist",
-  },
+  "compatibility_flags": ["nodejs_compat"],
+  // No `assets` block: @astrojs/cloudflare generates it at build time.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "chrisnowicki-emdash",
+      "database_id": "641d11fb-c458-43d5-9505-c43819c64f67",
+    },
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "chrisnowicki-emdash-media",
+    },
+  ],
+  // Astro sessions (EmDash admin auth). The adapter expects this binding.
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "fb2b9fb1c30c4ff0bbf284b01410e163",
+    },
+  ],
+  // Every minute: publishes posts scheduled in EmDash.
+  "triggers": { "crons": ["* * * * *"] },
 }

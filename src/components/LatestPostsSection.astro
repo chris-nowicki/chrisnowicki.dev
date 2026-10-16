@@ -1,0 +1,34 @@
+---
+/**
+ * Shared frame for the homepage "Latest Posts" section, used by both the
+ * server island (`LatestPosts`) and its fallback skeleton so the two have
+ * identical chrome and the swap doesn't shift layout.
+ */
+---
+
+<section class="mt-12 sm:mt-20">
+  <header class="mb-6 flex flex-col sm:mb-8 md:flex-row md:items-center md:justify-between">
+    <div>
+      <h2 class="text-lg font-bold tracking-wide uppercase sm:text-2xl">
+        Read my Latest Posts
+      </h2>
+    </div>
+    <a
+      href="/blog"
+      class="text-muted-foreground hover:text-foreground hidden text-sm md:block md:text-base"
+      data-astro-prefetch>
+      View all posts
+    </a>
+  </header>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <slot />
+  </div>
+  <div class="mt-4 sm:hidden">
+    <a
+      href="/blog"
+      class="text-muted-foreground hover:text-foreground text-base"
+      data-astro-prefetch>
+      View all posts →
+    </a>
+  </div>
+</section>

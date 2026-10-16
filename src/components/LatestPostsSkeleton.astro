@@ -1,0 +1,36 @@
+---
+import LatestPostsSection from '@/components/LatestPostsSection.astro'
+import { NUMBER_OF_ENTRIES } from '@/lib/site'
+import { LATEST_POST_CARD } from '@/lib/styles'
+import { cn } from '@/utils/utils'
+
+/**
+ * Fallback for the `LatestPosts` server island. Mirrors the real cards'
+ * typography (each placeholder line is a non-breaking space set in the same
+ * font size, so line boxes match) to keep the swap free of layout shift.
+ */
+const cards = Array.from({ length: NUMBER_OF_ENTRIES })
+const bar = 'inline-block rounded bg-muted motion-safe:animate-pulse'
+---
+
+<LatestPostsSection>
+  <span class="sr-only" role="status">
+    Loading latest posts…
+  </span>
+  {cards.map(() => (
+    <div class={cn(LATEST_POST_CARD, 'pointer-events-none')} aria-hidden="true">
+      <div class="flex h-full flex-col py-4 sm:p-4">
+        <h3 class="mb-0 text-base font-bold sm:mb-2 sm:min-h-[2.5em] sm:text-xl">
+          <span class={cn(bar, 'w-4/5')}>&nbsp;</span>
+        </h3>
+        <p class="mb-4 flex flex-1 flex-col text-sm">
+          <span class={cn(bar, 'w-full')}>&nbsp;</span>
+          <span class={cn(bar, 'w-2/3')}>&nbsp;</span>
+        </p>
+        <div class="mt-auto pt-2 font-mono text-xs">
+          <span class={cn(bar, 'w-16')}>&nbsp;</span>
+        </div>
+      </div>
+    </div>
+  ))}
+</LatestPostsSection>
