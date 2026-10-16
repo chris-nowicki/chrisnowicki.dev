@@ -41,8 +41,16 @@ it with `pnpm astro dev stop`.
 - `output: 'server'` (hybrid). Every non-CMS page and endpoint sets
   `export const prerender = true` — **new pages must add it**, and any
   page using `getStaticPaths` returns 500 without it.
-- Blog routes (`/blog`, `/blog/[slug]`, `sitemap-blog.xml.ts`) render
-  on demand from EmDash and set `Astro.cache` hints.
+- Blog routes (`/blog`, `/blog/[slug]`, `sitemap-blog.xml.ts`) and the
+  `LatestPosts` island render on demand from EmDash and are route-cached
+  in the Workers Cache: `cacheCloudflare()` + `routeRules` in
+  `astro.config.mjs` (TTL), plus EmDash `cacheHint` tags via
+  `applyCacheHint`. EmDash purges the `posts`/entry tags on publish,
+  unpublish, delete and live saves. Routes without a rule (admin, API)
+  are no-store; previews, editor renders, 404s and (via
+  `src/middleware.ts`) other errors are never cached. `astro dev` never
+  caches — verify against a build. Each Worker version has its own cache,
+  so a deploy starts cold.
 - `LatestPosts` is a server island (`server:defer` in `index.astro`) so
   the homepage stays prerendered.
 - `pnpm deploy` runs `astro build && wrangler deploy` with

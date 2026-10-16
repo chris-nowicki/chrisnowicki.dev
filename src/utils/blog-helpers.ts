@@ -61,9 +61,10 @@ export const getBlogPost = async (slug: string): Promise<BlogPostResult> => {
 }
 
 /**
- * Forward EmDash's cache hint to Astro route caching. A no-op until a cache
- * provider is configured (`Astro.cache.enabled` is false in dev and without
- * one), which avoids Astro's "caching is not enabled" warning.
+ * Forward EmDash's cache hint (entry/collection tags + last-modified) to
+ * Astro route caching, on top of the `routeRules` TTL in astro.config.mjs.
+ * Skipped when caching is off (`astro dev`), which avoids Astro's "caching
+ * is not enabled" warning.
  */
 export const applyCacheHint = (
   cache: { enabled: boolean; set: (hint: CacheHint) => void } | undefined,
