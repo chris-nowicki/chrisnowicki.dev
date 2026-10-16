@@ -18,6 +18,13 @@
       "bucket_name": "chrisnowicki-emdash-media",
     },
   ],
+  // Astro sessions (EmDash admin auth). The adapter expects this binding.
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "fb2b9fb1c30c4ff0bbf284b01410e163",
+    },
+  ],
   // Every minute: publishes posts scheduled in EmDash.
   "triggers": { "crons": ["* * * * *"] },
 }
