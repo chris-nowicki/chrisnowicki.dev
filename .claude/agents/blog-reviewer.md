@@ -53,6 +53,27 @@ The `posts` schema (`.emdash/seed.json`) has these fields:
 - Every image has meaningful `alt` text
 - Gallery (Polaroid) images have a short `caption`; it renders in the
   cursive Polaroid label, so keep it to a few words
+- **Crop framing**: the cover renders cropped to 2.5:1 and every gallery
+  (Polaroid) image cropped to 1:1, centered unless a focal point is set.
+  For the cover and each gallery image:
+  - Aspect = `width / height` from the post value: the `cover` object
+    (`cover.width`, `cover.height`) or the gallery `images[]` entry
+    (`width`, `height`).
+  - Focal point = `focalX` / `focalY` (0–1) on the same object (the cover
+    value, or the gallery image next to `asset`). This is what renders;
+    absent when unset.
+  - If the aspect differs from the frame by more than ~10%
+    (`|aspect / frame − 1| > 0.1`, frame 2.5 or 1) and the focal point
+    is unset or the default center (0.5, 0.5), report **WARN** with the
+    image filename (`cover.filename`, or the file at the end of
+    `asset.url`) and how much is cropped, and suggest checking the
+    subject still fits the frame or setting a focal point.
+  - The media library item can have a focal point the post doesn't:
+    the post copies `focalX`/`focalY` when the image is inserted. Look
+    it up with `npx emdash media get <id> --json --url <site>` (id =
+    `cover.id` or `asset._ref`; library values are `null` when unset).
+    If the library has one and the post doesn't, WARN: re-select the
+    image in the post to pick it up.
 - Optionally confirm the rendered page: `/blog/<slug>` returns 200 and
   the images load
 

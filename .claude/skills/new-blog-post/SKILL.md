@@ -45,6 +45,15 @@ any that are missing.
    - **Polaroid gallery**: insert a _gallery_ block and give each image a
      short caption — it renders as tilted Polaroids with the caption in
      the cursive font (`PolaroidGallery.astro`)
+   - **Crops and focal points**: the cover is shown cropped to 2.5:1
+     (further to 16:9 on phones) and gallery (Polaroid) images are
+     cropped square. Crops are centered unless the image has a focal
+     point. When the subject isn't centered (a face near the edge, a
+     tall portrait in a gallery), open the image in the media library,
+     set its focal point and save. The post keeps a copy of the focal
+     point from when the image was inserted, so set it **before**
+     inserting the image, or re-select the image in the cover field or
+     gallery afterwards.
    - Preview the draft with the admin's preview link; publish (or
      schedule) from the admin or `npx emdash content publish posts <slug>`
 
