@@ -95,6 +95,13 @@ interface TextBlock {
   level?: number
   listId?: string
   listStart?: number
+  /**
+   * Set on every item of a loose Markdown list (one whose items are
+   * separated by blank lines or hold several blocks). Markdown wraps those
+   * items' text in `<p>`, which spaces them further apart than a tight
+   * list; the blog renderer does the same for flagged items.
+   */
+  listLoose?: true
 }
 
 interface InlineObject {
@@ -115,6 +122,8 @@ interface ImageBlock {
   asset: MediaRef
   alt?: string
   caption?: string
+  /** `_key` of the list item this image belongs to (see `flattenList`). */
+  listItemKey?: string
 }
 
 interface GalleryBlock {
@@ -129,6 +138,8 @@ interface CodeBlock {
   code: string
   language?: string
   filename?: string
+  /** `_key` of the list item this block belongs to (see `flattenList`). */
+  listItemKey?: string
 }
 
 type OutputBlock = TextBlock | ImageBlock | GalleryBlock | CodeBlock
@@ -147,6 +158,7 @@ interface MdastNode {
   value?: string
   start?: number | null
   ordered?: boolean | null
+  spread?: boolean | null
   attributes?: MdxAttribute[]
   children?: MdastNode[]
   position?: {
@@ -556,6 +568,7 @@ interface PreparedBody {
   markdown: string
   galleries: GalleryBlock[]
   orderedListStarts: number[]
+  looseLists: boolean[]
   textProfile: TextProfile
 }
 
@@ -714,6 +727,17 @@ const assertSameProfile = (
   }
 }
 
+/**
+ * Whether Markdown renders a list as loose (items' text wrapped in `<p>`).
+ * Same rule as mdast-util-to-hast, which Astro uses: the list or any item is
+ * spread, or an item without a `spread` flag holds more than one child.
+ */
+const isLooseList = (list: MdastNode) =>
+  !!list.spread ||
+  (list.children ?? []).some((item) =>
+    item.spread == null ? (item.children?.length ?? 0) > 1 : item.spread
+  )
+
 const prepareBody = (
   body: string,
   file: string,
@@ -730,6 +754,7 @@ const prepareBody = (
   const galleries: GalleryBlock[] = []
   const replacements: { start: number; end: number; text: string }[] = []
   const orderedListStarts: number[] = []
+  const looseLists: boolean[] = []
 
   // Top level: ESM is stripped, <Polaroids> becomes a gallery placeholder.
   for (const node of tree.children ?? []) {
@@ -788,6 +813,7 @@ const prepareBody = (
     if (node.type === 'list' && node.ordered) {
       orderedListStarts.push(node.start ?? 1)
     }
+    if (node.type === 'list') looseLists.push(isLooseList(node))
     if (node.type === 'link' && parent && DECORATOR_MDAST.has(parent.type)) {
       replacements.push(hoistLinkOutOfDecorator(body, parent, node, file))
     }
@@ -807,6 +833,7 @@ const prepareBody = (
     markdown,
     galleries,
     orderedListStarts,
+    looseLists,
     textProfile: mdastTextProfile(tree, handled),
   }
 }
@@ -824,6 +851,9 @@ interface NormalizeContext {
   galleries: GalleryBlock[]
   orderedListStarts: number[]
   orderedListIndex: number
+  /** Looseness of every list, in document order (`isLooseList`). */
+  looseLists: boolean[]
+  listIndex: number
 }
 
 /** Fence info string → bare language + optional `title="..."` as filename. */
@@ -990,6 +1020,10 @@ const flattenList = (
   if (list.kind === 'task') {
     throw new MigrationError(ctx.file, undefined, 'unhandled task list')
   }
+  const loose = ctx.looseLists[ctx.listIndex++]
+  if (loose === undefined) {
+    throw new MigrationError(ctx.file, undefined, 'list count mismatch')
+  }
   let listId: string | undefined
   let listStart: number | undefined
   if (list.kind === 'number') {
@@ -1018,6 +1052,7 @@ const flattenList = (
     const { block: itemBlock, hoisted } = normalizeTextBlock(first, ctx)
     itemBlock.listItem = list.kind as 'bullet' | 'number'
     itemBlock.level = level
+    if (loose) itemBlock.listLoose = true
     if (listId) {
       // A shared listId keeps numbering continuous when hoisted images or
       // code blocks split the list into several runs.
@@ -1026,6 +1061,31 @@ const flattenList = (
     }
     out.push(itemBlock)
     let pending: OutputBlock[] = [...hoisted]
+    let sawNestedList = false
+    // PT list items can't hold blocks, so images/code inside an item are
+    // emitted right after it with a back-reference to the item; the blog
+    // renderer nests them into the item again (see `withListItemBlocks`).
+    const flushPending = () => {
+      for (const block of pending) {
+        if (block._type !== 'image' && block._type !== 'code') {
+          throw new MigrationError(
+            ctx.file,
+            undefined,
+            `unhandled ${block._type} block inside a list item`
+          )
+        }
+        if (sawNestedList) {
+          throw new MigrationError(
+            ctx.file,
+            undefined,
+            'list item image/code block after a nested list cannot be represented'
+          )
+        }
+        block.listItemKey = itemBlock._key
+      }
+      out.push(...pending)
+      pending = []
+    }
 
     for (const node of rest) {
       if (isTextBlock(node)) {
@@ -1040,14 +1100,14 @@ const flattenList = (
         appendParagraph(itemBlock, block, ctx)
         pending = [...more]
       } else if (node._type === 'list') {
-        out.push(...pending)
-        pending = []
+        flushPending()
+        sawNestedList = true
         flattenList(node as ListValue, level + 1, ctx, out)
       } else {
         pending.push(...normalizeNode(node, ctx))
       }
     }
-    out.push(...pending)
+    flushPending()
   })
 }
 
@@ -1114,13 +1174,8 @@ const convertPost = (
     throw new MigrationError(file, 1, 'frontmatter "draft" must be a boolean')
   }
 
-  const { markdown, galleries, orderedListStarts, textProfile } = prepareBody(
-    body,
-    file,
-    fileName.endsWith('.mdx'),
-    media,
-    nextKey
-  )
+  const { markdown, galleries, orderedListStarts, looseLists, textProfile } =
+    prepareBody(body, file, fileName.endsWith('.mdx'), media, nextKey)
 
   const raw = markdownToPortableText(markdown, {
     keyGenerator: nextKey,
@@ -1147,6 +1202,8 @@ const convertPost = (
     galleries,
     orderedListStarts,
     orderedListIndex: 0,
+    looseLists,
+    listIndex: 0,
   }
   const content = raw.flatMap((node) => normalizeNode(node, ctx))
   smartenText(content)
@@ -1154,6 +1211,9 @@ const convertPost = (
   assertSameProfile(textProfile, portableTextProfile(content), file)
   if (ctx.orderedListIndex !== orderedListStarts.length) {
     throw new MigrationError(file, undefined, 'ordered list count mismatch')
+  }
+  if (ctx.listIndex !== looseLists.length) {
+    throw new MigrationError(file, undefined, 'list count mismatch')
   }
   const usedGalleries = content.filter((block) => block._type === 'gallery')
   if (usedGalleries.length !== galleries.length) {

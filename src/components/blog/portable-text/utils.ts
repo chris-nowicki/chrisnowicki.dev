@@ -122,3 +122,101 @@ export function toMediaValue(image: PTImage): MediaValue {
     dominantColor: image.dominantColor,
   }
 }
+
+/** One paragraph of a multi-paragraph list item (see `withListItemBlocks`). */
+export interface PTListParagraph {
+  _type: 'listParagraph'
+  _key: string
+  children: PTSpan[]
+  markDefs?: unknown[]
+}
+
+const isListItemBlock = (block: unknown): block is PTBlock =>
+  (block as PTBlock | null)?._type === 'block' &&
+  typeof (block as PTBlock).listItem === 'string'
+
+const isLineBreak = (child: unknown) =>
+  (child as PTSpan | undefined)?._type === 'span' &&
+  (child as PTSpan).text === '\n'
+
+/**
+ * Markdown wraps the text of a loose list's items in `<p>` and lets an item
+ * hold several paragraphs. A PT list item is one block, so the migration
+ * flags loose items (`listLoose`) and joins extra paragraphs with a blank
+ * line (two `\n` spans). Turn such an item's text back into `listParagraph`
+ * children, one `<p>` each. Other items are returned unchanged.
+ */
+function splitListItemParagraphs(item: PTBlock): PTBlock {
+  const children = item.children ?? []
+  const hasBreak = children.some(
+    (child, i) => isLineBreak(child) && isLineBreak(children[i + 1])
+  )
+  if (!hasBreak && item.listLoose !== true) return item
+
+  const out: PTBlock['children'] = []
+  let spans: PTSpan[] = []
+  const flush = () => {
+    while (isLineBreak(spans.at(-1))) spans.pop()
+    if (spans.length) {
+      const paragraph: PTListParagraph = {
+        _type: 'listParagraph',
+        _key: `${item._key}-p${out.length}`,
+        children: spans,
+        markDefs: item.markDefs as unknown[] | undefined,
+      }
+      out.push(paragraph as never)
+    }
+    spans = []
+  }
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i]
+    if (isLineBreak(child) && isLineBreak(children[i + 1])) {
+      flush()
+      while (isLineBreak(children[i + 1])) i++
+    } else if (child._type === 'span') {
+      if (spans.length || !isLineBreak(child)) spans.push(child as PTSpan)
+    } else {
+      flush()
+      out.push(child)
+    }
+  }
+  flush()
+  return { ...item, children: out }
+}
+
+/**
+ * Restore list items' block structure, which Portable Text can't nest:
+ *
+ * - An image or code block that belongs to a list item is stored right
+ *   after it with `listItemKey` pointing at the item (see
+ *   scripts/migrate-blog-to-emdash.ts). Move it back into the item's
+ *   `children` so it renders inside the `<li>`; astro-portabletext renders
+ *   non-span children in place, the same way EmDash nests sub-lists. A block
+ *   whose item no longer exists stays where it is.
+ * - Loose and multi-paragraph items get `<p>`s (`splitListItemParagraphs`).
+ *
+ * Returns a shallow copy; the input is untouched.
+ */
+export function withListItemBlocks<T>(blocks: T[]): T[] {
+  const items = new Map<string, PTBlock>()
+  const out: T[] = []
+  for (const block of blocks) {
+    const node = block as PTBlock | null
+    const itemKey = node?.listItemKey
+    const item = typeof itemKey === 'string' ? items.get(itemKey) : undefined
+    if (item && node) {
+      item.children = [...(item.children ?? []), node]
+      continue
+    }
+    if (isListItemBlock(block) && typeof block._key === 'string') {
+      const copy = { ...block, children: [...(block.children ?? [])] }
+      items.set(block._key, copy)
+      out.push(copy as T)
+      continue
+    }
+    out.push(block)
+  }
+  return out.map((block) =>
+    isListItemBlock(block) ? (splitListItemParagraphs(block) as T) : block
+  )
+}

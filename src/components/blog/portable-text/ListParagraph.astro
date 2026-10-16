@@ -1,0 +1,27 @@
+---
+import { PortableText } from 'emdash/ui'
+
+import type { PTListParagraph } from './utils'
+
+/**
+ * One paragraph of a multi-paragraph list item (see `withListItemBlocks`),
+ * rendered as a normal text block so it gets the same `<p>`, marks and
+ * links as any other paragraph.
+ */
+interface Props {
+  node: PTListParagraph
+  index?: number
+  isInline?: boolean
+}
+
+const { node } = Astro.props
+const block = {
+  _type: 'block',
+  _key: node._key,
+  style: 'normal',
+  children: node.children,
+  markDefs: node.markDefs ?? [],
+}
+---
+
+<PortableText value={[block] as never} />

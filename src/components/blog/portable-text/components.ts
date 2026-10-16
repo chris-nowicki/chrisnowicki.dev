@@ -3,6 +3,7 @@ import { Block } from 'emdash/ui'
 import Blockquote from './Blockquote.astro'
 import CodeBlock from './CodeBlock.astro'
 import Heading from './Heading.astro'
+import ListParagraph from './ListParagraph.astro'
 import PolaroidGallery from './PolaroidGallery.astro'
 import ProseImage from './ProseImage.astro'
 
@@ -28,5 +29,6 @@ export const blogPortableTextComponents = {
     code: CodeBlock,
     image: ProseImage,
     gallery: PolaroidGallery,
+    listParagraph: ListParagraph,
   },
 }

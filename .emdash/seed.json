@@ -1324,6 +1324,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "breaking-into-tech-and-burnout-list-0"
             },
             {
@@ -1347,6 +1348,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "breaking-into-tech-and-burnout-list-0"
             },
             {
@@ -1436,6 +1438,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "breaking-into-tech-and-burnout-list-0"
             },
             {
@@ -3657,6 +3660,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-1"
             },
             {
@@ -3669,7 +3673,8 @@
                   "alt": "Screenshot of CLI creating a secret key"
                 }
               },
-              "alt": "Screenshot of CLI creating a secret key"
+              "alt": "Screenshot of CLI creating a secret key",
+              "listItemKey": "2eca3bd9f13e"
             },
             {
               "_type": "block",
@@ -3698,6 +3703,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-1"
             },
             {
@@ -3715,13 +3721,15 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-1"
             },
             {
               "_type": "code",
               "_key": "f753f849620b",
               "code": "import { NextRequest, NextResponse } from 'next/server'\n\nexport async function GET(req: NextRequest) {\n   // get the bearer token from the header\n   const authToken = (req.headers.get('authorization') || '')\n   .split('Bearer ')\n   .at(1)\n\n   // if not found OR the bearer token does NOT equal the CRON_SECRET\n   if (!authToken || authToken != process.env.CRON_SECRET) {\n      return NextResponse.json({ error: 'Unauthorized' }, {\n      status: 401 })\n   }\n   // if token exists then move on with the cron job\n   ...\n}",
-              "language": "js"
+              "language": "js",
+              "listItemKey": "1f17716f4dcd"
             },
             {
               "_type": "block",
@@ -3738,6 +3746,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-1"
             },
             {
@@ -3750,7 +3759,8 @@
                   "alt": "Screenshot of JSON error message"
                 }
               },
-              "alt": "Screenshot of JSON error message"
+              "alt": "Screenshot of JSON error message",
+              "listItemKey": "cfe1f728cf36"
             },
             {
               "_type": "block",
@@ -3767,6 +3777,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-1"
             },
             {
@@ -3779,7 +3790,8 @@
                   "alt": "Screenshot of vercel project settings"
                 }
               },
-              "alt": "Screenshot of vercel project settings"
+              "alt": "Screenshot of vercel project settings",
+              "listItemKey": "af65c16c0dfb"
             },
             {
               "_type": "block",
@@ -3796,6 +3808,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-1"
             },
             {
@@ -3808,7 +3821,8 @@
                   "alt": "Screenshot of JSON error message"
                 }
               },
-              "alt": "Screenshot of JSON error message"
+              "alt": "Screenshot of JSON error message",
+              "listItemKey": "1c55249ff13d"
             },
             {
               "_type": "block",
@@ -3939,6 +3953,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-2"
             },
             {
@@ -3949,7 +3964,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/setup-postman-1.png",
                   "filename": "setup-postman-1.png"
                 }
-              }
+              },
+              "listItemKey": "9c6e8210e525"
             },
             {
               "_type": "block",
@@ -3978,6 +3994,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-2"
             },
             {
@@ -3988,7 +4005,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/setup-postman-2.png",
                   "filename": "setup-postman-2.png"
                 }
-              }
+              },
+              "listItemKey": "c85a68485e2e"
             },
             {
               "_type": "block",
@@ -4053,6 +4071,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-2"
             },
             {
@@ -4063,7 +4082,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/setup-postman-3.png",
                   "filename": "setup-postman-3.png"
                 }
-              }
+              },
+              "listItemKey": "449c7f8ece54"
             },
             {
               "_type": "block",
@@ -4092,6 +4112,7 @@
               "markDefs": [],
               "listItem": "number",
               "level": 1,
+              "listLoose": true,
               "listId": "how-to-secure-a-vercel-cron-job-route-list-2"
             },
             {
@@ -4102,7 +4123,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/setup-postman-4.png",
                   "filename": "setup-postman-4.png"
                 }
-              }
+              },
+              "listItemKey": "f4d1cd00d9f3"
             },
             {
               "_type": "block",
@@ -4418,7 +4440,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "image",
@@ -4428,7 +4451,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/create-db-1.png",
                   "filename": "create-db-1.png"
                 }
-              }
+              },
+              "listItemKey": "6387110686db"
             },
             {
               "_type": "block",
@@ -4450,7 +4474,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "image",
@@ -4460,7 +4485,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/create-db-2.png",
                   "filename": "create-db-2.png"
                 }
-              }
+              },
+              "listItemKey": "a685769a46c9"
             },
             {
               "_type": "block",
@@ -4494,7 +4520,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "image",
@@ -4504,7 +4531,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/create-db-3.png",
                   "filename": "create-db-3.png"
                 }
-              }
+              },
+              "listItemKey": "e0d310ce4718"
             },
             {
               "_type": "block",
@@ -4520,7 +4548,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "image",
@@ -4530,7 +4559,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/create-db-4.png",
                   "filename": "create-db-4.png"
                 }
-              }
+              },
+              "listItemKey": "16cb486c2192"
             },
             {
               "_type": "block",
@@ -4552,7 +4582,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "image",
@@ -4562,7 +4593,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/create-db-5.png",
                   "filename": "create-db-5.png"
                 }
-              }
+              },
+              "listItemKey": "75afc037bb61"
             },
             {
               "_type": "block",
@@ -4598,7 +4630,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "image",
@@ -4608,7 +4641,8 @@
                   "url": "https://raw.githubusercontent.com/chris-nowicki/chrisnowicki.dev/1ad7a726059ac187b86d7b6558bab2c8b79d9072/public/blog/connect-db-1.png",
                   "filename": "connect-db-1.png"
                 }
-              }
+              },
+              "listItemKey": "816d5caa6224"
             },
             {
               "_type": "block",
@@ -4648,7 +4682,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "block",
@@ -5028,7 +5063,8 @@
                 }
               ],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "block",
@@ -5062,7 +5098,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "block",
@@ -5090,7 +5127,8 @@
               ],
               "markDefs": [],
               "listItem": "bullet",
-              "level": 1
+              "level": 1,
+              "listLoose": true
             },
             {
               "_type": "block",
