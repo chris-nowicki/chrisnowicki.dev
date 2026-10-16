@@ -13,6 +13,8 @@ pnpm lint:fix         # Run ESLint with auto-fix
 pnpm typecheck        # TypeScript type checking
 pnpm migrate:blog     # Convert src/content/blog → .emdash/seed.json (--dry-run, --seed-local)
 pnpm seed:local       # Reset local D1/R2 and apply .emdash/seed.json
+pnpm verify:media     # Smoke-test /_image crops, formats, caching (--base-url, --warm)
+pnpm deploy:warm      # Fill Workers Cache on production after a deploy
 ```
 
 `pnpm lint` and `pnpm typecheck` are currently broken: TypeScript 7 isn't
@@ -68,6 +70,18 @@ it with `pnpm astro dev stop`.
   the homepage stays prerendered.
 - `pnpm deploy` runs `astro build && wrangler deploy` with
   `EMDASH_SITE_URL` set for the build.
+- **Media checks** (`scripts/verify-media.ts`):
+  - After every deploy, run `pnpm deploy:warm` (=
+    `pnpm verify:media --base-url https://www.chrisnowicki.dev --warm`).
+    It requests every image variant on `/blog` and each post, so the new
+    Worker version's empty cache is filled before visitors hit it.
+  - When bumping `emdash`, `@emdash-cms/*` or `@astrojs/cloudflare`, run
+    `pnpm seed:local --keep-running`, then `pnpm verify:media`, then
+    `pnpm astro dev stop`. It fails if crops come back scaled instead
+    of cropped, which happens when the `/_image` override stops applying
+    (see the top of `src/lib/media/image-endpoint.ts`). Locally, Workers
+    Cache and lossless WebP checks are relaxed (`--edge-checks`) because
+    `astro dev` doesn't emulate them.
 - **Client-side interactivity**: small inline `<script>` blocks, no
   hydration framework.
 
@@ -148,6 +162,7 @@ rather than inventing new treatments:
   `<Code>` used for CMS code blocks gets them)
 - `.emdash/seed.json` - EmDash schema (`posts`) and migrated post content
 - `scripts/migrate-blog-to-emdash.ts` - Markdown/MDX → Portable Text migration
+- `scripts/verify-media.ts` - image pipeline smoke tests and cache warming
 - `src/components/blog/portable-text/` - Portable Text renderers (code,
   headings, images, blockquotes, Polaroid gallery)
 - `src/utils/utils.ts` - `cn()` utility, `formatDate()`

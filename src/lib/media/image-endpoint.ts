@@ -1,4 +1,19 @@
 /**
+ * WHY THIS EXISTS: emdash@1.3.0's `/_image` endpoint
+ * (`@emdash-cms/cloudflare/image-endpoint`) ignores `fit`, so a `w`+`h`
+ * crop (square polaroids, 2.5:1 covers) comes back scaled to fit inside the
+ * box, not cropped to it.
+ *
+ * TODO(upstream): https://github.com/emdash-cms/emdash/issues/2228
+ *
+ * TO REMOVE IT once EmDash honours `fit` (and `position`): delete the
+ * `emdash-image-endpoint-override` plugin from astro.config.mjs, port the
+ * Workers Cache handling (or drop it if EmDash caches transforms itself),
+ * then run `pnpm seed:local --keep-running && pnpm verify:media` and check
+ * the crop checks still pass.
+ */
+
+/**
  * The site's `/_image` endpoint, swapped in for
  * `@emdash-cms/cloudflare/image-endpoint` by a `resolveId` plugin in
  * astro.config.mjs (so EmDash still treats it as its own endpoint and keeps
