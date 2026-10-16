@@ -1,7 +1,5 @@
 ---
-import { Image } from 'emdash/ui'
-
-import { widthsUpToOriginal } from '@/utils/responsive-widths'
+import MediaPicture from '@/components/blog/MediaPicture.astro'
 
 import { toMediaValue, type PTImage } from './utils'
 
@@ -20,10 +18,9 @@ const IMAGE_WIDTHS = [640, 828, 1080, 1280, 1668, 1792]
 
 {image && (
   <figure>
-    <Image
+    <MediaPicture
       image={image}
-      alt={image.alt ?? ''}
-      widths={widthsUpToOriginal(IMAGE_WIDTHS, image.width)}
+      widths={IMAGE_WIDTHS}
       sizes="(max-width: 896px) 100vw, 896px"
     />
     {node.caption && <figcaption>{node.caption}</figcaption>}

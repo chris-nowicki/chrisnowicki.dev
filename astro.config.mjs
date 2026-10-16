@@ -70,8 +70,8 @@ export default defineConfig({
       {
         // EmDash installs `@emdash-cms/cloudflare/image-endpoint` as
         // `/_image` (and gives that route a storage-only fast path in its
-        // middleware). Swap in our version, which also stores transforms in
-        // Workers Cache; see the file for details. Astro resolves route
+        // middleware). Swap in our version, which adds crops (`fit`/`position`) and
+        // stores transforms in Workers Cache; see the file for details. Astro resolves route
         // entrypoints itself, so a `resolve.alias` never sees the specifier.
         name: 'emdash-image-endpoint-override',
         enforce: 'pre',

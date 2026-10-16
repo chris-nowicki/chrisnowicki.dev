@@ -1,0 +1,99 @@
+---
+/**
+ * Responsive image for EmDash media, served through our `/_image` endpoint
+ * (src/lib/media/image-endpoint.ts).
+ *
+ * Unlike `emdash/ui`'s `<Image>` it can crop to a display aspect ratio
+ * (`fit=cover`, positioned by the EmDash focal point), so the downloaded
+ * pixels match what CSS shows. Media without a storage key or known size
+ * falls back to EmDash's `<Image>`.
+ */
+import { getImage } from 'astro:assets'
+import { Image as EmDashImage } from 'emdash/ui'
+
+import { cropWidths, focalPosition } from '@/lib/media/picture'
+
+import type { MediaValue } from 'emdash'
+
+interface Props {
+  image: MediaValue
+  alt?: string
+  /** Candidate widths; trimmed to what the source can fill. */
+  widths: readonly number[]
+  sizes: string
+  /** Crop to this width / height ratio. Defaults to the source's own. */
+  aspectRatio?: number
+  /** Above-the-fold image: eager, high fetch priority. */
+  priority?: boolean
+  class?: string
+}
+
+const {
+  image,
+  alt = image.alt ?? '',
+  widths,
+  sizes,
+  aspectRatio,
+  priority = false,
+  class: className,
+} = Astro.props
+
+const storageKey =
+  typeof image.meta?.storageKey === 'string' ? image.meta.storageKey : null
+const { width, height } = image
+const canOptimize = !!storageKey && !!width && !!height
+
+const picture =
+  canOptimize ?
+    await (async () => {
+      const ratio = aspectRatio ?? width / height
+      const candidates = cropWidths(widths, width, height, ratio)
+      const largest = candidates.at(-1)!
+      // Absolute, so Astro matches it against EmDash's remotePatterns; our
+      // endpoint reads the key from R2 and never fetches this URL.
+      const src = new URL(
+        `/_emdash/api/media/file/${storageKey}`,
+        Astro.url
+      ).toString()
+      const fallbackWidth = Math.floor(Math.min(width, height * ratio))
+      const result = await getImage({
+        src,
+        width: fallbackWidth,
+        height: Math.round(fallbackWidth / ratio),
+        widths: candidates,
+        format: 'webp',
+        fit: 'cover',
+        position: focalPosition(image.focalX, image.focalY),
+      })
+      return {
+        src: result.src,
+        srcset: result.srcSet.attribute,
+        width: largest,
+        height: Math.round(largest / ratio),
+      }
+    })()
+  : null
+---
+
+{picture ?
+  <img
+    src={picture.src}
+    srcset={picture.srcset}
+    sizes={sizes}
+    width={picture.width}
+    height={picture.height}
+    alt={alt}
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : undefined}
+    decoding="async"
+    class={className}
+  />
+: <EmDashImage
+    image={image}
+    alt={alt}
+    widths={[...widths]}
+    sizes={sizes}
+    priority={priority}
+    class={className}
+  />
+}
