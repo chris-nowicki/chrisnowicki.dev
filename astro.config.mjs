@@ -1,4 +1,6 @@
 // @ts-check
+import { fileURLToPath } from 'node:url'
+
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import { unified } from '@astrojs/markdown-remark'
 import cloudflare from '@astrojs/cloudflare'
@@ -36,6 +38,10 @@ const rehypeLazyImages = () => {
   return addImageProperties
 }
 
+const IMAGE_ENDPOINT = fileURLToPath(
+  new URL('./src/lib/media/image-endpoint.ts', import.meta.url)
+)
+
 // Route caching for the on-demand (EmDash) blog routes. Entries are
 // invalidated by tag when content is published in EmDash, so `maxAge` only
 // bounds staleness if a purge fails (Workers Cache purges are rate limited
@@ -61,6 +67,24 @@ export default defineConfig({
     },
     plugins: [
       tailwindcss(),
+      {
+        // EmDash installs `@emdash-cms/cloudflare/image-endpoint` as
+        // `/_image` (and gives that route a storage-only fast path in its
+        // middleware). Swap in our version, which also stores transforms in
+        // Workers Cache; see the file for details. Astro resolves route
+        // entrypoints itself, so a `resolve.alias` never sees the specifier.
+        name: 'emdash-image-endpoint-override',
+        enforce: 'pre',
+        resolveId(id) {
+          if (
+            /@emdash-cms[\\/]cloudflare[\\/](dist[\\/])?image-endpoint(\.mjs)?$/.test(
+              id
+            )
+          ) {
+            return IMAGE_ENDPOINT
+          }
+        },
+      },
       {
         name: 'increase-fs-watcher-limit',
         configureServer(server) {
