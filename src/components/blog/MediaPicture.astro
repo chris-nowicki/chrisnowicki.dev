@@ -11,7 +11,12 @@
 import { getImage } from 'astro:assets'
 import { Image as EmDashImage } from 'emdash/ui'
 
-import { cropWidths, focalPosition } from '@/lib/media/picture'
+import {
+  cropWidths,
+  focalPosition,
+  FORMATS,
+  mediaKind,
+} from '@/lib/media/picture'
 
 import type { MediaValue } from 'emdash'
 
@@ -56,18 +61,29 @@ const picture =
         Astro.url
       ).toString()
       const fallbackWidth = Math.floor(Math.min(width, height * ratio))
-      const result = await getImage({
+      const options = {
         src,
         width: fallbackWidth,
         height: Math.round(fallbackWidth / ratio),
         widths: candidates,
-        format: 'webp',
         fit: 'cover',
         position: focalPosition(image.focalX, image.focalY),
-      })
+      } as const
+      const formats = FORMATS[mediaKind(storageKey, image.mimeType)]
+      const variants = await Promise.all(
+        formats.map(async (format) => ({
+          type: `image/${format}`,
+          image: await getImage({ ...options, format }),
+        }))
+      )
+      const fallback = variants.at(-1)!.image
       return {
-        src: result.src,
-        srcset: result.srcSet.attribute,
+        sources: variants.slice(0, -1).map(({ type, image: variant }) => ({
+          type,
+          srcset: variant.srcSet.attribute,
+        })),
+        src: fallback.src,
+        srcset: fallback.srcSet.attribute,
         width: largest,
         height: Math.round(largest / ratio),
       }
@@ -76,18 +92,23 @@ const picture =
 ---
 
 {picture ?
-  <img
-    src={picture.src}
-    srcset={picture.srcset}
-    sizes={sizes}
-    width={picture.width}
-    height={picture.height}
-    alt={alt}
-    loading={priority ? 'eager' : 'lazy'}
-    fetchpriority={priority ? 'high' : undefined}
-    decoding="async"
-    class={className}
-  />
+  <picture>
+    {picture.sources.map((source) => (
+      <source type={source.type} srcset={source.srcset} sizes={sizes} />
+    ))}
+    <img
+      src={picture.src}
+      srcset={picture.srcset}
+      sizes={sizes}
+      width={picture.width}
+      height={picture.height}
+      alt={alt}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : undefined}
+      decoding="async"
+      class={className}
+    />
+  </picture>
 : <EmDashImage
     image={image}
     alt={alt}

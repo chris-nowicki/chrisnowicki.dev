@@ -1,4 +1,29 @@
-/** Sizing helpers for EmDash media rendered by `MediaPicture.astro`. */
+/**
+ * Format and sizing choices for EmDash media rendered by
+ * `MediaPicture.astro`.
+ *
+ * - Photos: AVIF first with a WebP fallback (AVIF is ~45% smaller at the
+ *   same visual quality on the Images binding).
+ * - Screenshots (PNG sources): WebP only. AVIF smears text, and at native
+ *   width a WebP screenshot is as small or smaller (measured Oct 2026: a
+ *   1296px screenshot was 38 KB lossless WebP vs 45 KB AVIF q60).
+ */
+
+export type MediaKind = 'photo' | 'screenshot'
+
+export type PictureFormat = 'avif' | 'webp'
+
+/** Ordered best-first; the last entry is also the `<img>` fallback. */
+export const FORMATS: Record<MediaKind, readonly PictureFormat[]> = {
+  photo: ['avif', 'webp'],
+  screenshot: ['webp'],
+}
+
+/** PNG uploads are screenshots/diagrams in this blog; everything else is a photo. */
+export function mediaKind(storageKey: string, mimeType?: string): MediaKind {
+  if (mimeType) return mimeType === 'image/png' ? 'screenshot' : 'photo'
+  return storageKey.toLowerCase().endsWith('.png') ? 'screenshot' : 'photo'
+}
 
 /**
  * Srcset widths for a crop of `aspectRatio` (width / height) from a
