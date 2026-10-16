@@ -56,11 +56,13 @@ export async function resolvePicture(
     `/_emdash/api/media/file/${storageKey}`,
     siteUrl
   ).toString()
-  const fallbackWidth = Math.floor(Math.min(width, height * ratio))
+  // `width`/`height` size the fallback `src` (browsers without srcset): the
+  // largest candidate, which is never wider than the source can fill,
+  // rather than a full-size original transform no srcset entry shares.
   const options = {
     src,
-    width: fallbackWidth,
-    height: Math.round(fallbackWidth / ratio),
+    width: largest,
+    height: Math.round(largest / ratio),
     widths: candidates,
     fit: 'cover',
     position: focalPosition(image.focalX, image.focalY),
