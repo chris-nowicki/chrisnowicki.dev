@@ -105,9 +105,16 @@ function cacheMediaResponse(ctx: APIContext, key: string, response: Response) {
 
 export const GET: APIRoute = async (ctx) => {
   const url = new URL(ctx.request.url)
-  const key = matchInternalMediaKey(url.searchParams.get('href'))
+  const href = url.searchParams.get('href')
+  const key = matchInternalMediaKey(href)
   const storage = ctx.locals.emdash?.storage
   if (!key || !storage) return adapterGET(ctx)
+  // The key is read from our own storage whatever the host, so another
+  // host's /_emdash/api/media/file/<key> would only mint duplicate cache
+  // entries for the same bytes. Pages always use this site's origin.
+  if (new URL(href!, url).origin !== url.origin) {
+    return new Response('Not Found', { status: 404 })
+  }
 
   try {
     const source = await storage.download(key)
