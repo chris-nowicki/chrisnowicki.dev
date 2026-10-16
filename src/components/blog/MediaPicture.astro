@@ -16,6 +16,7 @@ import {
   focalPosition,
   FORMATS,
   mediaKind,
+  placeholderStyle,
 } from '@/lib/media/picture'
 
 import type { MediaValue } from 'emdash'
@@ -69,7 +70,8 @@ const picture =
         fit: 'cover',
         position: focalPosition(image.focalX, image.focalY),
       } as const
-      const formats = FORMATS[mediaKind(storageKey, image.mimeType)]
+      const kind = mediaKind(storageKey, image.mimeType)
+      const formats = FORMATS[kind]
       const variants = await Promise.all(
         formats.map(async ({ format, quality }) => ({
           type: `image/${format}`,
@@ -86,6 +88,10 @@ const picture =
         srcset: fallback.srcSet.attribute,
         width: largest,
         height: Math.round(largest / ratio),
+        style: placeholderStyle(
+          kind,
+          image.dominantColor ?? image.meta?.dominantColor
+        ),
       }
     })()
   : null
@@ -107,6 +113,7 @@ const picture =
       fetchpriority={priority ? 'high' : undefined}
       decoding="async"
       class={className}
+      style={picture.style}
     />
   </picture>
 : <EmDashImage

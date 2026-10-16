@@ -63,3 +63,20 @@ export function focalPosition(focalX?: number, focalY?: number): string {
   const percent = (value: number) => `${Math.round(value * 10_000) / 100}%`
   return `${percent(focalX)} ${percent(focalY)}`
 }
+
+const CSS_COLOR = /^(?:#[0-9a-f]{3,8}|rgba?\([\d\s.,%/]+\))$/i
+
+/**
+ * Inline placeholder style from EmDash's `dominantColor` (computed on
+ * upload; absent on seeded media), shown until the image paints. Only for
+ * photos: a screenshot with transparency would keep showing it. The value
+ * comes from the CMS, so anything but a plain hex/rgb() color is dropped.
+ */
+export function placeholderStyle(
+  kind: MediaKind,
+  dominantColor: unknown
+): string | undefined {
+  if (kind !== 'photo' || typeof dominantColor !== 'string') return undefined
+  const color = dominantColor.trim()
+  return CSS_COLOR.test(color) ? `background-color: ${color}` : undefined
+}
