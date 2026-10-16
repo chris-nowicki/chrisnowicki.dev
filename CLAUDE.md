@@ -51,6 +51,19 @@ it with `pnpm astro dev stop`.
   `src/middleware.ts`) other errors are never cached. `astro dev` never
   caches — verify against a build. Each Worker version has its own cache,
   so a deploy starts cold.
+- **CMS images**: render EmDash media with
+  `src/components/blog/MediaPicture.astro` (not `emdash/ui`'s `<Image>`).
+  It crops to the display aspect ratio (`aspectRatio`, focal point),
+  emits AVIF + WebP for photos and lossless WebP for PNG screenshots
+  (`FORMATS` in `src/lib/media/picture.ts`), and uses `dominantColor` as
+  a placeholder. `/_image` is our endpoint
+  (`src/lib/media/image-endpoint.ts`, swapped in for EmDash's by a plugin
+  in `astro.config.mjs`): it reads media from R2, transforms with
+  `IMAGES`, and stores variants in Workers Cache for a year (browsers: one
+  day + SWR), as does the middleware for `/_emdash/api/media/file/*`.
+  Tags are `media:<storageKey>`, purged by middleware when EmDash
+  replaces or deletes the media. Post covers are preloaded via
+  `CoverPreload.astro` in the `head` slot.
 - `LatestPosts` is a server island (`server:defer` in `index.astro`) so
   the homepage stays prerendered.
 - `pnpm deploy` runs `astro build && wrangler deploy` with
