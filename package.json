@@ -9,11 +9,13 @@
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "EMDASH_SITE_URL=https://www.chrisnowicki.dev astro build && wrangler deploy",
+    "deploy:warm": "tsx scripts/verify-media.ts --base-url https://www.chrisnowicki.dev --warm",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "astro check",
     "migrate:blog": "tsx scripts/migrate-blog-to-emdash.ts",
-    "seed:local": "tsx scripts/seed-local-emdash.ts"
+    "seed:local": "tsx scripts/seed-local-emdash.ts",
+    "verify:media": "tsx scripts/verify-media.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.3.4",
