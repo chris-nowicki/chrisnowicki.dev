@@ -71,9 +71,9 @@ const picture =
       } as const
       const formats = FORMATS[mediaKind(storageKey, image.mimeType)]
       const variants = await Promise.all(
-        formats.map(async (format) => ({
+        formats.map(async ({ format, quality }) => ({
           type: `image/${format}`,
-          image: await getImage({ ...options, format }),
+          image: await getImage({ ...options, format, quality }),
         }))
       )
       const fallback = variants.at(-1)!.image

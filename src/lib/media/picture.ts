@@ -1,22 +1,34 @@
 /**
- * Format and sizing choices for EmDash media rendered by
- * `MediaPicture.astro`.
+ * Format, quality and sizing choices for EmDash media rendered by
+ * `MediaPicture.astro`. Measured on the Images binding (Oct 2026):
  *
- * - Photos: AVIF first with a WebP fallback (AVIF is ~45% smaller at the
- *   same visual quality on the Images binding).
- * - Screenshots (PNG sources): WebP only. AVIF smears text, and at native
- *   width a WebP screenshot is as small or smaller (measured Oct 2026: a
- *   1296px screenshot was 38 KB lossless WebP vs 45 KB AVIF q60).
+ * - Photos: AVIF q60 is ~45% smaller than WebP q78 with no visible
+ *   difference at polaroid/prose sizes, so AVIF first with a WebP fallback.
+ *   (Without a `q` the endpoint defaults to 85: a 560px square was 37 KB
+ *   WebP; q78 is 28 KB, AVIF q60 15 KB.)
+ * - Screenshots (PNG sources): AVIF and lossy WebP leave ringing around
+ *   text. WebP at quality 100 is lossless (VP8L) on the binding: pixel-exact
+ *   and, at native width, the smallest option (a 1296px screenshot: 38 KB
+ *   vs 40 KB WebP q80 and 45 KB AVIF q60). Downscaled candidates cost more
+ *   (~1.7x WebP q80) but keep text crisp.
  */
 
 export type MediaKind = 'photo' | 'screenshot'
 
 export type PictureFormat = 'avif' | 'webp'
 
+export interface FormatSpec {
+  format: PictureFormat
+  quality: number
+}
+
 /** Ordered best-first; the last entry is also the `<img>` fallback. */
-export const FORMATS: Record<MediaKind, readonly PictureFormat[]> = {
-  photo: ['avif', 'webp'],
-  screenshot: ['webp'],
+export const FORMATS: Record<MediaKind, readonly FormatSpec[]> = {
+  photo: [
+    { format: 'avif', quality: 60 },
+    { format: 'webp', quality: 78 },
+  ],
+  screenshot: [{ format: 'webp', quality: 100 }],
 }
 
 /** PNG uploads are screenshots/diagrams in this blog; everything else is a photo. */
