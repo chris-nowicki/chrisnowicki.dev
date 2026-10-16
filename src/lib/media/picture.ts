@@ -31,6 +31,18 @@ export const FORMATS: Record<MediaKind, readonly FormatSpec[]> = {
   screenshot: [{ format: 'webp', quality: 100 }],
 }
 
+/**
+ * Post cover: full-bleed below 896px, then the 896px (max-w-4xl) column; up
+ * to 2x for high-density screens. Cropped to the sm+ 2.5:1 frame
+ * (object-cover crops the narrower mobile 16:9 frame further). Shared by
+ * the header and its `<link rel="preload">`, which must match exactly.
+ */
+export const COVER_PICTURE = {
+  widths: [640, 828, 1080, 1280, 1792],
+  sizes: '(min-width: 896px) 896px, 100vw',
+  aspectRatio: 2.5,
+} as const
+
 /** PNG uploads are screenshots/diagrams in this blog; everything else is a photo. */
 export function mediaKind(storageKey: string, mimeType?: string): MediaKind {
   if (mimeType) return mimeType === 'image/png' ? 'screenshot' : 'photo'

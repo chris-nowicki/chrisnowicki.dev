@@ -76,6 +76,9 @@ const imageUrl = getImageUrl(image)
 <Font cssVariable="--font-geist-mono" preload />
 <Font cssVariable="--font-reenie" preload />
 
+<!-- Page-specific preloads (e.g. a blog post's LCP cover image) -->
+<slot name="preload" />
+
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 

@@ -1,6 +1,7 @@
 ---
 import MediaPicture from '@/components/blog/MediaPicture.astro'
 import FramePlus from '@/components/FramePlus.astro'
+import { COVER_PICTURE } from '@/lib/media/picture'
 
 import type { ImageValue } from 'emdash'
 
@@ -14,13 +15,6 @@ interface Props {
 }
 
 const { title, date, readTime, cover } = Astro.props
-
-// Full-bleed below 896px, then the 896px (max-w-4xl) column; up to 2x for
-// high-density screens. Cropped to the sm+ 2.5:1 frame (object-cover crops
-// the narrower mobile 16:9 frame further).
-const COVER_WIDTHS = [640, 828, 1080, 1280, 1792]
-const COVER_SIZES = '(min-width: 896px) 896px, 100vw'
-const COVER_ASPECT = 2.5
 ---
 
 {cover ?
@@ -30,9 +24,9 @@ const COVER_ASPECT = 2.5
         <MediaPicture
           image={cover}
           alt={title}
-          widths={COVER_WIDTHS}
-          sizes={COVER_SIZES}
-          aspectRatio={COVER_ASPECT}
+          widths={COVER_PICTURE.widths}
+          sizes={COVER_PICTURE.sizes}
+          aspectRatio={COVER_PICTURE.aspectRatio}
           priority
           class="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
         />

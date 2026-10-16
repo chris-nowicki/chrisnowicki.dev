@@ -5,19 +5,13 @@
  *
  * Unlike `emdash/ui`'s `<Image>` it can crop to a display aspect ratio
  * (`fit=cover`, positioned by the EmDash focal point), so the downloaded
- * pixels match what CSS shows. Media without a storage key or known size
- * falls back to EmDash's `<Image>`.
+ * pixels match what CSS shows, and it serves AVIF with a WebP fallback.
+ * Media without a storage key or known size falls back to EmDash's
+ * `<Image>`.
  */
-import { getImage } from 'astro:assets'
 import { Image as EmDashImage } from 'emdash/ui'
 
-import {
-  cropWidths,
-  focalPosition,
-  FORMATS,
-  mediaKind,
-  placeholderStyle,
-} from '@/lib/media/picture'
+import { resolvePicture } from '@/lib/media/resolve-picture'
 
 import type { MediaValue } from 'emdash'
 
@@ -44,67 +38,18 @@ const {
   class: className,
 } = Astro.props
 
-const storageKey =
-  typeof image.meta?.storageKey === 'string' ? image.meta.storageKey : null
-const { width, height } = image
-const canOptimize = !!storageKey && !!width && !!height
-
-const picture =
-  canOptimize ?
-    await (async () => {
-      const ratio = aspectRatio ?? width / height
-      const candidates = cropWidths(widths, width, height, ratio)
-      const largest = candidates.at(-1)!
-      // Absolute, so Astro matches it against EmDash's remotePatterns; our
-      // endpoint reads the key from R2 and never fetches this URL.
-      const src = new URL(
-        `/_emdash/api/media/file/${storageKey}`,
-        Astro.url
-      ).toString()
-      const fallbackWidth = Math.floor(Math.min(width, height * ratio))
-      const options = {
-        src,
-        width: fallbackWidth,
-        height: Math.round(fallbackWidth / ratio),
-        widths: candidates,
-        fit: 'cover',
-        position: focalPosition(image.focalX, image.focalY),
-      } as const
-      const kind = mediaKind(storageKey, image.mimeType)
-      const formats = FORMATS[kind]
-      const variants = await Promise.all(
-        formats.map(async ({ format, quality }) => ({
-          type: `image/${format}`,
-          image: await getImage({ ...options, format, quality }),
-        }))
-      )
-      const fallback = variants.at(-1)!.image
-      return {
-        sources: variants.slice(0, -1).map(({ type, image: variant }) => ({
-          type,
-          srcset: variant.srcSet.attribute,
-        })),
-        src: fallback.src,
-        srcset: fallback.srcSet.attribute,
-        width: largest,
-        height: Math.round(largest / ratio),
-        style: placeholderStyle(
-          kind,
-          image.dominantColor ?? image.meta?.dominantColor
-        ),
-      }
-    })()
-  : null
+const picture = await resolvePicture(image, { widths, aspectRatio }, Astro.url)
+const fallback = picture?.sources.at(-1)
 ---
 
-{picture ?
+{picture && fallback ?
   <picture>
-    {picture.sources.map((source) => (
+    {picture.sources.slice(0, -1).map((source) => (
       <source type={source.type} srcset={source.srcset} sizes={sizes} />
     ))}
     <img
       src={picture.src}
-      srcset={picture.srcset}
+      srcset={fallback.srcset}
       sizes={sizes}
       width={picture.width}
       height={picture.height}

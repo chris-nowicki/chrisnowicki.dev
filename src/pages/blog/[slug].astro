@@ -1,6 +1,7 @@
 ---
 import BlogPostHeader from '@/components/BlogPostHeader.astro'
 import Container from '@/components/Container.astro'
+import CoverPreload from '@/components/blog/CoverPreload.astro'
 import { BlogPortableText } from '@/components/blog/portable-text'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { applyCacheHint, getBlogPost } from '@/utils/blog-helpers'
@@ -32,11 +33,11 @@ const ogImageUrl = generateOgImageUrl({
   title={post.data.title}
   description={post.data.description}
   image={ogImageUrl}>
+  {post.data.cover && <CoverPreload cover={post.data.cover} slot="head" />}
   <div class="bg-border fixed top-0 left-0 z-50 h-1 w-full">
     <div
       id="reading-progress"
-      class="bg-muted-foreground h-full w-0 transition-[width] duration-100">
-    </div>
+      class="bg-muted-foreground h-full w-0 transition-[width] duration-100"></div>
   </div>
   <Container>
     <article class="text-sm sm:text-base">
@@ -56,8 +57,9 @@ const ogImageUrl = generateOgImageUrl({
       />
       <span
         class="page-animate font-cursive text-foreground mt-8 block text-4xl"
-        style="--delay: 200ms">- Chris</span
-      >
+        style="--delay: 200ms">
+        - Chris
+      </span>
     </article>
   </Container>
 </PageLayout>
