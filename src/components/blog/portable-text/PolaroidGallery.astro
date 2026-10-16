@@ -1,6 +1,8 @@
 ---
 import { Image } from 'emdash/ui'
 
+import { widthsUpToOriginal } from '@/utils/responsive-widths'
+
 import { toMediaValue, type PTImage } from './utils'
 
 interface Props {
@@ -43,7 +45,7 @@ const polaroids = (node?.images ?? [])
         <Image
           image={media}
           alt={media.alt ?? ''}
-          widths={IMAGE_WIDTHS}
+          widths={widthsUpToOriginal(IMAGE_WIDTHS, media.width)}
           sizes={IMAGE_SIZES}
         />
         {caption && (
@@ -59,10 +61,14 @@ const polaroids = (node?.images ?? [])
 )}
 
 <style>
+  /* Frames get an explicit width (capped by the container) so every
+     polaroid in a gallery is the same size whatever its photo's intrinsic
+     width; the image fills the frame. */
   .polaroid {
     --rotation: 0deg;
     position: relative;
-    max-width: 280px;
+    width: 280px;
+    max-width: 100%;
     padding: 0.75rem 0.75rem 3rem;
     background: white;
     box-shadow:
@@ -73,12 +79,12 @@ const polaroids = (node?.images ?? [])
 
   /* A lone polaroid is larger; exactly two are medium. */
   .polaroid:only-child {
-    max-width: 360px;
+    width: 360px;
   }
 
   .polaroids:has(> .polaroid:nth-child(2)):not(:has(> .polaroid:nth-child(3)))
     > .polaroid {
-    max-width: 320px;
+    width: 320px;
   }
 
   /* Hand-placed tilt, repeating every 8 photos. */

@@ -2,6 +2,7 @@
 import { Image } from 'emdash/ui'
 
 import FramePlus from '@/components/FramePlus.astro'
+import { widthsUpToOriginal } from '@/utils/responsive-widths'
 
 import type { ImageValue } from 'emdash'
 
@@ -15,6 +16,9 @@ interface Props {
 }
 
 const { title, date, readTime, cover } = Astro.props
+
+// Rendered at up to 1200px wide; up to 2x for high-density screens.
+const COVER_WIDTHS = [640, 828, 1080, 1200, 1668, 2048, 2400]
 ---
 
 {
@@ -27,6 +31,7 @@ const { title, date, readTime, cover } = Astro.props
             alt={title}
             width={1200}
             height={480}
+            widths={widthsUpToOriginal(COVER_WIDTHS, cover.width)}
             priority
             class="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
           />
